@@ -1,35 +1,35 @@
 <template>
-    <div class="header">
-        <Row type="flex" justify="space-between" class="code-row-bg">
-            <Col>
-            <div class="logo">
-                <a href="#"><img src="../../static/imgs/logo.png"></a>
-            </div>
-            <Button type="text">交易</Button>
-            <Button type="text">ET</Button>
-            <Button type="text">白皮书</Button>
-            <Button type="text">公告</Button>
-            </Col>
-            <Col>
-            <div class="tools">
+  <div class="header">
+    <Row type="flex" justify="space-between" class="code-row-bg">
+      <Col>
+      <div class="logo">
+        <a href="#"><img src="../../static/imgs/logo.png"></a>
+      </div>
+      <Button type="text">交易</Button>
+      <Button type="text">ET</Button>
+      <Button type="text">白皮书</Button>
+      <Button type="text">公告</Button>
+      </Col>
+      <Col>
+      <div class="tools">
 
-                <Dropdown>
-                    <a href="javascript:void(0)">
-                        <Icon type="earth"></Icon>
-                        简体中文
-                        <Icon type="arrow-down-b"></Icon>
-                    </a>
-                    <DropdownMenu slot="list">
-                        <DropdownItem>
-                            <span class="lan-item">简体中文</span>
-                        </DropdownItem>
-                        <!-- <DropdownItem>English</DropdownItem> -->
-                    </DropdownMenu>
-                </Dropdown>
-            </div>
-            </Col>
-        </Row>
-    </div>
+        <Dropdown>
+          <a href="javascript:void(0)">
+            <Icon type="earth"></Icon>
+            简体中文
+            <Icon type="arrow-down-b"></Icon>
+          </a>
+          <DropdownMenu slot="list">
+            <DropdownItem>
+              <span class="lan-item">简体中文</span>
+            </DropdownItem>
+            <!-- <DropdownItem>English</DropdownItem> -->
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+      </Col>
+    </Row>
+  </div>
 </template>
 
 <script>
@@ -39,7 +39,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@fontsize: 1.1em;
+@fontsize: 1em;
 @fontcolor: aliceblue;
 @lineheight: 60px;
 
@@ -52,7 +52,7 @@ export default {
 .logo {
   float: left;
   margin-left: 30px;
-  margin-right: 5em;
+  margin-right: 3em;
 }
 .header .logo a {
   display: block;
@@ -75,7 +75,7 @@ export default {
   font-size: @fontsize;
   border-radius: 0px;
   border: none;
-  line-height: 60px;
+  line-height: @lineheight;
   padding: 0 1em;
 }
 .ivu-btn-text {
@@ -83,16 +83,14 @@ export default {
 }
 
 .tools {
-  /* float: right; */
-  margin-left: 30px;
-  margin-right: 5em;
+  margin-right: 1em;
   font-size: @fontsize;
   line-height: @lineheight;
 
   padding: 0 1em;
 }
 .tools a {
-  color: @fontcolor;
+  color: lightgrey;
 }
 .ivu-select-dropdown {
   border-radius: 0px;

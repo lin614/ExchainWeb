@@ -10,6 +10,7 @@
   font-family: HelveticaNeue, Helvetica, Arial, 'Microsoft YaHei', sans-serif;
   font-size: 1.3em;
 }
+
 </style>
 <template>
     <div class="index">

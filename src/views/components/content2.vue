@@ -1,29 +1,24 @@
 <template>
     <div class="content2">
-        <!-- <Row type="flex" justify="space-around" class="code-row-bg">
-            <Col span="4">
-            <div class="logo">
-                <a href="/"><img src="/static/images/logo_beta.png"></a>
-            </div>
-            </Col>
-            <Col span="4">col-4</Col>
-            <Col span="4">col-4</Col>
-            <Col span="4">col-4</Col>
-        </Row> -->
+        <block1></block1>
+        <block2></block2>
     </div>
 </template>
 
 <script>
+import block1 from './block1'
+import block2 from './block2'
 export default {
   name: 'content2',
+  components: {
+    block1,
+    block2
+  },
   mounted() {}
 }
 </script>
-<style scoped>
-.content2 {
-  background: #222222;
-  height: 100px;
-}
+<style lang="less">
+
 </style>
 
 
