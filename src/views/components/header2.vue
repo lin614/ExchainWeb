@@ -9,6 +9,7 @@
       <Button type="text">ET</Button>
       <Button type="text">白皮书</Button>
       <Button type="text">公告</Button>
+      <Button type="text">合伙人计划</Button>
       </Col>
       <Col>
       <div class="tools">

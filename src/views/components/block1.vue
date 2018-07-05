@@ -14,7 +14,7 @@
                         <span class="fee_num">
                             <Icon type="social-bitcoin"></Icon>0</span>
                     </p>
-                    <p class="pad1-3">
+                    <p>
                         <span class="fee_info">昨日合伙人待分配收入：</span>
                         <span class="fee_num">
                             [查看合伙人模式说明]</span>
@@ -32,7 +32,7 @@
                         <span class="fee_info">今日待分配收入累积折合：</span>
 
                     </p>
-                    <p class="pad1-3">
+                    <p>
                         <span class="fee_num2">
                             <Icon type="social-bitcoin"></Icon>0</span>
                     </p>
@@ -67,12 +67,13 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@color: aliceblue;
+@color: #e9eaec; //aliceblue
 @fontsize: 1em;
+@padding-space: 40px; //空白的空间削减的高度
 .block1 {
   width: 1200px;
   margin: 0 auto;
-  height: 700px;
+  height: 600px-@padding-space*2;
   text-align: left;
   background: url(../../static/imgs/banner-bg.png);
   font-size: @fontsize;
@@ -98,15 +99,11 @@ export default {
   color: @color;
 }
 .fee {
-  margin-top: 100px;
+  margin-top: 100px-@padding-space;
 }
 .fee .sec {
-  padding: 0 20px;
+  padding: 0 25px;
   line-height: 2.5em;
-}
-.fee .pad1-3 {
-  //   padding: 1em 0;
-  //   line-height: 3em;
 }
 .fee .fee_info {
   color: darkgrey;
