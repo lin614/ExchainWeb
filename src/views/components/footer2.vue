@@ -1,5 +1,5 @@
 <template>
-    <div>ccc
+    <div class="footer2">cccdfsdf
         <!-- <Row type="flex" justify="space-around" class="code-row-bg">
             <Col span="4">
             <div class="logo">
@@ -20,6 +20,9 @@ export default {
 }
 </script>
 <style scoped>
+.footer2{
+    
+}
 </style>
 
 
