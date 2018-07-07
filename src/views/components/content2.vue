@@ -1,8 +1,8 @@
 <template>
-    <div class="content2">
-        <block1></block1>
-        <block2></block2>
-    </div>
+  <div class="content2">
+    <block1></block1>
+    <block2></block2>
+  </div>
 </template>
 
 <script>
@@ -18,7 +18,9 @@ export default {
 }
 </script>
 <style lang="less">
-
+.content2 {
+ 
+}
 </style>
 
 

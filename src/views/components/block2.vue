@@ -1,94 +1,94 @@
 <template>
-    <div class="block2">
-        <div class="cards">
-            <Row type="flex" justify="space-between" :gutter="16">
-                <Col span="8">
-                <Card>
-                    <ul slot="title" style="height:85px">
-                        <li>
-                            第一条通告
-                        </li>
-                        <li>
-                            第二条通告
-                        </li>
-                    </ul>
-                </Card>
-                </Col>
-                <Col span="8">
-                <Card :bordered="true">
-                    <p>Content of no border type. Content of no border type. Content of no border type. Content of no border type. </p>
-                </Card>
-                </Col>
-                <Col span="8">
-                <Card :bordered="true">
-                    <p>Content of no border type. Content of no border type. Content of no border type. Content of no border type. </p>
-                </Card>
-                </Col>
-            </Row>
+  <div class="block2">
+    <div class="cards">
+      <Row type="flex" justify="space-between" :gutter="16">
+        <Col span="8">
+        <Card>
+          <ul slot="title">
+            <li>
+              第一条通告
+            </li>
+            <li>
+              第二条通告
+            </li>
+          </ul>
+        </Card>
+        </Col>
+        <Col span="8">
+        <Card :bordered="true">
+          <p>Content of no border type. Content of no border type. Content of no border type. Content of no border type. </p>
+        </Card>
+        </Col>
+        <Col span="8">
+        <Card :bordered="true">
+          <p>Content of no border type. Content of no border type. Content of no border type. Content of no border type. </p>
+        </Card>
+        </Col>
+      </Row>
 
-        </div>
-        <div class="tbs">
-            <Card :padding="0">
-                <div slot="title" class="tbs_head">
-                    <div class="linepot1" />
-                    <span class="title">
-                        主区
-                    </span>
-                </div>
-
-                <Table size="large" :columns="col1" :data="data1"></Table>
-            </Card>
-            <Card :padding="0" class="region">
-                <div slot="title" class="tbs_head">
-                    <div class="linepot2" />
-                    <span class="title">
-                        创新区
-                        <Poptip placement="right" trigger="hover" title="创新区" content="content">
-                            <Button size="small" shape="circle" icon="information"></Button>
-                            <div slot="content">
-                                <div>创新区数字资产属于新型投资产品，价格波动较大，<br/> 投资风险较大。在投资前，我们希望您能充分了解<br/> 目标数字资产， 合理判断您自己的投资能力， 并认<br/>真做出投资决策。<br/></div>
-                            </div>
-                        </Poptip>
-
-                    </span>
-                </div>
-
-                <Table size="large" :columns="col1" :data="data1"></Table>
-            </Card>
-            <Card :padding="0" class="region">
-                <div slot="title" class="tbs_head">
-                    <div class="linepot3" />
-                    <span class="title">
-                        创投区
-                        <Poptip placement="right" trigger="hover" title="创投区" content="content">
-                            <Button size="small" shape="circle" icon="information"></Button>
-                            <div slot="content">
-                                <div>相对于创新区的区块链项目，创投区的项目通常处<br/> 于早期阶段，存在极高的不确定性风险，请投资者务<br/> 目标数字资产， 合理判断您自己的投资能力， 并认<br/>投资。<br/></div>
-                            </div>
-                        </Poptip>
-                    </span>
-                </div>
-
-                <Table size="large" :columns="col1" :data="data1"></Table>
-            </Card>
-            <Card :padding="0" class="region">
-                <div slot="title" class="tbs_head">
-                    <div class="linepot4" />
-                    <span class="title">
-                        ST区
-                        <Poptip placement="right" trigger="hover" title="ST区" content="content">
-                            <Button size="small" shape="circle" icon="information"></Button>
-                            <div slot="content">
-                                <div>任何区块链项目产生重大风险事故，将会移入ST区。<br/> 如5天之内未做任何整改，将会做退市处理。<br/></div>
-                            </div>
-                        </Poptip>
-                    </span>
-                </div>
-
-                <Table size="large" :columns="col1" :data="data1"></Table>
-            </Card>
-        </div>
     </div>
+    <div class="tbs">
+      <Card :padding="0">
+        <div slot="title" class="tbs_head">
+          <div class="linepot1" />
+          <span class="title">
+            主区
+          </span>
+        </div>
+
+        <Table size="large" :columns="col1" :data="data1"></Table>
+      </Card>
+      <Card :padding="0" class="region">
+        <div slot="title" class="tbs_head">
+          <div class="linepot2" />
+          <span class="title">
+            创新区
+            <Poptip placement="right" trigger="hover" title="创新区" content="content">
+              <Button size="small" shape="circle" icon="information"></Button>
+              <div slot="content">
+                <div>创新区数字资产属于新型投资产品，价格波动较大，<br/> 投资风险较大。在投资前，我们希望您能充分了解<br/> 目标数字资产， 合理判断您自己的投资能力， 并认<br/>真做出投资决策。<br/></div>
+              </div>
+            </Poptip>
+
+          </span>
+        </div>
+
+        <Table size="large" :columns="col1" :data="data1"></Table>
+      </Card>
+      <Card :padding="0" class="region">
+        <div slot="title" class="tbs_head">
+          <div class="linepot3" />
+          <span class="title">
+            创投区
+            <Poptip placement="right" trigger="hover" title="创投区" content="content">
+              <Button size="small" shape="circle" icon="information"></Button>
+              <div slot="content">
+                <div>相对于创新区的区块链项目，创投区的项目通常处<br/> 于早期阶段，存在极高的不确定性风险，请投资者务<br/> 目标数字资产， 合理判断您自己的投资能力， 并认<br/>投资。<br/></div>
+              </div>
+            </Poptip>
+          </span>
+        </div>
+
+        <Table size="large" :columns="col1" :data="data1"></Table>
+      </Card>
+      <Card :padding="0" class="region">
+        <div slot="title" class="tbs_head">
+          <div class="linepot4" />
+          <span class="title">
+            ST区
+            <Poptip placement="right" trigger="hover" title="ST区" content="content">
+              <Button size="small" shape="circle" icon="information"></Button>
+              <div slot="content">
+                <div>任何区块链项目产生重大风险事故，将会移入ST区。<br/> 如5天之内未做任何整改，将会做退市处理。<br/></div>
+              </div>
+            </Poptip>
+          </span>
+        </div>
+
+        <Table size="large" :columns="col1" :data="data1"></Table>
+      </Card>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -216,11 +216,7 @@ export default {
   text-align: left;
   font-size: @fontsize;
 }
-.ivu-card {
-  border-radius: 0px;
-  min-height: 150px;
-  //   background:
-}
+
 .block2 .tbs_head {
   display: flex;
   height: 60px;
@@ -228,9 +224,9 @@ export default {
   align-items: center;
   justify-content: flex-start;
 }
-.ivu-card-body {
-  padding: 0;
-}
+// .ivu-card-body {
+//   padding: 0;
+// }
 .tbs {
   margin-top: @fontsize;
 }

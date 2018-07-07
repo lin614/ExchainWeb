@@ -2,17 +2,23 @@
 @padding-space: 40px; //空白的空间削减的高度
 .index {
   width: 100%;
-  position: absolute;
+  min-width: 1300px;
+  // position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   text-align: center;
-  background: #222222;
+  // background: #222222;
   // font-family: HelveticaNeue, Helvetica, Arial, 'Microsoft YaHei', sans-serif;
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
     'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   font-size: 1.3em;
-  height: 750px-@padding-space*2;
+  // height: 750px-@padding-space*2;
+}
+.index .ivu-card {
+  border-radius: 0px;
+  min-height: 150px;
+  //   background:
 }
 </style>
 <template>
