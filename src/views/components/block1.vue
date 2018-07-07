@@ -15,7 +15,7 @@
                             </Col>
                             <Col span="7">
                             <div class="notice">
-                                <Card icon="compose" shadow>
+                                <Card icon="compose" :bordered="false">
                                     <p slot="title">
 
                                         公告</p>

@@ -1,7 +1,7 @@
 <template>
   <div class="block2">
     <div class="tbs">
-      <Card :padding="0">
+      <Card :padding="0" :bordered="false">
         <div slot="title" class="tbs_head">
           <div class="linepot1" />
           <span class="title">
@@ -11,7 +11,7 @@
 
         <Table size="large" :columns="col1" :data="data1"></Table>
       </Card>
-      <Card :padding="0" class="region">
+      <Card :padding="0" class="region" :bordered="false">
         <div slot="title" class="tbs_head">
           <div class="linepot2" />
           <span class="title">
@@ -28,7 +28,7 @@
 
         <Table size="large" :columns="col1" :data="data1"></Table>
       </Card>
-      <Card :padding="0" class="region">
+      <Card :padding="0" class="region" :bordered="false">
         <div slot="title" class="tbs_head">
           <div class="linepot3" />
           <span class="title">
@@ -44,7 +44,7 @@
 
         <Table size="large" :columns="col1" :data="data1"></Table>
       </Card>
-      <Card :padding="0" class="region">
+      <Card :padding="0" class="region" :bordered="false">
         <div slot="title" class="tbs_head">
           <div class="linepot4" />
           <span class="title">

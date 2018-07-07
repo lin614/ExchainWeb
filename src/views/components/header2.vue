@@ -29,6 +29,8 @@
               <!-- <DropdownItem>English</DropdownItem> -->
             </DropdownMenu>
           </Dropdown>
+          <Button type="primary" shape="circle">登陆</Button>
+          <Button shape="circle">注册</Button>
         </div>
         </Col>
       </Row>
@@ -89,19 +91,37 @@ export default {
 .ivu-btn-text {
   color: aliceblue;
 }
-
+.tools .ivu-dropdown {
+  margin-right: 1em;
+}
+.tools .ivu-btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 32px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  line-height: 1.5;
+  margin-left: 1em;
+}
 .tools {
   margin-right: 1em;
   font-size: @fontsize;
-  line-height: @lineheight;
+  // line-height: @lineheight;
 
-  padding: 0 1em;
+  padding: 35px 1em;
 }
 .tools a {
   color: lightgrey;
 }
 .ivu-select-dropdown {
-  border-radius: 0px;
+  border-radius: 0px !important;
 }
 /* .ivu-select-dropdown {
   width: inherit;

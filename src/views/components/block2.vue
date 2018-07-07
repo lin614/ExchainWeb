@@ -3,7 +3,7 @@
     <div class="cards">
       <Row type="flex" justify="space-between" :gutter="16">
         <Col span="8">
-        <Card :padding="0">
+        <Card :padding="0" :bordered="false">
           <div class="linecard1"></div>
           <div class="cardshow1">
             <p>今日待分配收入累积折合：</p>
@@ -19,7 +19,7 @@
         </Col>
 
         <Col span="8">
-        <Card :padding="0">
+        <Card :padding="0" :bordered="false">
           <div class="linecard3"></div>
           <div class="cardshow3">
             <p>昨日待分配收入累积折合：</p>
@@ -34,7 +34,7 @@
         </Card>
         </Col>
         <Col span="8">
-        <Card :padding="0">
+        <Card :padding="0" :bordered="false">
           <div class="linecard2"></div>
           <div class="cardshow2">
             <p>ET总流通量</p>
