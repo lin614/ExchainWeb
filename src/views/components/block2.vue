@@ -3,91 +3,51 @@
     <div class="cards">
       <Row type="flex" justify="space-between" :gutter="16">
         <Col span="8">
-        <Card>
-          <ul slot="title">
-            <li>
-              第一条通告
-            </li>
-            <li>
-              第二条通告
-            </li>
-          </ul>
+        <Card :padding="0">
+          <div class="linecard1"></div>
+          <div class="cardshow1">
+            <p>今日待分配收入累积折合：</p>
+            <p>
+              <Icon type="social-bitcoin"></Icon>&nbsp 0</p>
+            <p>其中合伙人模式待分配收入：
+              <span>
+                <Icon type="social-bitcoin"></Icon>&nbsp 0
+              </span>
+            </p>
+          </div>
+        </Card>
+        </Col>
+
+        <Col span="8">
+        <Card :padding="0">
+          <div class="linecard3"></div>
+          <div class="cardshow3">
+            <p>昨日待分配收入累积折合：</p>
+            <p>
+              <Icon type="social-bitcoin"></Icon>&nbsp 0</p>
+            <p>昨日待分配收入累积折合：
+              <span>
+                <Icon type="social-bitcoin"></Icon>&nbsp 0
+              </span>
+            </p>
+          </div>
         </Card>
         </Col>
         <Col span="8">
-        <Card :bordered="true">
-          <p>Content of no border type. Content of no border type. Content of no border type. Content of no border type. </p>
-        </Card>
-        </Col>
-        <Col span="8">
-        <Card :bordered="true">
-          <p>Content of no border type. Content of no border type. Content of no border type. Content of no border type. </p>
+        <Card :padding="0">
+          <div class="linecard2"></div>
+          <div class="cardshow2">
+            <p>ET总流通量</p>
+            <p>
+              0</p>
+
+          </div>
         </Card>
         </Col>
       </Row>
 
     </div>
-    <div class="tbs">
-      <Card :padding="0">
-        <div slot="title" class="tbs_head">
-          <div class="linepot1" />
-          <span class="title">
-            主区
-          </span>
-        </div>
 
-        <Table size="large" :columns="col1" :data="data1"></Table>
-      </Card>
-      <Card :padding="0" class="region">
-        <div slot="title" class="tbs_head">
-          <div class="linepot2" />
-          <span class="title">
-            创新区
-            <Poptip placement="right" trigger="hover" title="创新区" content="content">
-              <Button size="small" shape="circle" icon="information"></Button>
-              <div slot="content">
-                <div>创新区数字资产属于新型投资产品，价格波动较大，<br/> 投资风险较大。在投资前，我们希望您能充分了解<br/> 目标数字资产， 合理判断您自己的投资能力， 并认<br/>真做出投资决策。<br/></div>
-              </div>
-            </Poptip>
-
-          </span>
-        </div>
-
-        <Table size="large" :columns="col1" :data="data1"></Table>
-      </Card>
-      <Card :padding="0" class="region">
-        <div slot="title" class="tbs_head">
-          <div class="linepot3" />
-          <span class="title">
-            创投区
-            <Poptip placement="right" trigger="hover" title="创投区" content="content">
-              <Button size="small" shape="circle" icon="information"></Button>
-              <div slot="content">
-                <div>相对于创新区的区块链项目，创投区的项目通常处<br/> 于早期阶段，存在极高的不确定性风险，请投资者务<br/> 目标数字资产， 合理判断您自己的投资能力， 并认<br/>投资。<br/></div>
-              </div>
-            </Poptip>
-          </span>
-        </div>
-
-        <Table size="large" :columns="col1" :data="data1"></Table>
-      </Card>
-      <Card :padding="0" class="region">
-        <div slot="title" class="tbs_head">
-          <div class="linepot4" />
-          <span class="title">
-            ST区
-            <Poptip placement="right" trigger="hover" title="ST区" content="content">
-              <Button size="small" shape="circle" icon="information"></Button>
-              <div slot="content">
-                <div>任何区块链项目产生重大风险事故，将会移入ST区。<br/> 如5天之内未做任何整改，将会做退市处理。<br/></div>
-              </div>
-            </Poptip>
-          </span>
-        </div>
-
-        <Table size="large" :columns="col1" :data="data1"></Table>
-      </Card>
-    </div>
   </div>
 </template>
 
@@ -95,125 +55,24 @@
 export default {
   name: 'block2',
   data() {
-    return {
-      col1: [
-        {
-          title: '交易对',
-          key: 'pair'
-        },
-        {
-          title: '最新价格',
-          key: 'price'
-        },
-        {
-          title: '24h波动',
-          key: 'p24'
-        },
-        {
-          title: '24h高点',
-          key: 'h24'
-        },
-        {
-          title: '24h低点',
-          key: 'l24'
-        },
-        {
-          title: '24h交易量',
-          key: 'v24'
-        },
-        {
-          title: '去交易',
-          key: 'action',
-          width: 150,
-          align: 'center',
-          render: (h, params) => {
-            return h('div', [
-              h('Button', {
-                props: {
-                  shape: 'circle',
-                  icon: 'arrow-swap'
-                  // type: 'primary',
-                  // size: 'small'
-                },
-                style: {
-                  //   marginRight: '5px',
-                  //   color: 'blue',
-                  //   border: ' 1px solid blue'
-                },
-                on: {
-                  click: () => {
-                    console.log(params)
-                  }
-                }
-              })
-            ])
-          }
-        }
-      ],
-      data1: [
-        {
-          pair: 'ET/USDT',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
-        },
-        {
-          pair: 'ET/ETH',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
-        },
-        {
-          pair: 'ET/BTC',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
-        },
-        {
-          pair: 'BTC/USDT',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
-        },
-        {
-          pair: 'ETH/USDT',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
-        },
-        {
-          pair: 'BCH/USDT',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
-        }
-      ]
-    }
+    return {}
   },
   mounted() {}
 }
 </script>
 <style lang="less" scoped>
 @fontsize: 1em;
+@cardpad: 16px;
+@color1: #439aea;
+@color2: #13b385;
+@color3: #f5162b;
 .block2 {
   background: transparent;
-  min-height: 600px;
   width: 1200px;
   margin: 0 auto;
-  height: 700px;
+  // height: 200px;
   text-align: left;
+  margin-top: @fontsize;
   font-size: @fontsize;
 }
 
@@ -224,44 +83,65 @@ export default {
   align-items: center;
   justify-content: flex-start;
 }
-// .ivu-card-body {
-//   padding: 0;
-// }
-.tbs {
-  margin-top: @fontsize;
-}
-.tbs .region {
-  margin-top: @fontsize;
-}
-.region:last-of-type {
-  margin-bottom: @fontsize*2;
-}
-.tbs .title {
-  font-size: @fontsize*2;
-  //   font-weight: bold;
-  margin-left: @fontsize;
-}
-.linepot(@color) {
-  width: 5px;
-  height: @fontsize*2;
-  margin-left: -16px;
-  //   display: inline-block;
+.linecard(@color) {
   background-color: @color;
+  height: 5px;
+  width: 100%;
+  .ivu-card-body {
+    padding: 0px;
+  }
 }
-.linepot1 {
-  .linepot(#13b387);
+.block2 .linecard1 {
+  .linecard(@color1);
+  .ivu-card-body {
+    padding: 0px;
+  }
 }
-.linepot2 {
-  .linepot(#419aea);
+.linecard2 {
+  .linecard(@color2);
 }
-.linepot3 {
-  .linepot(#febd3d);
+.ivu-card-body {
+  padding: 0px;
 }
-.linepot4 {
-  .linepot(#683c40);
+.linecard3 {
+  .linecard(@color3);
 }
-.ivu-table-wrapper {
-  border: none;
+.cardshow(@color) {
+  padding: @cardpad;
+  p:nth-child(1) {
+    font-size: @fontsize*1.2;
+    color: @color;
+  }
+  p:nth-child(2) {
+    font-size: @fontsize*3;
+    line-height: @fontsize*1.5;
+  }
+}
+.cardshow1 {
+  .cardshow(@color1);
+}
+.cardshow2 {
+  .cardshow(@color2);
+}
+.cardshow3 {
+  .cardshow(@color3);
+}
+
+.fee_info {
+  color: darkgrey;
+  font-size: @fontsize;
+  line-height: @fontsize*2;
+  padding: @cardpad;
+}
+.fee_num {
+  color: rgb(155, 155, 243);
+  font-size: @fontsize;
+  padding: @cardpad;
+}
+fee_num2 {
+  color: rgb(155, 155, 243);
+  font-size: @fontsize*2;
+  padding: @cardpad;
 }
 </style>
 

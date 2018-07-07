@@ -15,7 +15,7 @@
                             </Col>
                             <Col span="7">
                             <div class="notice">
-                                <Card icon="compose">
+                                <Card icon="compose" shadow>
                                     <p slot="title">
 
                                         公告</p>
@@ -183,7 +183,7 @@ export default {
 }
 .notice ul {
   height: 300px-@padding-space*2;
-  list-style: none;
+  //   list-style: none;
 }
 .notice li {
   font-size: @fontsize;
@@ -196,32 +196,32 @@ export default {
   line-height: @fontsize*2;
 }
 
-.fee {
-  margin-top: 100px-@padding-space;
-}
-.fee .sec {
-  padding: 0 25px;
-  line-height: 2.5em;
-}
-.fee .fee_info {
-  color: darkgrey;
-  font-size: @fontsize -1;
-  //   line-height: @fontsize+2;
-}
-.fee .fee_num {
-  color: rgb(155, 155, 243);
-  font-size: @fontsize;
-}
-.fee .fee_num2 {
-  color: rgb(155, 155, 243);
-  font-size: @fontsize*2;
-}
-.fee .border-left {
-  border-left: 1px solid #444444;
-}
-.fee .border-right {
-  border-right: 1px solid #444444;
-}
+// .fee {
+//   margin-top: 100px-@padding-space;
+// }
+// .fee .sec {
+//   padding: 0 25px;
+//   line-height: 2.5em;
+// }
+// .fee .fee_info {
+//   color: darkgrey;
+//   font-size: @fontsize -1;
+//   //   line-height: @fontsize+2;
+// }
+// .fee .fee_num {
+//   color: rgb(155, 155, 243);
+//   font-size: @fontsize;
+// }
+// .fee .fee_num2 {
+//   color: rgb(155, 155, 243);
+//   font-size: @fontsize*2;
+// }
+// .fee .border-left {
+//   border-left: 1px solid #444444;
+// }
+// .fee .border-right {
+//   border-right: 1px solid #444444;
+// }
 </style>
 
 

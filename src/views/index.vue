@@ -1,3 +1,21 @@
+
+<template>
+  <div class="index">
+    <header2></header2>
+    <content2></content2>
+    <footer2></footer2>
+
+  </div>
+</template>
+<script>
+import header2 from './components/header2'
+import content2 from './components/content2'
+import footer2 from './components/footer2'
+export default {
+  components: { header2, content2, footer2 },
+  methods: {}
+}
+</script>
 <style lang="less">
 @padding-space: 40px; //空白的空间削减的高度
 .index {
@@ -20,22 +38,7 @@
   min-height: 150px;
   //   background:
 }
-</style>
-<template>
-  <div class="index">
-    <header2></header2>
-    <content2></content2>
-    <footer2></footer2>
-
-  </div>
-</template>
-<script>
-import header2 from './components/header2'
-import content2 from './components/content2'
-import footer2 from './components/footer2'
-export default {
-  components: { header2, content2, footer2 },
-  methods: {}
+ul {
+  list-style: none;
 }
-</script>
-
+</style>
