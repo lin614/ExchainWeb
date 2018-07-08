@@ -1,18 +1,33 @@
 
 <template>
   <div class="index">
-    <header2 ></header2>
-    <content2></content2>
+    <header2></header2>
+    <div class="content2">
+      <slot>
+        <block1></block1>
+        <block2></block2>
+        <block3></block3>
+      </slot>
+    </div>
     <footer2></footer2>
 
   </div>
 </template>
 <script>
 import header2 from './components/header2'
-import content2 from './components/content2'
+// import content2 from './components/content2'
+import block1 from './components/block1'
+import block2 from './components/block2'
+import block3 from './components/block3'
 import footer2 from './components/footer2'
 export default {
-  components: { header2, content2, footer2 },
+  components: {
+    header2,
+    block1,
+    block2,
+    block3,
+    footer2
+  },
   methods: {}
 }
 </script>
@@ -40,5 +55,8 @@ export default {
 }
 ul {
   list-style: none;
+}
+.content2 {
+  min-height: 800px;
 }
 </style>
