@@ -6,12 +6,12 @@
         <div class="logo">
           <a href="#"><img src="../../static/imgs/logo.png"></a>
         </div>
-        <Button type="text">交易</Button>
-        <Button type="text">ET</Button>
-        <Button type="text">白皮书</Button>
-        <Button type="text">资产透明</Button>
-        <Button type="text">公告</Button>
-        <Button type="text">合伙人计划</Button>
+        <Button class="menu" type="text">交易</Button>
+        <Button class="menu" type="text">ET</Button>
+        <Button class="menu" type="text">白皮书</Button>
+        <Button class="menu" type="text">资产透明</Button>
+        <Button class="menu" type="text">公告</Button>
+        <Button class="menu" type="text">合伙人计划</Button>
         </Col>
         <Col>
         <div class="tools">
@@ -85,8 +85,17 @@ export default {
   font-size: @fontsize;
   border-radius: 0px;
   border: none;
-  line-height: @lineheight;
+  // line-height: @lineheight;
+  // margin-top: 35px;
   padding: 0 1em;
+}
+.menu {
+  margin-top: 35px;
+}
+.ivu-btn,
+.ivu-btn:active,
+.ivu-btn:focus {
+  outline-style: none;
 }
 .ivu-btn-text {
   color: aliceblue;
