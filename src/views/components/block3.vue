@@ -1,5 +1,5 @@
 <template>
-  <div class="block2">
+  <div class="block3">
     <div class="tbs">
       <Card :padding="0" :bordered="false">
         <div slot="title" class="tbs_head">
@@ -180,17 +180,17 @@ export default {
 </script>
 <style lang="less" scoped>
 @fontsize: 1em;
-.block2 {
+.block3 {
   background: transparent;
   min-height: 600px;
   width: 1200px;
   margin: 0 auto;
-  height: 700px;
+  // height: 700px;
   text-align: left;
   font-size: @fontsize;
 }
 
-.block2 .tbs_head {
+.block3 .tbs_head {
   display: flex;
   height: 60px;
   text-align: left;

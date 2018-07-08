@@ -26,7 +26,7 @@
               <DropdownItem>
                 <span class="lan-item">简体中文</span>
               </DropdownItem>
-              <!-- <DropdownItem>English</DropdownItem> -->
+              <DropdownItem>English</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <Button type="primary" shape="circle">登陆</Button>

@@ -8,10 +8,10 @@
           <div class="cardshow1">
             <p>今日待分配收入累积折合：</p>
             <p>
-              <Icon type="social-bitcoin"></Icon>&nbsp 0</p>
+              <Icon type="social-bitcoin"></Icon>&nbsp {{m1}}</p>
             <p>其中合伙人模式待分配收入：
               <span>
-                <Icon type="social-bitcoin"></Icon>&nbsp 0
+                <Icon type="social-bitcoin"></Icon>&nbsp {{p1}}
               </span>
             </p>
           </div>
@@ -24,10 +24,10 @@
           <div class="cardshow3">
             <p>昨日待分配收入累积折合：</p>
             <p>
-              <Icon type="social-bitcoin"></Icon>&nbsp 0</p>
+              <Icon type="social-bitcoin"></Icon>&nbsp {{m2}}</p>
             <p>昨日待分配收入累积折合：
               <span>
-                <Icon type="social-bitcoin"></Icon>&nbsp 0
+                <Icon type="social-bitcoin"></Icon>&nbsp {{p2}}
               </span>
             </p>
           </div>
@@ -39,7 +39,7 @@
           <div class="cardshow2">
             <p>ET总流通量</p>
             <p>
-              0</p>
+              {{et}}</p>
 
           </div>
         </Card>
@@ -52,12 +52,36 @@
 </template>
 
 <script>
+import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'block2',
   data() {
-    return {}
+    return {
+      m1: '0', //今日待分配收入
+      p1: '0', //今日合伙人模式待分配收入
+      m2: '0', //昨日待分配收入
+      p2: '0', //昨日合伙人模式待分配收入
+      et: '0' //ET总流通量
+    }
   },
-  mounted() {}
+  created() {
+    ax.get(config.url.fee + '/api/exet/stats/feeReturn').then(res => {
+      if (res.status == 200 && res.data.meta.code == '0') {
+        // console.log(res)
+        this.m1 = res.data.data.StandardTotal
+        this.p1 = res.data.data.inviteesBonusTotal
+        this.m2 = res.data.data.yesStandardTotal
+        this.p2 = res.data.data.yesInviteesBonusTotal
+      }
+    })
+    ax.get(config.url.fee + '/api/exet/stats/etCirculate').then(res => {
+      if (res.status == 200 && res.data.meta.code == '0') {
+        // console.log(res)
+        this.et = res.data.data.etCirculate
+      }
+    })
+  }
 }
 </script>
 <style lang="less" scoped>
