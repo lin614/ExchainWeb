@@ -1,7 +1,7 @@
 
 <template>
   <div class="index">
-    <header2></header2>
+    <header2 ></header2>
     <content2></content2>
     <footer2></footer2>
 

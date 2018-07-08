@@ -1,6 +1,6 @@
 <template>
   <div class="content2">
-    <block1></block1>
+    <block1 :mode2="false"></block1>
     <block2></block2>
     <block3></block3>
   </div>

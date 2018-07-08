@@ -25,7 +25,7 @@
             <p>昨日待分配收入累积折合：</p>
             <p>
               <Icon type="social-bitcoin"></Icon>&nbsp {{m2}}</p>
-            <p>昨日待分配收入累积折合：
+            <p>其中合伙人模式待分配收入：
               <span>
                 <Icon type="social-bitcoin"></Icon>&nbsp {{p2}}
               </span>
@@ -137,8 +137,8 @@ export default {
     color: @color;
   }
   p:nth-child(2) {
-    font-size: @fontsize*3;
-    line-height: @fontsize*1.5;
+    font-size: @fontsize*2.5;
+    line-height: @fontsize*2;
   }
 }
 .cardshow1 {

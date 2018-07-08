@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="block1">
+        <div class="block1" :class="{backimg:mode2}">
 
             <Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots" :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow">
                 <CarouselItem>
@@ -14,7 +14,7 @@
                             </div>
                             </Col>
                             <Col span="7">
-                            <div class="notice">
+                            <div class="notice" v-show="!mode2">
                                 <Card icon="compose" :bordered="false">
                                     <p slot="title">
 
@@ -122,6 +122,11 @@
 <script>
 export default {
   name: 'block1',
+  props: {
+    mode2: {
+      default: false
+    }
+  },
   data() {
     return {
       value3: 0,
@@ -144,16 +149,19 @@ export default {
 @padding-space: 40px; //空白的空间削减的高度
 .container {
   width: 100%;
-  background-color: #0e0f13;
+  background-color: #111216;
 }
 .block1 {
   width: 1200px;
   margin: 0 auto;
   height: 450px-@padding-space*2;
   text-align: left;
-  //   background: url(../../static/imgs/banner-bg.png);
-
   font-size: @fontsize;
+}
+.backimg {
+  background: url(../../static/imgs/bbg.png);
+  background-repeat: no-repeat;
+  background-position: top right;
 }
 .info h2 {
   padding-top: 76px;
@@ -195,33 +203,6 @@ export default {
   float: right;
   line-height: @fontsize*2;
 }
-
-// .fee {
-//   margin-top: 100px-@padding-space;
-// }
-// .fee .sec {
-//   padding: 0 25px;
-//   line-height: 2.5em;
-// }
-// .fee .fee_info {
-//   color: darkgrey;
-//   font-size: @fontsize -1;
-//   //   line-height: @fontsize+2;
-// }
-// .fee .fee_num {
-//   color: rgb(155, 155, 243);
-//   font-size: @fontsize;
-// }
-// .fee .fee_num2 {
-//   color: rgb(155, 155, 243);
-//   font-size: @fontsize*2;
-// }
-// .fee .border-left {
-//   border-left: 1px solid #444444;
-// }
-// .fee .border-right {
-//   border-right: 1px solid #444444;
-// }
 </style>
 
 
