@@ -30,7 +30,9 @@
                     <Col span="8">联系我们</Col>
                 </Row>
                 <Row>
-                    <Col span="8">提交请求</Col>
+                    <Col span="8">
+                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn/requests/new">提交请求</a>
+                    </Col>
                     <Col span="8">手续费</Col>
                     <Col span="8"></Col>
                 </Row>

@@ -35,7 +35,7 @@ export default {
 @padding-space: 40px; //空白的空间削减的高度
 .index {
   width: 100%;
-  min-width: 1300px;
+  min-width: 1200px;
   // position: absolute;
   top: 0;
   bottom: 0;

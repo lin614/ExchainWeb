@@ -8,7 +8,7 @@
             合伙人级别
           </span>
         </div>
-        <div class="plevel content">普通合作伙伴</div>
+        <div class="plevel content">{{level}}</div>
       </Card>
       <Card :padding="0" class="region" :bordered="false">
         <div slot="title" class="tbs_head">
@@ -23,7 +23,7 @@
             <div class="invite">
               <p>邀请码：</p>
               <div>
-                <span>s5gk3658</span>
+                <span>{{code}}</span>
                 <a href="#">复制邀请码</a>
 
               </div>
@@ -31,9 +31,9 @@
             </Col>
             <Col span="16">
             <div class="invite">
-              <p>邀请码：</p>
+              <p>邀请链接：</p>
               <div>
-                <span> http://www.baidu.com/s?cid=qaaaaa&utf-9&&www=%ksdfljdd </span>
+                <span> {{link}} </span>
                 <a href="#">复制邀请码</a>
 
               </div>
@@ -55,13 +55,13 @@
             <p class="earn">昨日被邀请人手续费返还：
               <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
             <p class="earn">昨日获得ET返还量：
-              <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
+              <Icon type="social-bitcoin"></Icon> {{et1}}</p>
             </Col>
             <Col span="16">
             <p class="earn"> 被邀请人手续费累积返还
-              <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
+              <Icon type="social-bitcoin"></Icon> {{fee2}}</p>
             <p class="earn">累积ET返还量：
-              <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
+              <Icon type="social-bitcoin"></Icon> {{et2}}</p>
             </Col>
           </Row>
 
@@ -89,13 +89,13 @@
 
             </Col>
           </Row>
-          <Row type="flex" :gutter="16">
+          <Row type="flex" :gutter="16" v-for="p in list" :key="p.user">
             <Col span="8">
-            <p class="earn">张三
+            <p class="earn">{{p.userId}}
             </p>
             </Col>
             <Col span="16">
-            <p class="earn"> 20180610 1:2:11</p>
+            <p class="earn"> {{p.createTime}}</p>
 
             </Col>
           </Row>
@@ -108,17 +108,62 @@
 </template>
 
 <script>
+import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'bonus',
   data() {
     return {
+      level: '',
+      code: '', //邀请码
+      link: '', //邀请链接
       fee1: '0', //昨日手续费
       et1: '0', //昨日获得ET返还量
       fee2: '0', //被邀请人手续费累积返还
-      et2: '0' //累积ET返还量
+      et2: '0', //累积ET返还量,
+      list: [] //邀请记录
     }
   },
-  mounted() {}
+  created() {
+    ax
+      .post(config.url.invite + '/api/invite/getInvitedCode', {
+        userId: config.userid
+      })
+      .then(res => {
+        // console.log(res)
+        if (res.status == '200' && res.data.meta.code == '0') {
+          this.code = res.data.data.code
+          this.link =
+            'http://www.exchain.com/invite?userid=' +
+            config.userid +
+            '&code=' +
+            this.code
+        }
+      })
+    ax
+      .post(config.url.invite + '/api/invite/invitedList', {
+        userId: config.userid
+      })
+      .then(res => {
+        // console.log(res)
+        if (res.status == '200' && res.data.meta.code == '0') {
+          this.list = res.data.data.inviteList
+          this.level =
+            res.data.data.activeCount >= 50 ? '超级合伙人' : '普通合伙人'
+        }
+      })
+    ax
+      .get(config.url.fee + '/api/exet/stats/userBouns?userId=' + config.userid)
+      .then(res => {
+        console.log(res)
+        if (res.status == '200' && res.data.meta.code == '0') {
+          this.fee1 = res.data.data.inviteesBonus
+          this.fee2 = res.data.data.totalInviteesBonus
+          this.et1 = res.data.data.holderBonus
+          this.et2 = res.data.data.totalHolderBonus
+        }
+      })
+  }
 }
 </script>
 <style lang="less" scoped>

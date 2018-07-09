@@ -149,7 +149,7 @@ export default {
 @padding-space: 40px; //空白的空间削减的高度
 .container {
   width: 100%;
-  background-color: #111216;
+  background-color: #0e0f12; // #111216;
 }
 .block1 {
   width: 1200px;
@@ -159,9 +159,9 @@ export default {
   font-size: @fontsize;
 }
 .backimg {
-  background: url(../../static/imgs/bbg.png);
+  background: url(../../static/imgs/bbg.jpg);
   background-repeat: no-repeat;
-  background-position: top right;
+  background-position: bottom right;
 }
 .info h2 {
   padding-top: 76px;

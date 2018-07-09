@@ -4,13 +4,15 @@
       <Row type="flex" justify="space-between" class="code-row-bg">
         <Col>
         <div class="logo">
-          <a href="#"><img src="../../static/imgs/logo.png"></a>
+          <a href="/"><img src="../../static/imgs/logo.png"></a>
         </div>
         <Button class="menu" type="text">交易</Button>
         <Button class="menu" type="text">ET</Button>
         <Button class="menu" type="text">白皮书</Button>
         <Button class="menu" type="text">资产透明</Button>
-        <Button class="menu" type="text">公告</Button>
+        <a target="_blank" href="https://support.exchain.com/hc/zh-cn">
+          <Button class="menu" type="text">公告</Button>
+        </a>
         <Button class="menu" type="text">合伙人计划</Button>
         </Col>
         <Col>
@@ -29,7 +31,7 @@
               <DropdownItem>English</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          <Button type="primary" shape="circle">登陆</Button>
+          <Button type="primary" shape="circle" @click="login()">登陆</Button>
           <Button shape="circle">注册</Button>
         </div>
         </Col>
@@ -41,6 +43,12 @@
 <script>
 export default {
   name: 'header2',
+  methods: {
+    login() {
+      // this.$router.push({ path: '/bonus' })
+      this.$router.push('/bonus')
+    }
+  },
   mounted() {}
 }
 </script>
