@@ -128,6 +128,8 @@ export default {
   //   white-space: nowrap;
   //   // line-height: 1.5;
   margin-left: 1em;
+  height: 35px;
+  width: 90px;
 }
 .tools {
   margin-right: 1em;

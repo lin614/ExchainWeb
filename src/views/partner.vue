@@ -50,6 +50,7 @@ export default {
 }
 .partner .container {
   width: 90%;
+  min-width: 1200px;
   margin: 0 auto;
   background: url(../static/imgs/pbg.png);
   background-position: top -50px center;
@@ -61,7 +62,7 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 440px;
+  padding-top: 50vh;
   text-align: left;
 }
 .panel .info {
