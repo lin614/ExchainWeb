@@ -5,7 +5,7 @@
         <div slot="title" class="tbs_head">
           <div class="linepot1" />
           <span class="title">
-            {{level}} <img src="../../static/imgs/level.png" :class="{clv:level2}" />
+            {{level}} <img src="../../static/imgs/level.png" :class="{}" />
           </span>
         </div>
         <div class=" content">
@@ -111,7 +111,12 @@
             邀请记录
 
           </span>
+
         </div>
+        <router-link to="/invite" slot="extra">
+
+          更多>>
+        </router-link>
         <div class="content ">
           <Row type="flex" :gutter="16">
             <Col span="8">
@@ -162,6 +167,7 @@ export default {
     }
   },
   created() {
+    // ;[].slice(0, 10)
     ax
       .post(config.url.invite + '/api/invite/getInvitedCode', {
         userId: config.userid
@@ -184,7 +190,8 @@ export default {
       .then(res => {
         // console.log(res)
         if (res.status == '200' && res.data.meta.code == '0') {
-          this.list = res.data.data.inviteList
+          this.list = res.data.data.inviteList.slice(0, 10)
+
           this.level =
             res.data.data.activeCount >= 50 ? '超级合伙人' : '普通合伙人'
         }
@@ -238,6 +245,9 @@ export default {
   font-size: @fontsize*1.5;
   //   font-weight: bold;
   margin-left: @fontsize;
+  // .more {
+  //   float: right;
+  // }
 }
 .linepot(@color) {
   width: 5px;

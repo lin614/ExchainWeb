@@ -24,6 +24,27 @@ const routers = [{
             title: ''
         },
         component: (resolve) => require(['./views/et.vue'], resolve)
+    },
+    {
+        path: '/priv',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/components/priv.vue'], resolve)
+    },
+    {
+        path: '/cont',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/components/cont.vue'], resolve)
+    },
+    {
+        path: '/invite',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/components/invite.vue'], resolve)
     }
 ];
 export default routers;

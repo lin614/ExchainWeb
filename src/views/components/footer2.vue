@@ -21,7 +21,9 @@
                 </Row>
                 <Row>
                     <Col span="8">交易中心</Col>
-                    <Col span="8">隐私政策</Col>
+                    <Col span="8">
+                    <router-link to="/priv">隐私政策</router-link>
+                    </Col>
                     <Col span="8">
                     <a target="_blank" href="http://t.me/Exchain_cn">客户支持</a>
                     </Col>
@@ -30,7 +32,9 @@
                     <Col span="8">
                     <a target="_blank" href="https://support.exchain.com/hc/zh-cn">支持</a>
                     </Col>
-                    <Col span="8">用户协议</Col>
+                    <Col span="8">
+                    <router-link to="/cont">用户协议</router-link>
+                    </Col>
                     <Col span="8">
                     <a target="_blank" href="http://t.me/Exchain_cn">联系我们</a>
                     </Col>
