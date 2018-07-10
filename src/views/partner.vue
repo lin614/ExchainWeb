@@ -49,7 +49,7 @@ export default {
   background: #6600cc;
 }
 .partner .container {
-  width: 90%;
+  width: 100%;
   min-width: 1200px;
   margin: 0 auto;
   background: url(../static/imgs/pbg.png);
