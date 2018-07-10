@@ -1,7 +1,7 @@
 
 <template>
   <index>
-    <div class="paper">
+    <div class="et">
       <div class="container">
         <div class="panel">
           <div class="title">
@@ -52,7 +52,7 @@
 <script>
 import index from './index'
 export default {
-  name: 'paper',
+  name: 'et',
   data() {
     return {
       index: 0
@@ -65,11 +65,11 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.paper {
+.et {
   width: 100%;
   background: #6600cc;
 }
-.paper .container {
+.et .container {
   width: 100%;
   min-width: 1200px;
   min-height: 100vw * (882/1200);

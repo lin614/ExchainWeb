@@ -8,9 +8,9 @@
                         <Row>
                             <Col span="17">
                             <div class="info">
-                                <h2>收入与合作伙伴共享，收益与交易货币共享</h2>
+                                <h2>收入与合作伙伴共享，收益与交易伙伴共享</h2>
                                 <hr/>
-                                <p>Exchain是全球首家共享型交易平台，不仅将合作交易费的50%支付给<br/>超级合伙伙伴，还将交易平台100%的收入每日分配给Exchain Token（ET）持有者，<br/>全免费交易计时开始。</p>
+                                <p>Exchain是全球首家共享型交易平台，不仅将合作交易费的20%支付给合作伙伴，<br/>50%支付给超级合伙伙伴，还将交易平台100%的收入每日分配给Exchain Token（ET）持有者，<br/>全免费交易计时开始。</p>
                             </div>
                             </Col>
                             <Col span="7">
@@ -21,6 +21,13 @@
                                         公告</p>
                                     <ul>
                                         <li>
+
+                                            <a target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360006935231-Exchain%E8%B6%85%E7%BA%A7%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%E8%AE%A1%E5%88%92%E5%BC%80%E5%90%AF">
+                                                Exchain超级合作伙伴计划开启
+                                                <Icon type="chevron-right"></Icon>
+                                            </a>
+                                        </li>
+                                        <!-- <li>
 
                                             <a href="#">
                                                 [07-06] EXCHAIN 账户注册
@@ -50,7 +57,7 @@
                                                 [07-06]关于EXCHAIN 主板品牌升级
                                                 <Icon type="chevron-right"></Icon>
                                             </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </Card>
                             </div>

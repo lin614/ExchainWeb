@@ -7,12 +7,11 @@
           <a href="/"><img src="../../static/imgs/logo.png"></a>
         </div>
         <Button class="menu" type="text">交易</Button>
-        <router-link to="/paper">
+        <router-link to="/et">
           <Button class="menu" type="text">ET</Button>
         </router-link>
         <Button class="menu" type="text">白皮书</Button>
 
-        <Button class="menu" type="text">资产透明</Button>
         <a target="_blank" href="https://support.exchain.com/hc/zh-cn">
           <Button class="menu" type="text">公告</Button>
         </a>

@@ -26,7 +26,7 @@
           </span>
         </div>
 
-        <Table size="large" :columns="col1" :data="data1"></Table>
+        <Table size="large" :columns="col1" :data="data2"></Table>
       </Card>
       <Card :padding="0" class="region" :bordered="false">
         <div slot="title" class="tbs_head">
@@ -42,23 +42,23 @@
           </span>
         </div>
 
-        <Table size="large" :columns="col1" :data="data1"></Table>
+        <Table size="large" :columns="col1" :data="data2"></Table>
       </Card>
       <Card :padding="0" class="region" :bordered="false">
         <div slot="title" class="tbs_head">
           <div class="linepot4" />
           <span class="title">
-            ST区
-            <Poptip placement="right" trigger="hover" title="ST区" content="content">
-              <Button size="small" shape="circle" icon="information"></Button>
-              <div slot="content">
+            风投区
+            <!-- <Poptip placement="right" trigger="hover" title="ST区" content="content"> -->
+            <Button size="small" shape="circle" icon="information"></Button>
+            <!-- <div slot="content">
                 <div>任何区块链项目产生重大风险事故，将会移入ST区。<br/> 如5天之内未做任何整改，将会做退市处理。<br/></div>
               </div>
-            </Poptip>
+            </Poptip> -->
           </span>
         </div>
 
-        <Table size="large" :columns="col1" :data="data1"></Table>
+        <Table size="large" :columns="col1" :data="data2"></Table>
       </Card>
     </div>
   </div>
@@ -124,55 +124,56 @@ export default {
         }
       ],
       data1: [
-        {
-          pair: 'ET/USDT',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
-        },
+        // {
+        //   pair: 'ET/USDT',
+        //   price: '0.386837/￥2.56',
+        //   p24: '-2.82%',
+        //   h24: '0.415474',
+        //   l24: '0.380150',
+        //   v24: '70836959.04'
+        // },
         {
           pair: 'ET/ETH',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
+          price: '-',
+          p24: '-',
+          h24: '-',
+          l24: '-',
+          v24: '-'
         },
         {
           pair: 'ET/BTC',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
+          price: '-',
+          p24: '-',
+          h24: '-',
+          l24: '-',
+          v24: '-'
         },
         {
           pair: 'BTC/USDT',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
+          price: '-',
+          p24: '-',
+          h24: '-',
+          l24: '-',
+          v24: '-'
         },
         {
           pair: 'ETH/USDT',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
+          price: '-',
+          p24: '-',
+          h24: '-',
+          l24: '-',
+          v24: '-'
         },
         {
           pair: 'BCH/USDT',
-          price: '0.386837/￥2.56',
-          p24: '-2.82%',
-          h24: '0.415474',
-          l24: '0.380150',
-          v24: '70836959.04'
+          price: '-',
+          p24: '-',
+          h24: '-',
+          l24: '-',
+          v24: '-'
         }
-      ]
+      ],
+      data2: []
     }
   },
   mounted() {}
@@ -211,7 +212,7 @@ export default {
 }
 .tbs .title {
   font-size: @fontsize*1.5;
-    // font-weight: bold;
+  // font-weight: bold;
   margin-left: @fontsize;
 }
 .linepot(@color) {

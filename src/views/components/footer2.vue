@@ -22,12 +22,18 @@
                 <Row>
                     <Col span="8">交易中心</Col>
                     <Col span="8">隐私政策</Col>
-                    <Col span="8">客户支持</Col>
+                    <Col span="8">
+                    <a target="_blank" href="http://t.me/Exchain_cn">客户支持</a>
+                    </Col>
                 </Row>
                 <Row>
-                    <Col span="8">支持</Col>
+                    <Col span="8">
+                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn">支持</a>
+                    </Col>
                     <Col span="8">用户协议</Col>
-                    <Col span="8">联系我们</Col>
+                    <Col span="8">
+                    <a target="_blank" href="http://t.me/Exchain_cn">联系我们</a>
+                    </Col>
                 </Row>
                 <Row>
                     <Col span="8">
@@ -40,24 +46,27 @@
                 <Col span="8">
                 <h2>社区</h2>
                 <p class="social">
-                    <a href='#'>
+                    <a target="_blank" href='https://twitter.com/exchangechain'>
                         <Icon type="social-twitter"></Icon>
                     </a>
-                    <a href='#'>
+                    <a target="_blank" href='https://www.facebook.com/Exchain-197510064290691/'>
                         <Icon type="social-facebook"></Icon>
                     </a>
-                    <a href='#'>
+                    <!-- <a href='#'>
                         <Icon type="social-github"></Icon>
-                    </a>
-                    <a href='#'>
+                    </a> -->
+                    <a target="_blank" href='https://medium.com/@exchangechain'>
                         <Icon type="social-markdown"></Icon>
                     </a>
-                    <a href='#'>
+                    <!-- <a href='#'>
                         <Icon type="social-reddit"></Icon>
                     </a>
                     <a href='#'>
                         <Icon type="social-twitch"></Icon>
-                    </a>
+                    </a> -->
+                </p>
+                <p>
+                    <img src="../../static/imgs/wx.png" id="wx" alt="微信公众号" />
                 </p>
                 </Col>
             </Row>
@@ -100,11 +109,15 @@ export default {
 .footer2 .social i {
   font-size: 2em;
   color: gray;
-  margin-top: 1em;
+  /* margin-top: 1em; */
   margin-right: 1em;
   &:hover {
     color: aliceblue;
   }
+}
+#wx {
+  width: 100px;
+  height: 100px;
 }
 </style>
 

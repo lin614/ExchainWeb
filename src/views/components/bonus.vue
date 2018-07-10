@@ -5,10 +5,47 @@
         <div slot="title" class="tbs_head">
           <div class="linepot1" />
           <span class="title">
-            合伙人级别
+            {{level}} <img src="../../static/imgs/level.png" :class="{clv:level2}" />
           </span>
         </div>
-        <div class="plevel content">{{level}}</div>
+        <div class=" content">
+          <Row type="flex" :gutter="16">
+            <Col span="8">
+            <p class="earn">昨日被邀请人手续费返还：
+              <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
+            <p class="earn">昨日获得ET返还量：
+              <Icon type="social-bitcoin"></Icon> {{et1}}</p>
+            </Col>
+            <Col span="16">
+            <p class="earn"> 被邀请人手续费累积返还
+              <Icon type="social-bitcoin"></Icon> {{fee2}}</p>
+            <p class="earn">累积ET返还量：
+              <Icon type="social-bitcoin"></Icon> {{et2}}</p>
+            </Col>
+          </Row>
+          <Row type="flex" :gutter="16" :style="{marginTop:'30px'}">
+            <Col>
+            <p class="earn">超级合作伙伴：
+            </p>
+            <p class="earn">邀请
+              <span class="mark">50人以上（含50人）</span> 注册切所有被邀请人均产生1笔交易（金额不限）即可成为
+              <span class="mark">超级合作伙伴</span>
+            </p>
+            </Col>
+
+          </Row>
+          <Row type="flex" :gutter="16" :style="{marginTop:'20px'}">
+            <Col>
+            <p class="earn">普通合作伙伴：
+            </p>
+            <p class="earn">邀请
+              <span class="mark2">1人注册并产生1笔交易</span> （金额不限）
+              <span class="mark2">普通合作伙伴</span>
+            </p>
+            </Col>
+
+          </Row>
+        </div>
       </Card>
       <Card :padding="0" class="region" :bordered="false">
         <div slot="title" class="tbs_head">
@@ -42,7 +79,7 @@
           </Row>
         </div>
       </Card>
-      <Card :padding="0" class="region" :bordered="false">
+      <!-- <Card :padding="0" class="region" :bordered="false">
         <div slot="title" class="tbs_head">
           <div class="linepot3" />
           <span class="title">
@@ -66,7 +103,7 @@
           </Row>
 
         </div>
-      </Card>
+      </Card> -->
       <Card :padding="0" class="region" :bordered="false">
         <div slot="title" class="tbs_head">
           <div class="linepot4" />
@@ -256,6 +293,12 @@ export default {
 .earn {
   line-height: 40px;
   font-size: @fontsize*1.1;
+  .mark {
+    color: #ffcf82;
+  }
+  .mark2 {
+    color: #b4b4b4;
+  }
 }
 </style>
 

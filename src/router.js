@@ -19,11 +19,11 @@ const routers = [{
         component: (resolve) => require(['./views/partner.vue'], resolve)
     },
     {
-        path: '/paper',
+        path: '/et',
         meta: {
             title: ''
         },
-        component: (resolve) => require(['./views/paper.vue'], resolve)
+        component: (resolve) => require(['./views/et.vue'], resolve)
     }
 ];
 export default routers;
