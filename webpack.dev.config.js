@@ -31,5 +31,9 @@ module.exports = merge(webpackBaseConfig, {
             template: './src/template/index.ejs',
             inject: false
         })
-    ]
+    ],
+    devServer: {
+        host: '192.168.1.114',
+        port: 4001,
+    },
 });

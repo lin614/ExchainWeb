@@ -13,7 +13,9 @@
         <a target="_blank" href="https://support.exchain.com/hc/zh-cn">
           <Button class="menu" type="text">公告</Button>
         </a>
-        <Button class="menu" type="text">合伙人计划</Button>
+        <router-link to="/partner">
+          <Button class="menu" type="text">合伙人计划</Button>
+        </router-link>
         </Col>
         <Col>
         <div class="tools">
@@ -31,8 +33,8 @@
               <DropdownItem>English</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          <Button type="primary" shape="circle" @click="login()">登陆</Button>
-          <Button shape="circle">注册</Button>
+          <Button type="primary" size="large" shape="circle" @click="login()">登陆</Button>
+          <Button size="large" shape="circle">注册</Button>
         </div>
         </Col>
       </Row>
@@ -112,19 +114,19 @@ export default {
   margin-right: 1em;
 }
 .tools .ivu-btn {
-  display: inline-block;
-  margin-bottom: 0;
-  font-weight: 400;
-  text-align: center;
-  vertical-align: middle;
-  border-radius: 32px;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  line-height: 1.5;
+  //   display: inline-block;
+  //   margin-bottom: 0;
+  //   font-weight: 400;
+  //   text-align: center;
+  //   vertical-align: middle;
+  //   border-radius: 32px;
+  //   -ms-touch-action: manipulation;
+  //   touch-action: manipulation;
+  //   cursor: pointer;
+  //   background-image: none;
+  //   border: 1px solid transparent;
+  //   white-space: nowrap;
+  //   // line-height: 1.5;
   margin-left: 1em;
 }
 .tools {

@@ -192,7 +192,7 @@ export default {
 
 .block3 .tbs_head {
   display: flex;
-  height: 60px;
+  height: 30px;
   text-align: left;
   align-items: center;
   justify-content: flex-start;
@@ -210,13 +210,13 @@ export default {
   margin-bottom: @fontsize*2;
 }
 .tbs .title {
-  font-size: @fontsize*2;
-  //   font-weight: bold;
+  font-size: @fontsize*1.5;
+    // font-weight: bold;
   margin-left: @fontsize;
 }
 .linepot(@color) {
   width: 5px;
-  height: @fontsize*2;
+  height: @fontsize*1.5;
   margin-left: -16px;
   //   display: inline-block;
   background-color: @color;

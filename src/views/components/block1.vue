@@ -62,59 +62,6 @@
                 <!-- <CarouselItem>
                 </CarouselItem> -->
             </Carousel>
-
-            <!-- <div class="fee">
-                <Row>
-                    <Col span="8">
-                    <div class="sec border-left">
-                        <p>
-                            <span class="fee_info">昨日待分配收入累积折合：</span>
-                            <span class="fee_num">
-                                <Icon type="social-bitcoin"></Icon>0</span>
-                        </p>
-                        <p>
-                            <span class="fee_info">昨日合伙人待分配收入：</span>
-                            <span class="fee_num">
-                                [查看合伙人模式说明]</span>
-                        </p>
-                        <p>
-                            <span class="fee_info">ET总流通量：</span>
-                            <span class="fee_num">
-                                [查看ET释放说明]</span>
-                        </p>
-                    </div>
-                    </Col>
-                    <Col span="8">
-                    <div class="sec border-left border-right ">
-                        <p>
-                            <span class="fee_info">今日待分配收入累积折合：</span>
-
-                        </p>
-                        <p>
-                            <span class="fee_num2">
-                                <Icon type="social-bitcoin"></Icon>0</span>
-                        </p>
-                        <p>
-                            <span class="fee_info">其中合伙人模式待分配收入：</span>
-                            <span class="fee_num">
-                                <Icon type="social-bitcoin"></Icon>0</span>
-                        </p>
-                    </div>
-                    </Col>
-                    <Col span="8">
-                    <div class="sec border-right">
-                        <p>
-                            <span class="fee_info">新闻：</span>
-                        </p>
-                        <p>
-                            <span class="fee_num">
-                                张建在团队博客发文【引入“交易即挖矿”机制，创造一个符合中本聪初心的比特币】</span>
-                        </p>
-
-                    </div>
-                    </Col>
-                </Row>
-            </div> -->
         </div>
     </div>
 </template>
