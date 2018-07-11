@@ -10,8 +10,7 @@
             </span>
           </div>
           <div class=" content">
-            <img src="../../static/imgs/priv/1.jpg" />
-            <img src="../../static/imgs/priv/2.jpg" />
+            <img src="../../static/imgs/b.jpg" />
           </div>
         </Card>
       </div>
@@ -67,6 +66,7 @@ export default {
   margin-left: @fontsize;
 }
 .content {
+ 
   // padding: 3em;
 }
 .linepot(@color) {

@@ -43,7 +43,9 @@
                     <Col span="8">
                     <a target="_blank" href="https://support.exchain.com/hc/zh-cn/requests/new">提交请求</a>
                     </Col>
-                    <Col span="8">手续费</Col>
+                    <Col span="8">
+                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360006962932-%E4%BA%A4%E6%98%93%E6%89%8B%E7%BB%AD%E8%B4%B9%E8%AF%B4%E6%98%8E">手续费</a>
+                    </Col>
                     <Col span="8"></Col>
                 </Row>
                 </Col>
@@ -94,6 +96,12 @@ export default {
   height: 280px;
   padding-top: 70px;
   text-align: left;
+  a {
+    color: grey;
+  }
+  h2 {
+    color: aliceblue;
+  }
 }
 .footer2 img {
   height: 35px;

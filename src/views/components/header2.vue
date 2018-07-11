@@ -10,7 +10,9 @@
         <router-link to="/et">
           <Button class="menu" type="text">ET</Button>
         </router-link>
-        <Button class="menu" type="text">白皮书</Button>
+        <router-link to="/paper">
+          <Button class="menu" type="text">白皮书</Button>
+        </router-link>
 
         <a target="_blank" href="https://support.exchain.com/hc/zh-cn">
           <Button class="menu" type="text">公告</Button>

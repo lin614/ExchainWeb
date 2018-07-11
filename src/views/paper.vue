@@ -6,12 +6,18 @@
           <div slot="title" class="tbs_head">
             <div class="linepot1" />
             <span class="title">
-              Terms of use
+              白皮书
             </span>
           </div>
           <div class=" content">
-            <!-- <pdf src="/static/doc/t.pdf"></pdf> -->
-            <img src="../../static/imgs/a.jpg" />
+            <img src="../static/imgs/paper/01.jpg" />
+            <img src="../static/imgs/paper/02.jpg" />
+            <img src="../static/imgs/paper/03.jpg" />
+            <img src="../static/imgs/paper/04.jpg" />
+            <img src="../static/imgs/paper/05.jpg" />
+            <img src="../static/imgs/paper/06.jpg" />
+            <img src="../static/imgs/paper/07.jpg" />
+            <img src="../static/imgs/paper/08.jpg" />
           </div>
         </Card>
       </div>
@@ -21,16 +27,13 @@
 </template>
 
 <script>
-import index from '../index'
-import pdf from 'vue-pdf'
+import index from './index'
 export default {
-  name: 'cont',
+  name: 'priv',
   components: {
-    index,
-    pdf
+    index
     // card2
-  },
-  created() {}
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -70,7 +73,12 @@ export default {
   margin-left: @fontsize;
 }
 .content {
-  // padding: 3em;
+  padding: 0;
+  img {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 1em;
+  }
 }
 .linepot(@color) {
   width: 5px;

@@ -45,6 +45,12 @@ const routers = [{
             title: ''
         },
         component: (resolve) => require(['./views/components/invite.vue'], resolve)
+    }, {
+        path: '/paper',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/paper.vue'], resolve)
     }
 ];
 export default routers;
