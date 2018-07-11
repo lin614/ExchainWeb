@@ -19,7 +19,8 @@
             <Poptip placement="right" trigger="hover" title="创新区" content="content">
               <Button size="small" shape="circle" icon="information"></Button>
               <div slot="content">
-                <div>创新区数字资产属于新型投资产品，价格波动较大，<br/> 投资风险较大。在投资前，我们希望您能充分了解<br/> 目标数字资产， 合理判断您自己的投资能力， 并认<br/>真做出投资决策。<br/></div>
+                <div>创新区数字资产属于新型投资产品，有一定投资风险。<br/> 在投资前，我们希望您能充分了解目标数字资产，<br/> 合理判断您自己的投资能力，并认真做出投资决策。<br/></div>
+
               </div>
             </Poptip>
 
@@ -36,7 +37,8 @@
             <Poptip placement="right" trigger="hover" title="创投区" content="content">
               <Button size="small" shape="circle" icon="information"></Button>
               <div slot="content">
-                <div>相对于创新区的区块链项目，创投区的项目通常处<br/> 于早期阶段，存在极高的不确定性风险，请投资者务<br/> 目标数字资产， 合理判断您自己的投资能力， 并认<br/>投资。<br/></div>
+                <div>相对于创新区的区块链项目，创投区的项目通常处<br/> 于早期阶段，存在极高的不确定性风险，请投资者务<br/> 必审慎评估自身风险承受能力以及投资能力，谨慎投<br/> 资。<br/></div>
+
               </div>
             </Poptip>
           </span>
@@ -49,12 +51,13 @@
           <div class="linepot4" />
           <span class="title">
             风投区
-            <!-- <Poptip placement="right" trigger="hover" title="ST区" content="content"> -->
-            <Button size="small" shape="circle" icon="information"></Button>
-            <!-- <div slot="content">
-                <div>任何区块链项目产生重大风险事故，将会移入ST区。<br/> 如5天之内未做任何整改，将会做退市处理。<br/></div>
+            <Poptip placement="right" trigger="hover" title="ST区" content="content">
+              <Button size="small" shape="circle" icon="information"></Button>
+              <div slot="content">
+                <div>风险投资区的数字资产通常处于项目的天使阶段，有<br/> 极高的不确定性风险。请投资者根据自身承担风险能<br/>力慎重投资。<br/></div>
+
               </div>
-            </Poptip> -->
+            </Poptip>
           </span>
         </div>
 

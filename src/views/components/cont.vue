@@ -6,15 +6,16 @@
           <div slot="title" class="tbs_head">
             <div class="linepot1" />
             <span class="title">
-              用户协议
+              Terms of use
             </span>
           </div>
           <div class=" content">
-            <img src="../../static/imgs/cont.png" />
-          </div>
+            <!-- <img src="../../static/imgs/cont.png" /> -->
+            <div class="ivu-article"
+            < </div>
         </Card>
+        </div>
       </div>
-    </div>
   </index>
 
 </template>

@@ -145,7 +145,7 @@ export default {
   margin-left: @fontsize;
 }
 .content {
-  padding: 3em;
+  padding: 1em 3em;
 }
 .linepot(@color) {
   width: 5px;
@@ -156,6 +156,16 @@ export default {
 }
 .linepot1 {
   .linepot(#11b489);
+}
+.earn {
+  line-height: 40px;
+  font-size: @fontsize*1.1;
+  .mark {
+    color: #ffcf82;
+  }
+  .mark2 {
+    color: #b4b4b4;
+  }
 }
 </style>
 
