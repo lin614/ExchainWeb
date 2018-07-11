@@ -29,7 +29,7 @@
 <script>
 import index from './index'
 export default {
-  name: 'priv',
+  name: 'paper',
   components: {
     index
     // card2
