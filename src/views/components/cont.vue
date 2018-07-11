@@ -10,12 +10,14 @@
             </span>
           </div>
           <div class=" content">
-            <!-- <img src="../../static/imgs/cont.png" /> -->
-            <div class="ivu-article"
-            < </div>
+            <img src="../../static/imgs/cont/1.jpg" />
+            <img src="../../static/imgs/cont/2.jpg" />
+            <img src="../../static/imgs/cont/3.jpg" />
+            <img src="../../static/imgs/cont/4.jpg" />
+          </div>
         </Card>
-        </div>
       </div>
+    </div>
   </index>
 
 </template>
@@ -67,7 +69,7 @@ export default {
   margin-left: @fontsize;
 }
 .content {
-  padding: 3em;
+  // padding: 3em;
 }
 .linepot(@color) {
   width: 5px;

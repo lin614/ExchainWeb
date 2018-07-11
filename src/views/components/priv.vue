@@ -6,11 +6,12 @@
           <div slot="title" class="tbs_head">
             <div class="linepot1" />
             <span class="title">
-              隐私政策
+              Privacy policy
             </span>
           </div>
           <div class=" content">
-            <img src="../../static/imgs/priv.png" />
+            <img src="../../static/imgs/priv/1.jpg" />
+            <img src="../../static/imgs/priv/2.jpg" />
           </div>
         </Card>
       </div>
@@ -66,7 +67,7 @@ export default {
   margin-left: @fontsize;
 }
 .content {
-  padding: 3em;
+  // padding: 3em;
 }
 .linepot(@color) {
   width: 5px;
