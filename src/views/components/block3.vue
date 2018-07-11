@@ -51,7 +51,7 @@
           <div class="linepot4" />
           <span class="title">
             风投区
-            <Poptip placement="right" trigger="hover" title="ST区" content="content">
+            <Poptip placement="right" trigger="hover" title="风投区" content="content">
               <Button size="small" shape="circle" icon="information"></Button>
               <div slot="content">
                 <div>风险投资区的数字资产通常处于项目的天使阶段，有<br/> 极高的不确定性风险。请投资者根据自身承担风险能<br/>力慎重投资。<br/></div>
@@ -135,6 +135,14 @@ export default {
         //   l24: '0.380150',
         //   v24: '70836959.04'
         // },
+        {
+          pair: 'ET/USDT',
+          price: '-',
+          p24: '-',
+          h24: '-',
+          l24: '-',
+          v24: '-'
+        },
         {
           pair: 'ET/ETH',
           price: '-',
