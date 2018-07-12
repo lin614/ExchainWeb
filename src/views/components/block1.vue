@@ -27,37 +27,7 @@
                                                 <Icon type="chevron-right"></Icon>
                                             </a>
                                         </li>
-                                        <!-- <li>
-
-                                            <a href="#">
-                                                [07-06] EXCHAIN 账户注册
-                                                <Icon type="chevron-right"></Icon>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                [07-06] 提充币到账时间及限额
-                                                <Icon type="chevron-right"></Icon>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                [07-06] DWS 临时停牌公告
-                                                <Icon type="chevron-right"></Icon>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                [07-06] EXCHAIN 系统升级公告
-                                                <Icon type="chevron-right"></Icon>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                [07-06]关于EXCHAIN 主板品牌升级
-                                                <Icon type="chevron-right"></Icon>
-                                            </a>
-                                        </li> -->
+                                        
                                     </ul>
                                 </Card>
                             </div>

@@ -5,7 +5,7 @@ let util = {
 
 };
 util.title = function (title) {
-    title = title ? title + ' - Home' : 'ExChain';
+    title = title ? title + ' - Home' : 'Exchain';
     window.document.title = title;
 };
 

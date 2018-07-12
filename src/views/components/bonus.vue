@@ -5,7 +5,7 @@
         <div slot="title" class="tbs_head">
           <div class="linepot1" />
           <span class="title">
-            {{level}} <img src="../../static/imgs/level.png" :class="{}" />
+            {{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" />
           </span>
         </div>
         <div class=" content">
@@ -28,8 +28,9 @@
             <p class="earn">超级合作伙伴：
             </p>
             <p class="earn">邀请
-              <span class="mark">50人以上（含50人）</span> 注册切所有被邀请人均产生1笔交易（金额不限）即可成为
-              <span class="mark">超级合作伙伴</span>
+              <span class="mark">50人以上（含50人）</span> 注册且所有被邀请人均产生1笔交易（金额不限）即可成为
+              <span class="mark">超级合作伙伴</span>。永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系
+              <span class="mark"> partner@exchain.com</span> 。
             </p>
             </Col>
 
@@ -39,8 +40,8 @@
             <p class="earn">普通合作伙伴：
             </p>
             <p class="earn">邀请
-              <span class="mark2">1人注册并产生1笔交易</span> （金额不限）
-              <span class="mark2">普通合作伙伴</span>
+              <span class="mark2">1人注册并产生1笔交易（金额不限）</span> （金额不限）
+              <span class="mark2">普通合作伙伴</span> 。永久分享被推荐人相关交易费20%的回报。
             </p>
             </Col>
 
@@ -60,8 +61,9 @@
             <div class="invite">
               <p>邀请码：</p>
               <div>
-                <span>{{code}}</span>
-                <a href="#">复制邀请码</a>
+                <input id="foo" :value="code">
+                <!-- <span>{{code}}</span> -->
+                <Button type="text" id="btnCode" data-clipboard-target="#foo">复制邀请码</Button>
 
               </div>
             </div>
@@ -70,8 +72,9 @@
             <div class="invite">
               <p>邀请链接：</p>
               <div>
-                <span> {{link}} </span>
-                <a href="#">复制邀请码</a>
+                <input id="foo2" :value="link">
+                <!-- <span> {{link}} </span> -->
+                <Button type="text" id="btnLink" data-clipboard-target="#foo2">复制邀请码</Button>
 
               </div>
             </div>
@@ -113,6 +116,10 @@
           </span>
 
         </div>
+        <div style="border:1px solid white;background:#f2f3f7;margin:1em 2em 0 2em;padding:1em">
+          已邀请{{n_all}}人，已完成交易{{n_act}}人
+        </div>
+
         <router-link to="/invite" slot="extra">
 
           更多>>
@@ -124,9 +131,15 @@
               <b>被邀请人账号</b>
             </p>
             </Col>
-            <Col span="16">
+            <Col span="8">
             <p class="earn">
               <b>时间</b>
+            </p>
+
+            </Col>
+            <Col span="8">
+            <p class="earn">
+              <b>状态</b>
             </p>
 
             </Col>
@@ -136,8 +149,12 @@
             <p class="earn">{{p.userId}}
             </p>
             </Col>
-            <Col span="16">
+            <Col span="8">
             <p class="earn"> {{p.createTime}}</p>
+
+            </Col>
+            <Col span="8">
+            <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
 
             </Col>
           </Row>
@@ -152,18 +169,22 @@
 <script>
 import ax from 'axios'
 import config from '../../config/config.js'
+import ClipboardJS from 'clipboard'
 export default {
   name: 'bonus',
   data() {
     return {
-      level: '',
+      level: 0,
+      levelName: '交易伙伴',
       code: '', //邀请码
       link: '', //邀请链接
       fee1: '0', //昨日手续费
       et1: '0', //昨日获得ET返还量
       fee2: '0', //被邀请人手续费累积返还
       et2: '0', //累积ET返还量,
-      list: [] //邀请记录
+      list: [], //邀请记录
+      n_all: 0, //已邀请人数
+      n_act: 0 //已激活人数
     }
   },
   created() {
@@ -191,9 +212,15 @@ export default {
         // console.log(res)
         if (res.status == '200' && res.data.meta.code == '0') {
           this.list = res.data.data.inviteList.slice(0, 10)
-
-          this.level =
-            res.data.data.activeCount >= 50 ? '超级合伙人' : '普通合伙人'
+          var num = res.data.data.activeCount
+          this.level = num == 0 ? '0' : num > 50 ? '2' : '1'
+          this.levelName =
+            num == 0 ? '交易伙伴' : num > 50 ? '超级合作伙伴' : '普通合作伙伴'
+          this.n_all = res.data.data.inviteList.length
+          this.n_act = res.data.data.inviteList.filter(function(p) {
+            return p.isActive
+          }).length
+          console.log('邀请人数:', num)
         }
       })
     ax
@@ -207,6 +234,10 @@ export default {
           this.et2 = res.data.data.totalHolderBonus
         }
       })
+  },
+  mounted() {
+    new ClipboardJS('#btnCode')
+    new ClipboardJS('#btnLink')
   }
 }
 </script>
@@ -294,6 +325,19 @@ export default {
 .invite div span {
   line-height: 50px;
   padding-left: 20px;
+}
+.invite div input {
+  line-height: 50px;
+  padding-left: 20px;
+  background: transparent;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+#foo2 {
+  width: 550px;
 }
 .invite div a {
   line-height: 50px;

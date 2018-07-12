@@ -18,7 +18,7 @@
           <Button class="menu" type="text">公告</Button>
         </a>
         <router-link to="/partner">
-          <Button class="menu" type="text">合伙人计划</Button>
+          <Button class="menu" type="text">合作伙伴计划</Button>
         </router-link>
         </Col>
         <Col>

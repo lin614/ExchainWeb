@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.config.js');
 const fs = require('fs');
+const path = require('path');
 
 fs.open('./src/config/env.js', 'w', function (err, fd) {
     const buf = 'export default "development";';
@@ -29,11 +30,12 @@ module.exports = merge(webpackBaseConfig, {
         new HtmlWebpackPlugin({
             filename: '../index.html',
             template: './src/template/index.ejs',
-            inject: false
+            inject: false,
+            favicon: path.resolve('./src/static/favicon.ico'), //新增
         })
     ],
     devServer: {
-        host: '192.168.1.114',
+        host: '172.16.1.12',
         port: 4001,
     },
 });

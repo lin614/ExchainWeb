@@ -19,9 +19,15 @@
                     <b>被邀请人账号</b>
                   </p>
                   </Col>
-                  <Col span="16">
+                  <Col span="8">
                   <p class="earn">
                     <b>时间</b>
+                  </p>
+
+                  </Col>
+                  <Col span="8">
+                  <p class="earn">
+                    <b>状态</b>
                   </p>
 
                   </Col>
@@ -31,8 +37,12 @@
                   <p class="earn">{{p.userId}}
                   </p>
                   </Col>
-                  <Col span="16">
+                  <Col span="8">
                   <p class="earn"> {{p.createTime}}</p>
+
+                  </Col>
+                  <Col span="8">
+                  <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
 
                   </Col>
                 </Row>

@@ -23,7 +23,7 @@
               <Icon type="social-bitcoin"></Icon>&nbsp {{etvalue}}</p>
             <p>ET总流通量
               <span>
-                <Icon type="social-bitcoin"></Icon>&nbsp {{etnum}}
+                {{etnum}}
               </span>
             </p>
           </div>

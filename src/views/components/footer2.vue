@@ -4,7 +4,7 @@
             <Row type="flex" justify="center" align="top" class="menu">
                 <Col span="7">
                 <img src="../../static/imgs/logo.png">
-                <p>Copyright © 2018 EXCHAIN</p>
+                <p>Copyright © 2018 Exchain</p>
                 </Col>
                 <Col span="9">
 
@@ -52,28 +52,49 @@
                 <Col span="8">
                 <h2>社区</h2>
                 <p class="social">
-                    <a target="_blank" href='https://twitter.com/exchangechain'>
-                        <Icon type="social-twitter"></Icon>
+                    <Poptip trigger="hover" :style="{ minWidth:0}">
+                        <i class=" iconfont icon-weixin"></i>
+                        <div slot="content">
+                            <img src='../../static/imgs/wx.png' style="width:120px;height:120px" />
+                        </div>
+                    </Poptip>
+                    <!-- <Poptip trigger="hover" :style="{ minWidth:0}">
+                        <a target="_blank" href='https://medium.com/@exchangechain'>
+                            <i class=" iconfont icon-medium"></i>
+
+                        </a>
+                        <div slot="content">
+                            <qrcode-vue value="https://medium.com/@exchangechain" size="120" level="H" background="white" foreground="navy"></qrcode-vue>
+                        </div>
+                    </Poptip> -->
+                    <!-- <Poptip trigger="hover" :style="{ minWidth:0}">
+                        <a target="_blank" href='https://t.me/Exchangechain_cn'>
+                            <i class=" iconfont icon-telegram"></i>
+                        </a>
+                        <div slot="content">
+                            <qrcode-vue value="https://t.me/Exchangechain_cn" size="120" level="H" background="white" foreground="navy"></qrcode-vue>
+                        </div>
+                    </Poptip> -->
+                    <a target="_blank" href='ttps://twitter.com/exchangechain'>
+                        <i class=" iconfont icon-twitter"></i>
+
                     </a>
                     <a target="_blank" href='https://www.facebook.com/Exchain-197510064290691/'>
-                        <Icon type="social-facebook"></Icon>
+                        <i class=" iconfont icon-facebook"></i>
+
                     </a>
-                    <!-- <a href='#'>
-                        <Icon type="social-github"></Icon>
-                    </a> -->
                     <a target="_blank" href='https://medium.com/@exchangechain'>
-                        <Icon type="social-markdown"></Icon>
+                        <i class=" iconfont icon-medium"></i>
+
                     </a>
-                    <!-- <a href='#'>
-                        <Icon type="social-reddit"></Icon>
+                    <a target="_blank" href='https://t.me/Exchain_cn'>
+                        <i class=" iconfont icon-telegram"></i>
                     </a>
-                    <a href='#'>
-                        <Icon type="social-twitch"></Icon>
-                    </a> -->
+
                 </p>
-                <p>
+                <!-- <p>
                     <img src="../../static/imgs/wx.png" id="wx" alt="微信公众号" />
-                </p>
+                </p> -->
                 </Col>
             </Row>
         </div>
@@ -81,8 +102,11 @@
 </template>
 
 <script>
+// import '../../static/icons/iconfont.css'
+// import QrcodeVue from 'qrcode.vue'
 export default {
   name: 'footer2',
+  //   components: { QrcodeVue },
   mounted() {}
 }
 </script>
@@ -121,7 +145,7 @@ export default {
 .footer2 .social i {
   font-size: 2em;
   color: gray;
-  /* margin-top: 1em; */
+  margin-top: 1em;
   margin-right: 1em;
   &:hover {
     color: aliceblue;
@@ -131,6 +155,12 @@ export default {
   width: 100px;
   height: 100px;
 }
+.ivu-poptip-body {
+  padding: 5px !important;
+}
+/* #popWx .ivu-poptip-popper {
+  min-width: 0 !important;
+} */
 </style>
 
 
