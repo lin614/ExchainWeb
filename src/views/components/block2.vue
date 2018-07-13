@@ -3,19 +3,19 @@
     <div class="cards">
       <Row type="flex" justify="space-between" :gutter="16">
         <Col span="8">
-        <Card :padding="0" :bordered="false">
+        <Card :padding="0" :bordered="true">
           <div class="linecard1"></div>
           <div class="cardshow1">
             <p>当日总成交额</p>
             <p>
               <Icon type="social-bitcoin"></Icon>&nbsp {{valume}}</p>
-
+            <p>&nbsp</p>
           </div>
         </Card>
         </Col>
 
         <Col span="8">
-        <Card :padding="0" :bordered="false">
+        <Card :padding="0" :bordered="true">
           <div class="linecard3"></div>
           <div class="cardshow3">
             <p>ET总市值</p>
@@ -30,13 +30,13 @@
         </Card>
         </Col>
         <Col span="8">
-        <Card :padding="0" :bordered="false">
+        <Card :padding="0" :bordered="true">
           <div class="linecard2"></div>
           <div class="cardshow2">
             <p>限时免费期</p>
             <p>
               180天</p>
-
+            <p>&nbsp</p>
           </div>
         </Card>
         </Col>

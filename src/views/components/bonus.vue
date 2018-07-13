@@ -8,44 +8,46 @@
             {{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" />
           </span>
         </div>
-        <div class=" content">
-          <Row type="flex" :gutter="16">
-            <Col span="8">
-            <p class="earn">昨日被邀请人手续费返还：
-              <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
-            <p class="earn">昨日获得ET返还量：
-              <Icon type="social-bitcoin"></Icon> {{et1}}</p>
-            </Col>
-            <Col span="16">
-            <p class="earn"> 被邀请人手续费累积返还
-              <Icon type="social-bitcoin"></Icon> {{fee2}}</p>
-            <p class="earn">累积ET返还量：
-              <Icon type="social-bitcoin"></Icon> {{et2}}</p>
-            </Col>
-          </Row>
-          <Row type="flex" :gutter="16" :style="{marginTop:'30px'}">
-            <Col>
-            <p class="earn">超级合作伙伴：
-            </p>
-            <p class="earn">邀请
-              <span class="mark">50人以上（含50人）</span> 注册且所有被邀请人均产生1笔交易（金额不限）即可成为
-              <span class="mark">超级合作伙伴</span>。永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系
-              <span class="mark"> partner@exchain.com</span> 。
-            </p>
-            </Col>
+        <div class="pa-c">
+          <div class=" content">
+            <Row type="flex" :gutter="16">
+              <Col span="8">
+              <p class="earn">昨日被邀请人手续费返还：
+                <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
+              <p class="earn">昨日获得ET返还量：
+                <Icon type="social-bitcoin"></Icon> {{et1}}</p>
+              </Col>
+              <Col span="16">
+              <p class="earn"> 被邀请人手续费累积返还
+                <Icon type="social-bitcoin"></Icon> {{fee2}}</p>
+              <p class="earn">累积ET返还量：
+                <Icon type="social-bitcoin"></Icon> {{et2}}</p>
+              </Col>
+            </Row>
+            <Row type="flex" :gutter="16" :style="{marginTop:'30px'}">
+              <Col>
+              <p class="earn">超级合作伙伴：
+              </p>
+              <p class="earn">邀请
+                <span class="mark">50人以上（含50人）</span> 注册且所有被邀请人均产生1笔交易（金额不限）即可成为
+                <span class="mark">超级合作伙伴</span>。永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系
+                <span class="mark"> partner@exchain.com</span> 。
+              </p>
+              </Col>
 
-          </Row>
-          <Row type="flex" :gutter="16" :style="{marginTop:'20px'}">
-            <Col>
-            <p class="earn">普通合作伙伴：
-            </p>
-            <p class="earn">邀请
-              <span class="mark2">1人注册并产生1笔交易（金额不限）</span> （金额不限）
-              <span class="mark2">普通合作伙伴</span> 。永久分享被推荐人相关交易费20%的回报。
-            </p>
-            </Col>
+            </Row>
+            <Row type="flex" :gutter="16" :style="{marginTop:'20px'}">
+              <Col>
+              <p class="earn">普通合作伙伴：
+              </p>
+              <p class="earn">邀请
+                <span class="mark2">1人注册并产生1笔交易（金额不限）</span> （金额不限）
+                <span class="mark2">普通合作伙伴</span> 。永久分享被推荐人相关交易费20%的回报。
+              </p>
+              </Col>
 
-          </Row>
+            </Row>
+          </div>
         </div>
       </Card>
       <Card :padding="0" class="region" :bordered="false">
@@ -303,6 +305,11 @@ export default {
 .ivu-table-wrapper {
   border: none;
 }
+.pa-c {
+  background: url(../../static/imgs/pa-bg.png);
+  background-repeat: no-repeat;
+  background-position: bottom right;
+}
 .content {
   padding: 32px;
 }
@@ -336,8 +343,9 @@ export default {
     outline: none;
   }
 }
+
 #foo2 {
-  width: 550px;
+  width: 530px;
 }
 .invite div a {
   line-height: 50px;

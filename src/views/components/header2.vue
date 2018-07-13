@@ -17,9 +17,15 @@
         <a target="_blank" href="https://support.exchain.com/hc/zh-cn">
           <Button class="menu" type="text">公告</Button>
         </a>
+        <!-- <Poptip :always="true" trigger="hover" placement="top" :style="{ minWidth:0}"> -->
         <router-link to="/partner">
           <Button class="menu" type="text">合作伙伴计划</Button>
         </router-link>
+        <!-- <div slot="content">
+
+            HOT!
+          </div> -->
+        </Poptip>
         </Col>
         <Col>
         <div class="tools">
@@ -37,7 +43,7 @@
               <DropdownItem>English</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          <Button type="primary" size="large" shape="circle" @click="login()">登陆</Button>
+          <Button type="primary" size="large" shape="circle" @click="login()">登录</Button>
           <Button size="large" shape="circle">注册</Button>
         </div>
         </Col>

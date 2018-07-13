@@ -1,8 +1,9 @@
 <template>
-    <div class="container">
-        <div class="block1" :class="{backimg:mode2}">
+    <div class="container " :class="{banbg1:banindex==1}">
+        <div class="block1 " :class="{backimg:mode2}">
+            <!-- <div class="block1 "> -->
 
-            <Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots" :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow">
+            <Carousel @on-change='banner' v-model=" banindex" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots" :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow">
                 <CarouselItem>
                     <div class="demo-carousel">
                         <Row>
@@ -27,7 +28,7 @@
                                                 <Icon type="chevron-right"></Icon>
                                             </a>
                                         </li>
-                                        
+
                                     </ul>
                                 </Card>
                             </div>
@@ -36,8 +37,25 @@
                     </div>
 
                 </CarouselItem>
-                <!-- <CarouselItem>
-                </CarouselItem> -->
+                <CarouselItem>
+                    <div class="demo-carousel">
+                        <router-link to="/partner">
+                            <Row>
+                                <Col span="17">
+                                <div class="info">
+                                    <h2>Excahin内测即将开启，强拳重推合作伙伴计划</h2>
+                                    <hr/>
+
+                                    <p>Exchain全球首家共享型交易平台Exchain全新上线，并即将开启内测。<br/>先启动“合作伙伴计划”招募<br/>成为合作伙伴，享受交易费20%-50%回报+平台币(ET)奖励<br/>交易即挖矿，ET升值+平台收入奖励，收益+++<br/>限时全免，等你来！</p>
+                                </div>
+                                </Col>
+                                <Col span="7">
+
+                                </Col>
+                            </Row>
+                        </router-link>
+                    </div>
+                </CarouselItem>
             </Carousel>
         </div>
     </div>
@@ -53,15 +71,24 @@ export default {
   },
   data() {
     return {
-      value3: 0,
+      banindex: 0,
+      //  ban-index: 0,
+      banbg: 'banbg0',
       setting: {
         autoplay: true,
-        autoplaySpeed: 2000,
+        autoplaySpeed: 10000,
         dots: 'outside',
         radiusDot: false,
         trigger: 'hover',
         arrow: 'never'
       }
+    }
+  },
+  methods: {
+    banner(ov, v) {
+      //   console.log(ov, v)
+      this.banbg = 'banbg' + v
+      console.log(this.banbg)
     }
   },
   mounted() {}
@@ -86,6 +113,14 @@ export default {
   background: url(../../static/imgs/bbg.jpg);
   background-repeat: no-repeat;
   background-position: bottom right;
+}
+.banbg0 {
+}
+.banbg1 {
+  background-color: #3c3eb0;
+  background: url(../../static/imgs/ban-bg.png);
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 .info h2 {
   padding-top: 76px;
