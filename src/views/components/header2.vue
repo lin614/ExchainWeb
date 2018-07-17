@@ -17,15 +17,17 @@
         <a target="_blank" href="https://support.exchain.com/hc/zh-cn">
           <Button class="menu" type="text">公告</Button>
         </a>
-        <!-- <Poptip :always="true" trigger="hover" placement="top" :style="{ minWidth:0}"> -->
-        <router-link to="/partner">
-          <Button class="menu" type="text">合作伙伴计划</Button>
-        </router-link>
-        <!-- <div slot="content">
 
-            HOT!
-          </div> -->
-        </Poptip>
+        <router-link to="/partner">
+          <!-- <Tooltip :always="true" :transfer="true" placement="top-end" content="HOT!" :style="{ minWidth:0}"> -->
+          <Button class="menu" type="text">合作伙伴计划</Button>
+          <!-- <div slot="content">
+
+              HOT!
+            </div> -->
+          <!-- </Tooltip> -->
+        </router-link>
+
         </Col>
         <Col>
         <div class="tools">
