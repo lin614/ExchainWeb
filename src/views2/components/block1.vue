@@ -118,9 +118,9 @@ export default {
 }
 .banbg1 {
   background-color: #3c3eb0;
-  background: url(../../static/imgs/ban-bg.png);
-  background-repeat: no-repeat;
-  background-position: center center;
+    background: url(../../static/imgs/ban-bg.png);
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 .info h2 {
   padding-top: 76px;
