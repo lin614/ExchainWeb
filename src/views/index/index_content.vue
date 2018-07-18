@@ -1,50 +1,52 @@
 <template>
-    <block class="index_content">
-        <crd potColor="#13b387" slot="inner">
-            <span slot="title">主区</span>
-            <Table size="large" :columns="col1" :data="data1"></Table>
-        </crd>
-        <crd potColor="#13b387" slot="inner">
-            <span class="title">
-                创新区
-                <Poptip placement="right" trigger="hover" title="创新区" content="content">
-                    <Button size="small" shape="circle" icon="information"></Button>
-                    <div slot="content">
-                        <div>创新区数字资产属于新型投资产品，有一定投资风险。<br/> 在投资前，我们希望您能充分了解目标数字资产，<br/> 合理判断您自己的投资能力，并认真做出投资决策。<br/></div>
+  <block class="index_content">
+    <div slot="inner">
+      <crd potColor="#683c40">
+        <span slot="title">主区</span>
+        <Table size="large" :columns="col1" :data="data1"></Table>
+      </crd>
+      <crd potColor="#419aea">
+        <span slot="title">
+          创新区
+          <Poptip placement="right" trigger="hover" title="创新区" content="content">
+            <Button size="small" shape="circle" icon="information"></Button>
+            <div slot="content">
+              <div>创新区数字资产属于新型投资产品，有一定投资风险。<br/> 在投资前，我们希望您能充分了解目标数字资产，<br/> 合理判断您自己的投资能力，并认真做出投资决策。<br/></div>
 
-                    </div>
-                </Poptip>
+            </div>
+          </Poptip>
 
-            </span>
-            <Table size="large" :columns="col1" :data="data2"></Table>
-        </crd>
-        <crd potColor="#13b387" slot="inner">
-            <span class="title">
-                创投区
-                <Poptip placement="right" trigger="hover" title="创投区" content="content">
-                    <Button size="small" shape="circle" icon="information"></Button>
-                    <div slot="content">
-                        <div>相对于创新区的区块链项目，创投区的项目通常处<br/> 于早期阶段，存在极高的不确定性风险，请投资者务<br/> 必审慎评估自身风险承受能力以及投资能力，谨慎投<br/> 资。<br/></div>
+        </span>
+        <Table size="large" :columns="col1" :data="data2"></Table>
+      </crd>
+      <crd potColor="#febd3d">
+        <span slot="title">
+          创投区
+          <Poptip placement="right" trigger="hover" title="创投区" content="content">
+            <Button size="small" shape="circle" icon="information"></Button>
+            <div slot="content">
+              <div>相对于创新区的区块链项目，创投区的项目通常处<br/> 于早期阶段，存在极高的不确定性风险，请投资者务<br/> 必审慎评估自身风险承受能力以及投资能力，谨慎投<br/> 资。<br/></div>
 
-                    </div>
-                </Poptip>
-            </span>
-            <Table size="large" :columns="col1" :data="data3"></Table>
-        </crd>
-        <crd potColor="#13b387" slot="inner">
-            <span class="title">
-                风投区
-                <Poptip placement="right" trigger="hover" title="风投区" content="content">
-                    <Button size="small" shape="circle" icon="information"></Button>
-                    <div slot="content">
-                        <div>风险投资区的数字资产通常处于项目的天使阶段，有<br/> 极高的不确定性风险。请投资者根据自身承担风险能<br/>力慎重投资。<br/></div>
+            </div>
+          </Poptip>
+        </span>
+        <Table size="large" :columns="col1" :data="data3"></Table>
+      </crd>
+      <crd potColor="#13b387">
+        <span slot="title">
+          风投区
+          <Poptip placement="right" trigger="hover" title="风投区" content="content">
+            <Button size="small" shape="circle" icon="information"></Button>
+            <div slot="content">
+              <div>风险投资区的数字资产通常处于项目的天使阶段，有<br/> 极高的不确定性风险。请投资者根据自身承担风险能<br/>力慎重投资。<br/></div>
 
-                    </div>
-                </Poptip>
-            </span>
-            <Table size="large" :columns="col1" :data="data4"></Table>
-        </crd>
-    </block>
+            </div>
+          </Poptip>
+        </span>
+        <Table size="large" :columns="col1" :data="data4"></Table>
+      </crd>
+    </div>
+  </block>
 </template>
 
 <script>
@@ -180,6 +182,9 @@ export default {
 .index_content {
   .ivu-table-wrapper {
     border: none;
+  }
+  .ivu-table th {
+    background-color: @table-th-color; // transparent; // #f8f8f9;
   }
 }
 </style>

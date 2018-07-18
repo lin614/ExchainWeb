@@ -10,6 +10,11 @@
           </slot>
         </div>
       </div>
+      <div slot="extra">
+        <slot name="extra">
+
+        </slot>
+      </div>
       <div class="content">
         <slot>
 
@@ -60,6 +65,7 @@ export default {
   }
   .ivu-card-head {
     padding: 0px;
+    // padding-right: 16px;
   }
 }
 </style>

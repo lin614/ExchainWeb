@@ -5,13 +5,13 @@ const routers = [{
         },
         component: (resolve) => require(['./views/index.vue'], resolve)
     }
-    // , {
-    //     path: '/bonus',
-    //     meta: {
-    //         title: ''
-    //     },
-    //     component: (resolve) => require(['./views/index2.vue'], resolve)
-    // },
+    , {
+        path: '/bonus',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/bonus.vue'], resolve)
+    },
     // {
     //     path: '/partner',
     //     meta: {

@@ -1,5 +1,5 @@
 <template>
-    <div class="footr">aaaa
+    <div class="footr">
         <block>
             <Row type="flex" justify="center" align="top" class="menu" slot="inner">
                 <Col span="7">
@@ -109,5 +109,46 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+@import url(../style/config.less);
+.footr {
+  background: black;
+  height: 280px;
+  padding-top: 70px;
+  a {
+    color: @footer-font-menu-color;
+  }
+  h2 {
+    color: aliceblue;
+    font-size: @footer-font-menu;
+  }
+  img {
+    height: 35px;
+    vertical-align: middle;
+    margin-bottom: 1em;
+  }
+  .menu {
+    line-height: 40px;
+    font-size: @font-text;
+  }
+  .social i {
+    font-size: 2em;
+    color: gray;
+    margin-top: 1em;
+    margin-right: 1em;
+    &:hover {
+      color: aliceblue;
+    }
+  }
+  #wx {
+    width: 100px;
+    height: 100px;
+  }
+  .ivu-poptip-popper {
+    min-width: 0px;
+  }
+  .ivu-poptip-body {
+    padding: 5px !important;
+  }
+}
 </style>

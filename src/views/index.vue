@@ -4,7 +4,7 @@
     <banner></banner>
     <index_cards :style="{marginBottom:'16px'}"></index_cards>
     <index_content></index_content>
-    <footer></footer>
+    <footr></footr>
   </div>
 </template>
 
