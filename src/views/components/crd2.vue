@@ -41,6 +41,7 @@ export default {
 <style lang="less">
 @import url(../style/config.less);
 .crd2 {
+  margin-bottom: 16px;
   .linepot {
     height: @linepot-height;
     width: 100%;

@@ -1,26 +1,21 @@
+
 <template>
-  <div class="index">
-    <headr></headr>
+  <page>
     <bonus_content></bonus_content>
-    <footr></footr>
-  </div>
+  </page>
+
 </template>
 
 <script>
-import headr from './components/headr'
+import page from './components/page'
 import bonus_content from './bonus/bonus_content'
-import footr from './components/footr'
 export default {
-  components: {
-    headr,
-    bonus_content,
-    footr
-  }
+  name: 'bonus',
+  components: { page, bonus_content }
 }
 </script>
 
 <style>
-.index {
-  width: 100%;
-}
 </style>
+
+

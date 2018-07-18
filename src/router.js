@@ -4,28 +4,27 @@ const routers = [{
             title: ''
         },
         component: (resolve) => require(['./views/index.vue'], resolve)
-    }
-    , {
+    }, {
         path: '/bonus',
         meta: {
             title: ''
         },
         component: (resolve) => require(['./views/bonus.vue'], resolve)
     },
-    // {
-    //     path: '/partner',
-    //     meta: {
-    //         title: ''
-    //     },
-    //     component: (resolve) => require(['./views/partner.vue'], resolve)
-    // },
-    // {
-    //     path: '/et',
-    //     meta: {
-    //         title: ''
-    //     },
-    //     component: (resolve) => require(['./views/et.vue'], resolve)
-    // },
+    {
+        path: '/partner',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/partner.vue'], resolve)
+    },
+    {
+        path: '/et',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/et.vue'], resolve)
+    },
     // {
     //     path: '/priv',
     //     meta: {
@@ -46,12 +45,13 @@ const routers = [{
     //         title: ''
     //     },
     //     component: (resolve) => require(['./views/components/invite.vue'], resolve)
-    // }, {
-    //     path: '/paper',
-    //     meta: {
-    //         title: ''
-    //     },
-    //     component: (resolve) => require(['./views/paper.vue'], resolve)
     // }
+    , {
+        path: '/paper',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/paper.vue'], resolve)
+    }
 ];
 export default routers;
