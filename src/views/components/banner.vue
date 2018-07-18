@@ -83,12 +83,15 @@ export default {
     }
     background-repeat: no-repeat;
     background-position: center center;
-    // .banner_1 {
-    // }
+  }
+  .banner_1 {
+    .block {
+      background: url(../../static/imgs/ban-bg1.png);
+    }
   }
   .banner_2 {
     .block {
-      background: url(../../static/imgs/ban-bg.png);
+      background: url(../../static/imgs/ban-bg2.png);
     }
   }
   .notice {
@@ -99,7 +102,7 @@ export default {
     float: right;
     right: calc(~'50% - 600px');
     top: 140px;
-    box-shadow: 0 0 20px gold;
+    // box-shadow: 0 0 20px gold;
   }
 }
 </style>

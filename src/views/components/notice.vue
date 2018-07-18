@@ -38,7 +38,7 @@ export default {
   }
   i {
     float: right;
-    line-height: @font-text*2;
+    line-height: @font-text*2; 
   }
 }
 </style>

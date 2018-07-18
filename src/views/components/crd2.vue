@@ -1,5 +1,5 @@
 <template>
-  <Card :padding="0" class="crd" :bordered="false">
+  <Card :padding="0" class="crd2" :bordered="false">
     <div slot="title">
 
       <div class="title">
@@ -13,6 +13,15 @@
       <slot>
 
       </slot>
+      <p class="p1" :style="{ color:potColor}">
+        <slot name="p1"></slot>
+      </p>
+      <p class="p2">
+        <slot name="p2"></slot>
+      </p>
+      <p class="p3">
+        <slot name="p3"></slot>
+      </p>
     </div>
   </Card>
 </template>
@@ -31,25 +40,31 @@ export default {
 </script>
 <style lang="less">
 @import url(../style/config.less);
-.crd {
+.crd2 {
   .linepot {
-    // margin-left: -16px;
-    height: @font-title;
-    width: 5px;
-    display: inline-block;
-    margin-right: 10px;
+    height: @linepot-height;
+    width: 100%;
   }
   .title {
     display: flex;
-    height: 60px;
+    height: 10px;
     text-align: left;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
 
     font-size: @font-title;
   }
   .content {
     font-size: @font-text;
+    padding: 10px;
+    .p1 {
+      font-size: @font-text*1.2;
+    }
+    .p2 {
+      font-size: @font-text*2.5;
+      line-height: @font-text*3;
+      margin: 10px 0;
+    }
   }
   .ivu-card {
     border-radius: 0px;
@@ -57,6 +72,7 @@ export default {
   }
   .ivu-card-head {
     padding: 0px;
+    border-bottom: none;
   }
 }
 </style>

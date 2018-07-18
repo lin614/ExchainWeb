@@ -34,6 +34,7 @@ export default {
 <style lang="less">
 @import url(../style/config.less);
 .crd {
+  margin-bottom: 16px;
   .linepot {
     // margin-left: -16px;
     height: @font-title;
