@@ -1,51 +1,51 @@
 
 <template>
-    <page>
-        <div class="invite">
-            <block>
-                <crd slot="inner">
-                    <span slot="title">邀请记录</span>
-                    <!-- <router-link to="/bonus" slot="extra">
+  <page>
+    <div class="invite">
+      <block>
+        <crd slot="inner">
+          <span slot="title">邀请记录</span>
+          <!-- <router-link to="/bonus" slot="extra">
                         <<返回 </router-link> -->
-                    <div class=" content">
-                        <Row type="flex" :gutter="16">
-                            <Col span="8">
-                            <p class="earn">
-                                <b>被邀请人账号</b>
-                            </p>
-                            </Col>
-                            <Col span="8">
-                            <p class="earn">
-                                <b>时间</b>
-                            </p>
+          <div class=" content">
+            <Row type="flex" :gutter="16">
+              <Col span="8">
+              <p class="earn">
+                <b>被邀请人账号</b>
+              </p>
+              </Col>
+              <Col span="8">
+              <p class="earn">
+                <b>时间</b>
+              </p>
 
-                            </Col>
-                            <Col span="8">
-                            <p class="earn">
-                                <b>状态</b>
-                            </p>
+              </Col>
+              <Col span="8">
+              <p class="earn">
+                <b>状态</b>
+              </p>
 
-                            </Col>
-                        </Row>
-                        <Row type="flex" :gutter="16" v-for="p in list" :key="p.user">
-                            <Col span="8">
-                            <p class="earn">{{p.userId}}
-                            </p>
-                            </Col>
-                            <Col span="8">
-                            <p class="earn"> {{p.createTime}}</p>
+              </Col>
+            </Row>
+            <Row type="flex" :gutter="16" v-for="p in list" :key="p.user">
+              <Col span="8">
+              <p class="earn">{{p.userId}}
+              </p>
+              </Col>
+              <Col span="8">
+              <p class="earn"> {{p.createTime}}</p>
 
-                            </Col>
-                            <Col span="8">
-                            <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
+              </Col>
+              <Col span="8">
+              <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
 
-                            </Col>
-                        </Row>
-                    </div>
-                </crd>
-            </block>
-        </div>
-    </page>
+              </Col>
+            </Row>
+          </div>
+        </crd>
+      </block>
+    </div>
+  </page>
 
 </template>
 
@@ -116,6 +116,7 @@ export default {
 <style lang="less">
 .invite {
   min-height: 800px;
+  line-height: 40px;
   .content {
     padding: 16px;
   }
