@@ -51,7 +51,7 @@
                     <div class="content">
                         <Row type="flex" :gutter="16">
                             <Col span="8">
-                            <div class="invite">
+                            <div class="invistyle">
                                 <p>邀请码：</p>
                                 <div>
                                     <input id="foo" :value="code">
@@ -62,7 +62,7 @@
                             </div>
                             </Col>
                             <Col span="16">
-                            <div class="invite">
+                            <div class="invistyle">
                                 <p>邀请链接：</p>
                                 <div>
                                     <input id="foo2" :value="link">
@@ -80,7 +80,7 @@
                         邀请记录
 
                     </span>
-                    <router-link to="/invite" slot="extra">
+                    <router-link target="_blank" to="/invite" slot="extra">
 
                         更多>>
                     </router-link>
@@ -230,7 +230,7 @@ export default {
         color: #b4b4b4;
       }
     }
-    .invite {
+    .invistyle {
       // p {
       //   font-size: @fontsize*1.1;
       // }
