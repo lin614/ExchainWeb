@@ -31,8 +31,12 @@
       <Col>
       <div class="tools">
 
-        <Button type="text" id="btnLogin" @click="login()">登录</Button>
-        <Button type="text" id="btnReg">注册</Button>
+        <router-link to="/login">
+          <Button type="text" id="btnLogin" @click="login()">登录</Button>
+        </router-link>
+        <router-link to="/reg">
+          <Button type="text" id="btnReg">注册</Button>
+        </router-link>
         <Dropdown class="lan">
           <a href="javascript:void(0)">
             <Icon type="earth"></Icon>
