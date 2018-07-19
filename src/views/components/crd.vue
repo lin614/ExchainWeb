@@ -15,7 +15,7 @@
 
         </slot>
       </div>
-      <div class="content">
+      <div class="mainContent">
         <slot>
 
         </slot>
@@ -56,7 +56,7 @@ export default {
 
     font-size: @font-title;
   }
-  .content {
+  .mainContent {
     font-size: @font-text;
   }
   .ivu-card {

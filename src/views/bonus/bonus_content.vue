@@ -3,7 +3,8 @@
         <block>
             <div slot="inner">
                 <crd>
-                    <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span>
+                    <!-- <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span> -->
+                    123123
                     <div class="content">
                         <Row type="flex" :gutter="16">
                             <Col span="8">
@@ -216,7 +217,7 @@ export default {
   //   .pa-c {
 
   .content {
-    background: url(../../static/imgs/pa-bg.png);
+    // background: url(../../static/imgs/pa-bg.png);
     background-repeat: no-repeat;
     background-position: bottom right;
     padding: 16px;
