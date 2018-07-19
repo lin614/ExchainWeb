@@ -51,6 +51,24 @@ const routers = [{
             title: ''
         },
         component: (resolve) => require(['./views/paper.vue'], resolve)
+    }, {
+        path: '/usercenter',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/userCenter/index.vue'], resolve)
+    }, {
+        path: '/usercenter/entrust',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/userCenter/entrust.vue'], resolve)
+    }, {
+        path: '/usercenter/asset',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/userCenter/asset.vue'], resolve)
     }
 ];
 export default routers;
