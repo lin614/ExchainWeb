@@ -2,47 +2,43 @@
     <div class="bonus_content">
         <block>
             <div slot="inner">
-                <crd>
+                <crd :hideTitle="true">
                     <!-- <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span> -->
-                    123123
+                    <div :class="'lv'+level">
+
+                    </div>
+                    <div class="lv-name">
+                        <h2>您当前等级：
+                            <span>{{levelName}} </span>
+                        </h2>
+                    </div>
                     <div class="content">
-                        <Row type="flex" :gutter="16">
-                            <Col span="8">
-                            <p class="earn">昨日被邀请人手续费返还：
-                                <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
-                            <p class="earn">昨日获得ET返还量：
-                                <Icon type="social-bitcoin"></Icon> {{et1}}</p>
-                            </Col>
-                            <Col span="16">
-                            <p class="earn"> 被邀请人手续费累积返还
-                                <Icon type="social-bitcoin"></Icon> {{fee2}}</p>
-                            <p class="earn">累积ET返还量：
-                                <Icon type="social-bitcoin"></Icon> {{et2}}</p>
-                            </Col>
-                        </Row>
-                        <Row type="flex" :gutter="16" :style="{marginTop:'30px'}">
-                            <Col>
-                            <p class="earn">超级合作伙伴：
+                        <div class="lv-fee">
+                            <Row type="flex" :gutter="16">
+                                <Col span="8">
+                                <p class="earn">昨日被邀请人手续费返还：
+                                    <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
+                                <p class="earn">昨日获得ET返还量：
+                                    <Icon type="social-bitcoin"></Icon> {{et1}}</p>
+                                </Col>
+                                <Col span="16">
+                                <p class="earn"> 被邀请人手续费累积返还
+                                    <Icon type="social-bitcoin"></Icon> {{fee2}}</p>
+                                <p class="earn">累积ET返还量：
+                                    <Icon type="social-bitcoin"></Icon> {{et2}}</p>
+                                </Col>
+                            </Row>
+                        </div>
+                        <div class="lv-text">
+                            <h3>超级合作伙伴：
+                            </h3>
+                            <p>邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。
                             </p>
-                            <p class="earn">邀请
-                                <span class="mark">50人以上（含50人）</span> 注册且所有被邀请人均产生1笔交易（金额不限）即可成为
-                                <span class="mark">超级合作伙伴</span>。永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系
-                                <span class="mark"> partner@exchain.com</span> 。
+                            <h3>普通合作伙伴：
+                            </h3>
+                            <p>邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。
                             </p>
-                            </Col>
-
-                        </Row>
-                        <Row type="flex" :gutter="16" :style="{marginTop:'20px'}">
-                            <Col>
-                            <p class="earn">普通合作伙伴：
-                            </p>
-                            <p class="earn">邀请
-                                <span class="mark2">1人注册并产生1笔交易（金额不限）</span> （金额不限）
-                                <span class="mark2">普通合作伙伴</span> 。永久分享被推荐人相关交易费20%的回报。
-                            </p>
-                            </Col>
-
-                        </Row>
+                        </div>
                     </div>
                 </crd>
                 <crd>
@@ -87,7 +83,7 @@
                     </router-link>
                     <div class="content ">
 
-                        <div class="stat">
+                        <div class="lv-text">
                             已邀请{{n_all}}人，已完成交易{{n_act}}人
                         </div>
                         <Row type="flex" :gutter="16">
@@ -158,51 +154,102 @@ export default {
   },
   created() {
     // ;[].slice(0, 10)
+    // this.$Loading.start()
+    // this.$Loading.start()
+    var obj = this
     ax
-      .post(config.url.invite + '/api/invite/getInvitedCode', {
-        userId: config.userid
-      })
-      .then(res => {
-        // console.log(res)
-        if (res.status == '200' && res.data.meta.code == '0') {
-          this.code = res.data.data.code
-          this.link =
-            'http://www.exchain.com/invite?userid=' +
-            config.userid +
-            '&code=' +
-            this.code
-        }
-      })
-    ax
-      .post(config.url.invite + '/api/invite/invitedList', {
-        userId: config.userid
-      })
-      .then(res => {
-        // console.log(res)
-        if (res.status == '200' && res.data.meta.code == '0') {
-          this.list = res.data.data.inviteList.slice(0, 10)
-          var num = res.data.data.activeCount
-          this.level = num == 0 ? '0' : num > 50 ? '2' : '1'
-          this.levelName =
-            num == 0 ? '交易伙伴' : num > 50 ? '超级合作伙伴' : '普通合作伙伴'
-          this.n_all = res.data.data.inviteList.length
-          this.n_act = res.data.data.inviteList.filter(function(p) {
-            return p.isActive
-          }).length
-          console.log('邀请人数:', num)
-        }
-      })
-    ax
-      .get(config.url.fee + '/api/exet/stats/userBouns?userId=' + config.userid)
-      .then(res => {
-        console.log(res)
-        if (res.status == '200' && res.data.meta.code == '0') {
-          this.fee1 = res.data.data.inviteesBonus
-          this.fee2 = res.data.data.totalInviteesBonus
-          this.et1 = res.data.data.holderBonus
-          this.et2 = res.data.data.totalHolderBonus
-        }
-      })
+      .all([
+        ax.post(config.url.invite + '/api/invite/getInvitedCode', {
+          userId: config.userid
+        }),
+        ax.post(config.url.invite + '/api/invite/invitedList', {
+          userId: config.userid
+        }),
+        ax.get(
+          config.url.fee + '/api/exet/stats/userBouns?userId=' + config.userid
+        )
+      ])
+      .then(
+        ax.spread(function(res1, res2, res3) {
+          //   this.$Loading.finish()
+          if (
+            res1.status == '200' &&
+            res1.data.meta.code == '0' &&
+            res2.status == '200' &&
+            res2.data.meta.code == '0' &&
+            res3.status == '200' &&
+            res3.data.meta.code == '0'
+          ) {
+            obj.code = res1.data.data.code
+            obj.link =
+              'http://www.exchain.com/invite?userid=' +
+              config.userid +
+              '&code=' +
+              obj.code
+
+            obj.list = res2.data.data.inviteList.slice(0, 10)
+            var num = res2.data.data.activeCount
+            obj.level = num == 0 ? '0' : num > 50 ? '2' : '1'
+            obj.levelName =
+              num == 0 ? '交易伙伴' : num > 50 ? '超级合作伙伴' : '普通合作伙伴'
+            obj.n_all = res2.data.data.inviteList.length
+            obj.n_act = res2.data.data.inviteList.filter(function(p) {
+              return p.isActive
+            }).length
+            console.log('邀请人数:', num)
+
+            obj.fee1 = res3.data.data.inviteesBonus
+            obj.fee2 = res3.data.data.totalInviteesBonus
+            obj.et1 = res3.data.data.holderBonus
+            obj.et2 = res3.data.data.totalHolderBonus
+          }
+        })
+      )
+    // ax
+    //   .post(config.url.invite + '/api/invite/getInvitedCode', {
+    //     userId: config.userid
+    //   })
+    //   .then(res => {
+    //     // console.log(res)
+    //     if (res.status == '200' && res.data.meta.code == '0') {
+    //       this.code = res.data.data.code
+    //       this.link =
+    //         'http://www.exchain.com/invite?userid=' +
+    //         config.userid +
+    //         '&code=' +
+    //         this.code
+    //     }
+    //   })
+    // ax
+    //   .post(config.url.invite + '/api/invite/invitedList', {
+    //     userId: config.userid
+    //   })
+    //   .then(res => {
+    //     // console.log(res)
+    //     if (res.status == '200' && res.data.meta.code == '0') {
+    //       this.list = res.data.data.inviteList.slice(0, 10)
+    //       var num = res.data.data.activeCount
+    //       this.level = num == 0 ? '0' : num > 50 ? '2' : '1'
+    //       this.levelName =
+    //         num == 0 ? '交易伙伴' : num > 50 ? '超级合作伙伴' : '普通合作伙伴'
+    //       this.n_all = res.data.data.inviteList.length
+    //       this.n_act = res.data.data.inviteList.filter(function(p) {
+    //         return p.isActive
+    //       }).length
+    //       console.log('邀请人数:', num)
+    //     }
+    //   })
+    // ax
+    //   .get(config.url.fee + '/api/exet/stats/userBouns?userId=' + config.userid)
+    //   .then(res => {
+    //     console.log(res)
+    //     if (res.status == '200' && res.data.meta.code == '0') {
+    //       this.fee1 = res.data.data.inviteesBonus
+    //       this.fee2 = res.data.data.totalInviteesBonus
+    //       this.et1 = res.data.data.holderBonus
+    //       this.et2 = res.data.data.totalHolderBonus
+    //     }
+    //   })
   },
   mounted() {
     new ClipboardJS('#btnCode')
@@ -212,41 +259,76 @@ export default {
 </script>
 
 <style lang="less">
+@import url(../style/config.less);
 .bonus_content {
   margin-top: 16px;
+  line-height: 40px;
   //   .pa-c {
+  .lv {
+    height: 80px;
+    background-position: top center;
+    background-repeat: no-repeat;
+    font-size: @font-title;
+  }
+  .lv0 {
+    background: url(../../static/imgs/l0.png);
+    .lv;
+  }
+  .lv1 {
+    background: url(../../static/imgs/l1.png);
+    .lv;
+  }
+  .lv3 {
+    background: url(../../static/imgs/l2.png);
+    .lv;
+  }
+  .lv-name {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    h2 {
+      span {
+        color: gold;
+      }
+    }
+  }
+  .lv-fee {
+    margin-bottom: 32px;
+  }
+  .lv-text {
+    padding: 8px 16px;
 
+    background: @text-bg-color;
+    h3 {
+      font-size: 14px;
+      //   font-weight: normal;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
   .content {
     // background: url(../../static/imgs/pa-bg.png);
     background-repeat: no-repeat;
     background-position: bottom right;
-    padding: 16px;
-    .earn {
-      line-height: 40px;
-      //   font-size: @fontsize*1.1;
-      .mark {
-        color: #ffcf82;
-      }
-      .mark2 {
-        color: #b4b4b4;
-      }
-    }
+    padding: 32px;
+
     .invistyle {
       // p {
       //   font-size: @fontsize*1.1;
       // }
       div {
         margin: 1em 0;
-        background: #f2f3f7;
+        background: @text-bg-color;
         // width: 90%;
         height: 50px;
         span {
           line-height: 50px;
-          padding-left: 20px;
+          padding-left: 16px;
         }
         input {
           line-height: 50px;
-          padding-left: 20px;
+          padding-left: 16px;
           background: transparent;
           border: none;
 
@@ -256,19 +338,13 @@ export default {
         }
         a {
           line-height: 50px;
-          margin-right: 20px;
+          margin-right: 16px;
           float: right;
         }
       }
       #foo2 {
         width: 530px;
       }
-    }
-    .stat {
-      border: 1px solid white;
-      background: #f2f3f7;
-      //   margin: 1em 2em 0 2em;
-      padding: 16px;
     }
   }
 }

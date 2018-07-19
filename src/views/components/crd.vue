@@ -3,7 +3,7 @@
     <Card :padding="0" :bordered="false">
       <div slot="title">
 
-        <div class="title">
+        <div class="title" v-if="!hideTitle">
           <div class="linepot" :style="{ backgroundColor:potColor}" />
           <slot name="title">
 
@@ -29,6 +29,9 @@ export default {
   props: {
     potColor: {
       default: 'black'
+    },
+    hideTitle: {
+      default: false
     }
   },
   mounted() {
@@ -57,6 +60,7 @@ export default {
     font-size: @font-title;
   }
   .mainContent {
+    // padding: 16px;
     font-size: @font-text;
   }
   .ivu-card {
