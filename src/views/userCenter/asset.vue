@@ -10,7 +10,7 @@
               <span>当前估值：</span>
               <span class="total-amount">0.00000BTC / ￥0.00 CNY</span>
             </div>
-            <Table :columns="columns1" :data="data1"></Table>
+            <Table :columns="columns1" :data="data1" disabled-hover="true"></Table>
           </div>
         </crd>
       </div>
@@ -47,18 +47,22 @@ export default {
           title: ' ',
           key: 'opera',
           render: (h, params) => {
-            return h('div', [
+            return h('div', {
+              style: {
+                width: '250px'
+              }
+            }, [
               h('span', {
                 style: {
                   color: '#419cf6',
                   cursor: 'pointer',
-                  paddingRight: '40px'
+                  marginRight: '40px'
                 }
               }, '充值'),
               h('span', {
                 style: {
                   cursor: 'pointer',
-                  paddingRight: '40px'
+                  marginRight: '40px'
                 }
               }, '提现'),
               h('span', {
@@ -106,7 +110,7 @@ export default {
 <style lang="less">
   .asset-cont {
     padding-top: 40px;
-    font-size: 16px;
+    font-size: 14px;
     .crd {
       margin-bottom: 0;
       .ivu-card {
@@ -148,15 +152,15 @@ export default {
       .ivu-table th {
         background-color: transparent;
         border-bottom: none;
-        &:last-child {
-          width: 250px;
-        }
+      }
+      .ivu-table th:last-child {
+        width: 250px;
       }
       .ivu-table td{
         border-bottom: none;
-        &:last-child {
-          width: 250px;
-        }
+      }
+      .ivu-table td:last-child {
+        width: 250px;
       }
     }
   }
