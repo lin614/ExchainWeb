@@ -13,6 +13,9 @@
                 <FormItem prop="email" label="邮箱">
                   <Input v-model="regInfo.email" placeholder="请输入有效的邮箱"></Input>
                 </FormItem>
+                <FormItem prop="emailcode" label="邮箱验证码">
+                  <Input v-model="regInfo.emailcode" placeholder="请输入邮箱里收到的验证码"></Input>
+                </FormItem>
                 <FormItem prop="pwd" label="密码">
                   <Input v-model="regInfo.pwd" type="password" placeholder="请输入6位以上字符的密码">
                   </Input>
@@ -31,7 +34,9 @@
                 </FormItem>
               </Form>
             </div>
-
+            <div class="reg_sendemail">
+              <a @click="sendemail">发送验证码</a>
+            </div>
             <div class="info">
               <p>
                 验证邮件可能会被误判为垃圾邮件，请注意查收。<br/> 请妥善保存您的 Exchain 账号及登录密码。<br/> 请勿和其他网站使用相同的登录密码。
@@ -49,6 +54,8 @@
 import page from './components/page'
 import block from './components/block'
 import crd from './components/crd'
+import ax from 'axios'
+import config from '../config/config.js'
 export default {
   name: 'reg',
   components: { page, block, crd },
@@ -62,8 +69,10 @@ export default {
       }
     }
     return {
+      regtoken: '',
       regInfo: {
         email: '',
+        emailcode: '',
         pwd: '',
         pwd2: '',
         code: ''
@@ -79,6 +88,13 @@ export default {
           {
             type: 'email',
             message: '邮箱格式不正确',
+            trigger: 'blur'
+          }
+        ],
+        emailcode: [
+          {
+            required: true,
+            message: '邮箱验证码不能为空',
             trigger: 'blur'
           }
         ],
@@ -111,14 +127,53 @@ export default {
   },
   methods: {
     handleSubmit(name) {
+      var vu = this
+
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.$Message.success('成功!')
+          ax
+            .post(config.url.user + '/api/user/verifyRegister', {
+              email: vu.regInfo.email,
+              code: vu.regInfo.emailcode,
+              token: vu.regtoken,
+              password: vu.regInfo.pwd
+            })
+            .then(function(res) {
+              console.log(res)
+              if (res.status == '200' && res.data.errorCode == 0) {
+                // vu.$Message.success('用户注册成功!')
+                vu.$Modal.success('用户注册成功！')
+              } else {
+                vu.$Modal.error('注册失败:' + res.data.errorMsg)
+              }
+            })
         } else {
-          this.$Message.error('失败!')
+          this.$Message.error('验证失败!')
+        }
+      })
+    },
+    sendemail() {
+      var vu = this
+      this.$refs['regInfo'].validateField('email', function(error) {
+        if (!error) {
+          ax
+            .post(config.url.user + '/api/user/register', {
+              email: vu.regInfo.email
+            })
+            .then(function(res) {
+              console.log(res)
+              vu.regtoken = res.data.result.token
+              vu.$Message.success('已发送邮件成功!')
+            })
+        } else {
+          vu.$Message.error(error)
         }
       })
     }
+  },
+  created() {
+    this.regInfo.code = this.$route.params.code
+    // console.log(this.$route.params)
   }
 }
 </script>
@@ -149,7 +204,7 @@ export default {
       margin: 32px auto;
     }
     .reg_form {
-      width: 450px;
+      width: 400px;
       label {
         font-size: @font-text;
       }
@@ -191,6 +246,11 @@ export default {
     //     }
     //   }
     // }
+    .reg_sendemail {
+      position: absolute;
+      top: 155px;
+      left: 450px;
+    }
     .info {
       background: @text-bg-color;
       padding: 16px;
