@@ -52,6 +52,18 @@ const routers = [{
         },
         component: (resolve) => require(['./views/paper.vue'], resolve)
     }, {
+        path: '/reg',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/reg.vue'], resolve)
+    }, {
+        path: '/login',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/login.vue'], resolve)
+    }, {
         path: '/usercenter',
         meta: {
             title: ''

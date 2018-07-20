@@ -1,12 +1,14 @@
 <template>
-    <div class="page">
-        <headr></headr>
-        <banner v-if="banner"></banner>
-        <slot>
+  <div class="page">
+    <headr></headr>
+    <banner v-if="banner"></banner>
+    <div class="page_content">
+      <slot>
 
-        </slot>
-        <footr></footr>
+      </slot>
     </div>
+    <footr></footr>
+  </div>
 </template>
 
 <script>
@@ -29,7 +31,9 @@ export default {
 </script>
 
 <style>
-/* .index {
-  width: 100%;
-} */
+.page {
+  &_content {
+    min-height: 800px;
+  }
+}
 </style>

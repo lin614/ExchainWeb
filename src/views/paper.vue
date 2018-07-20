@@ -34,6 +34,7 @@ export default {
 
 <style lang="less">
 .paper {
+ 
   .content {
     img {
       width: 100%;
