@@ -30,7 +30,7 @@
             <div class="card-item car-item-unline">
               <span class="card-item-title fl">谷歌验证</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
-              <span class="card-item-opera fr">设置 ></span>
+              <span @click="handleShowGAModel" class="card-item-opera fr">设置 ></span>
             </div>
           </div>
           <Modal
@@ -42,13 +42,42 @@
               <div class="form-box">
                 <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
                   <FormItem label="当前密码" prop="currentPwd">
-                    <Input v-model="changePwdModal.currentPwd"></Input>
+                    <Input type="password" v-model="changePwdModal.currentPwd"></Input>
                   </FormItem>
                   <FormItem prop="password">
-                      <span slot="label">新密码<Tooltip content="Top Left text" placement="right"><i class="iconfont">12</i>
+                      <span slot="label">新密码<Tooltip content="Top Left text" placement="right"><i class="iconfont">规则</i>
                     </Tooltip></span>
-                    <Input v-model="changePwdModal.password"></Input>
+                    <Input type="password" v-model="changePwdModal.password"></Input>
                   </FormItem>
+                  <FormItem label="确认密码" prop="confirmPwd">
+                    <Input type="password" v-model="changePwdModal.confirmPwd"></Input>
+                  </FormItem>
+                </Form>
+              </div>
+            </crd>
+            <div slot="footer">
+              <div class="change-model-footer clearfix">
+                <span class="model-btn model-btn-active fl" @click="handleChangePwd"><Spin v-if="changeLoading" size="small"></Spin>修改</span>
+                <span class="model-btn fr" @click="handleCloseChangePwd">取消</span>
+              </div>
+            </div>
+          </Modal>
+
+          <!-- 谷歌验证框 -->
+          <Modal
+            v-model="showGAModel"
+            class-name="change-pwd-model"
+            :closable="false">
+            <crd potColor="#4399e9">
+              <span slot="title">身份验证</span>
+              <div class="form-box">
+                <div class="ga-step">
+                  <div>
+                    <span>1</span>
+                    <span></span>
+                  </div>
+                </div>
+                <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
                   <FormItem label="确认密码" prop="confirmPwd">
                     <Input v-model="changePwdModal.confirmPwd"></Input>
                   </FormItem>
@@ -57,8 +86,7 @@
             </crd>
             <div slot="footer">
               <div class="change-model-footer clearfix">
-                <span class="model-btn fl" @click="handleChangePwd"><Spin v-if="changeLoading" size="small"></Spin>修改</span>
-                <span class="model-btn fr">取消</span>
+                <span class="model-btn fl" @click="handleChangePwd"><Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
               </div>
             </div>
           </Modal>
@@ -77,6 +105,8 @@
 <script>
 import page from "../components/page"
 import crd from "../components/crd.vue"
+import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: "usercenter",
   components: {
@@ -160,7 +190,9 @@ export default {
           },
           trigger: 'blur' }
         ]
-      }
+      },
+      // 是否显示谷歌验证框
+      showGAModel: false,
     }
   },
   methods: {
@@ -168,7 +200,26 @@ export default {
       console.log('change pwd')
       this.showChangePwd = true
     },
-    handleChangePwd () {}
+    handleChangePwd () {},
+    loadData () {
+      ax.get(config.url.user + '/api/user/getRecentActivity').then((res) => {
+        console.log('success' + JSON.stringify(res.data))
+        if (res.status == 200 && res.data.errorCode == '0') {
+        }
+      })
+    },
+    handleCloseChangePwd () {
+      this.showChangePwd = false
+    },
+    /**
+     * 显示谷歌验证框
+     */
+    handleShowGAModel () {
+      this.showGAModel = true
+    }
+  },
+  created () {
+    this.loadData()
   }
 }
 </script>
@@ -178,9 +229,6 @@ export default {
   width: 100%;
   padding-top: 40px;
   background-color: #f6f6f6;
-  .crd {
-    margin-bottom: 40px;
-  }
   .card-box {
     padding: 0 60px;
     .card-item {
@@ -252,7 +300,7 @@ export default {
     }
   }
 }
-.change-pwd-model {
+.change-pwd-model, .login-model {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -263,7 +311,7 @@ export default {
     .ivu-modal-content {
       padding: 20px 40px 40px;
     }
-    .ivu-modal-footer {
+    .ivu-modal-footer, .login-model-footer {
       border-top: none;
     }
     .ivu-card {
@@ -294,6 +342,10 @@ export default {
       color: #fff;
       background-color: #5999E5;
     }
+  }
+  .model-btn-active {
+    color: #fff;
+    background-color: #5999E5;
   }
 }
 </style>

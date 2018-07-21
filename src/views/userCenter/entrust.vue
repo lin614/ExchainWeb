@@ -12,7 +12,8 @@
                  @click="handleTabClick('history')"
                  :class="currentTab === 'history' ? 'tab-active' : ''">成交历史</div>
           </div>
-          <Table :columns="columns1" :data="data1"></Table>
+          <Table v-if="currentTab === 'current'" :columns="columns1" :data="curData"></Table>
+          <Table v-if="currentTab === 'history'" :columns="columns1" :data="hisData"></Table>
         </crd>
       </div>
     </div>
@@ -22,6 +23,8 @@
 <script>
 import page from "../components/page"
 import crd from "../components/crd.vue"
+import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'entrust',
   data () {
@@ -31,7 +34,7 @@ export default {
       columns1: [
         {
           title: '时间',
-          key: 'time'
+          key: 'ctime'
         },
         {
           title: '市场',
@@ -39,7 +42,10 @@ export default {
         },
         {
           title: '类型',
-          key: 'type'
+          key: 'side',
+          render: function (h, params) {
+            return h('div', this.row.side === 1 ? '买' : '卖');
+          }
         },
         {
           title: '价格',
@@ -47,7 +53,7 @@ export default {
         },
         {
           title: '数量',
-          key: 'count'
+          key: 'amount'
         },
         {
           title: '成交率%',
@@ -84,78 +90,86 @@ export default {
           }
         }
       ],
-      data1: [
+      curData: [
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 1,
           price: '0.260000',
-          count: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 2,
           price: '0.260000',
-          count: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 1,
           price: '0.260000',
-          count: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 2,
           price: '0.260000',
-          count: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 2,
           price: '0.260000',
-          count: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
-          price: '0.260000',
-          count: '5.35',
+          side: 2,
+          price: '0.26000000',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
-          price: '0.260000',
-          count: '5.35',
+          side: 1,
+          price: '0.26000000',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         }
-      ]
+      ],
+      hisData: []
     }
   },
   components: {
@@ -168,11 +182,87 @@ export default {
     },
     handleTabClick (type) {
       this.currentTab = type
+      if (type === 'current') {
+        this.getCurData();
+      } else {
+        this.getHisData();
+      }
+    },
+    getCurData () {
+      let params = {
+        status: 1,
+        method: 'active',
+        t: new Date().getTime()
+      }
+      ax.get(config.url.user + '/api/order/lists', {params}).then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          this.curData = res.data.result.data;
+          for (let i = 0; i < this.curData.length; i++) {
+            let amount_deal = parseFloat(this.curData[i].amount_deal);
+            let amount = parseFloat(this.curData[i].amount);
+            let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
+            this.curData[i].closeRate = rate.toFixed(2);
+          }
+        } else {
+          this.$Modal.error(res.data.errorMsg);
+        }
+      });
+    },
+    getHisData () {
+      let params = {
+        status: 2,
+        method: 'history',
+        t: new Date().getTime()
+      }
+      ax.get(config.url.user + '/api/order/lists', {params}).then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          this.hisData = res.data.result.data;
+          for (let i = 0; i < this.hisData.length; i++) {
+            let amount_deal = parseFloat(this.curData[i].amount_deal);
+            let amount = parseFloat(this.curData[i].amount);
+            let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
+            this.hisData[i].closeRate = rate.toFixed(2);
+          }
+        } else {
+          this.$Modal.error(res.data.errorMsg);
+        }
+      });
+    },
+    accDiv (arg1, arg2) {
+      let t1=0,t2=0,r1,r2;
+      try {
+        t1 = arg1.toString().split('.')[1].length
+      } catch (e) {
+
+      }
+      try {
+        t2 = arg2.toString().split('.')[1].length
+      } catch (e) {
+
+      }
+      r1 = Number(arg1.toString().replace('.', ''))
+      r2 = Number(arg2.toString().replace('.', ''))
+      return (r1 / r2) * Math.pow(10, t2 - t1)
+    },
+    accMul (arg1, arg2) {
+    var m=0,s1=arg1.toString(),s2=arg2.toString();
+    try {
+      m += s1.split('.')[1].length
+    } catch (e) {
+
     }
+    try {
+      m += s2.split('.')[1].length
+    } catch (e) {
+
+    }
+    return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / Math.pow(10, m)
+  }
   },
   created () {
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
+    this.getCurData();
   },
   destroyed () {
     window.removeEventListener('resize', this.handleWindowResize)
