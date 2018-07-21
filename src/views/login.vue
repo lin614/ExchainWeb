@@ -22,8 +22,8 @@
 
                 <FormItem>
                   <Button type="primary" @click="login()">登录</Button>
-                  <!-- 忘记密码？
-                  <router-link to="/reg">找回</router-link> -->
+                  忘记密码？
+                  <router-link to="/reset">重置密码</router-link></router-link>
                 </FormItem>
               </Form>
             </div>
