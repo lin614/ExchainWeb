@@ -132,7 +132,7 @@ export default {
   components: { block,crd },
   computed: {
     isLogin() {
-      return cookie.get('pn')
+      return cookie.get('PN')
     },
     email() {
       var info = sessionStorage.getItem('email')
@@ -189,8 +189,8 @@ export default {
                 vu.showLogin = false
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
-                sessionStorage.setItem('pn', res.data.result.pn)
-                cookie.set('pn', res.data.result.pn)
+                sessionStorage.setItem('PN', res.data.result.pn)
+                cookie.set('PN', encodeURIComponent(res.data.result.pn))
                 vu.$router.push('/userCenter')
               } else {
                 vu.$Message.error({ content: '登录失败:' + res.data.errorMsg })
@@ -206,8 +206,9 @@ export default {
       })
     },
     logout() {
+      this.isLogin = false
       sessionStorage.clear()
-      cookie.remove('pn')
+      cookie.remove('PN')
       this.$router.push({ path: '/login' })
     }
   },

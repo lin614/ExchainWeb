@@ -45,12 +45,17 @@
                     <Input type="password" v-model="changePwdModal.currentPwd"></Input>
                   </FormItem>
                   <FormItem prop="password">
-                      <span slot="label">新密码<Tooltip content="Top Left text" placement="right"><i class="iconfont">规则</i>
-                    </Tooltip></span>
+                      <span slot="label">新密码
+                        <!-- <Tooltip content="Top Left text" placement="right"><i class="iconfont">规则</i>
+                        </Tooltip> -->
+                      </span>
                     <Input type="password" v-model="changePwdModal.password"></Input>
                   </FormItem>
                   <FormItem label="确认密码" prop="confirmPwd">
                     <Input type="password" v-model="changePwdModal.confirmPwd"></Input>
+                    <div class="pwd-rule">
+                       密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +
+                    </div>
                   </FormItem>
                 </Form>
               </div>
@@ -172,11 +177,6 @@ export default {
     },
     handleChangePwd () {},
     loadData () {
-      ax.get(config.url.user + '/api/user/getRecentActivity').then((res) => {
-        console.log('success' + JSON.stringify(res.data))
-        if (res.status == 200 && res.data.errorCode == '0') {
-        }
-      })
     },
     handleCloseChangePwd () {
       this.showChangePwd = false
@@ -289,6 +289,9 @@ export default {
     }
     .ivu-form-item {
       margin-bottom: 40px;
+    }
+    .pwd-rule {
+      padding-top: 40px;
     }
   }
   .model-btn {
