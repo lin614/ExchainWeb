@@ -12,7 +12,8 @@
                  @click="handleTabClick('history')"
                  :class="currentTab === 'history' ? 'tab-active' : ''">成交历史</div>
           </div>
-          <Table :columns="columns1" :data="data1"></Table>
+          <Table v-if="currentTab === 'current'" :columns="columns1" :data="curData"></Table>
+          <Table v-if="currentTab === 'history'" :columns="columns1" :data="hisData"></Table>
         </crd>
       </div>
     </div>
@@ -33,7 +34,7 @@ export default {
       columns1: [
         {
           title: '时间',
-          key: 'time'
+          key: 'ctime'
         },
         {
           title: '市场',
@@ -41,7 +42,10 @@ export default {
         },
         {
           title: '类型',
-          key: 'type'
+          key: 'side',
+          render: function (h, params) {
+            return h('div', this.row.side === 1 ? '买' : '卖');
+          }
         },
         {
           title: '价格',
@@ -49,7 +53,7 @@ export default {
         },
         {
           title: '数量',
-          key: 'count'
+          key: 'amount'
         },
         {
           title: '成交率%',
@@ -86,78 +90,79 @@ export default {
           }
         }
       ],
-      data1: [
+      curData: [
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 1,
           price: '0.260000',
-          count: '5.35',
+          amount: '5.35',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 2,
           price: '0.260000',
-          count: '5.35',
+          amount: '5.35',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 1,
           price: '0.260000',
-          count: '5.35',
+          amount: '5.35',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 2,
           price: '0.260000',
-          count: '5.35',
+          amount: '5.35',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 2,
           price: '0.260000',
-          count: '5.35',
+          amount: '5.35',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 2,
           price: '0.260000',
-          count: '5.35',
+          amount: '5.35',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         },
         {
-          time: '2018-0710 18:21:36',
+          ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
-          type: '限价买入',
+          side: 1,
           price: '0.260000',
-          count: '5.35',
+          amount: '5.35',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
         }
-      ]
+      ],
+      hisData: []
     }
   },
   components: {
@@ -170,11 +175,41 @@ export default {
     },
     handleTabClick (type) {
       this.currentTab = type
+      if (type === 'current') {
+        this.getCurData();
+      } else {
+        this.getHisData();
+      }
     },
-    getCurEntrust () {
-      ax.get(config.url.user + '/api/order/list', {}).then(res => {
+    getCurData () {
+      let params = {
+        status: 1,
+        method: 'active',
+        t: new Date().getTime()
+      }
+      ax.get(config.url.user + '/api/order/lists', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          this.data1 = res.data.result.data;
+          this.curData = res.data.result.data;
+          for (let i = 0; i < this.curData.length; i++) {
+            this.curData[i].closeRate = this.curData[i].amount_deal / this.curData[i].amount 
+          }
+        } else {
+          this.$Modal.error(res.data.errorMsg);
+        }
+      });
+    },
+    getHisData () {
+      let params = {
+        status: 2,
+        method: 'history',
+        t: new Date().getTime()
+      }
+      ax.get(config.url.user + '/api/order/lists', {params}).then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          this.hisData = res.data.result.data;
+          for (let i = 0; i < this.hisData.length; i++) {
+            this.hisData[i].closeRate = this.hisData[i].amount_deal / this.hisData[i].amount 
+          }
         } else {
           this.$Modal.error(res.data.errorMsg);
         }
@@ -184,7 +219,7 @@ export default {
   created () {
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
-    this.getCurEntrust();
+    this.getCurData();
   },
   destroyed () {
     window.removeEventListener('resize', this.handleWindowResize)
