@@ -31,9 +31,9 @@
       <Col>
       <div class="tools">
 
-        <router-link to="/login">
+        <a>
           <Button type="text" id="btnLogin" @click="login()">登录</Button>
-        </router-link>
+        </a>
         <router-link to="/reg">
           <Button type="text" id="btnReg">注册</Button>
         </router-link>
@@ -53,20 +53,113 @@
       </div>
       </Col>
     </Row>
+    <Modal
+      v-model="showLogin"
+      class-name="login-model"
+      :closable="false"
+      @on-cancel="handleCloseLoginModal">
+      <crd potColor="#4399e9">
+        <span slot="title">登录 Exchain</span>
+        <div class="form-box">
+          <Form ref="loginForm" :rules="rules" :model="loginModal" label-position="top">
+            <FormItem label="邮箱" prop="email">
+              <Input v-model="loginModal.email"></Input>
+            </FormItem>
+            <FormItem label="密码" prop="password">
+              <Input type="password" v-model="loginModal.password"></Input>
+            </FormItem>
+          </Form>
+        </div>
+      </crd>
+      <div slot="footer">
+        <div class="login-model-footer clearfix">
+          <span class="model-btn model-btn-active fl" @click="handleLogin"><Spin v-if="loginLoading" size="small"></Spin>登录</span>
+          <span class="model-btn fr" @click="handleCloseLoginModal">取消</span>
+        </div>
+      </div>
+    </Modal>
   </block>
 
 </template>
 
 <script>
 import block from './block'
+import crd from "../components/crd.vue"
+import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'headr',
-  components: { block },
-  methods: {
-    login() {
-      // this.$router.push({ path: '/bonus' })
-      this.$router.push('/bonus')
+  components: { block,crd },
+  data () {
+    return {
+      showLogin: false,
+      loginLoading: false,
+      loginModal: {
+        email: '',
+        password: ''
+      },
+      rules: {
+        email: [
+          {required: true, message: '邮箱不能为空', trigger: 'blur'}
+        ],
+        password: [
+          {required: true, message: '密码不能为空', trigger: 'blur'}
+        ]
+      }
     }
+  },
+  methods: {
+    login () {
+      // this.$router.push({ path: '/bonus' })
+      // this.$router.push('/bonus')
+      this.showLogin = true
+    },
+    handleCloseLoginModal () {
+      console.log(this.$refs['loginForm'])
+      this.$refs['loginForm'].resetFields()
+      this.showLogin = false
+    },
+    handleLogin () {
+      var vu = this
+      this.$refs['loginForm'].validate(valid => {
+        if (valid) {
+          ax
+            .post(
+              config.url.user + '/api/user/login',
+              {
+                email: vu.loginModal.email,
+                password: vu.loginModal.password
+              },
+              {
+                withcredentials: true
+              }
+            )
+            .then(function(res) {
+              console.log(1)
+              console.log(res.data)
+              if (res.status == '200' && res.data.errorCode == 0) {
+                vu.$refs['loginForm'].resetFields()
+                vu.showLogin = false
+                sessionStorage.setItem('uid', res.data.result.id)
+                sessionStorage.setItem('email', res.data.result.email)
+                sessionStorage.setItem('pn', res.data.result.pn)
+                vu.$router.push('/userCenter')
+              } else {
+                vu.$Message.error({ content: '登录失败:' + res.data.errorMsg })
+              }
+            })
+            .catch(function(error) {
+              console.log(error)
+              vu.$Message.error({ content: '登录失败:' + error })
+            })
+        } else {
+          this.$Message.error('验证失败!')
+        }
+      })
+    }
+  },
+  destroyed () {
+    console.log('header destroyed!')
   }
 }
 </script>

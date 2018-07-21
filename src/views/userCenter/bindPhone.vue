@@ -131,7 +131,7 @@ export default {
         }
       }
       if (this.isPhone) {
-        ax.post(config.url.exchange + '/api/user/verifyBindPhone', fd, headConfig).then((res) => {
+        ax.post(config.url.user + '/api/user/verifyBindPhone', fd, headConfig, {withcredentials: true}).then((res) => {
           this.sendCodeLoading = false
           console.log(res)
         }).catch((err) => {
