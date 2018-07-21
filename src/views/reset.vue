@@ -53,6 +53,7 @@ import block from './components/block'
 import crd from './components/crd'
 import ax from 'axios'
 import config from '../config/config.js'
+import md5 from 'md5'
 export default {
   name: 'reg',
   components: { page, block, crd },
@@ -129,19 +130,23 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           ax
-            .post(config.url.user + '/api/user/verifyRegister', {
+            .post(config.url.user + '/api/user/verifyResetPassword', {
               email: vu.resetInfo.email,
               code: vu.resetInfo.emailcode,
               token: vu.resettoken,
-              password: vu.resetInfo.pwd
+              password: md5(vu.resetInfo.pwd)
             })
             .then(function(res) {
               console.log(res)
               if (res.status == '200' && res.data.errorCode == 0) {
-                // vu.$Message.success('用户注册成功!')
-                vu.$Modal.success('用户注册成功！')
+                vu.$Modal.success({
+                  content: '重置密码成功！',
+                  onOk: function() {
+                    vu.$router.push('/login')
+                  }
+                })
               } else {
-                vu.$Modal.error('注册失败:' + res.data.errorMsg)
+                vu.$Modal.error('重置密码失败:' + res.data.errorMsg)
               }
             })
         } else {
