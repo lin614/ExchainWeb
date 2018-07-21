@@ -31,12 +31,12 @@
       <Col>
       <div class="tools">
 
-        <a v-if="!isLogin">
+        <!-- <a v-if="!isLogin">
           <Button type="text" id="btnLogin" @click="login()">登录</Button>
-        </a>
-        <!-- <router-link to="/login" v-if="!isLogin">
+        </a> -->
+        <router-link to="/login" v-if="!isLogin">
           <Button type="text" id="btnLogin">登录</Button>
-        </router-link> -->
+        </router-link>
         <router-link to="/reg" v-if="!isLogin">
           <Button type="text" id="btnReg">注册</Button>
         </router-link>
@@ -44,13 +44,18 @@
           <Button type="text">我的资产</Button>
         </router-link>
         <Dropdown class="lan" v-if="isLogin">
-          <router-link to="/usercenter">
+          <!-- <router-link to="/usercenter">
             <Button type="text">
               <Icon type="person"></Icon>
               {{email}}
               <Icon type="arrow-down-b"></Icon>
             </Button>
-          </router-link>
+          </router-link> -->
+          <Button type="text">
+            <Icon type="person"></Icon>
+            {{email}}
+            <Icon type="arrow-down-b"></Icon>
+          </Button>
           <Dropdown class="lan" <DropdownMenu slot="list">
             <DropdownItem>
               <router-link to="/usercenter">
@@ -91,11 +96,7 @@
       </div>
       </Col>
     </Row>
-    <Modal
-      v-model="showLogin"
-      class-name="login-model"
-      :closable="false"
-      @on-cancel="handleCloseLoginModal">
+    <Modal v-model="showLogin" class-name="login-model" :closable="false" @on-cancel="handleCloseLoginModal">
       <crd potColor="#4399e9">
         <span slot="title">登录 Exchain</span>
         <div class="form-box">
@@ -111,7 +112,8 @@
       </crd>
       <div slot="footer">
         <div class="login-model-footer clearfix">
-          <span class="model-btn model-btn-active fl" @click="handleLogin"><Spin v-if="loginLoading" size="small"></Spin>登录</span>
+          <span class="model-btn model-btn-active fl" @click="handleLogin">
+            <Spin v-if="loginLoading" size="small"></Spin>登录</span>
           <span class="model-btn fr" @click="handleCloseLoginModal">取消</span>
         </div>
       </div>
@@ -122,14 +124,14 @@
 
 <script>
 import block from './block'
-import crd from "../components/crd.vue"
+import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
 import md5 from 'md5'
 export default {
   name: 'headr',
-  components: { block,crd },
+  components: { block, crd },
   computed: {
     isLogin() {
       return cookie.get('PN')
@@ -139,7 +141,7 @@ export default {
       return info ? (info.length > 5 ? info.slice(0, 5) + '...' : info) : ''
     }
   },
-  data () {
+  data() {
     return {
       showLogin: false,
       loginLoading: false,
@@ -148,25 +150,21 @@ export default {
         password: ''
       },
       rules: {
-        email: [
-          {required: true, message: '邮箱不能为空', trigger: 'blur'}
-        ],
-        password: [
-          {required: true, message: '密码不能为空', trigger: 'blur'}
-        ]
+        email: [{ required: true, message: '邮箱不能为空', trigger: 'blur' }],
+        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
       }
     }
   },
   methods: {
-    login () {
+    login() {
       this.showLogin = true
     },
-    handleCloseLoginModal () {
+    handleCloseLoginModal() {
       console.log(this.$refs['loginForm'])
       this.$refs['loginForm'].resetFields()
       this.showLogin = false
     },
-    handleLogin () {
+    handleLogin() {
       var vu = this
       this.$refs['loginForm'].validate(valid => {
         if (valid) {
@@ -212,7 +210,7 @@ export default {
       this.$router.push({ path: '/login' })
     }
   },
-  destroyed () {
+  destroyed() {
     console.log('header destroyed!')
   }
 }

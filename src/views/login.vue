@@ -4,7 +4,7 @@
     <div class="login">
       <block>
         <crd slot="inner">
-          <span slot="title">注册</span>
+          <span slot="title">登录</span>
           <div class=" content">
             <h1>欢迎登录</h1>
             <hr/>
@@ -87,6 +87,7 @@ export default {
   methods: {
     login() {
       var vu = this
+      console.log('pwd', md5(vu.loginInfo.pwd))
       console.log(this.$refs['loginInfo'])
       this.$refs['loginInfo'].validate(valid => {
         if (valid) {
@@ -108,7 +109,7 @@ export default {
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
                 sessionStorage.setItem('pn', res.data.result.pn)
-                cookie.set('pn', res.data.result.pn)
+                cookie.set('PN', res.data.result.pn)
                 console.log('pn', cookie.get('pn'))
                 vu.$router.push('/userCenter')
               } else {
