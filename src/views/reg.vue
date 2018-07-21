@@ -29,7 +29,7 @@
                   </Input>
                 </FormItem>
                 <FormItem>
-                  <Button type="primary" @click="handleSubmit('regInfo')">注册</Button> 已有账户？请
+                  <Button type="primary" @click="regUser('regInfo')">注册</Button> 已有账户？请
                   <router-link to="/login">登录</router-link>
                 </FormItem>
               </Form>
@@ -126,7 +126,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit(name) {
+    regUser(name) {
       var vu = this
 
       this.$refs[name].validate(valid => {
@@ -182,15 +182,18 @@ export default {
 @import url(./style/config.less);
 .reg {
   padding-top: 16px;
-
+  .ivu-input {
+    border-radius: 0;
+    font-size: @font-text;
+  }
+  .ivu-btn {
+    width: 200px;
+    margin-right: 32px;
+    border-radius: 0;
+  }
   .content {
     padding: 32px;
     position: relative;
-    //默认组件样式
-    .ivu-input {
-      border-radius: 0;
-      font-size: @font-text;
-    }
 
     h1 {
       color: @font-color-blue;
@@ -211,41 +214,8 @@ export default {
       input {
         font-size: @font-text;
       }
-      .ivu-btn {
-        width: 200px;
-        margin-right: 32px;
-        border-radius: 0;
-      }
     }
-    // .form {
-    //   label {
-    //     display: block;
-    //     margin: 8px auto;
-    //   }
-    //   input {
-    //     width: 450px;
-    //     padding: 8px;
-    //     margin-bottom: 16px;
-    //     &::-webkit-input-placeholder {
-    //       color: @placeholder-color;
-    //     }
-    //   }
-    //   .ivu-btn {
-    //     width: 200px;
-    //     margin-right: 32px;
-    //     border-radius: 0;
-    //   }
-    //   .ckb {
-    //     label {
-    //       display: inline-block;
-    //       margin-right: 16px;
-    //     }
-    //     margin-bottom: 32px;
-    //     input {
-    //       width: auto;
-    //     }
-    //   }
-    // }
+
     .reg_sendemail {
       position: absolute;
       top: 155px;
