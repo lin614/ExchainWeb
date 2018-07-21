@@ -7,7 +7,7 @@
           <div class="card-box basic-info">
             <div class="basic-top">
               <span class="email">goodlcw1@163.com</span>
-              <span class="to-kyc">kyc认证 ></span>
+              <router-link to="/usercenter/kyc" class="to-kyc">kyc认证 ></router-link>
             </div>
             <div class="basic-btm">
               <span class="recent-time">最近登录时间： 2018-07-08 16:58:22</span>
@@ -20,12 +20,12 @@
           <div class="card-box safe-setting">
             <div class="card-item">
               <span class="card-item-title fl">登录密码</span>
-              <span class="card-item-opera fr">修改 ></span>
+              <span @click="handleShowChangePwdModel" class="card-item-opera fr">修改 ></span>
             </div>
             <div class="card-item">
               <span class="card-item-title fl">手机绑定</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
-              <span class="card-item-opera fr">修改 ></span>
+              <router-link to="/usercenter/bind" class="card-item-opera fr">修改 ></router-link>
             </div>
             <div class="card-item car-item-unline">
               <span class="card-item-title fl">谷歌验证</span>
@@ -33,6 +33,35 @@
               <span class="card-item-opera fr">设置 ></span>
             </div>
           </div>
+          <Modal
+            v-model="showChangePwd"
+            class-name="change-pwd-model"
+            :closable="false">
+            <crd potColor="#4399e9">
+              <span slot="title">修改密码</span>
+              <div class="form-box">
+                <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
+                  <FormItem label="当前密码" prop="currentPwd">
+                    <Input v-model="changePwdModal.currentPwd"></Input>
+                  </FormItem>
+                  <FormItem prop="password">
+                      <span slot="label">新密码<Tooltip content="Top Left text" placement="right"><i class="iconfont">12</i>
+                    </Tooltip></span>
+                    <Input v-model="changePwdModal.password"></Input>
+                  </FormItem>
+                  <FormItem label="确认密码" prop="confirmPwd">
+                    <Input v-model="changePwdModal.confirmPwd"></Input>
+                  </FormItem>
+                </Form>
+              </div>
+            </crd>
+            <div slot="footer">
+              <div class="change-model-footer clearfix">
+                <span class="model-btn fl" @click="handleChangePwd"><Spin v-if="changeLoading" size="small"></Spin>修改</span>
+                <span class="model-btn fr">取消</span>
+              </div>
+            </div>
+          </Modal>
         </crd>
         <crd potColor="#fe7263">
           <span slot="title">最近登录</span>
@@ -102,8 +131,44 @@ export default {
           address: "128.0.0.3",
           status: "1"
         }
-      ]
+      ],
+      changePwdModal: {
+        currentPwd: '',
+        password: '',
+        confirmPwd: ''
+      },
+      showChangePwd: false,
+      changeLoading: false,
+      rules: {
+        currentPwd: [
+          { required: true, message: '请输入当前的密码', trigger: 'blur' },
+          { min: 6, max: 18, message: '密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入您要修改的密码', trigger: 'blur' },
+          { min: 6, max: 18, message: '密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +', trigger: 'blur' }
+        ],
+        confirmPwd: [
+          { required: true, message: '请再次输入您要修改的密码', trigger: 'blur' },
+          { min: 6, max: 18, message: '密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +', trigger: 'blur' },
+          { validator: (rule, value, callback) => {
+            if (this.changePwdModal.password === this.changePwdModal.confirmPwd) {
+              callback()
+            } else {
+              callback(new Error('两次密码输入不一致'))
+            }
+          },
+          trigger: 'blur' }
+        ]
+      }
     }
+  },
+  methods: {
+    handleShowChangePwdModel () {
+      console.log('change pwd')
+      this.showChangePwd = true
+    },
+    handleChangePwd () {}
   }
 }
 </script>
@@ -184,6 +249,50 @@ export default {
     }
     .ivu-table td:last-child{
       text-align: right;
+    }
+  }
+}
+.change-pwd-model {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .ivu-modal{
+    width: 420px;
+    min-height: 500px;
+    top: 0;
+    .ivu-modal-content {
+      padding: 20px 40px 40px;
+    }
+    .ivu-modal-footer {
+      border-top: none;
+    }
+    .ivu-card {
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    }
+    .form-box {
+      padding-top: 40px;
+    }
+    .ivu-form-item {
+      margin-bottom: 40px;
+    }
+  }
+  .model-btn {
+    display: inline-block;
+    width: 160px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #5999E5;
+    color: #5999E5;
+    background-color: #fff;
+    cursor: pointer;
+    &:hover {
+      color: #fff;
+      background-color: #5999E5;
     }
   }
 }

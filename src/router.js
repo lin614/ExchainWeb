@@ -87,6 +87,18 @@ const routers = [{
             title: ''
         },
         component: (resolve) => require(['./views/userCenter/asset.vue'], resolve)
+    }, {
+        path: '/usercenter/kyc',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/userCenter/kyc.vue'], resolve)
+    }, {
+        path: '/usercenter/bind',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/userCenter/bindPhone.vue'], resolve)
     }
 ];
 export default routers;
