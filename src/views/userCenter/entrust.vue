@@ -22,6 +22,8 @@
 <script>
 import page from "../components/page"
 import crd from "../components/crd.vue"
+import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'entrust',
   data () {
@@ -168,11 +170,21 @@ export default {
     },
     handleTabClick (type) {
       this.currentTab = type
+    },
+    getCurEntrust () {
+      ax.get(config.url.user + '/api/order/list', {}).then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          this.data1 = res.data.result.data;
+        } else {
+          this.$Modal.error(res.data.errorMsg);
+        }
+      });
     }
   },
   created () {
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
+    this.getCurEntrust();
   },
   destroyed () {
     window.removeEventListener('resize', this.handleWindowResize)
