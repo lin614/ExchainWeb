@@ -52,6 +52,8 @@
 <script>
 import block from '../components/block'
 import crd from '../components/crd'
+import io from 'socket.io-client'
+import config from '../../config/config.js'
 export default {
   name: 'index_content',
   components: { block, crd },
@@ -173,6 +175,9 @@ export default {
       data3: [],
       data4: []
     }
+  },
+  created() {
+    // var socket=io(config.url.quote)
   }
 }
 </script>
