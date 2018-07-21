@@ -23,7 +23,8 @@
                 <FormItem>
                   <Button type="primary" @click="login()">登录</Button>
                   忘记密码？
-                  <router-link to="/reset">重置密码</router-link></router-link>
+                  <router-link to="/reset">重置密码</router-link>
+                  </router-link>
                 </FormItem>
               </Form>
             </div>
@@ -50,6 +51,7 @@ import crd from './components/crd'
 import ax from 'axios'
 import config from '../config/config.js'
 import cookie from 'js-cookie'
+import md5 from 'md5'
 export default {
   name: 'login',
   components: { page, block, crd },
@@ -93,7 +95,7 @@ export default {
               config.url.user + '/api/user/login',
               {
                 email: vu.loginInfo.email,
-                password: vu.loginInfo.pwd
+                password: md5(vu.loginInfo.pwd)
               },
               {
                 withcredentials: true
@@ -106,7 +108,7 @@ export default {
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
                 sessionStorage.setItem('pn', res.data.result.pn)
-                // cookie.set('pn', res.data.result.pn)
+                cookie.set('pn', res.data.result.pn)
                 console.log('pn', cookie.get('pn'))
                 vu.$router.push('/userCenter')
               } else {
@@ -122,7 +124,8 @@ export default {
         }
       })
     }
-  }
+  },
+  mounted() {}
 }
 </script>
 

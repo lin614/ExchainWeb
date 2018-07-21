@@ -31,25 +31,67 @@
       <Col>
       <div class="tools">
 
+<<<<<<< HEAD
         <a>
           <Button type="text" id="btnLogin" @click="login()">登录</Button>
         </a>
         <router-link to="/reg">
+=======
+        <router-link to="/login" v-if="!isLogin">
+          <Button type="text" id="btnLogin">登录</Button>
+        </router-link>
+        <router-link to="/reg" v-if="!isLogin">
+>>>>>>> 2d9df662a814a88367bb2a8540a9509a37fc1658
           <Button type="text" id="btnReg">注册</Button>
         </router-link>
-        <Dropdown class="lan">
-          <a href="javascript:void(0)">
-            <Icon type="earth"></Icon>
-            简体中文
-            <Icon type="arrow-down-b"></Icon>
-          </a>
-          <DropdownMenu slot="list">
+        <router-link to="/usercenter/asset" v-if="isLogin">
+          <Button type="text">我的资产</Button>
+        </router-link>
+        <Dropdown class="lan" v-if="isLogin">
+          <router-link to="/usercenter">
+            <Button type="text">
+              <Icon type="person"></Icon>
+              {{email}}
+              <Icon type="arrow-down-b"></Icon>
+            </Button>
+          </router-link>
+          <Dropdown class="lan" <DropdownMenu slot="list">
             <DropdownItem>
-              <span class="lan-item">简体中文</span>
+              <router-link to="/usercenter">
+                <span class="lan-item">个人中心</span>
+              </router-link>
             </DropdownItem>
-            <DropdownItem>English</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+            <DropdownItem>
+              <router-link to="/usercenter/entrust">
+                <span class="lan-item">委托管理</span>
+              </router-link>
+            </DropdownItem>
+            <DropdownItem>
+              <router-link to="/bonus">
+                <span class="lan-item">合作伙伴</span>
+              </router-link>
+            </DropdownItem>
+            <DropdownItem>
+              <a @click="logout()">
+                <span class="lan-item">登出</span>
+              </a>
+            </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
+          <Dropdown class="lan">
+            <a href="javascript:void(0)">
+              <Icon type="earth"></Icon>
+              简体中文
+              <Icon type="arrow-down-b"></Icon>
+            </a>
+            <DropdownMenu slot="list">
+              <DropdownItem>
+                <span class="lan-item">简体中文</span>
+              </DropdownItem>
+              <DropdownItem>English</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
       </div>
       </Col>
     </Row>
@@ -90,6 +132,15 @@ import config from '../../config/config.js'
 export default {
   name: 'headr',
   components: { block,crd },
+  computed: {
+    isLogin() {
+      return cookie.get('pn')
+    },
+    email() {
+      var info = sessionStorage.getItem('email')
+      return info ? (info.length > 5 ? info.slice(0, 5) + '...' : info) : ''
+    }
+  },
   data () {
     return {
       showLogin: false,
@@ -110,8 +161,6 @@ export default {
   },
   methods: {
     login () {
-      // this.$router.push({ path: '/bonus' })
-      // this.$router.push('/bonus')
       this.showLogin = true
     },
     handleCloseLoginModal () {
@@ -156,6 +205,11 @@ export default {
           this.$Message.error('验证失败!')
         }
       })
+    },
+    logout() {
+      sessionStorage.clear()
+      cookie.remove('pn')
+      this.$router.push({ path: '/login' })
     }
   },
   destroyed () {
