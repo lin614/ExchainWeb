@@ -177,9 +177,58 @@ export default {
     }
   },
   created() {
+    var ws = new WebSocket(config.url.quote)
+    
+    ws.onopen = function() {
+      console.log('Connect to: ' + config.url.quote)
+      var obj = new Object()
+      obj.event = 'sub'
+      obj.channel = 'market.et_usdt.header'
+
+      var json_str = JSON.stringify(obj)
+      ws.send(json_str)
+    }
+    ws.onmessage = function(evt) {
+      console.log('recive: ' + evt.data)
+    }
+    
+    ws.onclose = function(evt) {
+      console.log('WebSocketClosed!')
+      evt.close()
+
+      ws = new WebSocket(config.url.quote)
+      console.log('Connect to: ' + config.url.quote)
+      var obj = new Object()
+      obj.event = 'sub'
+      obj.channel = 'market.et_usdt.header'
+
+      var json_str = JSON.stringify(obj)
+      ws.send(json_str)
+    }
+
+    ws.onerror = function(evt) {
+      console.log('WebSocketError ' + evt.data)
+      evt.close()
+      ws = new WebSocket(url)
+      console.log('Connect to: ' + config.url.quote)
+      var obj = new Object()
+      obj.event = 'sub'
+      obj.channel = 'market.et_usdt.header'
+
+      var json_str = JSON.stringify(obj)
+      ws.send(json_str)
+    }
+
+    window.setTimeout(function() {
+      var obj = new Object()
+      obj.event = 'req'
+      obj.channel = 'Heartbeat'
+      var json_str = JSON.stringify(obj)
+      ws.send(json_str)
+    }, 60 * 1000)
     // var socket = io(config.url.quote, {
     //   event: 'sub',
-    //   channel: 'market.ltc_btc.header﻿'
+    //   channel: ''market.et_usdt.header'
     // })
     // // market.ltc_btc.header
     // socket.on('connect', function() {})
