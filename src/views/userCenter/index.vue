@@ -193,9 +193,6 @@ export default {
   width: 100%;
   padding-top: 40px;
   background-color: #f6f6f6;
-  .crd {
-    margin-bottom: 40px;
-  }
   .card-box {
     padding: 0 60px;
     .card-item {

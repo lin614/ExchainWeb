@@ -31,17 +31,13 @@
       <Col>
       <div class="tools">
 
-<<<<<<< HEAD
-        <a>
+        <a v-if="!isLogin">
           <Button type="text" id="btnLogin" @click="login()">登录</Button>
         </a>
-        <router-link to="/reg">
-=======
-        <router-link to="/login" v-if="!isLogin">
+        <!-- <router-link to="/login" v-if="!isLogin">
           <Button type="text" id="btnLogin">登录</Button>
-        </router-link>
+        </router-link> -->
         <router-link to="/reg" v-if="!isLogin">
->>>>>>> 2d9df662a814a88367bb2a8540a9509a37fc1658
           <Button type="text" id="btnReg">注册</Button>
         </router-link>
         <router-link to="/usercenter/asset" v-if="isLogin">
@@ -129,6 +125,8 @@ import block from './block'
 import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
+import cookie from 'js-cookie'
+import md5 from 'md5'
 export default {
   name: 'headr',
   components: { block,crd },
@@ -177,7 +175,7 @@ export default {
               config.url.user + '/api/user/login',
               {
                 email: vu.loginModal.email,
-                password: vu.loginModal.password
+                password: md5(vu.loginModal.password)
               },
               {
                 withcredentials: true
@@ -192,6 +190,7 @@ export default {
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
                 sessionStorage.setItem('pn', res.data.result.pn)
+                cookie.set('pn', res.data.result.pn)
                 vu.$router.push('/userCenter')
               } else {
                 vu.$Message.error({ content: '登录失败:' + res.data.errorMsg })
