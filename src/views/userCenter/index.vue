@@ -172,7 +172,7 @@ export default {
     },
     handleChangePwd () {},
     loadData () {
-      ax.get(config.url.exchange + '/api/user/getRecentActivity').then((res) => {
+      ax.get(config.url.user + '/api/user/getRecentActivity').then((res) => {
         console.log('success' + JSON.stringify(res.data))
         if (res.status == 200 && res.data.errorCode == '0') {
         }

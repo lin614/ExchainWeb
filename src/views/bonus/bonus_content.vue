@@ -1,131 +1,131 @@
 <template>
-    <div class="bonus_content">
-        <block>
-            <div slot="inner">
-                <crd :hideTitle="true">
-                    <!-- <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span> -->
-                    <div :class="'lv'+level">
+  <div class="bonus_content">
+    <block>
+      <div slot="inner">
+        <crd :hideTitle="true">
+          <!-- <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span> -->
+          <div :class="'lv'+level">
 
-                    </div>
-                    <div class="lv-name">
-                        <h2>您当前等级：
-                            <span>{{levelName}} </span>
-                        </h2>
-                    </div>
-                    <div class="content">
-                        <div class="lv-fee">
-                            <Row type="flex" :gutter="16">
-                                <Col span="8">
-                                <p class="earn">昨日被邀请人手续费返还：
-                                    <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
-                                <p class="earn">昨日获得ET返还量：
-                                    <Icon type="social-bitcoin"></Icon> {{et1}}</p>
-                                </Col>
-                                <Col span="16">
-                                <p class="earn"> 被邀请人手续费累积返还
-                                    <Icon type="social-bitcoin"></Icon> {{fee2}}</p>
-                                <p class="earn">累积ET返还量：
-                                    <Icon type="social-bitcoin"></Icon> {{et2}}</p>
-                                </Col>
-                            </Row>
-                        </div>
-                        <div class="lv-text">
-                            <h3>超级合作伙伴：
-                            </h3>
-                            <p>邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。
-                            </p>
-                            <h3>普通合作伙伴：
-                            </h3>
-                            <p>邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。
-                            </p>
-                        </div>
-                    </div>
-                </crd>
-                <crd>
-                    <span slot="title">
-                        邀请方式
-                    </span>
-                    <div class="content">
-                        <Row type="flex" :gutter="16">
-                            <Col span="8">
-                            <div class="invistyle">
-                                <p>邀请码：</p>
-                                <div>
-                                    <input id="foo" :value="code">
-                                    <!-- <span>{{code}}</span> -->
-                                    <a type="text" id="btnCode" data-clipboard-target="#foo">复制邀请码</a>
-
-                                </div>
-                            </div>
-                            </Col>
-                            <Col span="16">
-                            <div class="invistyle">
-                                <p>邀请链接：</p>
-                                <div>
-                                    <input id="foo2" :value="link">
-                                    <!-- <span> {{link}} </span> -->
-                                    <a type="text" id="btnLink" data-clipboard-target="#foo2">复制邀请码</a>
-
-                                </div>
-                            </div>
-                            </Col>
-                        </Row>
-                    </div>
-                </crd>
-                <crd>
-                    <span slot="title">
-                        邀请记录
-
-                    </span>
-                    <router-link target="_blank" to="/invite" slot="extra">
-
-                        更多>>
-                    </router-link>
-                    <div class="content ">
-
-                        <div class="lv-text">
-                            已邀请{{n_all}}人，已完成交易{{n_act}}人
-                        </div>
-                        <Row type="flex" :gutter="16">
-                            <Col span="8">
-                            <p class="earn">
-                                <b>被邀请人账号</b>
-                            </p>
-                            </Col>
-                            <Col span="8">
-                            <p class="earn">
-                                <b>时间</b>
-                            </p>
-
-                            </Col>
-                            <Col span="8">
-                            <p class="earn">
-                                <b>状态</b>
-                            </p>
-
-                            </Col>
-                        </Row>
-                        <Row type="flex" :gutter="16" v-for="p in list" :key="p.user">
-                            <Col span="8">
-                            <p class="earn">{{p.userId}}
-                            </p>
-                            </Col>
-                            <Col span="8">
-                            <p class="earn"> {{p.createTime}}</p>
-
-                            </Col>
-                            <Col span="8">
-                            <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
-
-                            </Col>
-                        </Row>
-
-                    </div>
-                </crd>
-
+          </div>
+          <div class="lv-name">
+            <h2>您当前等级：
+              <span>{{levelName}} </span>
+            </h2>
+          </div>
+          <div class="content">
+            <div class="lv-fee">
+              <Row type="flex" :gutter="16">
+                <Col span="8">
+                <p class="earn">昨日被邀请人手续费返还：
+                  <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
+                <p class="earn">昨日获得ET返还量：
+                  <Icon type="social-bitcoin"></Icon> {{et1}}</p>
+                </Col>
+                <Col span="16">
+                <p class="earn"> 被邀请人手续费累积返还
+                  <Icon type="social-bitcoin"></Icon> {{fee2}}</p>
+                <p class="earn">累积ET返还量：
+                  <Icon type="social-bitcoin"></Icon> {{et2}}</p>
+                </Col>
+              </Row>
             </div>
-        </block>
-    </div>
+            <div class="lv-text">
+              <h3>超级合作伙伴：
+              </h3>
+              <p>邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。
+              </p>
+              <h3>普通合作伙伴：
+              </h3>
+              <p>邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。
+              </p>
+            </div>
+          </div>
+        </crd>
+        <crd>
+          <span slot="title">
+            邀请方式
+          </span>
+          <div class="content">
+            <Row type="flex" :gutter="16">
+              <Col span="8">
+              <div class="invistyle">
+                <p>邀请码：</p>
+                <div>
+                  <input id="foo" :value="code">
+                  <!-- <span>{{code}}</span> -->
+                  <a type="text" id="btnCode" data-clipboard-target="#foo">复制邀请码</a>
+
+                </div>
+              </div>
+              </Col>
+              <Col span="16">
+              <div class="invistyle">
+                <p>邀请链接：</p>
+                <div>
+                  <input id="foo2" :value="link">
+                  <!-- <span> {{link}} </span> -->
+                  <a type="text" id="btnLink" data-clipboard-target="#foo2">复制邀请码</a>
+
+                </div>
+              </div>
+              </Col>
+            </Row>
+          </div>
+        </crd>
+        <crd>
+          <span slot="title">
+            邀请记录
+
+          </span>
+          <router-link target="_blank" to="/invite" slot="extra">
+
+            更多>>
+          </router-link>
+          <div class="content ">
+
+            <div class="lv-text">
+              已邀请{{n_all}}人，已完成交易{{n_act}}人
+            </div>
+            <Row type="flex" :gutter="16">
+              <Col span="8">
+              <p class="earn">
+                <b>被邀请人账号</b>
+              </p>
+              </Col>
+              <Col span="8">
+              <p class="earn">
+                <b>时间</b>
+              </p>
+
+              </Col>
+              <Col span="8">
+              <p class="earn">
+                <b>状态</b>
+              </p>
+
+              </Col>
+            </Row>
+            <Row type="flex" :gutter="16" v-for="p in list" :key="p.user">
+              <Col span="8">
+              <p class="earn">{{p.userId}}
+              </p>
+              </Col>
+              <Col span="8">
+              <p class="earn"> {{p.createTime}}</p>
+
+              </Col>
+              <Col span="8">
+              <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
+
+              </Col>
+            </Row>
+
+          </div>
+        </crd>
+
+      </div>
+    </block>
+  </div>
 </template>
 
 <script>
@@ -181,11 +181,7 @@ export default {
             res3.data.meta.code == '0'
           ) {
             obj.code = res1.data.data.code
-            obj.link =
-              'http://www.exchain.com/invite?userid=' +
-              config.userid +
-              '&code=' +
-              obj.code
+            obj.link = 'http://www.exchain.com/reg/' + obj.code
 
             obj.list = res2.data.data.inviteList.slice(0, 10)
             var num = res2.data.data.activeCount
@@ -205,51 +201,6 @@ export default {
           }
         })
       )
-    // ax
-    //   .post(config.url.invite + '/api/invite/getInvitedCode', {
-    //     userId: config.userid
-    //   })
-    //   .then(res => {
-    //     // console.log(res)
-    //     if (res.status == '200' && res.data.meta.code == '0') {
-    //       this.code = res.data.data.code
-    //       this.link =
-    //         'http://www.exchain.com/invite?userid=' +
-    //         config.userid +
-    //         '&code=' +
-    //         this.code
-    //     }
-    //   })
-    // ax
-    //   .post(config.url.invite + '/api/invite/invitedList', {
-    //     userId: config.userid
-    //   })
-    //   .then(res => {
-    //     // console.log(res)
-    //     if (res.status == '200' && res.data.meta.code == '0') {
-    //       this.list = res.data.data.inviteList.slice(0, 10)
-    //       var num = res.data.data.activeCount
-    //       this.level = num == 0 ? '0' : num > 50 ? '2' : '1'
-    //       this.levelName =
-    //         num == 0 ? '交易伙伴' : num > 50 ? '超级合作伙伴' : '普通合作伙伴'
-    //       this.n_all = res.data.data.inviteList.length
-    //       this.n_act = res.data.data.inviteList.filter(function(p) {
-    //         return p.isActive
-    //       }).length
-    //       console.log('邀请人数:', num)
-    //     }
-    //   })
-    // ax
-    //   .get(config.url.fee + '/api/exet/stats/userBouns?userId=' + config.userid)
-    //   .then(res => {
-    //     console.log(res)
-    //     if (res.status == '200' && res.data.meta.code == '0') {
-    //       this.fee1 = res.data.data.inviteesBonus
-    //       this.fee2 = res.data.data.totalInviteesBonus
-    //       this.et1 = res.data.data.holderBonus
-    //       this.et2 = res.data.data.totalHolderBonus
-    //     }
-    //   })
   },
   mounted() {
     new ClipboardJS('#btnCode')
