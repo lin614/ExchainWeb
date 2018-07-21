@@ -96,7 +96,8 @@ export default {
           market: 'FTUSDT',
           side: 1,
           price: '0.260000',
-          amount: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
@@ -106,7 +107,8 @@ export default {
           market: 'FTUSDT',
           side: 2,
           price: '0.260000',
-          amount: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
@@ -116,7 +118,8 @@ export default {
           market: 'FTUSDT',
           side: 1,
           price: '0.260000',
-          amount: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
@@ -126,7 +129,8 @@ export default {
           market: 'FTUSDT',
           side: 2,
           price: '0.260000',
-          amount: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
@@ -136,7 +140,8 @@ export default {
           market: 'FTUSDT',
           side: 2,
           price: '0.260000',
-          amount: '5.35',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
@@ -145,8 +150,9 @@ export default {
           ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
           side: 2,
-          price: '0.260000',
-          amount: '5.35',
+          price: '0.26000000',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
@@ -155,8 +161,9 @@ export default {
           ctime: '2018-0710 18:21:36',
           market: 'FTUSDT',
           side: 1,
-          price: '0.260000',
-          amount: '5.35',
+          price: '0.26000000',
+          amount_deal: "5.00000000",
+          amount: '5.30050000',
           closeRate: '50.3%',
           averPrice: '0.260000',
           opera: '详情'
@@ -191,7 +198,10 @@ export default {
         if (res.status == '200' && res.data.errorCode == 0) {
           this.curData = res.data.result.data;
           for (let i = 0; i < this.curData.length; i++) {
-            this.curData[i].closeRate = this.curData[i].amount_deal / this.curData[i].amount 
+            let amount_deal = parseFloat(this.curData[i].amount_deal);
+            let amount = parseFloat(this.curData[i].amount);
+            let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
+            this.curData[i].closeRate = rate.toFixed(2);
           }
         } else {
           this.$Modal.error(res.data.errorMsg);
@@ -208,13 +218,46 @@ export default {
         if (res.status == '200' && res.data.errorCode == 0) {
           this.hisData = res.data.result.data;
           for (let i = 0; i < this.hisData.length; i++) {
-            this.hisData[i].closeRate = this.hisData[i].amount_deal / this.hisData[i].amount 
+            let amount_deal = parseFloat(this.curData[i].amount_deal);
+            let amount = parseFloat(this.curData[i].amount);
+            let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
+            this.hisData[i].closeRate = rate.toFixed(2);
           }
         } else {
           this.$Modal.error(res.data.errorMsg);
         }
       });
+    },
+    accDiv (arg1, arg2) {
+      let t1=0,t2=0,r1,r2;
+      try {
+        t1 = arg1.toString().split('.')[1].length
+      } catch (e) {
+
+      }
+      try {
+        t2 = arg2.toString().split('.')[1].length
+      } catch (e) {
+
+      }
+      r1 = Number(arg1.toString().replace('.', ''))
+      r2 = Number(arg2.toString().replace('.', ''))
+      return (r1 / r2) * Math.pow(10, t2 - t1)
+    },
+    accMul (arg1, arg2) {
+    var m=0,s1=arg1.toString(),s2=arg2.toString();
+    try {
+      m += s1.split('.')[1].length
+    } catch (e) {
+
     }
+    try {
+      m += s2.split('.')[1].length
+    } catch (e) {
+
+    }
+    return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / Math.pow(10, m)
+  }
   },
   created () {
     this.pageHeight = window.innerHeight - 360

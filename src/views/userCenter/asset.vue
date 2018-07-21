@@ -21,6 +21,8 @@
 <script>
 import page from "../components/page"
 import crd from "../components/crd.vue"
+import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'asset',
   data () {
@@ -29,19 +31,19 @@ export default {
       columns1: [
         {
           title: '币种',
-          key: 'time'
+          key: 'token'
         },
         {
           title: '总额',
-          key: 'market'
+          key: 'amount'
         },
         {
           title: '可用余额',
-          key: 'type'
+          key: 'amount_available'
         },
         {
           title: '冻结',
-          key: 'price'
+          key: 'exchange_freeze'
         },
         {
           title: ' ',
@@ -74,18 +76,7 @@ export default {
           }
         }
       ],
-      data1: [
-        {
-          time: '2018-0710 18:21:36',
-          market: 'FTUSDT',
-          type: '限价买入',
-          price: '0.260000',
-          count: '5.35',
-          closeRate: '50.3%',
-          averPrice: '0.260000',
-          opera: ''
-        },
-      ]
+      data1: []
     }
   },
   components: {
@@ -95,9 +86,20 @@ export default {
   methods: {
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
+    },
+    /**
+     * 获取我的资产列表
+     */
+    getMyAsset () {
+      ax.get(config.url.user + '/api/account/assetsList').then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          this.data1 = res.data.result.data;
+        }
+      });
     }
   },
   created () {
+    this.getMyAsset();
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
