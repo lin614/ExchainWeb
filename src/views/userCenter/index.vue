@@ -30,7 +30,7 @@
             <div class="card-item car-item-unline">
               <span class="card-item-title fl">谷歌验证</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
-              <span class="card-item-opera fr">设置 ></span>
+              <span @click="handleShowGAModel" class="card-item-opera fr">设置 ></span>
             </div>
           </div>
           <Modal
@@ -64,6 +64,34 @@
               <div class="change-model-footer clearfix">
                 <span class="model-btn model-btn-active fl" @click="handleChangePwd"><Spin v-if="changeLoading" size="small"></Spin>修改</span>
                 <span class="model-btn fr" @click="handleCloseChangePwd">取消</span>
+              </div>
+            </div>
+          </Modal>
+
+          <!-- 谷歌验证框 -->
+          <Modal
+            v-model="showGAModel"
+            class-name="change-pwd-model"
+            :closable="false">
+            <crd potColor="#4399e9">
+              <span slot="title">身份验证</span>
+              <div class="form-box">
+                <div class="ga-step">
+                  <div>
+                    <span>1</span>
+                    <span></span>
+                  </div>
+                </div>
+                <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
+                  <FormItem label="确认密码" prop="confirmPwd">
+                    <Input v-model="changePwdModal.confirmPwd"></Input>
+                  </FormItem>
+                </Form>
+              </div>
+            </crd>
+            <div slot="footer">
+              <div class="change-model-footer clearfix">
+                <span class="model-btn fl" @click="handleChangePwd"><Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
               </div>
             </div>
           </Modal>
@@ -167,7 +195,9 @@ export default {
           },
           trigger: 'blur' }
         ]
-      }
+      },
+      // 是否显示谷歌验证框
+      showGAModel: false,
     }
   },
   methods: {
@@ -180,6 +210,12 @@ export default {
     },
     handleCloseChangePwd () {
       this.showChangePwd = false
+    },
+    /**
+     * 显示谷歌验证框
+     */
+    handleShowGAModel () {
+      this.showGAModel = true
     }
   },
   created () {
