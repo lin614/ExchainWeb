@@ -58,6 +58,13 @@ const routers = [{
         },
         component: (resolve) => require(['./views/reg.vue'], resolve)
     }, {
+        path: '/reset',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/reset.vue'], resolve)
+    },
+    {
         path: '/reg/:code',
         meta: {
             title: ''
