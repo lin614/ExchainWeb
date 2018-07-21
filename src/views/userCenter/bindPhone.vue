@@ -7,20 +7,20 @@
           <div class="bind-main">
             <div class="main-title">绑定手机号</div>
             <div class="form-box">
-              <Form :model="bindForm" label-position="top">
-                <FormItem label="国家">
+              <Form :model="bindForm" label-position="top" :rules="rules">
+                <FormItem label="国家" prop="country">
                   <Select v-model="bindForm.country" style="width:100%;height: 50px;">
-                    <Option v-for="(item, index) in countryList" :value="item.value" :key="index">{{ item.value }}</Option>
+                    <Option v-for="(item, index) in countryList" :value="item.value" :key="index">{{ item.label }}</Option>
                   </Select>
                 </FormItem>
-                <FormItem label="手机号">
-                  <Input v-model="bindForm.phone"></Input>
+                <FormItem label="手机号" prop="phone">
+                  <Input v-model="bindForm.phone" @on-change="handlePhoneIpt"></Input>
                 </FormItem>
-                <FormItem label="短信验证码">
+                <FormItem label="短信验证码" prop="phoneCode">
                   <Input style="width: 360px" v-model="bindForm.phoneCode"></Input>
-                  <span class="send-code-btn">发送验证码</span>
+                  <span class="send-code-btn" @click="handleSendCode"><Spin v-show="sendCodeLoading" size="small"></Spin>发送验证码</span>
                 </FormItem>
-                <FormItem label="谷歌验证码">
+                <FormItem label="谷歌验证码" prop="googleCode">
                   <Input v-model="bindForm.googleCode"></Input>
                 </FormItem>
                 <FormItem>
@@ -38,30 +38,69 @@
 <script>
 import page from "../components/page"
 import crd from "../components/crd.vue"
+import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'bindphone',
   data () {
     return {
       pageHeight: 0,
+      isPhone: false,
+      sendCodeLoading: false,
       countryList: [
         {
+          label: '86',
           value: '中国 86'
         },
         {
+           label: '86',
           value: '中国 86'
         },
         {
+           label: '86',
           value: '中国 86'
         },
         {
+           label: '86',
           value: '中国 86'
         }
       ],
       bindForm: {
-        country: '中国 86',
+        country: '86',
         phone: '',
         phoneCode: '',
         googleCode: ''
+      },
+      rules: {
+        currentPwd: [
+          { country: true, message: '请选择国家', trigger: 'blur' }
+        ],
+        phone: [
+          { required: true, message: '请输入您的手机号', trigger: 'blur' },
+          { min: 11, max: 11, message: '手机号为11位', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+               var reg = /^\d+$/
+               if (reg.test(value)) {
+                 this.isPhone = true
+                 callback()
+               } else {
+                 this.isPhone = false
+                 callback('手机号为数字')
+               }
+            }
+          }
+        ],
+        phoneCode: [
+          { required: true, message: '请输入手机号验证码', trigger: 'blur' },
+          { validator: (rule, value, callback) => {
+            //
+          },
+          trigger: 'blur' }
+        ],
+        googleCode: [
+          { required: false, message: '请输入Google验证码', trigger: 'blur' }
+        ],
       }
     }
   },
@@ -72,6 +111,33 @@ export default {
   methods: {
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
+    },
+    handlePhoneIpt () {
+      // console.log(this.bindForm.phone)
+    },
+    handleSendCode () {
+      this.sendCodeLoading = true
+      var fd = new FormData()
+      fd.phone = this.bindForm.phone
+      fd.country = this.bindForm.country
+        console.log(fd)
+        // fd.append({
+        //   phone: this.bindForm.phone,
+        //   country: this.bindForm.country
+        // })
+      let headConfig = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      if (this.isPhone) {
+        ax.post(config.url.exchange + '/api/user/verifyBindPhone', fd, headConfig).then((res) => {
+          this.sendCodeLoading = false
+          console.log(res)
+        }).catch((err) => {
+          this.sendCodeLoading = false
+        })
+      }
     }
   },
   created () {
@@ -97,6 +163,9 @@ export default {
           box-shadow: none;
         }
       }
+    }
+    .ivu-spin {
+      display: inline-block;
     }
     .bind-main {
       padding: 54px 60px;

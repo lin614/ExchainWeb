@@ -77,6 +77,8 @@
 <script>
 import page from "../components/page"
 import crd from "../components/crd.vue"
+import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: "usercenter",
   components: {
@@ -168,7 +170,17 @@ export default {
       console.log('change pwd')
       this.showChangePwd = true
     },
-    handleChangePwd () {}
+    handleChangePwd () {},
+    loadData () {
+      ax.get(config.url.exchange + '/api/user/getRecentActivity').then((res) => {
+        console.log('success' + JSON.stringify(res.data))
+        if (res.status == 200 && res.data.errorCode == '0') {
+        }
+      })
+    }
+  },
+  created () {
+    this.loadData()
   }
 }
 </script>
