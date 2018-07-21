@@ -177,7 +177,16 @@ export default {
     }
   },
   created() {
-    // var socket=io(config.url.quote)
+    // var socket = io(config.url.quote, {
+    //   event: 'sub',
+    //   channel: 'market.ltc_btc.header﻿'
+    // })
+    // // market.ltc_btc.header
+    // socket.on('connect', function() {})
+    // socket.on('event', function(data) {
+    //   console.log(data)
+    // })
+    // socket.on('disconnect', function() {})
   }
 }
 </script>
