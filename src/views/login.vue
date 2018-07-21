@@ -49,6 +49,7 @@ import block from './components/block'
 import crd from './components/crd'
 import ax from 'axios'
 import config from '../config/config.js'
+import cookie from 'js-cookie'
 export default {
   name: 'login',
   components: { page, block, crd },
@@ -88,23 +89,33 @@ export default {
       this.$refs['loginInfo'].validate(valid => {
         if (valid) {
           ax
-            .post(config.url.user + '/api/user/login', {
-              email: vu.loginInfo.email,
-              password: vu.loginInfo.pwd
-            })
+            .post(
+              config.url.user + '/api/user/login',
+              {
+                email: vu.loginInfo.email,
+                password: vu.loginInfo.pwd
+              },
+              {
+                withcredentials: true
+              }
+            )
             .then(function(res) {
               console.log(res.data)
               if (res.status == '200' && res.data.errorCode == 0) {
                 // vu.$Modal.success('用户注册成功！')
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
+                sessionStorage.setItem('pn', res.data.result.pn)
+                // cookie.set('pn', res.data.result.pn)
+                console.log('pn', cookie.get('pn'))
                 vu.$router.push('/userCenter')
               } else {
-                vu.$Modal.error('登录失败:' + res.data.errorMsg)
+                vu.$Modal.error({ content: '登录失败:' + res.data.errorMsg })
               }
             })
             .catch(function(error) {
-              console.error(error)
+              console.log(error)
+              vu.$Modal.error({ content: '登录失败:' + error })
             })
         } else {
           this.$Message.error('验证失败!')
