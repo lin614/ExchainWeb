@@ -75,100 +75,18 @@ export default {
               h('strong', {
                 style: {
                   color: '#419cf6'
-                }
-              }, params.row.opera),
-                h('Icon', {
-                  props: {
-                    type: 'arrow-down-b'
-                  },
-                  style: {
-                    color: '#419cf6',
-                    marginLeft: '4px'
+                },
+                on: {
+                  click: () => {
+                    this.cancelOrder(params.row)
                   }
-                })
+                }
+              }, params.row.opera)
             ]);
           }
         }
       ],
-      curData: [
-        {
-          ctime: '2018-0710 18:21:36',
-          market: 'FTUSDT',
-          side: 1,
-          price: '0.260000',
-          amount_deal: "5.00000000",
-          amount: '5.30050000',
-          closeRate: '50.3%',
-          averPrice: '0.260000',
-          opera: '详情'
-        },
-        {
-          ctime: '2018-0710 18:21:36',
-          market: 'FTUSDT',
-          side: 2,
-          price: '0.260000',
-          amount_deal: "5.00000000",
-          amount: '5.30050000',
-          closeRate: '50.3%',
-          averPrice: '0.260000',
-          opera: '详情'
-        },
-        {
-          ctime: '2018-0710 18:21:36',
-          market: 'FTUSDT',
-          side: 1,
-          price: '0.260000',
-          amount_deal: "5.00000000",
-          amount: '5.30050000',
-          closeRate: '50.3%',
-          averPrice: '0.260000',
-          opera: '详情'
-        },
-        {
-          ctime: '2018-0710 18:21:36',
-          market: 'FTUSDT',
-          side: 2,
-          price: '0.260000',
-          amount_deal: "5.00000000",
-          amount: '5.30050000',
-          closeRate: '50.3%',
-          averPrice: '0.260000',
-          opera: '详情'
-        },
-        {
-          ctime: '2018-0710 18:21:36',
-          market: 'FTUSDT',
-          side: 2,
-          price: '0.260000',
-          amount_deal: "5.00000000",
-          amount: '5.30050000',
-          closeRate: '50.3%',
-          averPrice: '0.260000',
-          opera: '详情'
-        },
-        {
-          ctime: '2018-0710 18:21:36',
-          market: 'FTUSDT',
-          side: 2,
-          price: '0.26000000',
-          amount_deal: "5.00000000",
-          amount: '5.30050000',
-          closeRate: '50.3%',
-          averPrice: '0.260000',
-          opera: '详情'
-        },
-        {
-          ctime: '2018-0710 18:21:36',
-          market: 'FTUSDT',
-          side: 1,
-          price: '0.26000000',
-          amount_deal: "5.00000000",
-          amount: '5.30050000',
-          closeRate: '50.3%',
-          averPrice: '0.260000',
-          opera: '详情'
-        }
-      ],
+      curData: [],
       hisData: []
     }
   },
@@ -188,76 +106,111 @@ export default {
         this.getHisData();
       }
     },
+    /**
+     * 获取当前委托
+     */
     getCurData () {
       let params = {
         status: 1,
         method: 'active',
         t: new Date().getTime()
       }
-      ax.get(config.url.user + '/api/order/lists', {params}).then(res => {
+      ax.get('/api/order/lists', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          this.curData = res.data.result.data;
-          for (let i = 0; i < this.curData.length; i++) {
-            let amount_deal = parseFloat(this.curData[i].amount_deal);
-            let amount = parseFloat(this.curData[i].amount);
+          let data = res.data.result.data;
+          for (let i = 0; i < data.length; i++) {
+            let amount_deal = parseFloat(data[i].amount_deal);
+            let amount = parseFloat(data[i].amount);
             let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
-            this.curData[i].closeRate = rate.toFixed(2);
+            data[i].closeRate = rate.toFixed(2);
+            data[i].opera = '撤单';
+            this.curData = data;
           }
         } else {
-          this.$Modal.error(res.data.errorMsg);
+          this.$Modal.error({ content: res.data.errorMsg });
         }
       });
     },
+    /**
+     * 获取成交历史
+     */
     getHisData () {
       let params = {
         status: 2,
         method: 'history',
         t: new Date().getTime()
       }
-      ax.get(config.url.user + '/api/order/lists', {params}).then(res => {
+      ax.get('/api/order/lists', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          this.hisData = res.data.result.data;
+          let data = res.data.result.data;
           for (let i = 0; i < this.hisData.length; i++) {
-            let amount_deal = parseFloat(this.curData[i].amount_deal);
-            let amount = parseFloat(this.curData[i].amount);
+            let amount_deal = parseFloat(data[i].amount_deal);
+            let amount = parseFloat(data[i].amount);
             let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
-            this.hisData[i].closeRate = rate.toFixed(2);
+            data[i].closeRate = rate.toFixed(2);
+            data[i].opera = '撤单';
+            this.hisData = data;
           }
         } else {
-          this.$Modal.error(res.data.errorMsg);
+          this.$Modal.error({ content: res.data.errorMsg });
         }
       });
     },
+    /**
+     * 除法
+     * @param {number} arg1 减数
+     * @param {number} arg2 被减数
+     * @return {number} arg1-arg2 结果
+     */
     accDiv (arg1, arg2) {
       let t1=0,t2=0,r1,r2;
       try {
         t1 = arg1.toString().split('.')[1].length
-      } catch (e) {
+      } catch (e) {}
 
-      }
       try {
         t2 = arg2.toString().split('.')[1].length
-      } catch (e) {
+      } catch (e) {}
 
-      }
       r1 = Number(arg1.toString().replace('.', ''))
       r2 = Number(arg2.toString().replace('.', ''))
       return (r1 / r2) * Math.pow(10, t2 - t1)
     },
+    /**
+     * 乘法
+     * @param {number} arg1 乘数
+     * @param {number} arg2 乘数
+     * @return {number} arg1*arg2 结果
+     */
     accMul (arg1, arg2) {
-    var m=0,s1=arg1.toString(),s2=arg2.toString();
-    try {
-      m += s1.split('.')[1].length
-    } catch (e) {
+      var m=0,s1=arg1.toString(),s2=arg2.toString();
+      try {
+        m += s1.split('.')[1].length
+      } catch (e) {}
 
-    }
-    try {
-      m += s2.split('.')[1].length
-    } catch (e) {
+      try {
+        m += s2.split('.')[1].length
+      } catch (e) {}
 
+      return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / Math.pow(10, m)
+    },
+    /**
+     * 取消订单
+     * @param {object} row 订单记录
+     */
+    cancelOrder (row) {
+      let params = {
+        order_id: row.order_id,
+      }
+      ax.get('/api/exchange/orderCancel', {params}).then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          this.getCurData();
+          this.$Message.success('撤单成功!')
+        } else {
+          this.$Modal.error({ content: res.data.errorMsg });
+        }
+      });
     }
-    return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / Math.pow(10, m)
-  }
   },
   created () {
     this.pageHeight = window.innerHeight - 360

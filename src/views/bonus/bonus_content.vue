@@ -72,54 +72,45 @@
             </Row>
           </div>
         </crd>
+
         <crd>
-          <span slot="title">
-            邀请记录
-
-          </span>
-          <router-link target="_blank" to="/invite" slot="extra">
-
-            更多>>
-          </router-link>
+          <span slot="title">邀请记录</span>
+          
           <div class="content ">
-
             <div class="lv-text">
               已邀请{{n_all}}人，已完成交易{{n_act}}人
             </div>
+
             <Row type="flex" :gutter="16">
               <Col span="8">
-              <p class="earn">
-                <b>被邀请人账号</b>
-              </p>
+                <p class="earn"><b>被邀请人账号</b></p>
               </Col>
-              <Col span="8">
-              <p class="earn">
-                <b>时间</b>
-              </p>
 
+              <Col span="8">
+                <p class="earn"><b>时间</b></p>
               </Col>
-              <Col span="8">
-              <p class="earn">
-                <b>状态</b>
-              </p>
 
+              <Col span="8">
+                <p class="earn"><b>状态</b></p>
               </Col>
             </Row>
+
             <Row type="flex" :gutter="16" v-for="p in list" :key="p.user">
               <Col span="8">
-              <p class="earn">{{p.userId}}
-              </p>
+                <p class="earn">{{p.userId}}</p>
               </Col>
-              <Col span="8">
-              <p class="earn"> {{p.createTime}}</p>
 
+              <Col span="8">
+                <p class="earn"> {{p.createTime}}</p>
               </Col>
-              <Col span="8">
-              <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
 
+              <Col span="8">
+                <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
               </Col>
             </Row>
-
+          </div>
+          <div class="content more-content">
+            <router-link target="_blank" to="/invite" slot="extra">更多>></router-link>
           </div>
         </crd>
 
@@ -297,6 +288,11 @@ export default {
         width: 530px;
       }
     }
+  }
+  .more-content {
+    margin-top: -60px;
+    padding: 20px 32px;
+    text-align: center;
   }
 }
 </style>

@@ -211,14 +211,7 @@ export default {
             password: md5(this.changePwdModal.currentPwd),
             newPassword: md5(this.changePwdModal.password)
           }
-          ax.post(
-            '/api/user/changePassword',
-            params,
-            {
-              headers: {
-                "pn": sessionStorage.pn
-              }
-            }
+          ax.post('/api/user/changePassword', params
             ).then(res => {
             if (res.status == '200' && res.data.errorCode == 0) {
               this.showChangePwd = false;
