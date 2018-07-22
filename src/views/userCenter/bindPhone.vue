@@ -7,7 +7,7 @@
           <div class="bind-main">
             <div class="main-title">绑定手机号</div>
             <div class="form-box">
-              <Form :model="bindForm" label-position="top" :rules="rules">
+              <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
                 <FormItem label="国家" prop="country">
                   <Select v-model="bindForm.country" style="width:100%;height: 50px;">
                     <Option v-for="(item, index) in countryList" :value="item.value" :key="index">{{ item.label }}</Option>
@@ -24,7 +24,7 @@
                   <Input v-model="bindForm.googleCode"></Input>
                 </FormItem>
                 <FormItem>
-                  <Button type="primary" @click="handleSubmit('formCustom')" long>确认</Button>
+                  <Button type="primary" @click="handleConfirmClick()" long>确认</Button>
                 </FormItem>
               </Form>
             </div>
@@ -40,6 +40,7 @@ import page from "../components/page"
 import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
+import cookie from 'js-cookie'
 export default {
   name: 'bindphone',
   data () {
@@ -47,22 +48,23 @@ export default {
       pageHeight: 0,
       isPhone: false,
       sendCodeLoading: false,
+      confirmLoading: false,
       countryList: [
         {
-          label: '86',
-          value: '中国 86'
+          label: '中国 86',
+          value: '86'
         },
         {
-           label: '86',
-          value: '中国 86'
+           label: '中国 86',
+           value: '86'
         },
         {
-           label: '86',
-          value: '中国 86'
+           label: '中国 86',
+           value: '86'
         },
         {
-           label: '86',
-          value: '中国 86'
+           label: '中国 86',
+           value: '86'
         }
       ],
       bindForm: {
@@ -117,27 +119,76 @@ export default {
     },
     handleSendCode () {
       this.sendCodeLoading = true
-      var fd = new FormData()
-      fd.phone = this.bindForm.phone
-      fd.country = this.bindForm.country
-        console.log(fd)
-        // fd.append({
-        //   phone: this.bindForm.phone,
-        //   country: this.bindForm.country
-        // })
-      let headConfig = {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      let headerConfig = {
+          headers: {
+              'Content-Type': 'x-www-form-urlencoded'
+          }
       }
       if (this.isPhone) {
-        ax.post(config.url.user + '/api/user/verifyBindPhone', fd, headConfig, {withcredentials: true}).then((res) => {
-          this.sendCodeLoading = false
-          console.log(res)
-        }).catch((err) => {
-          this.sendCodeLoading = false
+        ax({
+          url: config.url.user + '/api/user/bindPhone',
+          method: 'post',
+          data: {
+            phone: this.bindForm.phone,
+            country: this.bindForm.country,
+            pn: cookie.get('PN')
+          },
+          transformRequest: [function (data) {
+            // Do whatever you want to transform the data
+            let ret = ''
+            for (let it in data) {
+              ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+            }
+            return ret.slice(0, (ret.length - 1))
+          }],
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        })
+        .then((res) => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            console.log('发送成功')
+          }
+        })
+        .catch((err) => {
+          console.log(err)
         })
       }
+    },
+    handleConfirmClick () {
+      this.confirmLoading = true
+      this.$refs['bindForm'].validate((valid) => {
+        if (valid) {
+          ax({
+            url: config.url.user + '/api/user/bindPhone',
+            method: 'post',
+            data: {
+              phone: this.bindForm.phone,
+              country: this.bindForm.country,
+              code: this.bindForm.phoneCode,
+              pn: cookie.get('PN')
+            },
+            transformRequest: [function (data) {
+              let ret = ''
+              for (let it in data) {
+                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+              }
+              return ret.slice(0, (ret.length - 1))
+            }],
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          })
+          .then((res) => {
+            if (res.status == '200' && res.data.errorCode == 0) {
+              console.log('绑定成功')
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        }
+      })
     }
   },
   created () {

@@ -42,4 +42,7 @@ body {
   margin: 0;
   padding: 0;
 }
+.ivu-input {
+  border-radius: 0;
+}
 </style>
