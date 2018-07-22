@@ -91,7 +91,11 @@ export default {
      * 获取我的资产列表
      */
     getMyAsset () {
-      ax.get(config.url.user + '/api/account/assetsList').then(res => {
+      ax.get('/api/account/assetsList', {
+        headers: {
+          "pn": sessionStorage.pn
+        }
+      }).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           this.data1 = res.data.result.data;
         }
