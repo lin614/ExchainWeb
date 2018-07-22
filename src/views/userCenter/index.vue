@@ -22,16 +22,16 @@
               <span class="card-item-title fl">登录密码</span>
               <span @click="handleShowChangePwdModel" class="card-item-opera fr">修改 ></span>
             </div>
-            <div class="card-item">
+            <div class="card-item car-item-unline">
               <span class="card-item-title fl">手机绑定</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
               <router-link to="/usercenter/bind" class="card-item-opera fr">修改 ></router-link>
             </div>
-            <div class="card-item car-item-unline">
+            <!-- <div class="card-item car-item-unline">
               <span class="card-item-title fl">谷歌验证</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
               <span @click="handleShowGAModel" class="card-item-opera fr">设置 ></span>
-            </div>
+            </div> -->
           </div>
           <Modal
             v-model="showChangePwd"
