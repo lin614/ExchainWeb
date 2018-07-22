@@ -208,6 +208,9 @@ export default {
         background: rgba(245,248,253,1);
         border-radius: 8px;
         text-align: center;
+        img {
+          display: inline-block;
+        }
       }
       .uploaded-img{
         position: absolute;
