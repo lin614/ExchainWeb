@@ -42,6 +42,6 @@ module.exports = merge(webpackBaseConfig, {
             }
         },
         host: '127.0.0.1',
-        port: 4001,
+        port: '4001'
     },
 });
