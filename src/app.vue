@@ -45,4 +45,33 @@ body {
 .ivu-input {
   border-radius: 0;
 }
+/**/
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img {
+  margin: 0;
+  padding: 0;
+}
+/*main-cont*/
+.content {
+  width: 1180px;
+  margin: 0 auto;
+}
+img, input, textarea {
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline-style: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  border: 0;
+  display:block; /**/
+}
+
+i {
+  font-style: normal;
+}
 </style>

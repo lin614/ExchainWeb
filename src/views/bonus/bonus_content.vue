@@ -77,10 +77,10 @@
             邀请记录
 
           </span>
-          <router-link target="_blank" to="/invite" slot="extra">
+          <!-- <router-link target="_blank" to="/invite" slot="extra">
 
             更多>>
-          </router-link>
+          </router-link> -->
           <div class="content ">
 
             <div class="lv-text">
@@ -121,6 +121,7 @@
             </Row>
 
           </div>
+          <router-link class="to-more" target="_blank" to="/invite">点击查看更多</router-link>
         </crd>
 
       </div>
@@ -298,5 +299,15 @@ export default {
       }
     }
   }
+}
+.to-more {
+  display: inline-block;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  border-top: 1px solid #eee;
+  text-align: center;
+  color: @font-color-blue;
+  cursor: pointer;
 }
 </style>

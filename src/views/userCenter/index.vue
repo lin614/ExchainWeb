@@ -22,7 +22,7 @@
               <span class="card-item-title fl">登录密码</span>
               <span @click="handleShowChangePwdModel" class="card-item-opera fr">修改 ></span>
             </div>
-            <div class="card-item">
+            <div class="card-item car-item-unline">
               <span class="card-item-title fl">手机绑定</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
               <router-link to="/usercenter/bind" class="card-item-opera fr">修改 ></router-link>
@@ -82,11 +82,16 @@
                     <span></span>
                   </div>
                 </div>
+                <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
+                  <FormItem label="确认密码" prop="confirmPwd">
+                    <Input v-model="changePwdModal.confirmPwd"></Input>
+                  </FormItem>
+                </Form>
               </div>
             </crd>
             <div slot="footer">
               <div class="change-model-footer clearfix">
-                <span class="model-btn fl" @click=""><Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
+                <span class="model-btn fl" @click="handleChangePwd"><Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
               </div>
             </div>
           </Modal>
@@ -107,7 +112,6 @@ import page from "../components/page"
 import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
-import md5 from 'md5'
 export default {
   name: "usercenter",
   components: {
@@ -201,29 +205,7 @@ export default {
       console.log('change pwd')
       this.showChangePwd = true
     },
-    /**
-     * 修改登录密码
-     */
-    handleChangePwd () {
-      this.$refs.formCustom.validate(valid => {
-        if (valid) {
-          let params = {
-            password: md5(this.changePwdModal.currentPwd),
-            newPassword: md5(this.changePwdModal.password)
-          }
-          ax.post('/api/user/changePassword', params
-            ).then(res => {
-            if (res.status == '200' && res.data.errorCode == 0) {
-              this.showChangePwd = false;
-            } else {
-              this.$Modal.error({ content: '登录失败:' + res.data.errorMsg })
-            }
-          }).catch(function(error) {
-            this.$Modal.error({ content: '登录失败:' + error })
-          });
-        }
-      });
-    },
+    handleChangePwd () {},
     loadData () {
     },
     handleCloseChangePwd () {
