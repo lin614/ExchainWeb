@@ -2,14 +2,19 @@
   <div class="encharge-main">
     <div>充币地址</div>
     <div class="addr-box">
-      <span class="addr-main">1PywpKk22ZXLAKZ5LsVkpyArhFAR3Xkipu</span>
-      <span class="copy-addr">复制</span>
-      <Poptip content="content" placement="bottom">
-        <span class="show-addr-qr">二维码</span>
-        <div class="qr-box" slot="content">
-          <img src="../../static/imgs/wx.png" alt="">
-        </div>
-      </Poptip>
+      <div class="fl">
+        <span class="addr-main">1PywpKk22ZXLAKZ5LsVkpyArhFAR3Xkipu</span>
+      </div>
+      <div class="fl">
+        <input type="hidden" v-model="addr" id="addr">
+        <a class="copy-addr" id="btnLink" data-clipboard-target="#addr">复制</a>
+        <Poptip content="content" placement="bottom">
+          <span class="show-addr-qr">二维码</span>
+          <div class="qr-box" slot="content">
+            <img src="../../static/imgs/wx.png" alt="">
+          </div>
+        </Poptip>
+      </div>
     </div>
     <div class="friendly-notice">
       <p class="friendly-notice-title">温馨提示</p>
@@ -23,8 +28,20 @@
 </template>
 
 <script>
+import ClipboardJS from 'clipboard'
 export default {
-  name: 'encharge'
+  name: 'encharge',
+  props: {
+    isEncharge: Boolean
+  },
+  data () {
+    return {
+      addr: '1PywpKk22ZXLAKZ5LsVkpyArhFAR3Xkipu'
+    }
+  },
+  mounted () {
+    new ClipboardJS('#addr')
+  }
 }
 </script>
 
@@ -32,13 +49,13 @@ export default {
   @import url(../style/config.less);
   .encharge-main {
     width: 100%;
-    padding: 20px;
     .addr-box {
       height: 30px;
       margin-bottom: 20px;
       font-size: @font-text;
       color: @font-color-blue;
       .addr-main {
+        display: inline-block;
         font-size: 20px;
         line-height: 30px;
         margin-right: 20px;

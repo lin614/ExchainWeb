@@ -106,6 +106,12 @@ const routers = [{
             title: ''
         },
         component: (resolve) => require(['./views/userCenter/bindPhone.vue'], resolve)
+    }, {
+        path: '/usercenter/manageaddr',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/userCenter/manageAddr.vue'], resolve)
     }
 ];
 export default routers;

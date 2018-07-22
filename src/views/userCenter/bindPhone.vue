@@ -127,7 +127,7 @@ export default {
       }
       if (this.isPhone) {
         ax({
-          url: config.url.user + '/api/user/bindPhone',
+          url: '/api/user/bindPhone',
           method: 'post',
           data: {
             phone: this.bindForm.phone,
