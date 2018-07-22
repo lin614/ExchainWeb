@@ -5,62 +5,74 @@
         <crd potColor="#429aeb">
           <span slot="title">KYC</span>
           <div class="kyc-main">
-            <Form class="form-box" ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
-              <FormItem class="form-item fl" label="名" prop="phone">
-                <Input v-model="bindForm.phone" @on-change="handlePhoneIpt" placeholder="名"></Input>
+            <Form class="form-box" ref="formField" :model="formField" :rules="rules" label-position="top">
+              <FormItem class="form-item fl" label="名" prop="firstName">
+                <Input v-model="formField.firstName" placeholder="名"></Input>
               </FormItem>
 
-              <FormItem class="form-item fl family-name" label="姓" prop="phoneCode">
-                <Input v-model="bindForm.phoneCode" placeholder="姓"></Input>
+              <FormItem class="form-item fl family-name" label="姓" prop="familyName">
+                <Input v-model="formField.familyName" placeholder="姓"></Input>
               </FormItem>
 
-              <FormItem class="form-item" label="身份证号码" prop="googleCode">
-                <Input v-model="bindForm.googleCode" placeholder="身份证号码"></Input>
+              <FormItem class="form-item" label="身份证号码" prop="idcardNo">
+                <Input v-model="formField.idcardNo" placeholder="身份证号码"></Input>
               </FormItem>
 
-              <FormItem class="form-item" label="身份证号码" prop="googleCode">
+              <FormItem class="form-item" label="证件正面" prop="idcardImg1">
                 <Upload
                   multiple
+                  :on-success="handleIdcardImg1Success"
                   action="//jsonplaceholder.typicode.com/posts/">
                   <div style="padding: 20px 0">
-                      <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="上传">
                       <p class="tip">上传身份证件信息</p>
                   </div>
                 </Upload>
+                
+                <img class="uploaded-img" v-if="formField.idcardImg1" :src="formField.idcardImg1" alt="证件正面">
+
                 <div class="sample">
                   <div class="sample-img-wrap">
-                    <img src="../../static/imgs/kyc-idcard1.jpg" alt="证件正面">
+                    <img src="../../static/imgs/kyc-idcard1.png" alt="证件正面">
                   </div>
                   <p class="sample-txt">为方便审核，请上传清晰的照片</p>
                 </div>
               </FormItem>
 
-              <FormItem class="form-item" label="证件背面" prop="googleCode">
+              <FormItem class="form-item" label="证件背面" prop="idcardImg2">
                 <Upload
                   multiple
+                  :on-success="handleIdcardImg2Success"
                   action="//jsonplaceholder.typicode.com/posts/">
                   <div style="padding: 20px 0">
-                      <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="上传">
                       <p class="tip">上传身份证件信息</p>
                   </div>
                 </Upload>
+
+                <img class="uploaded-img" v-if="formField.idcardImg2" :src="formField.idcardImg2" alt="证件正面">
+
                 <div class="sample">
                   <div class="sample-img-wrap" style="padding-top:10px;">
-                    <img src="../../static/imgs/kyc-idcard2.jpg" alt="证件正面">
+                    <img src="../../static/imgs/kyc-idcard2.png" alt="证件正面">
                   </div>
                   <p class="sample-txt">为方便审核，请上传清晰的照片</p>
                 </div>
               </FormItem>
 
-              <FormItem class="form-item" label="身份证号码" prop="googleCode">
+              <FormItem class="form-item" label="手持证件照片" prop="idcardImg3">
                 <Upload
                   multiple
+                  :on-success="handleIdcardImg3Success"
                   action="//jsonplaceholder.typicode.com/posts/">
                   <div style="padding: 20px 0">
-                      <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="上传">
                       <p class="tip">上传身份证件信息</p>
                   </div>
                 </Upload>
+
+                <img class="uploaded-img" v-if="formField.idcardImg3" :src="formField.idcardImg3" alt="证件正面">
+
                 <div class="sample">
                   <div class="sample-img-wrap" style="padding-top:5px;">
                     <img src="../../static/imgs/kyc-idcard3.png" alt="证件正面">
@@ -75,7 +87,7 @@
                 </div>
               </FormItem>
 
-              <Button type="primary" @click="handleConfirmClick()" long>申请提交</Button>
+              <Button class="submit" type="primary" @click="handleSubmit()">申请提交</Button>
             </Form>
           </div>
         </crd>
@@ -92,12 +104,34 @@ export default {
   data () {
     return {
       pageHeight: 0,
-      bindForm: {
-        country: '86',
-        phone: '',
-        phoneCode: '',
-        googleCode: ''
-      }
+      formField: {
+        firstName: '',
+        familyName: '',
+        idcardNo: '',
+        idcardImg1: 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar',
+        idcardImg2: '',
+        idcardImg3: ''
+      },
+      rules: {
+        firstName: [
+          { required: true, message: '请输入名字', trigger: 'blur' }
+        ],
+        familyName: [
+          { required: true, message: '请输入姓', trigger: 'blur' }
+        ],
+        idcardNo: [
+          { required: true, message: '请输入身份证号码', trigger: 'blur' }
+        ],
+        idcardImg1: [
+          { required: true, message: '请上传证件正面', trigger: 'change' }
+        ],
+        idcardImg2: [
+          { required: true, message: '请上传证件反面', trigger: 'change' }
+        ],
+        idcardImg3: [
+          { required: true, message: '请上传手持证件照片', trigger: 'change' }
+        ]
+      },
     }
   },
   components: {
@@ -107,6 +141,28 @@ export default {
   methods: {
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
+    },
+    handleSubmit () {
+      this.$refs.formField.validate(valid => {
+      });
+    },
+    /**
+     * 证件正面上传成功处理
+     */
+    handleIdcardImg1Success (res, file) {
+      // this.formField.idcardImg1 = res.data;
+    },
+    /**
+     * 证件反面上传成功处理
+     */
+    handleIdcardImg2Success () {
+      // this.formField.idcardImg2 = res.data;
+    },
+    /**
+     * 手持证件照片上传成功处理
+     */
+    handleIdcardImg3Success () {
+      // this.formField.idcardImg3 = res.data;
     }
   },
   created () {
@@ -145,12 +201,24 @@ export default {
         }
       }
       .ivu-upload-select {
+        position: relative;
         width: 280px;
         height: 180px;
         padding-top: 25px;
         background: rgba(245,248,253,1);
         border-radius: 8px;
         text-align: center;
+        img {
+          display: inline-block;
+        }
+      }
+      .uploaded-img{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 280px;
+        height: 180px;
+        border-radius: 8px;
       }
       .ivu-upload .tip {
         font-size: 16px;
@@ -179,6 +247,9 @@ export default {
         .sample-txt3 {
           margin-top: 10px;
         }
+      }
+      .submit {
+        width: 280px;
       }
     }
   }
