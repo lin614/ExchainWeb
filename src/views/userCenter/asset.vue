@@ -11,10 +11,10 @@
               <span class="total-amount">0.00000BTC / ￥0.00 CNY</span>
             </div>
             <div class="opera-box clearfix">
-              <span class="transfer-btn opera-box-btn fl" @click="handleTransferShow">资金划转</span>
-              <span class="manage-addr-btn opera-box-btn fl" @click="handleManageAddr">提现地址管理</span>
+              <!-- <span class="transfer-btn opera-box-btn fl" @click="handleTransferShow">资金划转</span> -->
+              <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr" @click="handleManageAddr">提现地址管理</router-link>
             </div>
-            <Table :columns="columns1" :data="data1" :disabled-hover="true"></Table>
+            <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>
           </div>
           <Modal
             v-model="showTransferModal"
@@ -25,9 +25,10 @@
               <div class="form-box">
                 <Form ref="formCustom" :rules="rules" :model="trabsferModal" label-position="top">
                   <FormItem label="币种" prop="tokenType">
-                    <Select v-model="trabsferModal.tokenType">
+                    <!-- <Select v-model="trabsferModal.tokenType">
                       <Option v-for="(item, index) in transferTokenList" :value="item.value" :key="index">{{ item.label }}</Option>
-                    </Select>
+                    </Select> -->
+                    <Input v-model="trabsferModal.token" disabled></Input>
                   </FormItem>
                   <FormItem label="从" prop="from">
                     <Select v-model="trabsferModal.from">
@@ -40,7 +41,7 @@
                     </Select>
                   </FormItem>
                   <FormItem label="数量" prop="amount">
-                    <Input type="password" v-model="trabsferModal.amount"></Input>
+                    <Input v-model="trabsferModal.amount"></Input>
                   </FormItem>
                 </Form>
               </div>
@@ -81,33 +82,30 @@ export default {
       showExType: '',
       showTransferModal: false,
       transferLoading: false,
+      showCharge: false,
       trabsferModal: {
-        tokenType: '',
+        token: '',
         from: '',
         to: '',
         amount: ''
       },
       rules: {},
-      columns1: [
+      assetListTable: [
         {
           title: '币种',
           key: 'token'
         },
         {
-          title: '总额',
-          key: 'amount'
+          title: '主账户',
+          key: 'main_account'
         },
         {
-          title: '可用余额',
-          key: 'amount_available'
+          title: '交易账户',
+          key: 'trade_account'
         },
         {
           title: '冻结',
           key: 'exchange_freeze'
-        },
-        {
-          title: '主账户',
-          key: 'main_account'
         },
         {
           title: ' ',
@@ -117,13 +115,13 @@ export default {
             return h('div', [
               h('span', {
                 style: {
-                   color: '#419cf6',
+                  color: '#419cf6',
                   cursor: 'pointer',
                   marginRight: '30px'
                 },
                 on: {
                   click: () => {
-                    this.handleOpera(params.index, 'encharge')
+                    this.handleOpera(params.index, params.row, 'encharge')
                   }
                 }
               }, '充值'),
@@ -134,10 +132,21 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.handleOpera(params.index, 'getCash')
+                    this.handleOpera(params.index, params.row, 'getCash')
                   }
                 }
-              }, '提现')
+              }, '提现'),
+              h('span', {
+                style: {
+                  cursor: 'pointer',
+                  marginRight: '30px'
+                },
+                on: {
+                  click: () => {
+                    this.handleTransferShow(params.row.token)
+                  }
+                }
+              }, '划转')
             ]);
           }
         },
@@ -153,34 +162,41 @@ export default {
                 backgroundColor: '#f5f5f5' 
               }
             }, [
-              h(getCash, {})
+              h(encharge, {
+                props: {
+                  params: params,
+                  showCharge: this.showCharge
+                }
+              }),
+              h(getCash, {
+                props: {
+                  params: params
+                }
+              })
             ])
           }
         },  
       ],
-      data1: [
+      assetListData: [
         {
           token: 'BTC',
-          amount: '20000',
-          amount_available: '1000',
+          main_account: '1000',
           exchange_freeze: '19000',
-          main_account: '0.000',
+          trade_account: '0.000',
           _expanded: false
         },
         {
           token: 'ETH',
-          amount: '20000',
-          amount_available: '1000',
+          main_account: '1000',
           exchange_freeze: '19000',
-          main_account: '0.000',
+          trade_account: '0.000',
           _expanded: false
         },
         {
-          token: 'ETC',
-          amount: '20000',
-          amount_available: '1000',
+          token: 'USDT',
+          main_account: '1000',
           exchange_freeze: '19000',
-          main_account: '0.000',
+          trade_account: '0.000',
           _expanded: false
         }
       ],
@@ -221,37 +237,78 @@ export default {
     }
   },
   methods: {
+    getBalance () {
+      ax.get('/api/account/balanceQuery?types=BTC,CNY', {withcredentials: true}, {
+        headers: {
+          "pn": sessionStorage.pn
+        }
+      })
+        .then((res) => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            console.log(res.data)
+          }
+        })
+        .catch((err) => {})
+    },
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
     },
     /**
      * 获取我的资产列表
      */
-    // getMyAsset () {
-    //   ax.get('/api/account/assetsList', {
-    //     headers: {
-    //       "pn": sessionStorage.pn
-    //     }
-    //   }).then(res => {
-    //     if (res.status == '200' && res.data.errorCode == 0) {
-    //       this.data1 = res.data.result.data;
-    //     }
-    //   });
-    // }
-    handleOpera (index, exType) {
+    getMyAsset () {
+      ax.get('/api/account/assetsList', {
+        headers: {
+          "pn": sessionStorage.PN
+        }
+      }).then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          this.assetListData = res.data.result.data;
+        }
+      });
+    },
+    handleOpera (index, params, exType) {
+      if (exType === 'encharge') {
+        /**
+         * 充值
+         * 
+         * {
+         *  "errorCode": 0,
+         *  "errorMsg": "成功",
+         *  "result": {
+         *      "address": "0x6e522f4a8d369700d53aa52f2a4d6bac9186d030",
+         *      "qrcode": "/qrcode.png?d=ZXRoZXJldW06MHg2ZTUyMmY0YThkMzY5NzAwZDUzYWE1MmYyYTRkNmJhYzkxODZkMDMw&rand=1531753032&sign=af852ef4f894992201c1320a1cf451de"
+         *    }
+         *  }
+         */
+        this.showCharge = true
+        ax.get('/api/account/getAddress?type=' + params.token)
+          .then((res) => {
+            if (res.status == '200' && res.data.errorCode == 0) {
+              console.log('ok')
+            }
+          })
+          .catch((err) => {})
+      } else {
+        /**
+         * 提现
+         */
+        this.showCharge = false
+      }
       //request
-      this.data1.forEach((value, index) => {
+      this.assetListData.forEach((value, index) => {
         value._expanded = false
       })
-      console.log(this.data1)
-      this.data1[index]._expanded = true
-      this.data1[index].isEncharge = true
+      console.log(this.assetListData)
+      this.assetListData[index]._expanded = true
+      this.assetListData[index].isEncharge = true
       this.showExType = exType
       console.log(this.showExType)
-      this.$set(this.data1, index, this.data1[index])
+      this.$set(this.assetListData, index, this.assetListData[index])
     },
-    handleTransferShow () {
+    handleTransferShow (token) {
       this.showTransferModal = true
+      this.trabsferModal.token = token
     },
     handleManageAddr () {},
     handleCloseTransfer () {
@@ -260,7 +317,8 @@ export default {
     handleTransfer () {}
   },
   created () {
-    // this.getMyAsset();
+    this.getBalance()
+    this.getMyAsset()
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
