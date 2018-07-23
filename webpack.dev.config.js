@@ -35,7 +35,8 @@ module.exports = merge(webpackBaseConfig, {
         })
     ],
     devServer: {
-        host: '127.0.0.1',
+        host: 'www.exchain.com',
+        // host: '127.0.0.1',
         port: 4001,
     },
 });

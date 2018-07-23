@@ -109,7 +109,7 @@ export default {
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
                 sessionStorage.setItem('pn', res.data.result.pn)
-                cookie.set('PN', res.data.result.pn)
+                // cookie.set('PN', res.data.result.pn,{domain: 'exchain.com'})
                 console.log('pn', cookie.get('pn'))
                 vu.$router.push('/userCenter')
               } else {
