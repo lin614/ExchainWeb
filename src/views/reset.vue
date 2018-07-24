@@ -159,9 +159,12 @@ export default {
       this.$refs['resetInfo'].validateField('email', function(error) {
         if (!error) {
           ax
-            .post(config.url.user + '/api/user/resetPassword', {
-              email: vu.resetInfo.email
-            })
+            .post(
+              config.url.user + '/api/user/resetPassword',
+              {
+                email: vu.resetInfo.email
+              }
+            )
             .then(function(res) {
               console.log(res)
               vu.resettoken = res.data.result.token

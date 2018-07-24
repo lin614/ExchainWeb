@@ -40,11 +40,11 @@ module.exports = merge(webpackBaseConfig, {
         // port: 4001,
         proxy: {
             '/api': {
-              target: 'http://172.16.2.30:8080',
-              changeOrigin: true
+                target: 'http://172.16.2.30:8080',
+                changeOrigin: true
             }
         },
-        host: 'localhost',
-        port: '4001'
+        host: 'www.stockchain.cn',
+        port: '80'
     },
 });
