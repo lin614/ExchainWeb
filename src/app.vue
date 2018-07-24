@@ -19,9 +19,9 @@ body {
   background-color: @bg-color;
 }
 .clearfix::after {
-  content: "";
+  content: '';
   display: block;
-  height:0;
+  height: 0;
   clear: both;
 }
 
@@ -46,7 +46,25 @@ body {
   border-radius: 0;
 }
 /**/
-html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img {
+html,
+body,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+img {
   margin: 0;
   padding: 0;
 }
@@ -55,23 +73,29 @@ html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, l
   width: 1180px;
   margin: 0 auto;
 }
-img, input, textarea {
+img,
+input,
+textarea {
   border: none;
   padding: 0;
   margin: 0;
   outline-style: none;
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
 img {
   border: 0;
-  display:block; /**/
+  display: block; /**/
 }
 
 i {
   font-style: normal;
+}
+.ivu-card {
+  border-radius: 0px !important;
 }
 </style>

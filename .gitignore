@@ -9,3 +9,4 @@ src/config/*.tmp
 src/config/env.js
 npm-debug.log
 webpack.dev.config.js
+index_prod.html
