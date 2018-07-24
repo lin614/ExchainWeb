@@ -51,20 +51,7 @@ export default {
         addr: '',
         note: ''
       },
-      tokenList: [
-        {
-          label: 'BTC',
-          value: 'BTC'
-        },
-        {
-          label: 'ETH',
-          value: 'ETH'
-        },
-        {
-          label: 'USDT',
-          value: 'USDT'
-        }
-      ],
+      tokenList: [],
       magAddrRules: {
         tokenType: [
           { required: true, message: '请选择币种', trigger: 'blur' }
@@ -81,16 +68,7 @@ export default {
           title: '币种',
           key: 'type',
           maxWidth: 150,
-          filters: [
-            {
-              label: 'Greater than 25',
-              value: 1
-            },
-            {
-              label: 'Less than 25',
-              value: 2
-            }
-          ],
+          filters: [],
           filterMultiple: false,
           filterMethod (value, row) {
             return row.type == value
@@ -120,38 +98,33 @@ export default {
               },
               on: {
                 click: () => {
-                  this.handleRemoveAddr(params.index, params.row.outer_address)
+                  this.handleRemoveAddr(params.index, params.row.type, params.row.outer_address)
                 }
               }
             }, '删除')
           }
         }
       ],
-      addrListData: [
-        {
-          type: 'BTC',
-          outer_address: 'xxx',
-          name: '我的BTC地址'
-        },
-        {
-          type: 'ETH',
-          outer_address: 'xxx',
-          name: '我的BTC地址'
-        },
-        {
-          type: 'BTC',
-          outer_address: 'xxx',
-          name: '我的BTC地址'
-        },
-        {
-          type: 'BTC',
-          outer_address: 'xxx',
-          name: '我的BTC地址'
-        }
-      ]
+      addrListData: []
     }
   },
   methods: {
+    getTokenList () {
+      ax.get('/api/quotation/getSymbolLists')
+        .then((res) => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            console.log(res.data.result)
+            var result = res.data.result
+            var obj = {}
+            for (var key in result) {
+              obj.value = key
+              obj.label = key
+              this.tokenList.push(JSON.parse(JSON.stringify(obj)))
+            }
+          }
+        })
+        .catch((err) => {})
+    },
     getWithdrawAddress () {
       ax.post('/api/account/getWithdrawAddress', {
         type: ''
@@ -159,8 +132,8 @@ export default {
       .then((res) => {
         if (res.status == '200' && res.data.errorCode == 0) {
           console.log(res.data) // 这是提币地址列表
-          this.addrListTable[0].filters = [...res.data.result]
-          this.addrListData = [...res.data.result]
+          this.addrListTable[0].filters = [...res.data.result.data]
+          this.addrListData = [...res.data.result.data]
         }
       })
       .catch(() => {})
@@ -178,6 +151,8 @@ export default {
             console.log(1)
             if (res.status == '200' && res.data.errorCode == 0) {
               console.log(res.data.result) // 这是添加提币地址后返回的
+              vu.getWithdrawAddress()
+              vu.$refs.magAddrForm.resetFields()
               vu.$Message.success('添加地址成功！')
             } else {
               vu.$Message.error('网络异常！')
@@ -189,16 +164,17 @@ export default {
         }
       })    
     },
-    handleRemoveAddr (index) {
+    handleRemoveAddr (index, type, addr) {
       const vu = this
       ax.post('/api/account/delWithdrawAddress', {
-        type: vu.magAddrForm.tokenType,
-        outerAddress: vu.magAddrForm.addr
+        type: type,
+        outerAddress: addr
       })
       .then((res) => {
         if (res.status == '200' && res.data.errorCode == 0) {
           console.log(res.data.result) // 这是删除提币地址后返回的
           this.addrListData.splice(index, 1)
+          this.getWithdrawAddress()
           vu.$Message.success('删除地址成功！')
         } else {
           vu.$Message.error('网络异常！')
@@ -209,6 +185,7 @@ export default {
   },
   mounted () {
     // outerAddress
+    this.getTokenList()
     this.getWithdrawAddress()
     this.addrListTable[0].filters = [...this.tokenList]  // 测试用
   }

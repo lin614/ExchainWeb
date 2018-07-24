@@ -60,12 +60,17 @@ router.afterEach(() => {
 
 const store = new Vuex.Store({
     state: {
-
-    },
-    getters: {
-
+        islogin: false
     },
     mutations: {
+        login(s) {
+            s.islogin = true
+        },
+        logout(s) {
+            s.islogin = false
+        }
+    },
+    getters: {
 
     },
     actions: {

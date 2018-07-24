@@ -129,12 +129,13 @@ import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
 import md5 from 'md5'
+import bus from '../../bus.js'
 export default {
   name: 'headr',
   components: { block, crd },
   computed: {
     isLogin() {
-      return cookie.get('PN')
+      return this.$store.state.islogin
     },
     email() {
       var info = sessionStorage.getItem('email')
@@ -205,16 +206,23 @@ export default {
     },
     logout() {
       sessionStorage.clear()
-      cookie.remove('PN')
-      ax.get('/api/user/logout')
-        .then((res) => {
-          console.log('登出')
-        })
-      // this.$router.push({ path: '/login' })
+      cookie.remove('PN', { domain: config.url.domain })
+      this.$store.commit('logout')
+      ax.get(config.url.user + '/api/user/logout').then(res => {
+        console.log('登出')
+      })
+      this.$router.push({ path: '/' })
     }
   },
   destroyed() {
     console.log('header destroyed!')
+  },
+  mounted() {
+    // let vu = this
+    // bus.$on('login', function() {
+    //   console.log('login happen')
+    //   vu.isLogin = true
+    // })
   }
 }
 </script>
