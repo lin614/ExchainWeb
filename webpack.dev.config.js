@@ -37,11 +37,11 @@ module.exports = merge(webpackBaseConfig, {
     devServer: {
         proxy: {
             '/api': {
-              target: 'http://172.16.2.30:8080',
+              target: '172.16.2.30',
               changeOrigin: true
             }
         },
-        host: 'localhost',
+        host: '127.0.0.1',
         port: '4001'
     },
 });

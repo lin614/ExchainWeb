@@ -3,7 +3,7 @@
     <div>充币地址</div>
     <div class="addr-box">
       <div class="fl">
-        <span class="addr-main">1PywpKk22ZXLAKZ5LsVkpyArhFAR3Xkipu</span>
+        <span class="addr-main">{{addr}}</span>
       </div>
       <div class="fl">
         <input type="hidden" v-model="addr" id="addr">
@@ -11,7 +11,7 @@
         <Poptip content="content" placement="bottom">
           <span class="show-addr-qr">二维码</span>
           <div class="qr-box" slot="content">
-            <img src="../../static/imgs/wx.png" alt="">
+            <img :src="qrCode" alt="">
           </div>
         </Poptip>
       </div>
@@ -24,26 +24,58 @@
       <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
       <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
     </div>
+     <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
 
 <script>
+import ax from 'axios'
 import ClipboardJS from 'clipboard'
 export default {
   name: 'encharge',
   props: {
     params: Object,
-    showCharge: Boolean
+    showCharge: Boolean,
+    token: String
   },
   data () {
     return {
-      addr: '1PywpKk22ZXLAKZ5LsVkpyArhFAR3Xkipu'
+      addr: '',
+      qrCode: '',
+      spinShow: false
+    }
+  },
+  watch: {
+    token () {
+      console.log('---------------------' + this.token)
+      this.getAddress(this.token)
+    }
+  },
+  methods: {
+    getAddress (token) {
+      this.spinShow = true
+      ax.get('/api/account/getAddress?type=' + token)
+        .then((res) => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            console.log('ok')
+            console.log(res.data.result)
+            this.addr = res.data.result.address
+            this.qrCode = res.data.result.qrcode
+            this.spinShow = false
+          } else {
+            this.spinShow = true
+          }
+        })
+        .catch((err) => {
+          this.spinShow = true
+        })
     }
   },
   mounted () {
     new ClipboardJS('#addr')
-    console.log('this.params' + '--------------------------')
-    console.log(this.params)
+    console.log('this.token' + '--------------------------')
+    console.log(this.token)
+    this.getAddress(this.token)
   }
 }
 </script>
@@ -51,6 +83,7 @@ export default {
 <style lang="less">
   @import url(../style/config.less);
   .encharge-main {
+    position: relative;
     width: 100%;
     .addr-box {
       height: 30px;

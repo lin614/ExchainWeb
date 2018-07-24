@@ -1,5 +1,5 @@
 <template>
-  <div class="get-cash-main">
+  <div class="get-cash-main" v-if="!showCharge">
     <div class="getcash-form">
       <Form ref="loginForm" :rules="getCashRules" :model="getCashModal" label-position="top" inline class="clearfix">
         <FormItem label="提币地址" prop="destAddr" style="width: 100%;">
@@ -35,6 +35,10 @@
 <script>
 export default {
   name: 'getCash',
+  props: {
+    showCharge: Boolean,
+    fee: String
+  },
   data () {
     return {
       getCashModal: {
@@ -55,6 +59,16 @@ export default {
         ]
       }
     }
+  },
+  watch: {
+    fee () {
+      console.log('fee' + this.fee)
+      this.getCashModal.fee = this.fee
+    }
+  },
+  mounted () {
+    console.log('mounted' + this.fee)
+    this.getCashModal.fee = this.fee
   }
 }
 </script>

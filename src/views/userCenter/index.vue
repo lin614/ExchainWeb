@@ -33,10 +33,13 @@
               <span @click="handleShowGAModel" class="card-item-opera fr">设置 ></span>
             </div>
           </div>
+
+          <!-- 修改密码框 -->
           <Modal
             v-model="showChangePwd"
             class-name="change-pwd-model"
-            :closable="false">
+            :closable="false"
+            on-cancel="handleCloseChangePwd">
             <crd potColor="#4399e9">
               <span slot="title">修改密码</span>
               <div class="form-box">
@@ -53,17 +56,17 @@
                   </FormItem>
                   <FormItem label="确认密码" prop="confirmPwd">
                     <Input type="password" v-model="changePwdModal.confirmPwd"></Input>
-                    <div class="pwd-rule">
+                    <!-- <div class="pwd-rule">
                        密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +
-                    </div>
+                    </div> -->
                   </FormItem>
                 </Form>
               </div>
             </crd>
             <div slot="footer">
               <div class="change-model-footer clearfix">
-                <span class="model-btn model-btn-active fl" @click="handleChangePwd"><Spin v-if="changeLoading" size="small"></Spin>修改</span>
-                <span class="model-btn fr" @click="handleCloseChangePwd">取消</span>
+                <span class="model-btn model-btn-active fl" @click="handleChangePwd('formCustom')"><Spin v-if="changeLoading" fix size="small"></Spin>修改</span>
+                <span class="model-btn fr" @click="handleCloseChangePwd('formCustom')">取消</span>
               </div>
             </div>
           </Modal>
@@ -116,7 +119,7 @@
             </crd>
             <div slot="footer">
               <div class="change-model-footer clearfix">
-                <span class="model-btn fl" @click="handleChangePwd"><Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
+                <span class="model-btn fl"><Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
               </div>
             </div>
           </Modal>
@@ -137,6 +140,7 @@ import page from "../components/page"
 import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
+import md5 from 'md5'
 export default {
   name: "usercenter",
   components: {
@@ -192,25 +196,18 @@ export default {
           status: "1"
         }
       ],
-      changePwdModal: {
-        currentPwd: '',
-        password: '',
-        confirmPwd: ''
-      },
+      changePwdModal: {},
       showChangePwd: false,
       changeLoading: false,
       rules: {
         currentPwd: [
-          { required: true, message: '请输入当前的密码', trigger: 'blur' },
-          { min: 6, max: 18, message: '密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +', trigger: 'blur' }
+          { required: true, message: '请输入当前的密码', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入您要修改的密码', trigger: 'blur' },
-          { min: 6, max: 18, message: '密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +', trigger: 'blur' }
+          { required: true, message: '请输入您要修改的密码', trigger: 'blur' }
         ],
         confirmPwd: [
           { required: true, message: '请再次输入您要修改的密码', trigger: 'blur' },
-          { min: 6, max: 18, message: '密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +', trigger: 'blur' },
           { validator: (rule, value, callback) => {
             if (this.changePwdModal.password === this.changePwdModal.confirmPwd) {
               callback()
@@ -230,10 +227,39 @@ export default {
       console.log('change pwd')
       this.showChangePwd = true
     },
-    handleChangePwd () {},
+    handleChangePwd (form) {
+      this.changeLoading = true
+      var vu = this
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          ax.post('/api/user/changePassword', {
+            password: md5(this.changePwdModal.currentPwd),
+            new_password: md5(this.changePwdModal.password)
+          })
+          .then((res) => {
+            if (res.status == '200' && res.data.errorCode == 0) {
+              console.log(res.data)
+              this.changeLoading = false
+              vu.$Message.success('添加地址成功！')
+            } else {
+              this.changeLoading = false
+              vu.$Message.error('网络异常！')
+            }
+          })
+          .catch((err) => {
+            this.changeLoading = false
+            vu.$Message.error('网络异常！')
+          })
+        } else {
+          this.changeLoading = false
+        }
+      })
+    },
     loadData () {
     },
-    handleCloseChangePwd () {
+    handleCloseChangePwd (form) {
+      this.changeLoading = false
+      this.$refs[form].resetFields()
       this.showChangePwd = false
     },
     /**
@@ -354,26 +380,26 @@ export default {
     .pwd-rule {
       padding-top: 40px;
     }
-  }
-  .model-btn {
-    display: inline-block;
-    width: 160px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 4px;
-    text-align: center;
-    border: 1px solid #5999E5;
-    color: #5999E5;
-    background-color: #fff;
-    cursor: pointer;
-    &:hover {
+    .model-btn {
+      position: relative;
+      display: inline-block;
+      width: 160px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border: 1px solid #5999E5;
+      color: #5999E5;
+      background-color: #fff;
+      cursor: pointer;
+      &:hover {
+        color: #fff;
+        background-color: #5999E5;
+      }
+    }
+    .model-btn-active {
       color: #fff;
       background-color: #5999E5;
     }
-  }
-  .model-btn-active {
-    color: #fff;
-    background-color: #5999E5;
   }
 }
 .ga-step {

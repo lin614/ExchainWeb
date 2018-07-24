@@ -8,7 +8,7 @@
             <div class="asset-amount">
               <span class="asset-amount-title">我的资产</span>
               <span>当前估值：</span>
-              <span class="total-amount">0.00000BTC / ￥0.00 CNY</span>
+              <span class="total-amount">{{BTCBalance}}BTC / ￥{{CNYBalance}} CNY</span>
             </div>
             <div class="opera-box clearfix">
               <!-- <span class="transfer-btn opera-box-btn fl" @click="handleTransferShow">资金划转</span> -->
@@ -23,22 +23,24 @@
             <crd potColor="#4399e9">
               <span slot="title">资金划转</span>
               <div class="form-box">
-                <Form ref="formCustom" :rules="rules" :model="trabsferModal" label-position="top">
+                <Form ref="formCustom" :rules="transRules" :model="trabsferModal" label-position="top">
                   <FormItem label="币种" prop="tokenType">
                     <!-- <Select v-model="trabsferModal.tokenType">
                       <Option v-for="(item, index) in transferTokenList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select> -->
                     <Input v-model="trabsferModal.token" disabled></Input>
                   </FormItem>
-                  <FormItem label="从" prop="from">
-                    <Select v-model="trabsferModal.from">
+                  <FormItem label="从" prop="from" class="available-box">
+                    <Select v-model="trabsferModal.from" @on-change="handleSelectFromChange">
                       <Option v-for="(item, index) in fromList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
+                    <span class="available-amount">余额为 <i v-show="(trabsferModal.from === 'master')">{{master}}</i><i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
                   </FormItem>
-                  <FormItem label="转至" prop="to">
-                    <Select v-model="trabsferModal.to">
+                  <FormItem label="转至" prop="to" class="available-box">
+                    <Select v-model="trabsferModal.to" @on-change="handleSelectToChange">
                       <Option v-for="(item, index) in toList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
+                    <span class="available-amount">余额为 <i v-show="(trabsferModal.to === 'master')">{{master}}</i><i v-show="(trabsferModal.to === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
                   </FormItem>
                   <FormItem label="数量" prop="amount">
                     <Input v-model="trabsferModal.amount"></Input>
@@ -49,7 +51,7 @@
             <div slot="footer">
               <div class="change-model-footer clearfix">
                 <span class="model-btn fr" @click="handleCloseTransfer">取消</span>
-                <span class="model-btn model-btn-active fl" @click="handleTransfer"><Spin v-if="transferLoading" size="small"></Spin>立刻划转</span>
+                <span class="model-btn model-btn-active fl" @click="handleTransfer('formCustom')"><Spin v-if="transferLoading" size="small"></Spin>立刻划转</span>
               </div>
             </div>
           </Modal>
@@ -80,16 +82,52 @@ export default {
     return {
       pageHeight: 0,
       showExType: '',
+      enchargeToken: '',
+      tokenFee: '',
+      master: '',
+      trade: '',
+      BTCBalance: '',
+      CNYBalance: '',
       showTransferModal: false,
       transferLoading: false,
       showCharge: false,
+      showColor: '',
       trabsferModal: {
         token: '',
         from: '',
         to: '',
         amount: ''
       },
-      rules: {},
+      transRules: {
+        amount: [
+          { required: true, message: '请输入划转数量', trigger: 'blur' },
+          { 
+            validator: (rule, value, callback) => {
+              if (value === '' && value === 0) {
+                callback('请输入划转数量')
+              }
+              // 判断是个数字
+              // var reg = /^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$/
+              // if (!reg.test(value)) {
+              //   callback('划转数量格式有误')
+              // }
+              if (this.trabsferModal.from === 'master') {
+                if (parseFloat(value) > parseFloat(this.master)) {
+                  callback('超过可用额度')
+                } else {
+                  callback()
+                }
+              } else {
+                if (parseFloat(value) > parseFloat(this.trade)) {
+                  callback('超过可用额度')
+                } else {
+                  callback()
+                }
+              }
+            }
+          }
+        ]
+      },
       assetListTable: [
         {
           title: '币种',
@@ -97,11 +135,11 @@ export default {
         },
         {
           title: '主账户',
-          key: 'main_account'
+          key: 'account_available'
         },
         {
           title: '交易账户',
-          key: 'trade_account'
+          key: 'exchange_available'
         },
         {
           title: '冻结',
@@ -112,30 +150,54 @@ export default {
           key: 'opera',
           minWidth: 250,
           render: (h, params) => {
+            // console.log(params)
             return h('div', [
               h('span', {
                 style: {
-                  color: '#419cf6',
+                  color: this.assetListData[params.index].showCharge ? '#419cf6' : '',
                   cursor: 'pointer',
                   marginRight: '30px'
                 },
                 on: {
                   click: () => {
+                    this.showColor = 'encharge'
                     this.handleOpera(params.index, params.row, 'encharge')
                   }
                 }
-              }, '充值'),
+              }, [
+                h('i', '充值'),
+                h('Icon', {
+                  props: {
+                    type: 'arrow-down-b'
+                  },
+                  style: {
+                    marginLeft: '4px'
+                  }
+                })
+              ]),
               h('span', {
                 style: {
                   cursor: 'pointer',
-                  marginRight: '30px'
+                  marginRight: '30px',
+                  color: this.assetListData[params.index].showCash ? '#419cf6' : ''
                 },
                 on: {
                   click: () => {
+                    this.showColor = 'getCash'
                     this.handleOpera(params.index, params.row, 'getCash')
                   }
                 }
-              }, '提现'),
+              }, [
+                h('i', '提现'),
+                h('Icon', {
+                  props: {
+                    type: 'arrow-down-b'
+                  },
+                  style: {
+                    marginLeft: '4px'
+                  }
+                })
+              ]),
               h('span', {
                 style: {
                   cursor: 'pointer',
@@ -143,7 +205,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.handleTransferShow(params.row.token)
+                    this.handleTransferShow(params.row.token, params.row.account_available, params.row.exchange_available)
                   }
                 }
               }, '划转')
@@ -165,41 +227,22 @@ export default {
               h(encharge, {
                 props: {
                   params: params,
-                  showCharge: this.showCharge
+                  showCharge: this.showCharge,
+                  token: this.enchargeToken
                 }
               }),
               h(getCash, {
                 props: {
-                  params: params
+                  params: params,
+                  showCharge: this.showCharge,
+                  fee: this.tokenFee
                 }
               })
             ])
           }
         },  
       ],
-      assetListData: [
-        {
-          token: 'BTC',
-          main_account: '1000',
-          exchange_freeze: '19000',
-          trade_account: '0.000',
-          _expanded: false
-        },
-        {
-          token: 'ETH',
-          main_account: '1000',
-          exchange_freeze: '19000',
-          trade_account: '0.000',
-          _expanded: false
-        },
-        {
-          token: 'USDT',
-          main_account: '1000',
-          exchange_freeze: '19000',
-          trade_account: '0.000',
-          _expanded: false
-        }
-      ],
+      assetListData: [],
       transferTokenList: [
         {
           label: 'BTC',
@@ -245,7 +288,8 @@ export default {
       })
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
-            console.log(res.data)
+            this.BTCBalance = res.data.result.BTC.available
+            this.CNYBalance = res.data.result.CNY.available
           }
         })
         .catch((err) => {})
@@ -263,50 +307,52 @@ export default {
         }
       }).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          this.assetListData = res.data.result.data;
+          console.log(res.data.result)
+          // this.assetListData = res.data.result
+          var obj = {}
+          var result = res.data.result
+          for (var key in result) {
+            obj.token = key
+            obj.account_available = result[key].account_available
+            obj.withdraw_fee = result[key].withdraw_fee
+            obj.exchange_available = result[key].exchange_available
+            obj.exchange_freeze = result[key].exchange_freeze
+            obj._expanded = false
+            this.assetListData.push(JSON.parse(JSON.stringify(obj)))
+          }
         }
       });
     },
     handleOpera (index, params, exType) {
+      this.assetListData.forEach((value, index) => {
+        value._expanded = false
+        value.showCharge = false
+        value.showCash = false
+      })
       if (exType === 'encharge') {
         /**
          * 充值
-         * 
-         * {
-         *  "errorCode": 0,
-         *  "errorMsg": "成功",
-         *  "result": {
-         *      "address": "0x6e522f4a8d369700d53aa52f2a4d6bac9186d030",
-         *      "qrcode": "/qrcode.png?d=ZXRoZXJldW06MHg2ZTUyMmY0YThkMzY5NzAwZDUzYWE1MmYyYTRkNmJhYzkxODZkMDMw&rand=1531753032&sign=af852ef4f894992201c1320a1cf451de"
-         *    }
-         *  }
          */
+        this.enchargeToken = params.token
         this.showCharge = true
-        ax.get('/api/account/getAddress?type=' + params.token)
-          .then((res) => {
-            if (res.status == '200' && res.data.errorCode == 0) {
-              console.log('ok')
-            }
-          })
-          .catch((err) => {})
+        this.assetListData[index]._expanded = true
+        this.showExType = exType
+        this.assetListData[index].showCharge = true
+        this.$set(this.assetListData, index, this.assetListData[index])
       } else {
         /**
          * 提现
          */
+        this.tokenFee = params.withdraw_fee
         this.showCharge = false
+        this.assetListData[index]._expanded = true
+        this.assetListData[index].showCash = true
+        this.$set(this.assetListData, index, this.assetListData[index])
       }
-      //request
-      this.assetListData.forEach((value, index) => {
-        value._expanded = false
-      })
-      console.log(this.assetListData)
-      this.assetListData[index]._expanded = true
-      this.assetListData[index].isEncharge = true
-      this.showExType = exType
-      console.log(this.showExType)
-      this.$set(this.assetListData, index, this.assetListData[index])
     },
-    handleTransferShow (token) {
+    handleTransferShow (token, master, trade) {
+      this.master = master
+      this.trade = trade
       this.showTransferModal = true
       this.trabsferModal.token = token
     },
@@ -314,7 +360,57 @@ export default {
     handleCloseTransfer () {
       this.showTransferModal = false
     },
-    handleTransfer () {}
+    handleTransfer (form) {
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          var vu = this
+          if (this.trabsferModal.to === 'trade') {
+            // 转到交易账户
+            ax.get('/api/account/toExchange?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
+              .then((res) => {
+                if (res.status == '200' && res.data.errorCode == 0) {
+                  console.log('操作成功')
+                  this.$refs[form].resetFields()
+                  vu.$Message.success('操作成功')
+                } else {
+                  vu.$Message.error('网络异常')
+                }
+              })
+              .catch((err) => {})
+          } else if (this.trabsferModal.to === 'master') {
+            // 转到主账户
+            ax.get('/api/exchange/toAccount?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
+              .then((res) => {
+                if (res.status == '200' && res.data.errorCode == 0) {
+                  this.$refs[form].resetFields()
+                  vu.$Message.success('操作成功')
+                } else {
+                  vu.$Message.error('网络异常')
+                }
+              })
+              .catch((err) => {})
+          }
+        } else {}
+      })
+    },
+    handleSelectFromChange () {
+      console.log(this.trabsferModal.from)
+      if (this.trabsferModal.from === 'master') {
+        this.trabsferModal.to = 'trade'
+      }
+      if (this.trabsferModal.from === 'trade') {
+        this.trabsferModal.to = 'master'
+      }
+    },
+    handleSelectToChange () {
+      console.log(this.trabsferModal.to)
+      if (this.trabsferModal.to === 'master') {
+        this.trabsferModal.from = 'trade'
+      }
+      if (this.trabsferModal.to === 'trade') {
+        this.trabsferModal.from = 'master'
+      }
+    }
   },
   created () {
     this.getBalance()
@@ -409,5 +505,13 @@ export default {
         display: none;
       }
     }
+  }
+  .available-box {
+    position: relative;
+      .available-amount {
+        position: absolute;
+        top: -27px;
+        right: 0;
+      }
   }
 </style>
