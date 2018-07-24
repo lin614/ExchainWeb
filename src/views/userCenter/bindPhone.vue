@@ -24,7 +24,7 @@
                   <Input v-model="bindForm.googleCode"></Input>
                 </FormItem>
                 <FormItem>
-                  <Button type="primary" @click="handleConfirmClick()" long>确认</Button>
+                  <Button type="primary" @click="handleConfirmClick" long>确认</Button>
                 </FormItem>
               </Form>
             </div>
@@ -159,11 +159,15 @@ export default {
       }
     },
     handleConfirmClick () {
-      this.confirmLoading = true
-      this.$refs['bindForm'].validate((valid) => {
-        if (valid) {
+      // this.confirmLoading = true
+      console.log(1 + '-----')
+      console.log(this.$refs.bindForm)
+      // this.$refs.bindForm.validate((valid) => {
+      //   console.log(2)
+      //   if (valid) {
+      //     console.log(3)
           ax({
-            url: config.url.user + '/api/user/bindPhone',
+            url: '/api/user/verifyBindPhone',
             method: 'post',
             data: {
               phone: this.bindForm.phone,
@@ -190,8 +194,8 @@ export default {
           .catch((err) => {
             console.log(err)
           })
-        }
-      })
+      //   }
+      // })
     }
   },
   created () {

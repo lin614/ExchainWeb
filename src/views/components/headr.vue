@@ -204,10 +204,13 @@ export default {
       })
     },
     logout() {
-      this.isLogin = false
       sessionStorage.clear()
       cookie.remove('PN')
-      this.$router.push({ path: '/login' })
+      ax.get('/api/user/logout')
+        .then((res) => {
+          console.log('登出')
+        })
+      // this.$router.push({ path: '/login' })
     }
   },
   destroyed() {

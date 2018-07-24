@@ -1,5 +1,5 @@
 <template>
-  <div class="encharge-main">
+  <div class="encharge-main" v-if="showCharge">
     <div>充币地址</div>
     <div class="addr-box">
       <div class="fl">
@@ -32,7 +32,8 @@ import ClipboardJS from 'clipboard'
 export default {
   name: 'encharge',
   props: {
-    isEncharge: Boolean
+    params: Object,
+    showCharge: Boolean
   },
   data () {
     return {
@@ -41,6 +42,8 @@ export default {
   },
   mounted () {
     new ClipboardJS('#addr')
+    console.log('this.params' + '--------------------------')
+    console.log(this.params)
   }
 }
 </script>
