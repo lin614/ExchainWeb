@@ -41,6 +41,7 @@ import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
+ax.defaults.withCredentials = true;
 export default {
   name: 'bindphone',
   data () {
@@ -126,7 +127,7 @@ export default {
       }
       if (this.isPhone) {
         ax({
-          url: config.url.user + '/api/user/bindPhone',
+          url: '/api/user/bindPhone',
           method: 'post',
           data: {
             phone: this.bindForm.phone,
@@ -146,11 +147,13 @@ export default {
           }
         })
         .then((res) => {
+          this.sendCodeLoading = false
           if (res.status == '200' && res.data.errorCode == 0) {
             console.log('发送成功')
           }
         })
         .catch((err) => {
+          this.sendCodeLoading = false
           console.log(err)
         })
       }

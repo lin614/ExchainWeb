@@ -10,8 +10,48 @@
               <span>当前估值：</span>
               <span class="total-amount">0.00000BTC / ￥0.00 CNY</span>
             </div>
-            <Table :columns="columns1" :data="data1" disabled-hover="true"></Table>
+            <div class="opera-box clearfix">
+              <span class="transfer-btn opera-box-btn fl" @click="handleTransferShow">资金划转</span>
+              <span class="manage-addr-btn opera-box-btn fl" @click="handleManageAddr">提现地址管理</span>
+            </div>
+            <Table :columns="columns1" :data="data1" :disabled-hover="true"></Table>
           </div>
+          <Modal
+            v-model="showTransferModal"
+            class-name="change-pwd-model"
+            :closable="false">
+            <crd potColor="#4399e9">
+              <span slot="title">资金划转</span>
+              <div class="form-box">
+                <Form ref="formCustom" :rules="rules" :model="trabsferModal" label-position="top">
+                  <FormItem label="币种" prop="tokenType">
+                    <Select v-model="trabsferModal.tokenType">
+                      <Option v-for="(item, index) in transferTokenList" :value="item.value" :key="index">{{ item.label }}</Option>
+                    </Select>
+                  </FormItem>
+                  <FormItem label="从" prop="from">
+                    <Select v-model="trabsferModal.from">
+                      <Option v-for="(item, index) in fromList" :value="item.value" :key="index">{{ item.label }}</Option>
+                    </Select>
+                  </FormItem>
+                  <FormItem label="转至" prop="to">
+                    <Select v-model="trabsferModal.to">
+                      <Option v-for="(item, index) in toList" :value="item.value" :key="index">{{ item.label }}</Option>
+                    </Select>
+                  </FormItem>
+                  <FormItem label="数量" prop="amount">
+                    <Input type="password" v-model="trabsferModal.amount"></Input>
+                  </FormItem>
+                </Form>
+              </div>
+            </crd>
+            <div slot="footer">
+              <div class="change-model-footer clearfix">
+                <span class="model-btn fr" @click="handleCloseTransfer">取消</span>
+                <span class="model-btn model-btn-active fl" @click="handleTransfer"><Spin v-if="transferLoading" size="small"></Spin>立刻划转</span>
+              </div>
+            </div>
+          </Modal>
         </crd>
       </div>
     </div>
@@ -23,11 +63,31 @@ import page from "../components/page"
 import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
+import encharge from './encharge'
+import getCash from './getCash'
+import manageAddr from './manageAddr'
 export default {
   name: 'asset',
+  components: {
+    crd,
+    page,
+    encharge,
+    getCash,
+    manageAddr
+  },
   data () {
     return {
       pageHeight: 0,
+      showExType: '',
+      showTransferModal: false,
+      transferLoading: false,
+      trabsferModal: {
+        tokenType: '',
+        from: '',
+        to: '',
+        amount: ''
+      },
+      rules: {},
       columns1: [
         {
           title: '币种',
@@ -46,42 +106,119 @@ export default {
           key: 'exchange_freeze'
         },
         {
+          title: '主账户',
+          key: 'main_account'
+        },
+        {
           title: ' ',
           key: 'opera',
+          minWidth: 250,
           render: (h, params) => {
-            return h('div', {
-              style: {
-                width: '250px'
-              }
-            }, [
+            return h('div', [
               h('span', {
                 style: {
-                  color: '#419cf6',
+                   color: '#419cf6',
                   cursor: 'pointer',
-                  marginRight: '40px'
+                  marginRight: '30px'
+                },
+                on: {
+                  click: () => {
+                    this.handleOpera(params.index, 'encharge')
+                  }
                 }
               }, '充值'),
               h('span', {
                 style: {
                   cursor: 'pointer',
-                  marginRight: '40px'
+                  marginRight: '30px'
+                },
+                on: {
+                  click: () => {
+                    this.handleOpera(params.index, 'getCash')
+                  }
                 }
-              }, '提现'),
-              h('span', {
-                style: {
-                  cursor: 'pointer'
-                }
-              }, '提现地址管理')
+              }, '提现')
             ]);
           }
+        },
+        {
+          type: 'expand',
+          width: 50,
+          render: (h, params) => {
+            return h('div', {
+              style: {
+                width: '100%',
+                padding: '20px',
+                minHeight: '200px',
+                backgroundColor: '#f5f5f5' 
+              }
+            }, [
+              h(getCash, {})
+            ])
+          }
+        },  
+      ],
+      data1: [
+        {
+          token: 'BTC',
+          amount: '20000',
+          amount_available: '1000',
+          exchange_freeze: '19000',
+          main_account: '0.000',
+          _expanded: false
+        },
+        {
+          token: 'ETH',
+          amount: '20000',
+          amount_available: '1000',
+          exchange_freeze: '19000',
+          main_account: '0.000',
+          _expanded: false
+        },
+        {
+          token: 'ETC',
+          amount: '20000',
+          amount_available: '1000',
+          exchange_freeze: '19000',
+          main_account: '0.000',
+          _expanded: false
         }
       ],
-      data1: []
+      transferTokenList: [
+        {
+          label: 'BTC',
+          value: 'BTC'
+        },
+        {
+          label: 'ETH',
+          value: 'ETH'
+        },
+        {
+          label: 'USDT',
+          value: 'USDT'
+        }
+      ],
+      fromList: [
+        {
+          label: '主账户',
+          value: 'master'
+        },
+        {
+          label: '交易账户',
+          value: 'trade'
+        }
+      ],
+      toList: [
+        {
+          label: '主账户',
+          value: 'master'
+        },
+        {
+          label: '交易账户',
+          value: 'trade'
+        }
+      ]
     }
-  },
-  components: {
-    crd,
-    page
   },
   methods: {
     handleWindowResize () {
@@ -90,16 +227,40 @@ export default {
     /**
      * 获取我的资产列表
      */
-    getMyAsset () {
-      ax.get(config.url.user + '/api/account/assetsList').then(res => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          this.data1 = res.data.result.data;
-        }
-      });
-    }
+    // getMyAsset () {
+    //   ax.get('/api/account/assetsList', {
+    //     headers: {
+    //       "pn": sessionStorage.pn
+    //     }
+    //   }).then(res => {
+    //     if (res.status == '200' && res.data.errorCode == 0) {
+    //       this.data1 = res.data.result.data;
+    //     }
+    //   });
+    // }
+    handleOpera (index, exType) {
+      //request
+      this.data1.forEach((value, index) => {
+        value._expanded = false
+      })
+      console.log(this.data1)
+      this.data1[index]._expanded = true
+      this.data1[index].isEncharge = true
+      this.showExType = exType
+      console.log(this.showExType)
+      this.$set(this.data1, index, this.data1[index])
+    },
+    handleTransferShow () {
+      this.showTransferModal = true
+    },
+    handleManageAddr () {},
+    handleCloseTransfer () {
+      this.showTransferModal = false
+    },
+    handleTransfer () {}
   },
   created () {
-    this.getMyAsset();
+    // this.getMyAsset();
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
@@ -110,8 +271,9 @@ export default {
 </script>
 
 <style lang="less">
+  @import url(../style/config.less);
   .asset-cont {
-    padding-top: 40px;
+    padding: 40px 0;
     font-size: 14px;
     .crd {
       margin-bottom: 0;
@@ -136,11 +298,29 @@ export default {
             color: #4b96e6;
           }
         }
+        .opera-box {
+          width: 100%;
+          margin-top: 16px;
+          .opera-box-btn {
+            display: inline-block;
+            min-width: 100px;
+            height: 30px;
+            font-size: @font-text;
+            line-height: 30px;
+            margin-right: 30px;
+            padding: 0 10px;
+            background-color: @font-color-blue;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+          }
+        }
       }
     }
     .ivu-table-wrapper {
       border: none;
       padding-top: 55px;
+      padding-bottom: 25px;
       .ivu-table::after {
         width: 0;
       }
@@ -163,6 +343,12 @@ export default {
       }
       .ivu-table td:last-child {
         width: 250px;
+      }
+      td.ivu-table-expanded-cell {
+        padding: 0;
+      }
+      .ivu-table-cell-expand {
+        display: none;
       }
     }
   }

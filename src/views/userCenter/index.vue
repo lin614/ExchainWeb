@@ -22,16 +22,16 @@
               <span class="card-item-title fl">登录密码</span>
               <span @click="handleShowChangePwdModel" class="card-item-opera fr">修改 ></span>
             </div>
-            <div class="card-item">
+            <div class="card-item car-item-unline">
               <span class="card-item-title fl">手机绑定</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
               <router-link to="/usercenter/bind" class="card-item-opera fr">修改 ></router-link>
             </div>
-            <div class="card-item car-item-unline">
+            <!-- <div class="card-item car-item-unline">
               <span class="card-item-title fl">谷歌验证</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
               <span @click="handleShowGAModel" class="card-item-opera fr">设置 ></span>
-            </div>
+            </div> -->
           </div>
           <Modal
             v-model="showChangePwd"
@@ -77,16 +77,41 @@
               <span slot="title">身份验证</span>
               <div class="form-box">
                 <div class="ga-step">
-                  <div>
-                    <span>1</span>
-                    <span></span>
+                  <div class="hd">
+                    <span class="index">1</span>
+                    <span class="txt">下载并安装 Googie 身份验证器</span>
+                  </div>
+                  <div class="cnt">
+                    <img src="../../static/imgs/ga-google-play.png" alt="">
+                    <img src="../../static/imgs/ga-app-store.png" alt="">
                   </div>
                 </div>
-                <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
-                  <FormItem label="确认密码" prop="confirmPwd">
-                    <Input v-model="changePwdModal.confirmPwd"></Input>
-                  </FormItem>
-                </Form>
+                <div class="ga-step">
+                  <div class="hd">
+                    <span class="index">2</span>
+                    <span class="txt">使用 Googie 身份验证器 扫描二维码或输入序列号</span>
+                  </div>
+                  <div class="cnt">
+                    <div>
+                      <img class="qrcode" src="http://www.bubi.cn/r/cms/www/default/images/qrcode_bubichain.jpg" alt="">
+                      <p class="descript">此密钥可让您在手机丢失的情况下恢复您的 Googie 身份验证。如需重制Googe 身份验证，请提交工单支持，我们需要至少7天处理您的申请。</p>
+                    </div>
+                    <p class="address">GKDFGFDKGGFDKGDHGVHDFOBFDB</p>
+                  </div>
+                </div>
+                <div class="ga-step">
+                  <div class="hd">
+                    <span class="index">3</span>
+                    <span class="txt">谷歌验证码</span>
+                  </div>
+                  <div class="cnt">
+                    <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
+                      <FormItem label="" prop="confirmPwd">
+                        <Input v-model="changePwdModal.confirmPwd" placeholder="请输入谷歌验证码"></Input>
+                      </FormItem>
+                    </Form>
+                  </div>
+                </div>
               </div>
             </crd>
             <div slot="footer">
@@ -349,6 +374,46 @@ export default {
   .model-btn-active {
     color: #fff;
     background-color: #5999E5;
+  }
+}
+.ga-step {
+  margin-bottom: 20px;
+  .hd {
+    .index {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin-right: 5px;
+      background: rgba(89,153,229,1);
+      text-align: center;
+      font-size: 16px;
+      line-height: 30px;
+      color: #fff;
+      border-radius: 50%;
+    }
+    .txt{
+      font-size: 14px;
+      color: #333;
+    }
+  }
+  .cnt {
+    padding-left: 40px;
+    img {
+      display: inline-block;
+    }
+
+    .qrcode {
+      float: left;
+      margin-right: 10px;
+      width: 140px;
+      height: 140px;
+    }
+    .descript {
+      padding-top: 15px;
+    }
+    .address {
+
+    }
   }
 }
 </style>

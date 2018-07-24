@@ -93,7 +93,7 @@ export default {
         if (valid) {
           ax
             .post(
-              config.url.user + '/api/user/login',
+              '/api/user/login',
               {
                 email: vu.loginInfo.email,
                 password: md5(vu.loginInfo.pwd)
