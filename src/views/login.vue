@@ -93,7 +93,7 @@ export default {
         if (valid) {
           ax
             .post(
-              '/api/user/login',
+              config.url.user + '/api/user/login',
               {
                 email: vu.loginInfo.email,
                 password: md5(vu.loginInfo.pwd)
@@ -109,7 +109,9 @@ export default {
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
                 sessionStorage.setItem('PN', res.data.result.pn)
-                console.log('res.data.result.pn++++++++++++++++' + res.data.result.pn)
+                console.log(
+                  'res.data.result.pn++++++++++++++++' + res.data.result.pn
+                )
                 // cookie.set('PN', encodeURIComponent(res.data.result.pn))
                 cookie.set('PN', res.data.result.pn)
                 vu.$router.push('/userCenter')

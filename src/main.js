@@ -11,6 +11,7 @@ import VueI18n from 'vue-i18n';
 import Locales from './locale';
 import zhLocale from 'iview/src/locale/lang/zh-CN';
 import enLocale from 'iview/src/locale/lang/en-US';
+import ax from 'axios'
 
 import './static/icons/iconfont.css'
 
@@ -19,6 +20,10 @@ Vue.use(Vuex);
 Vue.use(VueI18n);
 Vue.use(iView);
 
+import config from './config/config'
+ax.defaults.headers.post['Content-Type'] = "application/json"
+// ax.defaults.headers.post['referer'] = config.url.domain
+// ax.defaults.headers.post['origin'] = config.url.domain
 // 自动设置语言
 const navLang = navigator.language;
 const localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false;

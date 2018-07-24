@@ -35,13 +35,16 @@ module.exports = merge(webpackBaseConfig, {
         })
     ],
     devServer: {
+        // host: 'www.exchain.com',
+        // // host: '127.0.0.1',
+        // port: 4001,
         proxy: {
             '/api': {
-              target: '172.16.2.30',
-              changeOrigin: true
+                target: 'http://172.16.2.30:8080',
+                changeOrigin: true
             }
         },
-        host: '127.0.0.1',
-        port: '4001'
+        host: 'www.stockchain.cn',
+        port: '80'
     },
 });
