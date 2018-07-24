@@ -226,16 +226,15 @@ export default {
             }, [
               h(encharge, {
                 props: {
-                  params: params,
                   showCharge: this.showCharge,
                   token: this.enchargeToken
                 }
               }),
               h(getCash, {
                 props: {
-                  params: params,
                   showCharge: this.showCharge,
-                  fee: this.tokenFee
+                  fee: this.tokenFee,
+                  token: this.enchargeToken
                 }
               })
             ])
@@ -276,7 +275,8 @@ export default {
           label: '交易账户',
           value: 'trade'
         }
-      ]
+      ],
+      tokenObj: {}
     }
   },
   methods: {
@@ -307,7 +307,7 @@ export default {
         }
       }).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          console.log(res.data.result)
+          // console.log(res.data.result)
           // this.assetListData = res.data.result
           var obj = {}
           var result = res.data.result
@@ -321,7 +321,21 @@ export default {
             this.assetListData.push(JSON.parse(JSON.stringify(obj)))
           }
         }
-      });
+      })
+    },
+    getTokenObj () {
+      ax.get('/api/quotation/getSymbolLists')
+        .then((res) => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            console.log('---------------result')
+            console.log(res.data.result)
+            var result = res.data.result
+            this.tokenObj = res.data.result
+            console.log('---------------tokenObj')
+            console.log(this.tokenObj)
+          }
+        })
+        .catch((err) => {})
     },
     handleOpera (index, params, exType) {
       this.assetListData.forEach((value, index) => {
@@ -343,6 +357,7 @@ export default {
         /**
          * 提现
          */
+        this.enchargeToken = params.token
         this.tokenFee = params.withdraw_fee
         this.showCharge = false
         this.assetListData[index]._expanded = true
@@ -360,6 +375,9 @@ export default {
     handleCloseTransfer () {
       this.showTransferModal = false
     },
+    /**
+     * 划转
+     */
     handleTransfer (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
@@ -415,6 +433,7 @@ export default {
   created () {
     this.getBalance()
     this.getMyAsset()
+    this.getTokenObj()
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },

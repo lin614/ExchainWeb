@@ -24,7 +24,7 @@
             <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
           </div>
           <div class="get-btn-box fr">
-            <Button type="primary">提币</Button>
+            <Button type="primary" @click="handleGetCash">提币</Button>
           </div>
         </FormItem>
       </Form>
@@ -33,11 +33,13 @@
 </template>
 
 <script>
+import ax from 'axios'
 export default {
   name: 'getCash',
   props: {
     showCharge: Boolean,
-    fee: String
+    fee: String,
+    token: String
   },
   data () {
     return {
@@ -64,6 +66,26 @@ export default {
     fee () {
       console.log('fee' + this.fee)
       this.getCashModal.fee = this.fee
+    }
+  },
+  methods: {
+    handleGetCash () {
+      var vu = this
+      ax.post('/api/account/withdraw', {
+        type: this.token,
+        outer_address: this.getCashModal.destAddr,
+        balance: this.getCashModal.amount
+      })
+      .then((res) => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          vu.$Message.success('提币请求已提交！')
+        } else {
+          vu.$Message.error('网络异常')
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   },
   mounted () {
