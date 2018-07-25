@@ -14,6 +14,14 @@ import enLocale from 'iview/src/locale/lang/en-US';
 import ax from 'axios'
 import LangZhCn from './static/i18n/zh-cn'
 import LangEnUs from './static/i18n/en-us'
+import bus from './views/js/eventBus.js'
+import {
+    sub,
+    unsub
+} from './views/js/channels'
+import ws from './views/js/websocket.js'
+global.ws = ws()
+global.bus = bus
 
 import './static/icons/iconfont.css'
 

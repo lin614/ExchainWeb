@@ -5,8 +5,7 @@
             <crd2 potColor="#439aea">
                 <span slot="p1">当日总成交额</span>
                 <span slot="p2">
-                    <Icon type="social-bitcoin"></Icon>&nbsp 0
-                    <!-- {{valume}} -->
+                    <Icon type="social-bitcoin"></Icon>&nbsp {{valume}}
                 </span>
                 <span slot="p3">&nbsp</span>
             </crd2>
@@ -16,14 +15,13 @@
             <crd2 potColor="#13b385">
                 <p slot="p1">ET总市值</p>
                 <p slot="p2">
-                    <Icon type="social-bitcoin"></Icon>&nbsp
-                    <!-- {{etvalue}} -->
-                    0
+                    <Icon type="social-bitcoin"></Icon>&nbsp {{etvalue}}
+
                 </p>
                 <p slot="p3">ET总流通量
                     <span>
-                        <!-- {{etnum}} -->
-                        0
+                        {{etnum}}
+
                     </span>
                 </p>
             </crd2>
