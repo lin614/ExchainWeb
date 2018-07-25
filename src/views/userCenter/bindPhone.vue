@@ -1,7 +1,7 @@
 <template>
   <page>
     <div class="bindphone-cont" :style="'minHeight:' + pageHeight + 'px'">
-      <div class="content">
+      <div class="content-body-main">
         <crd potColor="#4399e9">
           <span slot="title">绑定手机号</span>
           <div class="bind-main">

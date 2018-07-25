@@ -28,10 +28,6 @@ body {
 .clearfix {
   *zoom: 1;
 }
-.content {
-  width: 1200px;
-  margin: 0 auto;
-}
 .fl {
   float: left;
 }
@@ -51,10 +47,12 @@ html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, l
   padding: 0;
 }
 /*main-cont*/
-.content {
+// .user-center-cont, .asset-cont, .manage-addr-cont, .bindphone-cont, .kyc-cont, .entrust-cont {
+.content-body-main {
   width: 1180px;
   margin: 0 auto;
 }
+
 img, input, textarea {
   border: none;
   padding: 0;

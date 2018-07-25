@@ -1,7 +1,7 @@
 <template>
   <page>
     <div class="entrust-cont" :style="'minHeight:' + pageHeight + 'px'">
-      <div class="content clearfix">
+      <div class="content-body-main clearfix">
         <crd potColor="#4399e9">
           <span slot="title">委托管理</span>
           <div class="entrust-tab">

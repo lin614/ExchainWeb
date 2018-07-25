@@ -1,7 +1,7 @@
 <template>
   <page>
     <div class="asset-cont" :style="'minHeight:' + pageHeight + 'px'">
-      <div class="content">
+      <div class="content-body-main">
         <crd potColor="#4399e9">
           <span slot="title">我的资产</span>
           <div class="card-main clearfix">
