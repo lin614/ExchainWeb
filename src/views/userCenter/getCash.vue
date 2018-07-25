@@ -6,7 +6,7 @@
           <Input v-model="getCashModal.destAddr"></Input>
         </FormItem>
         <FormItem label="数量" prop="amount" style="width: 100%;" class="available-box">
-          <Input v-model="getCashModal.amount"></Input>
+          <Input v-model="getCashModal.amount" @on-blur="handleAmountBlur"></Input>
           <span class="available-amount">余额为{{accountData.account_available}}</span>
           <!-- <span class="available-amount">余额为 <i v-show="(trabsferModal.from === 'master')">{{master}}</i><i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span> -->
         </FormItem>
@@ -47,7 +47,7 @@ export default {
     fee: String,
     token: String,
     params: Object,
-    getTokenObj: Object
+    tokenObj: Object
   },
   data () {
     return {
@@ -73,19 +73,18 @@ export default {
               if (value === '' || value === 0 || value === '0') {
                 callback('请输入提现数量')
               }
-              var decimal = 8
+              // 判断精度
+              var decimal = this.accountData.decimal
+              console.log('decimal' + decimal)
               var reg = RegExp('^[0-9]{0,8}(\.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
-                callback('划转数量格式有误')
+                callback('因币种限制，最多支持到小数点后' + decimal + '位')
               }
               if (parseFloat(value) > parseFloat(this.accountData.account_available)) {
                 callback('超出可用额度')
               } else {
                 callback()
               }
-              // console.log('value = '+ value + ', this.tokenDecimal = ' + this.tokenDecimal)
-              // console.log(util.checkPointNum(value, this.tokenDecimal))
-              callback(util.checkPointNum(value, this.tokenDecimal))
             }, trigger: 'change'
            }
         ],
@@ -136,13 +135,17 @@ export default {
           vu.$Message.error('网络异常')
         console.log(err)
       })
+    },
+    handleAmountBlur (e) {
+      // 大数字涉及到计算精度问题
+      // this.getCashModal.actualAmount = parseFloat(e.target.value) - parseFloat(this.getCashModal.fee)
+      console.log('实际到账金额' + this.getCashModal.actualAmount)
     }
   },
   mounted () {
-    console.log(this.params)
     this.accountData = JSON.parse(JSON.stringify(this.params))
+    console.log(this.accountData)
     this.getCashModal.fee = this.fee
-    // this.tokenDecimal = this.decimal
   }
 }
 </script>

@@ -114,8 +114,9 @@ export default {
               if (value === '' || value === 0 || value === '0') {
                 callback('请输入划转数量')
               }
-              // 判断是个数字
-              var decimal = 8
+              // 判断精度
+              var decimal = this.tokenObj[this.trabsferModal.token].decimal
+              console.log('decimal' + decimal)
               var reg = RegExp('^[0-9]{0,8}(\.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
                 callback('划转数量格式有误')
@@ -259,7 +260,8 @@ export default {
                   showCharge: this.showCharge,
                   fee: this.tokenFee,
                   token: this.enchargeToken,
-                  params: params.row
+                  params: params.row,
+                  getTokenObj: this.tokenObj
                 }
               })
             ])
