@@ -68,7 +68,7 @@ const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
     console.log(to)
-    if (!(to.meta.noNeedLogin || store.state.islogin)) {
+    if (!to.meta.noNeedLogin && sessionStorage.getItem('PN') == null) {
         router.push('/login')
     }
     iView.LoadingBar.start();
@@ -100,7 +100,7 @@ const store = new Vuex.Store({
     },
     getters: {
         // islogin: function () {
-            
+
         // }
     },
     actions: {
