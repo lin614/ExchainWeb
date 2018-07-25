@@ -12,6 +12,8 @@ import Locales from './locale';
 import zhLocale from 'iview/src/locale/lang/zh-CN';
 import enLocale from 'iview/src/locale/lang/en-US';
 import ax from 'axios'
+import LangZhCn from './static/i18n/zh-cn'
+import LangEnUs from './static/i18n/en-us'
 
 import './static/icons/iconfont.css'
 
@@ -37,6 +39,13 @@ const mergeZH = Object.assign(zhLocale, locales['zh-CN']);
 const mergeEN = Object.assign(enLocale, locales['en-US']);
 Vue.locale('zh-CN', mergeZH);
 Vue.locale('en-US', mergeEN);
+const i18n = new VueI18n({
+    locale: lang,
+    messages: {
+    'cn': LangZhCn,
+    'en': LangEnUs
+    }
+})
 
 
 // 路由配置
@@ -60,7 +69,10 @@ router.afterEach(() => {
 
 const store = new Vuex.Store({
     state: {
-        islogin: false
+        islogin: false,
+        currentLang: 'cn',
+        email: '',
+        mtime: ''
     },
     mutations: {
         login(s) {
@@ -68,6 +80,13 @@ const store = new Vuex.Store({
         },
         logout(s) {
             s.islogin = false
+        },
+        changeLang(s, data) {
+            s.currentLang = data
+        },
+        showUserInfo(s, data) {
+            s.email = data.email
+            s.mtime = data.mtime
         }
     },
     getters: {

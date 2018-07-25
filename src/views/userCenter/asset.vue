@@ -11,8 +11,7 @@
               <span class="total-amount">{{BTCBalance}}BTC / ￥{{CNYBalance}} CNY</span>
             </div>
             <div class="opera-box clearfix">
-              <!-- <span class="transfer-btn opera-box-btn fl" @click="handleTransferShow">资金划转</span> -->
-              <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr" @click="handleManageAddr">提现地址管理</router-link>
+              <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">提现地址管理</router-link>
             </div>
             <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>
           </div>
@@ -50,8 +49,11 @@
             </crd>
             <div slot="footer">
               <div class="change-model-footer clearfix">
-                <span class="model-btn fr" @click="handleCloseTransfer">取消</span>
-                <span class="model-btn model-btn-active fl" @click="handleTransfer('formCustom')"><Spin v-if="transferLoading" size="small"></Spin>立刻划转</span>
+                <span class="model-btn fr" @click="handleCloseTransfer('formCustom')">取消</span>
+                <div class="model-btn model-btn-active fl" @click="handleTransfer('formCustom')">
+                  <span>立刻划转</span>
+                  <Spin v-if="transferLoading" size="small" fix></Spin>
+                </div>
               </div>
             </div>
           </Modal>
@@ -99,32 +101,40 @@ export default {
         amount: ''
       },
       transRules: {
+        from: [
+          { required: true, message: '请选择转出账户', trigger: 'blur' }
+        ],
+        to: [
+          { required: true, message: '请选择转入账户', trigger: 'blur' }
+        ],
         amount: [
           { required: true, message: '请输入划转数量', trigger: 'blur' },
           { 
             validator: (rule, value, callback) => {
-              if (value === '' && value === 0) {
+              if (value === '' || value === 0 || value === '0') {
                 callback('请输入划转数量')
               }
               // 判断是个数字
-              // var reg = /^[+]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$/
-              // if (!reg.test(value)) {
-              //   callback('划转数量格式有误')
-              // }
+              var decimal = 8
+              var reg = RegExp('^[0-9]{0,8}(\.[0-9]{0,' + decimal + '})?$')
+              if (!reg.test(value)) {
+                callback('划转数量格式有误')
+              }
               if (this.trabsferModal.from === 'master') {
                 if (parseFloat(value) > parseFloat(this.master)) {
                   callback('超过可用额度')
-                } else {
-                  callback()
                 }
-              } else {
+              } else if (this.trabsferModal.from === 'trade') {
                 if (parseFloat(value) > parseFloat(this.trade)) {
                   callback('超过可用额度')
-                } else {
-                  callback()
+                }
+              } else {
+                if (parseFloat(value) > 0) {
+                  callback('超过可用额度')
                 }
               }
-            }
+              callback()
+            }, trigger: 'change'
           }
         ]
       },
@@ -150,13 +160,15 @@ export default {
           key: 'opera',
           minWidth: 250,
           render: (h, params) => {
-            // console.log(params)
+            // console.log('行数据如下： ')
+            // console.log(params.row)
             return h('div', [
               h('span', {
                 style: {
                   color: this.assetListData[params.index].showCharge ? '#419cf6' : '',
                   cursor: 'pointer',
-                  marginRight: '30px'
+                  marginRight: '30px',
+                  display: params.row.recharge ? 'inline' : 'none'
                 },
                 on: {
                   click: () => {
@@ -179,7 +191,8 @@ export default {
                 style: {
                   cursor: 'pointer',
                   marginRight: '30px',
-                  color: this.assetListData[params.index].showCash ? '#419cf6' : ''
+                  color: this.assetListData[params.index].showCash ? '#419cf6' : '',
+                  display: params.row.withdraw ? 'inline' : 'none'
                 },
                 on: {
                   click: () => {
@@ -208,7 +221,18 @@ export default {
                     this.handleTransferShow(params.row.token, params.row.account_available, params.row.exchange_available)
                   }
                 }
-              }, '划转')
+              }, '划转'),
+              h('span', {
+                style: {
+                  cursor: 'pointer',
+                  marginRight: '30px',
+                  display: params.row.trade ? 'inline' : 'none'
+                },
+                on: {
+                  click: () => {
+                  }
+                }
+              }, '交易')
             ]);
           }
         },
@@ -234,7 +258,8 @@ export default {
                 props: {
                   showCharge: this.showCharge,
                   fee: this.tokenFee,
-                  token: this.enchargeToken
+                  token: this.enchargeToken,
+                  params: params.row
                 }
               })
             ])
@@ -279,6 +304,25 @@ export default {
       tokenObj: {}
     }
   },
+  watch: {
+    tokenObj () {
+      // this.assetListData
+      console.log('watch')
+      console.log(this.tokenObj)
+      for (var key in this.tokenObj) {
+        for (var i = 0; i < this.assetListData.length; i++) {
+          if (this.assetListData[i].token === key) {
+            this.assetListData[i].trade = key.trade
+            this.assetListData[i].recharge = key.recharge
+            this.assetListData[i].withdraw = key.withdraw
+            this.assetListData[i].decimal = key.decimal
+            this.$set( this.assetListData, i, this.assetListData[i])
+            break
+          }
+        }
+      }
+    }
+  },
   methods: {
     getBalance () {
       ax.get('/api/account/balanceQuery?types=BTC,CNY', {withcredentials: true}, {
@@ -301,6 +345,7 @@ export default {
      * 获取我的资产列表
      */
     getMyAsset () {
+      var vu = this
       ax.get('/api/account/assetsList', {
         headers: {
           "pn": sessionStorage.PN
@@ -318,24 +363,35 @@ export default {
             obj.exchange_available = result[key].exchange_available
             obj.exchange_freeze = result[key].exchange_freeze
             obj._expanded = false
-            this.assetListData.push(JSON.parse(JSON.stringify(obj)))
+            obj.trade = vu.tokenObj[key].trade
+            obj.recharge = vu.tokenObj[key].recharge
+            obj.withdraw = vu.tokenObj[key].withdraw
+            obj.decimal = vu.tokenObj[key].decimal
+            vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
           }
         }
       })
     },
     getTokenObj () {
+      var vu = this
       ax.get('/api/quotation/getSymbolLists')
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
-            console.log('---------------result')
-            console.log(res.data.result)
             var result = res.data.result
-            this.tokenObj = res.data.result
-            console.log('---------------tokenObj')
-            console.log(this.tokenObj)
+            console.log("-----------------------")
+            vu.tokenObj = JSON.parse(JSON.stringify(result))
+            vu.assetListData.forEach((value, index) => {
+              value.decimal || (value.decimal = 8)
+              value.trade || (value.trade = false)
+              value.recharge || (value.recharge = false)
+              value.withdraw || (value.withdraw = false)
+              vu.$set(vu.assetListData, index, vu.assetListData[index])
+            })
           }
         })
-        .catch((err) => {})
+        .catch((err) => {
+          console.log('error')
+        })
     },
     handleOpera (index, params, exType) {
       this.assetListData.forEach((value, index) => {
@@ -371,17 +427,21 @@ export default {
       this.showTransferModal = true
       this.trabsferModal.token = token
     },
-    handleManageAddr () {},
-    handleCloseTransfer () {
+    handleCloseTransfer (form) {
+      this.$refs[form].resetFields()
       this.showTransferModal = false
     },
     /**
      * 划转
      */
     handleTransfer (form) {
+      if (this.transferLoading) {
+        return
+      }
       this.$refs[form].validate((valid) => {
         if (valid) {
           var vu = this
+          this.transferLoading = true
           if (this.trabsferModal.to === 'trade') {
             // 转到交易账户
             ax.get('/api/account/toExchange?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
@@ -389,12 +449,17 @@ export default {
                 if (res.status == '200' && res.data.errorCode == 0) {
                   console.log('操作成功')
                   this.$refs[form].resetFields()
+                  this.showTransferModal = false
+                  this.transferLoading = false
                   vu.$Message.success('操作成功')
                 } else {
+                  this.transferLoading = false
                   vu.$Message.error('网络异常')
                 }
               })
-              .catch((err) => {})
+              .catch((err) => {
+                this.transferLoading = false
+              })
           } else if (this.trabsferModal.to === 'master') {
             // 转到主账户
             ax.get('/api/exchange/toAccount?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
@@ -431,9 +496,9 @@ export default {
     }
   },
   created () {
+    this.getTokenObj()
     this.getBalance()
     this.getMyAsset()
-    this.getTokenObj()
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
@@ -476,15 +541,13 @@ export default {
           margin-top: 16px;
           .opera-box-btn {
             display: inline-block;
-            min-width: 100px;
-            height: 30px;
-            font-size: @font-text;
-            line-height: 30px;
-            margin-right: 30px;
+            min-width: 160px;
+            height: 40px;
+            line-height: 40px;
             padding: 0 10px;
-            background-color: @font-color-blue;
-            color: #fff;
             text-align: center;
+            color: #fff;
+            background-color: @font-color-blue;
             cursor: pointer;
           }
         }

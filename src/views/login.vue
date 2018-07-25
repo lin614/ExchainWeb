@@ -110,6 +110,7 @@ export default {
                 sessionStorage.setItem('email', res.data.result.email)
                 console.log(vu.$store.state.islogin)
                 vu.$store.commit('login')
+                vu.$store.commit('showUserInfo', {email: res.data.result.email, mtime: res.data.result.mtime})
                 console.log(vu.$store.state.islogin)
                 cookie.set(
                   'PN',
