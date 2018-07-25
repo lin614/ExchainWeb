@@ -29,6 +29,9 @@ Vue.use(VueI18n);
 Vue.use(iView);
 
 import config from './config/config'
+import {
+    isBoolean
+} from 'util';
 ax.defaults.headers.post['Content-Type'] = "application/json"
 // ax.defaults.headers.post['referer'] = config.url.domain
 // ax.defaults.headers.post['origin'] = config.url.domain
@@ -55,6 +58,10 @@ const RouterConfig = {
 const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
+    console.log(to)
+    if (!(to.meta.noNeedLogin || store.state.islogin)) {
+        router.push('/login')
+    }
     iView.LoadingBar.start();
     Util.title(to.meta.title);
     next();
@@ -68,18 +75,18 @@ router.afterEach(() => {
 
 const store = new Vuex.Store({
     state: {
-        islogin: false
+        // islogin: false
     },
     mutations: {
-        login(s) {
-            s.islogin = true
+        login() {
+            sessionStorage.islogin = true
         },
-        logout(s) {
-            s.islogin = false
+        logout() {
+            sessionStorage.islogin = false
         }
     },
     getters: {
-
+        islogin: () => sessionStorage.islogin
     },
     actions: {
 

@@ -1,7 +1,7 @@
 <template>
   <page>
     <div class="user-center-cont">
-      <div class="content clearfix">
+      <div class="content-body-main clearfix">
         <crd potColor="#11b588">
           <span slot="title">基本信息</span>
           <div class="card-box basic-info">
@@ -35,11 +35,7 @@
           </div>
 
           <!-- 修改密码框 -->
-          <Modal
-            v-model="showChangePwd"
-            class-name="change-pwd-model"
-            :closable="false"
-            on-cancel="handleCloseChangePwd">
+          <Modal v-model="showChangePwd" class-name="change-pwd-model" :closable="false" on-cancel="handleCloseChangePwd">
             <crd potColor="#4399e9">
               <span slot="title">修改密码</span>
               <div class="form-box">
@@ -48,10 +44,10 @@
                     <Input type="password" v-model="changePwdModal.currentPwd"></Input>
                   </FormItem>
                   <FormItem prop="password">
-                      <span slot="label">新密码
-                        <!-- <Tooltip content="Top Left text" placement="right"><i class="iconfont">规则</i>
+                    <span slot="label">新密码
+                      <!-- <Tooltip content="Top Left text" placement="right"><i class="iconfont">规则</i>
                         </Tooltip> -->
-                      </span>
+                    </span>
                     <Input type="password" v-model="changePwdModal.password"></Input>
                   </FormItem>
                   <FormItem label="确认密码" prop="confirmPwd">
@@ -65,17 +61,15 @@
             </crd>
             <div slot="footer">
               <div class="change-model-footer clearfix">
-                <span class="model-btn model-btn-active fl" @click="handleChangePwd('formCustom')"><Spin v-if="changeLoading" fix size="small"></Spin>修改</span>
+                <span class="model-btn model-btn-active fl" @click="handleChangePwd('formCustom')">
+                  <Spin v-if="changeLoading" fix size="small"></Spin>修改</span>
                 <span class="model-btn fr" @click="handleCloseChangePwd('formCustom')">取消</span>
               </div>
             </div>
           </Modal>
 
           <!-- 谷歌验证框 -->
-          <Modal
-            v-model="showGAModel"
-            class-name="change-pwd-model"
-            :closable="false">
+          <Modal v-model="showGAModel" class-name="change-pwd-model" :closable="false">
             <crd potColor="#4399e9">
               <span slot="title">身份验证</span>
               <div class="form-box">
@@ -119,7 +113,8 @@
             </crd>
             <div slot="footer">
               <div class="change-model-footer clearfix">
-                <span class="model-btn fl"><Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
+                <span class="model-btn fl">
+                  <Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
               </div>
             </div>
           </Modal>
@@ -127,7 +122,7 @@
         <crd potColor="#fe7263">
           <span slot="title">最近登录</span>
           <div class="card-box recent-login">
-             <Table :columns="columns1" :data="data1"></Table>
+            <Table :columns="columns1" :data="data1"></Table>
           </div>
         </crd>
       </div>
@@ -136,13 +131,13 @@
 </template>
 
 <script>
-import page from "../components/page"
-import crd from "../components/crd.vue"
+import page from '../components/page'
+import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import md5 from 'md5'
 export default {
-  name: "usercenter",
+  name: 'usercenter',
   components: {
     crd,
     page
@@ -151,49 +146,57 @@ export default {
     return {
       columns1: [
         {
-          title: "登录",
-          key: "type"
+          title: '登录',
+          key: 'type'
         },
         {
-          title: "IP地址",
-          key: "address"
+          title: 'IP地址',
+          key: 'address'
         },
         {
-          title: "状态",
-          key: "status",
+          title: '状态',
+          key: 'status',
           render: (h, params) => {
             console.log('---' + params.row.status)
             if (params.row.status === '0') {
-              return h('span', {
-                style: {
-                  color: '#4298ec'
-                }
-              }, '成功')
+              return h(
+                'span',
+                {
+                  style: {
+                    color: '#4298ec'
+                  }
+                },
+                '成功'
+              )
             } else {
-              return h('span', {
-                style: {
-                  color: '#fc4e59'
-                }
-              }, '失败')
+              return h(
+                'span',
+                {
+                  style: {
+                    color: '#fc4e59'
+                  }
+                },
+                '失败'
+              )
             }
           }
         }
       ],
       data1: [
         {
-          type: "Web",
-          address: "128.0.0.1",
-          status: "0"
+          type: 'Web',
+          address: '128.0.0.1',
+          status: '0'
         },
         {
-          type: "PC",
-          address: "128.0.0.2",
-          status: "0"
+          type: 'PC',
+          address: '128.0.0.2',
+          status: '0'
         },
         {
-          type: "APP",
-          address: "128.0.0.3",
-          status: "1"
+          type: 'APP',
+          address: '128.0.0.3',
+          status: '1'
         }
       ],
       changePwdModal: {},
@@ -207,57 +210,65 @@ export default {
           { required: true, message: '请输入您要修改的密码', trigger: 'blur' }
         ],
         confirmPwd: [
-          { required: true, message: '请再次输入您要修改的密码', trigger: 'blur' },
-          { validator: (rule, value, callback) => {
-            if (this.changePwdModal.password === this.changePwdModal.confirmPwd) {
-              callback()
-            } else {
-              callback(new Error('两次密码输入不一致'))
-            }
+          {
+            required: true,
+            message: '请再次输入您要修改的密码',
+            trigger: 'blur'
           },
-          trigger: 'blur' }
+          {
+            validator: (rule, value, callback) => {
+              if (
+                this.changePwdModal.password === this.changePwdModal.confirmPwd
+              ) {
+                callback()
+              } else {
+                callback(new Error('两次密码输入不一致'))
+              }
+            },
+            trigger: 'blur'
+          }
         ]
       },
       // 是否显示谷歌验证框
-      showGAModel: false,
+      showGAModel: false
     }
   },
   methods: {
-    handleShowChangePwdModel () {
+    handleShowChangePwdModel() {
       console.log('change pwd')
       this.showChangePwd = true
     },
-    handleChangePwd (form) {
+    handleChangePwd(form) {
       this.changeLoading = true
       var vu = this
-      this.$refs[form].validate((valid) => {
+      this.$refs[form].validate(valid => {
         if (valid) {
-          ax.post('/api/user/changePassword', {
-            password: md5(this.changePwdModal.currentPwd),
-            new_password: md5(this.changePwdModal.password)
-          })
-          .then((res) => {
-            if (res.status == '200' && res.data.errorCode == 0) {
-              console.log(res.data)
-              this.changeLoading = false
-              vu.$Message.success('添加地址成功！')
-            } else {
+          ax
+            .post(config.url.user + '/api/user/changePassword', {
+              password: md5(this.changePwdModal.currentPwd),
+              new_password: md5(this.changePwdModal.password)
+            })
+            .then(res => {
+              if (res.status == '200' && res.data.errorCode == 0) {
+                console.log(res.data)
+                this.changeLoading = false
+                vu.$Message.success('添加地址成功！')
+              } else {
+                this.changeLoading = false
+                vu.$Message.error('网络异常！')
+              }
+            })
+            .catch(err => {
               this.changeLoading = false
               vu.$Message.error('网络异常！')
-            }
-          })
-          .catch((err) => {
-            this.changeLoading = false
-            vu.$Message.error('网络异常！')
-          })
+            })
         } else {
           this.changeLoading = false
         }
       })
     },
-    loadData () {
-    },
-    handleCloseChangePwd (form) {
+    loadData() {},
+    handleCloseChangePwd(form) {
       this.changeLoading = false
       this.$refs[form].resetFields()
       this.showChangePwd = false
@@ -265,11 +276,11 @@ export default {
     /**
      * 显示谷歌验证框
      */
-    handleShowGAModel () {
+    handleShowGAModel() {
       this.showGAModel = true
     }
   },
-  created () {
+  created() {
     this.loadData()
   }
 }
@@ -340,29 +351,31 @@ export default {
       background-color: transparent;
       color: #495060;
     }
-    .ivu-table tr:last-child td{
+    .ivu-table tr:last-child td {
       border-bottom: none;
     }
-    .ivu-table th:last-child{
+    .ivu-table th:last-child {
       text-align: right;
     }
-    .ivu-table td:last-child{
+    .ivu-table td:last-child {
       text-align: right;
     }
   }
 }
-.change-pwd-model, .login-model {
+.change-pwd-model,
+.login-model {
   display: flex;
   align-items: center;
   justify-content: center;
-  .ivu-modal{
+  .ivu-modal {
     width: 420px;
     min-height: 500px;
     top: 0;
     .ivu-modal-content {
       padding: 20px 40px 40px;
     }
-    .ivu-modal-footer, .login-model-footer {
+    .ivu-modal-footer,
+    .login-model-footer {
       border-top: none;
     }
     .ivu-card {
@@ -387,18 +400,18 @@ export default {
       height: 40px;
       line-height: 40px;
       text-align: center;
-      border: 1px solid #5999E5;
-      color: #5999E5;
+      border: 1px solid #5999e5;
+      color: #5999e5;
       background-color: #fff;
       cursor: pointer;
       &:hover {
         color: #fff;
-        background-color: #5999E5;
+        background-color: #5999e5;
       }
     }
     .model-btn-active {
       color: #fff;
-      background-color: #5999E5;
+      background-color: #5999e5;
     }
   }
 }
@@ -410,14 +423,14 @@ export default {
       width: 30px;
       height: 30px;
       margin-right: 5px;
-      background: rgba(89,153,229,1);
+      background: rgba(89, 153, 229, 1);
       text-align: center;
       font-size: 16px;
       line-height: 30px;
       color: #fff;
       border-radius: 50%;
     }
-    .txt{
+    .txt {
       font-size: 14px;
       color: #333;
     }
@@ -438,7 +451,6 @@ export default {
       padding-top: 15px;
     }
     .address {
-
     }
   }
 }

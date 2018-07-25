@@ -3,7 +3,7 @@
     <Row type="flex" justify="space-between" slot="inner">
       <Col>
       <div class="logo">
-        <a href="/"><img src="../../static/imgs/logo.png"></a>
+        <router-link to="/"><img src="../../static/imgs/logo.png"></router-link>
       </div>
       <Button class="menu" type="text">交易</Button>
       <router-link to="/et">
@@ -135,7 +135,7 @@ export default {
   components: { block, crd },
   computed: {
     isLogin() {
-      return this.$store.state.islogin
+      return this.$store.getters.islogin //this.$store.state.islogin
     },
     email() {
       var info = sessionStorage.getItem('email')

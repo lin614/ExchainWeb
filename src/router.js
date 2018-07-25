@@ -1,7 +1,8 @@
 const routers = [{
         path: '/',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/index.vue'], resolve)
     }, {
@@ -14,28 +15,32 @@ const routers = [{
     {
         path: '/partner',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/partner.vue'], resolve)
     },
     {
         path: '/et',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/et.vue'], resolve)
     },
     {
         path: '/priv',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/priv.vue'], resolve)
     },
     {
         path: '/cont',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/cont.vue'], resolve)
     },
@@ -48,13 +53,15 @@ const routers = [{
     }, {
         path: '/paper',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/paper.vue'], resolve)
     }, {
         path: '/reg',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/reg.vue'], resolve)
     }, {
@@ -67,13 +74,15 @@ const routers = [{
     {
         path: '/reg/:code',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/reg.vue'], resolve)
     }, {
         path: '/login',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/login.vue'], resolve)
     }, {
