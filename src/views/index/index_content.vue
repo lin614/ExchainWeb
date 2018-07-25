@@ -201,7 +201,7 @@ export default {
         .split('/')
         .join('')
         .toLowerCase()
-      console.log(list[i].channel)
+      console.log(list[i].parm)
       list[i].cur = list[i].pair.split('/')[1]
       //订阅
       subQuo(list[i].parm)

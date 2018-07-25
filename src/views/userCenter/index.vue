@@ -143,10 +143,10 @@ export default {
     page
   },
   computed: {
-    userEmail () {
+    userEmail() {
       return this.$store.state.email
     },
-    userMtime () {
+    userMtime() {
       return this.$store.state.mtime
     }
   },
@@ -258,13 +258,14 @@ export default {
               new_password: md5(this.changePwdModal.password)
             })
             .then(res => {
+              console.log(res)
               if (res.status == '200' && res.data.errorCode == 0) {
                 console.log(res.data)
                 this.changeLoading = false
                 vu.$Message.success('添加地址成功！')
               } else {
                 this.changeLoading = false
-                vu.$Message.error('网络异常！')
+                vu.$Message.error(res.data.errorMsg)
               }
             })
             .catch(err => {
