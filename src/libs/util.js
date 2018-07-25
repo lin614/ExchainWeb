@@ -20,4 +20,28 @@ util.ajax = axios.create({
     timeout: 30000
 });
 
+util.fourDigit =  (value, s) => {
+    if (isNaN(value) || value === '' || value === null) {
+        return ''
+    }
+    const num = value.toString().split('.')
+    if (num.length === 1) {
+        return value.toString()
+    } else if (num[1].length >= s) {
+        return num[0] + '.' + num[1].substring(0, s)
+    } else {
+        return value.toString()
+    }
+}
+
+util.checkPointNum = (value, s) => {
+    //由于币种特性，提币数量只支持输入小数点后4位。
+    const num = value.toString().split('.')
+    if (num.length === 1) {
+        return ''
+    } else if (num[1].length >= s) {
+        return '由于币种特性，提币数量只支持输入小数点后' + s + '位。'
+    }
+}
+
 export default util;

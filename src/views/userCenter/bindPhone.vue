@@ -16,15 +16,16 @@
                 <FormItem label="手机号" prop="phone">
                   <Input v-model="bindForm.phone" @on-change="handlePhoneIpt"></Input>
                 </FormItem>
-                <FormItem label="短信验证码" prop="phoneCode">
-                  <Input style="width: 360px" v-model="bindForm.phoneCode"></Input>
-                  <span class="send-code-btn" @click="handleSendCode"><Spin v-show="sendCodeLoading" size="small"></Spin>发送验证码</span>
+                <FormItem label="短信验证码" prop="phoneCode" class="phone-form-item">
+                  <Input style="width: 360px" v-model="bindForm.phoneCode" class="fl"></Input>
+                  <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
+                  <div v-show="!codeDown" class="send-code-btn fr" @click="handleSendCode"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>发送验证码</span></div>
                 </FormItem>
                 <FormItem label="谷歌验证码" prop="googleCode">
                   <Input v-model="bindForm.googleCode"></Input>
                 </FormItem>
                 <FormItem>
-                  <Button type="primary" @click="handleConfirmClick" long>确认</Button>
+                  <Button type="primary" @click="handleConfirmClick('bindForm')" long>确认</Button>
                 </FormItem>
               </Form>
             </div>
@@ -50,6 +51,9 @@ export default {
       isPhone: false,
       sendCodeLoading: false,
       confirmLoading: false,
+      codeDown: false,
+      timer: null,
+      codeDownText: '120s后重新发送',
       countryList: [
         {
           label: '中国 86',
@@ -80,7 +84,6 @@ export default {
         ],
         phone: [
           { required: true, message: '请输入您的手机号', trigger: 'blur' },
-          { min: 11, max: 11, message: '手机号为11位', trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
                var reg = /^\d+$/
@@ -97,7 +100,12 @@ export default {
         phoneCode: [
           { required: true, message: '请输入手机号验证码', trigger: 'blur' },
           { validator: (rule, value, callback) => {
-            //
+            var reg = /^\d+$/
+            if (reg.test(value)) {
+              callback()
+            } else {
+              callback('验证码为数字')
+            }
           },
           trigger: 'blur' }
         ],
@@ -119,12 +127,10 @@ export default {
       // console.log(this.bindForm.phone)
     },
     handleSendCode () {
-      this.sendCodeLoading = true
-      let headerConfig = {
-          headers: {
-              'Content-Type': 'x-www-form-urlencoded'
-          }
+      if (this.sendCodeLoading) {
+        return
       }
+      this.sendCodeLoading = true
       if (this.isPhone) {
         ax({
           url: '/api/user/bindPhone',
@@ -149,6 +155,8 @@ export default {
         .then((res) => {
           this.sendCodeLoading = false
           if (res.status == '200' && res.data.errorCode == 0) {
+            this.codeDown = true
+            this.handleCodeDown()
             console.log('发送成功')
           }
         })
@@ -156,16 +164,33 @@ export default {
           this.sendCodeLoading = false
           console.log(err)
         })
+      } else {
+        this.$refs.bindForm.validateField('phone', () => {
+          
+        })
+        this.sendCodeLoading = false
       }
     },
-    handleConfirmClick () {
+    handleCodeDown () {
+      var time = 120
+      clearInterval(this.timer)
+      this.timer = setInterval(() => {
+        time -= 1
+        if (time <= 0) {
+          this.codeDown = false
+          clearInterval(this.timer)
+        }
+        this.codeDownText = time + 's后重新发送'
+      }, 1000)
+    },
+    handleConfirmClick (form) {
       // this.confirmLoading = true
       console.log(1 + '-----')
       console.log(this.$refs.bindForm)
-      // this.$refs.bindForm.validate((valid) => {
-      //   console.log(2)
-      //   if (valid) {
-      //     console.log(3)
+      this.$refs[form].validate((valid) => {
+        console.log(2)
+        if (valid) {
+          console.log(3)
           ax({
             url: '/api/user/verifyBindPhone',
             method: 'post',
@@ -188,14 +213,16 @@ export default {
           })
           .then((res) => {
             if (res.status == '200' && res.data.errorCode == 0) {
-              console.log('绑定成功')
+              this.$Message.success('绑定成功')
+              // this.$router.push('/usercenter')
             }
           })
           .catch((err) => {
+            this.$Message.error('网络异常')
             console.log(err)
           })
-      //   }
-      // })
+        }
+      })
     }
   },
   created () {
@@ -247,14 +274,13 @@ export default {
         margin-bottom: 30px;
       }
       .send-code-btn {
-        display: inline-block;
+        position: relative;
+        // display: inline-block;
         box-sizing: border-box;
         min-width: 140px;
         height: 50px;
         line-height: 48px;
         padding: 0 10px;
-        border-radius: 6px;
-        margin-left: 16px;
         border: 1px solid #5999E5;
         color: #5999E5;
         background-color: #fff;
@@ -265,6 +291,17 @@ export default {
           color: #fff;
         }
       }
+      .send-code-down {
+        box-sizing: border-box;
+        min-width: 140px;
+        height: 50px;
+        line-height: 48px;
+        padding: 0 10px;
+        border: 1px solid #999;
+        color: #fff;
+        background-color: #999;
+        text-align: center;
+      }
       .ivu-input {
         box-sizing: border-box;
         height: 50px;
@@ -273,6 +310,17 @@ export default {
       .ivu-btn-primary {
         height: 60px;
         font-size: 18px;
+      }
+      .phone-form-item {
+        & .ivu-form-item-content {
+          *zoom: 1;
+          &::after {
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+          }
+        }
       }
     }
   }

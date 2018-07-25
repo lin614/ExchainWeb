@@ -6,12 +6,12 @@
           <span slot="title">基本信息</span>
           <div class="card-box basic-info">
             <div class="basic-top">
-              <span class="email">goodlcw1@163.com</span>
+              <span class="email">{{userEmail}}</span>
               <router-link to="/usercenter/kyc" class="to-kyc">kyc认证 ></router-link>
             </div>
             <div class="basic-btm">
-              <span class="recent-time">最近登录时间： 2018-07-08 16:58:22</span>
-              <span>IP: 218.189.23.26</span>
+              <span class="recent-time">最近登录时间： {{userMtime}}</span>
+              <span>IP: {{userIP}}</span>
             </div>
           </div>
         </crd>
@@ -142,6 +142,14 @@ export default {
     crd,
     page
   },
+  computed: {
+    userEmail () {
+      return this.$store.state.email
+    },
+    userMtime () {
+      return this.$store.state.mtime
+    }
+  },
   data() {
     return {
       columns1: [
@@ -202,6 +210,7 @@ export default {
       changePwdModal: {},
       showChangePwd: false,
       changeLoading: false,
+      userIP: '228.1.6.54',
       rules: {
         currentPwd: [
           { required: true, message: '请输入当前的密码', trigger: 'blur' }
@@ -395,7 +404,7 @@ export default {
     }
     .model-btn {
       position: relative;
-      display: inline-block;
+      // display: inline-block;
       width: 160px;
       height: 40px;
       line-height: 40px;
@@ -404,10 +413,10 @@ export default {
       color: #5999e5;
       background-color: #fff;
       cursor: pointer;
-      &:hover {
-        color: #fff;
-        background-color: #5999e5;
-      }
+      // &:hover {
+      //   color: #fff;
+      //   background-color: #5999E5;
+      // }
     }
     .model-btn-active {
       color: #fff;
