@@ -54,12 +54,13 @@ import block from '../components/block'
 import crd from '../components/crd'
 import io from 'socket.io-client'
 import config from '../../config/config.js'
-
+import ax from 'axios'
 export default {
   name: 'index_content',
   components: { block, crd },
   data() {
     return {
+      usdt: 0, //usdt汇率
       col1: [
         {
           title: '交易对',
@@ -67,7 +68,8 @@ export default {
         },
         {
           title: '最新价格',
-          key: 'price'
+          key: 'priceshow',
+          width: 250
         },
         {
           title: '24h波动',
@@ -125,7 +127,7 @@ export default {
         // },
         {
           pair: 'ET/USDT',
-          price: '-',
+          price: 0,
           p24: '-',
           h24: '-',
           l24: '-',
@@ -133,7 +135,7 @@ export default {
         },
         {
           pair: 'ET/ETH',
-          price: '-',
+          price: 0,
           p24: '-',
           h24: '-',
           l24: '-',
@@ -141,7 +143,7 @@ export default {
         },
         {
           pair: 'ET/BTC',
-          price: '-',
+          price: 0,
           p24: '-',
           h24: '-',
           l24: '-',
@@ -149,7 +151,7 @@ export default {
         },
         {
           pair: 'BTC/USDT',
-          price: '-',
+          price: 0,
           p24: '-',
           h24: '-',
           l24: '-',
@@ -157,7 +159,7 @@ export default {
         },
         {
           pair: 'ETH/USDT',
-          price: '-',
+          price: 0,
           p24: '-',
           h24: '-',
           l24: '-',
@@ -165,7 +167,7 @@ export default {
         },
         {
           pair: 'BCH/USDT',
-          price: '-',
+          price: 0,
           p24: '-',
           h24: '-',
           l24: '-',
@@ -177,70 +179,56 @@ export default {
       data4: []
     }
   },
+  created() {
+    var vu = this
+    ax.get(config.url.user + '/api/quotation/getUSDCNY').then(res => {
+      if (res.status == '200' && res.data.errorCode == 0) {
+        vu.usdt = res.data.result
+        console.log('usdt 汇率:' + vu.usdt)
+      }
+    })
+  },
   mounted() {
     var subQuo = pair =>
       ws.postData({
         event: 'sub',
-        // channel: 'market.' + pair + '.header'
-        channel: 'test'
+        channel: 'huobi.market.' + pair + '.trade.detail'
+        // channel: 'test'
       })
-    subQuo('et_eth')
+    var list = [...this.data1, ...this.data2, ...this.data3, ...this.data4]
+    for (var i in list) {
+      list[i].parm = list[i].pair
+        .split('/')
+        .join('')
+        .toLowerCase()
+      console.log(list[i].channel)
+      list[i].cur = list[i].pair.split('/')[1]
+      //订阅
+      subQuo(list[i].parm)
+    }
+    let vu = this
     bus.$on('wsUpdate', data => {
-      console.log(data)
+      var info = list.filter(
+        p => 'huobi.market.' + p.parm + '.trade.detail' == data.channel
+      )[0]
+
+      if (info) {
+        info.price = data.data[0][1]
+        info.v24 = data.data[0][2]
+
+        var infoCur = list.filter(
+          c => info.cur.toLowerCase() + 'usdt' == c.parm
+        )[0]
+        // console.log(infoCur)
+        var money = info.price
+        if (info.cur != 'USDT') {
+          money *= infoCur ? infoCur.price : 0
+        }
+        info.money = (money * vu.usdt).toFixed(2)
+
+        info.priceshow = info.price + '/≈' + info.money + '元'
+      }
     })
-  },
-  created() {
-    // var ws = new WebSocket(config.url.quote)
-    // ws.onopen = function() {
-    //   console.log('Connect to: ' + config.url.quote)
-    //   var obj = new Object()
-    //   obj.event = 'sub'
-    //   obj.channel = 'market.et_usdt.header'
-    //   var json_str = JSON.stringify(obj)
-    //   ws.send(json_str)
-    // }
-    // ws.onmessage = function(evt) {
-    //   console.log('recive: ' + evt.data)
-    // }
-    // ws.onclose = function(evt) {
-    //   console.log('WebSocketClosed!')
-    //   evt.close()
-    //   ws = new WebSocket(config.url.quote)
-    //   console.log('Connect to: ' + config.url.quote)
-    //   var obj = new Object()
-    //   obj.event = 'sub'
-    //   obj.channel = 'market.et_usdt.header'
-    //   var json_str = JSON.stringify(obj)
-    //   ws.send(json_str)
-    // }
-    // ws.onerror = function(evt) {
-    //   console.log('WebSocketError ' + evt.data)
-    //   evt.close()
-    //   ws = new WebSocket(url)
-    //   console.log('Connect to: ' + config.url.quote)
-    //   var obj = new Object()
-    //   obj.event = 'sub'
-    //   obj.channel = 'market.et_usdt.header'
-    //   var json_str = JSON.stringify(obj)
-    //   ws.send(json_str)
-    // }
-    // window.setTimeout(function() {
-    //   var obj = new Object()
-    //   obj.event = 'req'
-    //   obj.channel = 'Heartbeat'
-    //   var json_str = JSON.stringify(obj)
-    //   ws.send(json_str)
-    // }, 60 * 1000)
-    // var socket = io(config.url.quote, {
-    //   event: 'sub',
-    //   channel: ''market.et_usdt.header'
-    // })
-    // // market.ltc_btc.header
-    // socket.on('connect', function() {})
-    // socket.on('event', function(data) {
-    //   console.log(data)
-    // })
-    // socket.on('disconnect', function() {})
   }
 }
 </script>
