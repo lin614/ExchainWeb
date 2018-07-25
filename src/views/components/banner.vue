@@ -26,7 +26,7 @@
           </div>
         </CarouselItem>
       </Carousel>
-      <notice></notice>
+      <notice ></notice>
     </block>
   </div>
 </template>
@@ -44,7 +44,7 @@ export default {
         autoplay: true,
         autoplaySpeed: 5000,
         loop: true,
-        dots: 'outside',
+        dots: 'inside',
         radiusDot: false,
         trigger: 'hover',
         arrow: 'never'

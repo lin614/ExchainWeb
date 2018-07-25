@@ -32,7 +32,7 @@
     "vue-pdf": "^3.3.1",
     "vue-pdfjs": "^1.1.1",
     "vue-router": "^3.0.1",
-    "vuex": "^2.2.1"
+    "vuex": "^2.5.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
