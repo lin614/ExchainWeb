@@ -28,10 +28,6 @@ body {
 .clearfix {
   *zoom: 1;
 }
-.content {
-  width: 1200px;
-  margin: 0 auto;
-}
 .fl {
   float: left;
 }
@@ -69,7 +65,8 @@ img {
   padding: 0;
 }
 /*main-cont*/
-.content {
+// .user-center-cont, .asset-cont, .manage-addr-cont, .bindphone-cont, .kyc-cont, .entrust-cont {
+.content-body-main {
   width: 1180px;
   margin: 0 auto;
 }

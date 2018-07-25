@@ -1,7 +1,7 @@
 <template>
   <page>
     <div class="kyc-cont" :style="'minHeight:' + pageHeight + 'px'">
-      <div class="content">
+      <div class="content-body-main">
         <crd potColor="#429aeb">
           <span slot="title">KYC</span>
           <div class="kyc-main">

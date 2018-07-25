@@ -1,7 +1,7 @@
 <template>
   <page>
     <div class="manage-addr-cont">
-      <div class="content">
+      <div class="content-body-main">
         <crd>
           <span slot="title">提现地址管理</span>
           <div class="mge-addr-main">

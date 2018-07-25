@@ -34,7 +34,6 @@ import ClipboardJS from 'clipboard'
 export default {
   name: 'encharge',
   props: {
-    params: Object,
     showCharge: Boolean,
     token: String
   },
