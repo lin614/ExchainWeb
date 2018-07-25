@@ -135,6 +135,7 @@ import crd from '../components/crd'
 import ClipboardJS from 'clipboard'
 import ax from 'axios'
 import config from '../../config/config.js'
+import cookie from 'js-cookie'
 export default {
   name: 'bonus_content',
   components: { block, crd },
@@ -158,6 +159,7 @@ export default {
     // this.$Loading.start()
     // this.$Loading.start()
     var obj = this
+    ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN')
     ax
       .all([
         ax.post(config.url.invite + '/api/invite/getInvitedCode', {

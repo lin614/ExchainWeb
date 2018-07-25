@@ -52,7 +52,7 @@ import ax from 'axios'
 import config from '../config/config.js'
 import cookie from 'js-cookie'
 import md5 from 'md5'
-import bus from '../bus.js'
+// import bus from '../bus.js'
 export default {
   name: 'login',
   components: { page, block, crd },
@@ -109,14 +109,17 @@ export default {
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
                 console.log(vu.$store.state.islogin)
-                vu.$store.commit('login')
-                vu.$store.commit('showUserInfo', {email: res.data.result.email, mtime: res.data.result.mtime})
-                console.log(vu.$store.state.islogin)
-                cookie.set(
-                  'PN',
-                  '6ImgrRlFGNoIbiumRSjpI8ohlRL%2FhVHhTJg89bxE6%2BuonaKN79kooqZhO%2BjOeIQwnpgG4HP1skqaBdwJ0shirN7gMYiyVIVBYqn7yNfkrbmh8g8yDjFVDo9ZUMznmL52Qbql29I0dHETXV8oSPYAB7UFEBH0x3YfNkk%2B1%2FptxkAcLMXQAMJ6GDh1Gb1a4IkSwgztQD46XKhhHcDCkZoWO1Q0mz%2Bf3ss5zH8627JgpNF43zznCyP9%2B4WPEYWz4wrOMsh2bV3xDrUjcFfh1A9m%2FwqJY9DBVZJMEMDHl4YELm55KDf5YpDMsvYchHNjUWr9Z1RyeFVfipibPqIY0rNu7Q%3D%3D',
-                  { domain: config.url.domain }
-                )
+                vu.$store.commit('showUserInfo', {
+                  email: res.data.result.email,
+                  mtime: res.data.result.mtime
+                })
+                if (res.data.result.PN) {
+                  cookie.set('PN', res.data.result.PN, {
+                    domain: config.url.domain
+                  })
+                  sessionStorage.setItem('PN', res.data.result.PN)
+                }
+
                 vu.$router.push('/userCenter')
               } else {
                 vu.$Modal.error({ content: '登录失败:' + res.data.errorMsg })
