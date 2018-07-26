@@ -104,20 +104,24 @@ export default {
               }
             )
             .then(function(res) {
-              console.log(res.data)
+              // console.log(res.data)
               if (res.status == '200' && res.data.errorCode == 0) {
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
-                console.log(vu.$store.state.islogin)
+                // console.log(vu.$store.state.islogin)
                 vu.$store.commit('showUserInfo', {
                   email: res.data.result.email,
                   mtime: res.data.result.mtime
                 })
                 if (res.data.result.PN) {
-                  cookie.set('PN', res.data.result.PN, {
-                    domain: config.url.domain
+                  var Pn = encodeURIComponent(res.data.result.PN)
+                  // console.log('Pn --- ' + Pn)
+                  // document.cookie = 'PN=' + Pn
+                  cookie.set('PN', Pn, {
+                    domain: config.url.domain,
+                    path: '/'
                   })
-                  sessionStorage.setItem('PN', res.data.result.PN)
+                  sessionStorage.setItem('PN', Pn)
                 }
 
                 vu.$router.push('/userCenter')

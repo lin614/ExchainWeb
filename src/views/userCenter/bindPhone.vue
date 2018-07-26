@@ -54,22 +54,11 @@ export default {
       codeDown: false,
       timer: null,
       codeDownText: '120s后重新发送',
+      token: '',
       countryList: [
         {
           label: '中国 86',
           value: '86'
-        },
-        {
-           label: '中国 86',
-           value: '86'
-        },
-        {
-           label: '中国 86',
-           value: '86'
-        },
-        {
-           label: '中国 86',
-           value: '86'
         }
       ],
       bindForm: {
@@ -156,6 +145,7 @@ export default {
           this.sendCodeLoading = false
           if (res.status == '200' && res.data.errorCode == 0) {
             this.codeDown = true
+            this.token = res.data.result.token
             this.handleCodeDown()
             console.log('发送成功')
           }
@@ -198,7 +188,8 @@ export default {
               phone: this.bindForm.phone,
               country: this.bindForm.country,
               code: this.bindForm.phoneCode,
-              pn: cookie.get('PN')
+              pn: cookie.get('PN'),
+              token: this.token
             },
             transformRequest: [function (data) {
               let ret = ''
@@ -214,7 +205,10 @@ export default {
           .then((res) => {
             if (res.status == '200' && res.data.errorCode == 0) {
               this.$Message.success('绑定成功')
-              // this.$router.push('/usercenter')
+              this.$refs.bindForm.resetFields()
+              this.$router.push('/usercenter')
+            } else {
+              this.$Message.error('网络异常')
             }
           })
           .catch((err) => {

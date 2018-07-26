@@ -348,6 +348,7 @@ export default {
      */
     getMyAsset () {
       var vu = this
+      this.assetListData = []
       ax.get('/api/account/assetsList', {
         headers: {
           "pn": sessionStorage.PN
@@ -450,6 +451,8 @@ export default {
               .then((res) => {
                 if (res.status == '200' && res.data.errorCode == 0) {
                   console.log('操作成功')
+                  this.getMyAsset()
+                  // 可优化为只改变改变的数据
                   this.$refs[form].resetFields()
                   this.showTransferModal = false
                   this.transferLoading = false
@@ -467,13 +470,19 @@ export default {
             ax.get('/api/exchange/toAccount?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
               .then((res) => {
                 if (res.status == '200' && res.data.errorCode == 0) {
+                  this.getMyAsset()
                   this.$refs[form].resetFields()
+                  this.showTransferModal = false
+                  this.transferLoading = false
                   vu.$Message.success('操作成功')
                 } else {
                   vu.$Message.error('网络异常')
+                  this.transferLoading = false
                 }
               })
-              .catch((err) => {})
+              .catch((err) => {
+                this.transferLoading = false
+              })
           }
         } else {}
       })

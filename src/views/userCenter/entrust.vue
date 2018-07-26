@@ -143,7 +143,7 @@ export default {
       ax.get('/api/order/lists', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           let data = res.data.result.data;
-          for (let i = 0; i < this.hisData.length; i++) {
+          for (let i = 0; i < data.length; i++) {
             let amount_deal = parseFloat(data[i].amount_deal);
             let amount = parseFloat(data[i].amount);
             let rate = this.accMul(this.accDiv(amount_deal, amount), 100);

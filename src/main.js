@@ -67,7 +67,6 @@ const RouterConfig = {
 const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
-    console.log(to)
     if (!to.meta.noNeedLogin && sessionStorage.getItem('PN') == null) {
         router.push('/login')
     }
@@ -81,12 +80,20 @@ router.afterEach(() => {
     window.scrollTo(0, 0);
 });
 
-
+/**
+ * kyc 认证状态
+ * 0 未验证
+ * 1 审核中
+ * 2 已通过
+ * 3 被驳回
+ */
 const store = new Vuex.Store({
     state: {
         currentLang: 'cn',
         email: '',
-        mtime: ''
+        mtime: '',
+        kyc: '0',
+        bindPhone: false
     },
     mutations: {
 
