@@ -27,11 +27,11 @@
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
               <router-link to="/usercenter/bind" class="card-item-opera fr">修改 ></router-link>
             </div>
-            <div class="card-item car-item-unline">
+            <!-- <div class="card-item car-item-unline">
               <span class="card-item-title fl">谷歌验证</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
               <span @click="handleShowGAModel" class="card-item-opera fr">设置 ></span>
-            </div>
+            </div> -->
           </div>
 
           <!-- 修改密码框 -->
@@ -182,7 +182,6 @@ export default {
           title: '状态',
           key: 'event',
           render: (h, params) => {
-            console.log('---' + params.row.status)
             if (params.row.event === 'Sign-in') {
               return h(
                 'span',
@@ -244,6 +243,20 @@ export default {
     }
   },
   methods: {
+    getUserInfo () {
+      var vu = this
+      ax.post('/api/user/getUserInfo')
+        .then((res) => {
+          if (res.status === 200 && res.data.result.errorCode === 0) {
+            console.log(res.data.result)
+          } else {
+            console.log('网络异常！')
+          }
+        })
+        .catch((err) => {
+          console.log('网络异常！')
+        })
+    },
     handleShowChangePwdModel() {
       console.log('change pwd')
       this.showChangePwd = true
@@ -278,16 +291,17 @@ export default {
         }
       })
     },
-    loadData() {
+    getRecentActivity() {
       ax.get('/api/user/getRecentActivity')
         .then((res) => {
           console.log(typeof res.status)
           if (res.status === 200 && res.data.errorCode === 0) {
             this.recentUserInfo = res.data.result.data
             console.log(this.recentUserInfo)
-          } else {
-            console.log('else')
           }
+        })
+        .catch((err) => {
+          //
         })
     },
     handleCloseChangePwd(form) {
@@ -303,7 +317,8 @@ export default {
     }
   },
   mounted() {
-    this.loadData()
+    this.getUserInfo()
+    this.getRecentActivity()
   }
 }
 </script>

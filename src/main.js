@@ -12,8 +12,8 @@ import Locales from './locale';
 import zhLocale from 'iview/src/locale/lang/zh-CN';
 import enLocale from 'iview/src/locale/lang/en-US';
 import ax from 'axios'
-import LangZhCn from './static/i18n/zh-cn'
-import LangEnUs from './static/i18n/en-us'
+import LangZhCn from './static/i18n/zh-cn.js'
+import LangEnUs from './static/i18n/en-us.js'
 import bus from './views/js/eventBus.js'
 import {
     sub,
@@ -39,25 +39,29 @@ ax.defaults.headers.post['Content-Type'] = "application/json"
 // ax.defaults.headers.post['origin'] = config.url.domain
 // 自动设置语言
 const navLang = navigator.language;
-const localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false;
-const lang = window.localStorage.getItem('language') || localLang || 'zh-CN';
+let localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false;
+if (localLang === 'zh-CN') {
+    localLang = 'cn'
+} else if (localLang === 'en-US') {
+    localLang = 'en'
+}
+const lang = window.localStorage.getItem('language') || localLang || 'cn';
 
 Vue.config.lang = lang;
-
+console.log('lang = ' + lang)
 // 多语言配置
-const locales = Locales;
-const mergeZH = Object.assign(zhLocale, locales['zh-CN']);
-const mergeEN = Object.assign(enLocale, locales['en-US']);
+// const locales = Locales;
+const mergeZH = Object.assign(zhLocale, LangZhCn);
+const mergeEN = Object.assign(enLocale, LangEnUs);
 Vue.locale('zh-CN', mergeZH);
 Vue.locale('en-US', mergeEN);
 const i18n = new VueI18n({
     locale: lang,
     messages: {
-        'cn': LangZhCn,
-        'en': LangEnUs
+        'cn': mergeZH,
+        'en': mergeEN
     }
 })
-
 
 // 路由配置
 const RouterConfig = {
@@ -89,16 +93,15 @@ router.afterEach(() => {
  */
 const store = new Vuex.Store({
     state: {
-        currentLang: 'cn',
+        activeLang: 'cn',
         email: '',
         mtime: '',
-        kyc: '0',
-        bindPhone: false
+        kycphoneStatus: '0',
+        idCardStatus: '0'
     },
     mutations: {
-
-        changeLang(s, data) {
-            s.currentLang = data
+        setActiveLang(s, data) {
+            s.activeLang = data
         },
         showUserInfo(s, data) {
             s.email = data.email
@@ -119,6 +122,7 @@ const store = new Vuex.Store({
 new Vue({
     el: '#app',
     router: router,
+    i18n,
     store: store,
     render: h => h(App)
 });

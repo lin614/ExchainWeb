@@ -161,8 +161,6 @@ export default {
           key: 'opera',
           minWidth: 250,
           render: (h, params) => {
-            // console.log('行数据如下： ')
-            // console.log(params.row)
             return h('div', [
               h('span', {
                 style: {
@@ -308,9 +306,6 @@ export default {
   },
   watch: {
     tokenObj () {
-      // this.assetListData
-      console.log('watch')
-      console.log(this.tokenObj)
       for (var key in this.tokenObj) {
         for (var i = 0; i < this.assetListData.length; i++) {
           if (this.assetListData[i].token === key) {
@@ -355,8 +350,6 @@ export default {
         }
       }).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          // console.log(res.data.result)
-          // this.assetListData = res.data.result
           var obj = {}
           var result = res.data.result
           for (var key in result) {
@@ -381,7 +374,6 @@ export default {
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
-            console.log("-----------------------")
             vu.tokenObj = JSON.parse(JSON.stringify(result))
             vu.assetListData.forEach((value, index) => {
               value.decimal || (value.decimal = 8)
@@ -393,7 +385,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log('error')
+          //
         })
     },
     handleOpera (index, params, exType) {
@@ -450,9 +442,8 @@ export default {
             ax.get('/api/account/toExchange?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
               .then((res) => {
                 if (res.status == '200' && res.data.errorCode == 0) {
-                  console.log('操作成功')
                   this.getMyAsset()
-                  // 可优化为只改变改变的数据
+                  // 可优化为只改变需要改变的数据
                   this.$refs[form].resetFields()
                   this.showTransferModal = false
                   this.transferLoading = false
@@ -488,7 +479,6 @@ export default {
       })
     },
     handleSelectFromChange () {
-      console.log(this.trabsferModal.from)
       if (this.trabsferModal.from === 'master') {
         this.trabsferModal.to = 'trade'
       }
@@ -497,7 +487,6 @@ export default {
       }
     },
     handleSelectToChange () {
-      console.log(this.trabsferModal.to)
       if (this.trabsferModal.to === 'master') {
         this.trabsferModal.from = 'trade'
       }
