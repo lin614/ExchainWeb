@@ -78,7 +78,7 @@ export default {
         pwd2: '',
         code: ''
       },
-
+      geettest: null,
       rules: {
         email: [
           {
@@ -158,28 +158,71 @@ export default {
         }
       })
     },
+    sendemailFn() {    
+      var vu = this
+      ax
+        .post('/api/user/register', {
+          email: vu.regInfo.email
+        })
+        .then(function(res) {
+          console.log(res)
+          vu.regtoken = res.data.result.token
+          vu.$Message.success('已发送邮件成功!')
+        })
+        
+      
+    },
     sendemail() {
+      // 判断是否 onReady
       var vu = this
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
-          ax
-            .post('/api/user/register', {
-              email: vu.regInfo.email
-            })
-            .then(function(res) {
-              console.log(res)
-              vu.regtoken = res.data.result.token
-              vu.$Message.success('已发送邮件成功!')
-            })
+          // vu.geettest.verify()
+          vu.sendemailFn()
         } else {
           vu.$Message.error(error)
         }
       })
+    },
+    initGeetest () {
+      var vu = this
+      ax.post('/api/user/initCaptcha')
+        .then((res) => {
+          var data = res.data
+          console.log(res.data)
+          vu.$initGeetest({
+            // 以下配置参数来自服务端 SDK
+            gt: data.gt,
+            challenge: data.challenge,
+            offline: !data.success,
+            new_captcha: true,
+            product: 'bind'
+          }, function (captchaObj) {
+            // 这里可以调用验证实例 captchaObj 的实例方法
+            vu.geettest = captchaObj
+            captchaObj.onReady(function(){
+              //验证码ready之后才能调用verify方法显示验证码
+            }).onSuccess(function(){
+                vu.sendemailFn()
+            }).onError(function(){
+                //your code
+            })
+            // 按钮提交事件
+            // button.click = function(){
+                // some code
+                // 检测验证码是否ready, 验证码的onReady是否执行
+                //captchaObj.verify(); 显示验证码
+                // some code
+            // }
+
+          })
+        })
     }
   },
   created() {
     this.regInfo.code = this.$route.params.code
-    // console.log(this.$route.params)
+    // console.log(this.$initGeetest)
+    // this.initGeetest()
   }
 }
 </script>

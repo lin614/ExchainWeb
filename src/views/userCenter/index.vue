@@ -7,7 +7,10 @@
           <div class="card-box basic-info">
             <div class="basic-top">
               <span class="email">{{userEmail}}</span>
-              <router-link to="/usercenter/kyc" class="to-kyc">kyc认证 ></router-link>
+              <router-link v-if="idCardStatus === '0'" to="/usercenter/kyc" class="to-kyc">kyc认证 去认证 ></router-link>
+              <span v-if="idCardStatus === '1'" class="to-kyc kyc-checked">kyc认证 审核中</span>
+              <span v-if="idCardStatus === '2'" class="to-kyc kyc-checked">kyc认证 已通过</span>
+              <router-link v-if="idCardStatus === '3'" to="/usercenter/kyc" class="to-kyc">kyc认证 驳回 ></router-link>
             </div>
             <div class="basic-btm">
               <span class="recent-time">最近登录时间： {{mtime ? mtime : userMtime}}</span>
@@ -25,7 +28,8 @@
             <div class="card-item car-item-unline">
               <span class="card-item-title fl">手机绑定</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
-              <router-link to="/usercenter/bind" class="card-item-opera fr">修改 ></router-link>
+              <router-link v-if="bind" to="/usercenter/bind" class="card-item-opera fr">您当前绑定的手机号是<span>{{userNum}}</span> 解绑 ></router-link>
+              <router-link v-else to="/usercenter/bind" class="card-item-opera fr">绑定 ></router-link>
             </div>
             <!-- <div class="card-item car-item-unline">
               <span class="card-item-title fl">谷歌验证</span>
@@ -169,6 +173,9 @@ export default {
   data() {
     return {
       mtime: '',
+      bind: false,
+      userNum: '',
+      idCardStatus: '',
       recentUserCol: [
         {
           title: '登录',
@@ -243,17 +250,40 @@ export default {
     }
   },
   methods: {
+    /**
+     * kyc 认证状态
+     * 0 未验证
+     * 1 审核中
+     * 2 已通过
+     * 3 被驳回
+     */
     getUserInfo () {
       var vu = this
       ax.post('/api/user/getUserInfo')
         .then((res) => {
-          if (res.status === 200 && res.data.result.errorCode === 0) {
+          if (res.status === 200 && res.data.errorCode === 0) {
+            sessionStorage.setItem('idCardStatus', res.data.result.idCardStatus)
+            vu.idCardStatus = res.data.result.idCardStatus
+            if (res.data.result.phone) {
+              vu.bind = true
+              sessionStorage.setItem('bindPhone', 'bind')
+              vu.userNum = '+ ' + res.data.result.phone.code + ' '  + res.data.result.phone.number
+            } else {
+              vu.bind = false
+              console.log('unbind')
+              sessionStorage.setItem('bindPhone', 'unbind')
+              sessionStorage.setItem('userNum', null)
+            }
+            sessionStorage.setItem('email', res.data.result.email)
+            sessionStorage.setItem('userNum', vu.userNum)
             console.log(res.data.result)
           } else {
             console.log('网络异常！')
           }
         })
         .catch((err) => {
+          console.log('err')
+          console.log(err)
           console.log('网络异常！')
         })
     },
@@ -361,6 +391,9 @@ export default {
       .to-kyc {
         color: #419cf6;
         cursor: pointer;
+      }
+      .kyc-checked {
+        cursor: auto;
       }
     }
     .basic-btm {

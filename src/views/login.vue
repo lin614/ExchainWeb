@@ -117,10 +117,10 @@ export default {
                   var Pn = encodeURIComponent(res.data.result.PN)
                   // console.log('Pn --- ' + Pn)
                   // document.cookie = 'PN=' + Pn
-                  cookie.set('PN', Pn, {
-                    domain: config.url.domain,
-                    path: '/'
-                  })
+                  // cookie.set('PN', Pn, {
+                  //   domain: config.url.domain,
+                  //   path: '/'
+                  // })
                   sessionStorage.setItem('PN', Pn)
                 }
 
