@@ -61,6 +61,7 @@ export default {
   name: 'index_content',
   components: { block, crd },
   data() {
+    var vu = this
     return {
       usdt: 0, //usdt汇率
       col1: [
@@ -111,6 +112,9 @@ export default {
                 on: {
                   click: () => {
                     console.log(params)
+                    if (params.row.parm_) {
+                      vu.toTrade(params.row.parm_)
+                    }
                   }
                 }
               })
@@ -195,31 +199,34 @@ export default {
       ws.postData({
         event: 'sub',
         // channel: 'huobi.market.' + pair + '.trade.detail'
-        channel: 'huobi.market.' + pair + '.kline.day'
+        channel: 'huobi.market.' + pair + '.kline.1min'
         // channel: 'test'
       })
     var list = [...this.data1, ...this.data2, ...this.data3, ...this.data4]
     for (var i in list) {
-      list[i].parm = list[i].pair
-        .split('/')
-        .join('')
-        .toLowerCase()
+      var arr = list[i].pair.split('/')
+      list[i].parm = arr.join('').toLowerCase()
+      list[i].parm_ = arr.join('_').toLowerCase()
       console.log(list[i].parm)
       list[i].cur = list[i].pair.split('/')[1]
       //订阅
-      console.log('huobi.market.' + list[i].parm + '.kline.day')
+      console.log('huobi.market.' + list[i].parm + '.kline.1min')
       subQuo(list[i].parm)
     }
     let vu = this
     bus.$on('wsUpdate', data => {
       var info = list.filter(
         // p => 'huobi.market.' + p.parm + '.trade.detail' == data.channel
-        p => 'huobi.market.' + p.parm + '.kline.day' == data.channel
+        p => 'huobi.market.' + p.parm + '.kline.1min' == data.channel
       )[0]
 
       if (info) {
         info.price = data.data[0][1]
-        info.v24 = data.data[0][2]
+
+        info.h24 = data.data[0][2]
+        info.l24 = data.data[0][3]
+        info.p24 = 0 //(data.data[0][4] - data.data[0][1]) / data.data[0][1]
+        info.v24 = data.data[0][5]
 
         var infoCur = list.filter(
           c => info.cur.toLowerCase() + 'usdt' == c.parm
