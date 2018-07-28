@@ -3,34 +3,44 @@
     <div class="user-center-cont">
       <div class="content-body-main clearfix">
         <crd potColor="#11b588">
-          <span slot="title">基本信息</span>
+          <span slot="title">{{ $t('userCenter.index.baseInfo.title') }}</span>
           <div class="card-box basic-info">
             <div class="basic-top">
               <span class="email">{{userEmail}}</span>
-              <router-link v-if="idCardStatus === '0'" to="/usercenter/kyc" class="to-kyc">kyc认证 去认证 ></router-link>
-              <span v-if="idCardStatus === '1'" class="to-kyc kyc-checked">kyc认证 审核中</span>
-              <span v-if="idCardStatus === '2'" class="to-kyc kyc-checked">kyc认证 已通过</span>
-              <router-link v-if="idCardStatus === '3'" to="/usercenter/kyc" class="to-kyc">kyc认证 驳回 ></router-link>
+              <router-link v-if="idCardStatus === '0'" to="/usercenter/kyc" class="to-kyc">
+                {{ $t('userCenter.index.baseInfo.kycUncheck') }} >
+              </router-link>
+              <span v-if="idCardStatus === '1'" class="to-kyc kyc-checked">
+                {{ $t('userCenter.index.baseInfo.kycChecking') }}
+              </span>
+              <span v-if="idCardStatus === '2'" class="to-kyc kyc-checked">
+                {{ $t('userCenter.index.baseInfo.kycChecked') }}
+              </span>
+              <router-link v-if="idCardStatus === '3'" to="/usercenter/kyc" class="to-kyc">
+                {{ $t('userCenter.index.baseInfo.kycRefused') }} >
+              </router-link>
             </div>
             <div class="basic-btm">
-              <span class="recent-time">最近登录时间： {{mtime ? mtime : userMtime}}</span>
+              <span class="recent-time">{{ $t('userCenter.index.baseInfo.recentLoginTime') }} : {{mtime ? mtime : userMtime}}</span>
               <span>IP: {{userIP}}</span>
             </div>
           </div>
         </crd>
+
         <crd potColor="#449aec">
-          <span slot="title">安全设置</span>
+          <span slot="title">{{ $t('userCenter.index.safeSetting.title') }}</span>
           <div class="card-box safe-setting">
             <div class="card-item">
-              <span class="card-item-title fl">登录密码</span>
-              <span @click="handleShowChangePwdModel" class="card-item-opera fr">修改 ></span>
+              <span class="card-item-title fl">{{ $t('userCenter.index.safeSetting.loginPassword') }}</span>
+              <span @click="handleShowChangePwdModel" class="card-item-opera fr">{{ $t('userCenter.index.safeSetting.change') }} ></span>
             </div>
             <div class="card-item car-item-unline">
-              <span class="card-item-title fl">手机绑定</span>
-              <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
-              <router-link v-if="bind" to="/usercenter/bind" class="card-item-opera fr">您当前绑定的手机号是<span>{{userNum}}</span> 解绑 ></router-link>
-              <router-link v-else to="/usercenter/bind" class="card-item-opera fr">绑定 ></router-link>
+              <span class="card-item-title fl">{{ $t('userCenter.index.safeSetting.linkPhone') }}</span>
+              <span class="card-item-text fl">{{ $t('userCenter.index.safeSetting.linkPhoneTip') }}</span>
+              <router-link v-if="bind" to="/usercenter/bind" class="card-item-opera fr">{{ $t('userCenter.index.safeSetting.nowLink') }} : <span>{{userNum}}</span> {{ $t('userCenter.index.safeSetting.unlink') }} ></router-link>
+              <router-link v-else to="/usercenter/bind" class="card-item-opera fr">{{ $t('userCenter.index.safeSetting.link') }} ></router-link>
             </div>
+
             <!-- <div class="card-item car-item-unline">
               <span class="card-item-title fl">谷歌验证</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
@@ -41,20 +51,20 @@
           <!-- 修改密码框 -->
           <Modal v-model="showChangePwd" class-name="change-pwd-model" :closable="false" on-cancel="handleCloseChangePwd">
             <crd potColor="#4399e9">
-              <span slot="title">修改密码</span>
+              <span slot="title">{{ $t('userCenter.index.changePwd.title') }}</span>
               <div class="form-box">
                 <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
-                  <FormItem label="当前密码" prop="currentPwd">
+                  <FormItem :label="$t('userCenter.index.changePwd.curPwd')" prop="currentPwd">
                     <Input type="password" v-model="changePwdModal.currentPwd"></Input>
                   </FormItem>
                   <FormItem prop="password">
-                    <span slot="label">新密码
+                    <span slot="label">{{ $t('userCenter.index.changePwd.newPwd') }}
                       <!-- <Tooltip content="Top Left text" placement="right"><i class="iconfont">规则</i>
                         </Tooltip> -->
                     </span>
                     <Input type="password" v-model="changePwdModal.password"></Input>
                   </FormItem>
-                  <FormItem label="确认密码" prop="confirmPwd">
+                  <FormItem :label="$t('userCenter.index.changePwd.confirmPwd')" prop="confirmPwd">
                     <Input type="password" v-model="changePwdModal.confirmPwd"></Input>
                     <!-- <div class="pwd-rule">
                        密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +
@@ -63,11 +73,12 @@
                 </Form>
               </div>
             </crd>
+
             <div slot="footer">
               <div class="change-model-footer clearfix">
                 <span class="model-btn model-btn-active fl" @click="handleChangePwd('formCustom')">
-                  <Spin v-if="changeLoading" fix size="small"></Spin>修改</span>
-                <span class="model-btn fr" @click="handleCloseChangePwd('formCustom')">取消</span>
+                  <Spin v-if="changeLoading" fix size="small"></Spin>{{ $t('userCenter.index.changePwd.change') }}</span>
+                <span class="model-btn fr" @click="handleCloseChangePwd('formCustom')">{{ $t('userCenter.index.changePwd.cancel') }}</span>
               </div>
             </div>
           </Modal>
@@ -124,7 +135,7 @@
           </Modal>
         </crd>
         <crd potColor="#fe7263">
-          <span slot="title">最近登录</span>
+          <span slot="title">{{ $t('userCenter.index.loginLog.title') }}</span>
           <div class="card-box recent-login">
             <Table :columns="recentUserCol" :data="recentUserInfo"></Table>
           </div>
@@ -178,15 +189,15 @@ export default {
       idCardStatus: '',
       recentUserCol: [
         {
-          title: '登录',
+          title: this.$t('userCenter.index.loginLog.device'),
           key: 'device'
         },
         {
-          title: 'IP地址',
+          title: this.$t('userCenter.index.loginLog.ip'),
           key: 'ip'
         },
         {
-          title: '状态',
+          title: this.$t('userCenter.index.loginLog.status'),
           key: 'event',
           render: (h, params) => {
             if (params.row.event === 'Sign-in') {
@@ -197,7 +208,7 @@ export default {
                     color: '#4298ec'
                   }
                 },
-                '成功'
+                this.$t('userCenter.index.loginLog.success')
               )
             } else {
               return h(
@@ -207,7 +218,7 @@ export default {
                     color: '#fc4e59'
                   }
                 },
-                '失败'
+                this.$t('userCenter.index.loginLog.fail')
               )
             }
           }

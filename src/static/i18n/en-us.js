@@ -5,10 +5,10 @@ module.exports = {
     whitepaper: 'ET White Paper',
     announcement: 'Announcement',
     partnerProject: 'Partner Project',
-    myAsset: '我的资产',
-    userCenter: '个人中心',
-    promiseManage: '委托管理',
-    partner: 'Partner',
+    myAsset: 'My Asset',
+    userCenter: 'Account',
+    promiseManage: 'Order management',
+    partner: 'Partner Project',
     login: 'Sign in',
     register: 'Sign up',
     logout: 'Logout'
@@ -117,21 +117,76 @@ module.exports = {
   userCenter: {
     index: {
       baseInfo: {
-        title: '基本信息',
-        kycUncheck: 'kyc 未认证',
-        kycChecking: 'kyc 审核中',
-        kycChecked: 'kyc 已审核',
-        kycRefused: 'kyc 驳回',
-        recentLoginTime: '最近登陆时间'
+        title: 'Profile',
+        kycUncheck: 'kyc Unauthorized',
+        kycChecking: 'kyc Auditing',
+        kycChecked: 'kyc Audited',
+        kycRefused: 'kyc Reject',
+        recentLoginTime: 'Recent log in time'
       },
       safeSetting: {
-        title: '',
-        pwd: ''
+        title: 'Security Settings',
+        loginPassword: 'Password',
+        change: 'Change',
+        linkPhone: 'Link to mobile phone',
+        link: 'Link',
+        unlink: 'Unlink',
+        linkPhoneTip: 'Receive verification codes for withdrawal, changing password & security settings',
+        nowLink: 'you link the phone is'
+      },
+      changePwd: {
+        title: 'Change password',
+        curPwd: 'Old password',
+        newPwd: 'New password',
+        confirmPwd: 'Confirm password',
+        cancel: 'Cancel',
+        change: 'Change'
+      },
+      loginLog: {
+        title: 'Recent Login History',
+        device: 'Device',
+        ip: 'IP address',
+        status: 'status',
+        success: 'Successful',
+        fail: 'Fail',
       }
     },
     asset: {},
     kyc: {},
     manageAddr: {},
-    entrust: {}
+    entrust: {},
+    bindPhone: {
+      bindPhone: 'Bind Mobile Number',
+      unBindPhone: 'UnBind Mobile Number',
+      china: 'china',
+      country: 'Country',
+      mbileNumber: 'mobile Number',
+      smsCode: 'SMS code',
+      getCode: 'Get code',
+      ga: 'Google authentication Verification Code',
+      confirm: 'Confirm'
+    },
+    login: {
+      login: 'Log in',
+      email: 'Email',
+      password: 'Password',
+      pleaseInputEmail: 'Please input email',
+      pleaseInputPassword: 'Please input password',
+      welcomeLogin: 'Welcome to log in with Exchain account',
+      forgotPassword: 'Forgot your password',
+      resetPassword: 'reset password',
+      isnotEXUser: 'Not registered yet',
+      quickReg: 'Create on to trade on first global free shared digital assets trading platform',
+      signUp: 'Sign up'
+    },
+    // 邀请记录
+    invite: {
+      title: 'Invite History',
+      invitee: 'Invited Account',
+      time: 'Time',
+      status: 'Status',
+      traded: 'Traded',
+      untraded: 'Untraded'
+    }
   }
 }
