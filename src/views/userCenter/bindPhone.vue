@@ -13,7 +13,7 @@
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
                 <FormItem :label="$t('userCenter.bindPhone.country')" prop="country">
                   <Select v-model="bindForm.country" style="width:100%;height: 50px;">
-                    <Option v-for="(item, index) in countryList" :value="item.value" :key="index">{{ item.label }}</Option>
+                    <Option v-for="(item, index) in countryList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.' + item.label) + ' + ' + item.value }}</Option>
                   </Select>
                 </FormItem>
 
@@ -66,12 +66,7 @@ export default {
       userNum: '',
       bindStatus: '',
       type: '',
-      countryList: [
-        {
-          label: `${this.$t('userCenter.bindPhone.china')} 86`,
-          value: '86'
-        }
-      ],
+      countryList: [],
       bindForm: {
         country: '86',
         phone: '',
@@ -256,9 +251,26 @@ export default {
         .catch((err) => {
           console.log('网络异常！')
         })
+    },
+    getPhoneSupportList () {
+      var vu = this
+      ax.post('/api/user/getPhoneSupportList')
+        .then((res) => {
+          if (res.status === 200 && res.data.errorCode === 0) {
+            console.log(res.data.result)
+            var result = res.data.result
+            var obj = {}
+            for (var key in result) {
+              obj.label = key
+              obj.value = result[key]
+              this.countryList.push(obj)
+            }
+          }
+        })
     }
   },
   mounted () {
+    this.getPhoneSupportList()
     var bindStatus = sessionStorage.getItem('bindPhone')
     var userNum = sessionStorage.getItem('userNum')
     if (bindStatus) {
