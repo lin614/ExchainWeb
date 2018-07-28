@@ -306,7 +306,8 @@ export default {
               if (res.status == '200' && res.data.errorCode == 0) {
                 console.log(res.data)
                 this.changeLoading = false
-                vu.$Message.success('添加地址成功！')
+                vu.$Message.success(res.data.errorMsg)
+                this.showChangePwd = false
               } else {
                 this.changeLoading = false
                 vu.$Message.error(res.data.errorMsg)
