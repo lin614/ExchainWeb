@@ -1,26 +1,29 @@
 <template>
   <div class="encharge-main" v-if="showCharge">
-    <div>充币地址</div>
-    <div class="addr-box">
-      <div class="fl">
-        <span class="addr-main">{{addr}}</span>
+    <div v-if="!no_encharge">
+      <div>充币地址</div>
+      <div class="addr-box">
+        <div class="fl">
+          <span class="addr-main">{{addr}}</span>
+        </div>
+        <div class="fl">
+          <input type="hidden" v-model="addr" id="addr">
+          <a class="copy-addr" id="btnLink" :data-clipboard-text="addr" @click="handleCopy">复制</a>
+          <Poptip content="content" placement="bottom">
+            <span class="show-addr-qr">二维码</span>
+            <div class="qr-box" slot="content">
+              <img :src="qrCode" alt="">
+            </div>
+          </Poptip>
+        </div>
       </div>
-      <div class="fl">
-        <input type="hidden" v-model="addr" id="addr">
-        <a class="copy-addr" id="btnLink" :data-clipboard-text="addr" @click="handleCopy">复制</a>
-        <Poptip content="content" placement="bottom">
-          <span class="show-addr-qr">二维码</span>
-          <div class="qr-box" slot="content">
-            <img :src="qrCode" alt="">
-          </div>
-        </Poptip>
+      <div class="friendly-notice">
+        <p class="friendly-notice-title">温馨提示</p>
+        <li class="friendly-notice-item">请勿向上述地址充值任何非{{token}}资产，否则资产将不可找回。</li>
       </div>
     </div>
-    <div class="friendly-notice">
-      <p class="friendly-notice-title">温馨提示</p>
-      <li class="friendly-notice-item">请勿向上述地址充值任何非{{token}}资产，否则资产将不可找回。</li>
-    </div>
-     <Spin size="large" fix v-if="spinShow"></Spin>
+    <div v-else class="no-encharge">暂无可用充值地址</div>
+    <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
 
@@ -37,12 +40,12 @@ export default {
     return {
       addr: '',
       qrCode: '',
-      spinShow: false
+      spinShow: false,
+      no_encharge: true
     }
   },
   watch: {
     token () {
-      console.log('---------------------' + this.token)
       this.getAddress(this.token)
     }
   },
@@ -52,17 +55,18 @@ export default {
       ax.get('/api/account/getAddress?type=' + token)
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
-            console.log('ok')
-            console.log(res.data.result)
             this.addr = res.data.result.address
             this.qrCode = res.data.result.qrcode
             this.spinShow = false
+            this.no_encharge = false
           } else {
-            this.spinShow = true
+            this.spinShow = false
+            this.no_encharge = true
           }
         })
         .catch((err) => {
-          this.spinShow = true
+          this.spinShow = false
+          this.no_encharge = true
         })
     },
     handleCopy () {
@@ -80,8 +84,6 @@ export default {
   },
   mounted () {
     new ClipboardJS('#addr')
-    console.log('this.token' + '--------------------------')
-    console.log(this.token)
     this.getAddress(this.token)
   }
 }
@@ -129,5 +131,12 @@ export default {
         line-height: 1.5;
       }
     }
+  }
+  .no-encharge {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.5;
   }
 </style>

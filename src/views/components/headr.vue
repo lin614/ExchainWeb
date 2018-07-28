@@ -170,7 +170,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.isLogin)
+    // console.log(this.isLogin)
     // let vu = this
     // bus.$on('login', function() {
     //   console.log('login happen')
