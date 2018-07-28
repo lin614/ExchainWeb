@@ -5,7 +5,7 @@
       <div class="logo">
         <router-link to="/"><img src="../../static/imgs/logo.png"></router-link>
       </div>
-      <Button class="menu" type="text">{{ $t("header.exchange") }}</Button>
+      <Button class="menu" type="text" @click="toTrade()">{{ $t("header.exchange") }}</Button>
       <router-link to="/et">
         <Button class="menu" type="text">{{ $t("header.et") }}</Button>
       </router-link>
@@ -106,34 +106,34 @@ import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
-import md5 from 'md5'
+import md5 from 'crypto-md5'
 // import bus from '../../bus.js'
 export default {
   name: 'headr',
   components: { block, crd },
   computed: {
     isLogin() {
-      return sessionStorage.getItem('PN') != null
+      return cookie.get('PN', config.url.domain)
     },
     email() {
       var info = sessionStorage.getItem('email')
       return info ? (info.length > 5 ? info.slice(0, 5) + '...' : info) : ''
     },
     activeLang: {
-      get: function () {
+      get: function() {
         if (this.$store.state.activeLang !== '') {
           return this.$store.state.activeLang
         } else {
           return 'cn'
         }
       },
-      set: function () {}
+      set: function() {}
     }
   },
   data() {
     return {
       showLogin: false,
-      loginLoading: false,
+      loginLoading: false
     }
   },
   methods: {
@@ -147,8 +147,9 @@ export default {
     },
     logout() {
       sessionStorage.clear()
+      cookie.remove('PN')
       cookie.remove('PN', { domain: config.url.domain })
-
+      
       ax.get('/api/user/logout').then(res => {
         console.log('登出')
       })
@@ -158,7 +159,7 @@ export default {
         force: true
       })
     },
-    handleLangChange (name) {
+    handleLangChange(name) {
       this.activeLang = name
       this.$i18n.locale = name
       this.$store.commit('setActiveLang', name)
@@ -170,7 +171,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.isLogin)
+    // console.log(this.isLogin)
     // let vu = this
     // bus.$on('login', function() {
     //   console.log('login happen')

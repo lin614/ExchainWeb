@@ -9,7 +9,8 @@ let config = {
         // quote: 'ws://172.16.2.31:8080/wsapp/' //行情相关接口
         user: 'http://service.stockchain.cn', //登录注册相关接口
         quote: 'ws://service.stockchain.cn/wsapp/', //行情相关接口
-        domain: 'stockchain.cn'
+        domain: 'stockchain.cn',
+        trade:'http://www.stockchain.cn:81/', //交易地址
     },
     userid: '40006834'
 };

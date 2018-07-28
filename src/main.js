@@ -6,7 +6,7 @@ import Vuex from 'vuex';
 import Util from './libs/util';
 import App from './app.vue';
 import 'iview/dist/styles/iview.css';
-
+import cookie from 'js-cookie'
 import VueI18n from 'vue-i18n';
 import Locales from './locale';
 import zhLocale from 'iview/src/locale/lang/zh-CN';
@@ -74,8 +74,20 @@ const RouterConfig = {
 };
 const router = new VueRouter(RouterConfig);
 
+Vue.prototype.toTrade = function (pair) {
+    pair = pair ? pair : 'btc_usdt'
+    cookie.set('pair', pair, {
+        domain: config.url.domain
+    })
+
+    window.location.href = config.url.trade
+}
+
 router.beforeEach((to, from, next) => {
-    if (!to.meta.noNeedLogin && sessionStorage.getItem('PN') == null) {
+    console.log(to)
+    if (!to.meta.noNeedLogin && cookie.get('PN', {
+            domain: config.url.domain
+        }) == null) {
         router.push('/login')
     }
     iView.LoadingBar.start();
@@ -110,7 +122,8 @@ const store = new Vuex.Store({
         showUserInfo(s, data) {
             s.email = data.email
             s.mtime = data.mtime
-        }
+        },
+
     },
     getters: {
         // islogin: function () {
@@ -129,5 +142,6 @@ new Vue({
     router: router,
     i18n,
     store: store,
-    render: h => h(App)
+    render: h => h(App),
+    mounted() {}
 });

@@ -56,7 +56,7 @@ import block from './components/block'
 import crd from './components/crd'
 import ax from 'axios'
 import config from '../config/config.js'
-import md5 from 'md5'
+import md5 from 'crypto-md5'
 export default {
   name: 'reg',
   components: { page, block, crd },

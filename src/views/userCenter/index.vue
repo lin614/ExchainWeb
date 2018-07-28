@@ -150,7 +150,7 @@ import page from '../components/page'
 import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
-import md5 from 'md5'
+import md5 from 'crypto-md5'
 export default {
   name: 'usercenter',
   components: {
