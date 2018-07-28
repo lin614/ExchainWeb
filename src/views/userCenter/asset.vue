@@ -102,10 +102,10 @@ export default {
       },
       transRules: {
         from: [
-          { required: true, message: '请选择转出账户', trigger: 'blur' }
+          { required: true, message: '请选择转出账户', trigger: 'change' }
         ],
         to: [
-          { required: true, message: '请选择转入账户', trigger: 'blur' }
+          { required: true, message: '请选择转入账户', trigger: 'change' }
         ],
         amount: [
           { required: true, message: '请输入划转数量', trigger: 'blur' },
@@ -119,7 +119,7 @@ export default {
               console.log('decimal' + decimal)
               var reg = RegExp('^[0-9]{0,8}(\.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
-                callback('划转数量格式有误')
+                callback('因币种限制，最多支持到小数点后' + decimal + '位')
               }
               if (this.trabsferModal.from === 'master') {
                 if (parseFloat(value) > parseFloat(this.master)) {
@@ -135,7 +135,7 @@ export default {
                 }
               }
               callback()
-            }, trigger: 'change'
+            }, trigger: 'change, blur'
           }
         ]
       },
@@ -243,7 +243,6 @@ export default {
               style: {
                 width: '100%',
                 padding: '20px',
-                minHeight: '200px',
                 backgroundColor: 'rgb(247, 247, 247)' 
               }
             }, [
@@ -260,6 +259,11 @@ export default {
                   token: this.enchargeToken,
                   params: params.row,
                   getTokenObj: this.tokenObj
+                },
+                on: {
+                  submitGetCash: () => {
+                    this.getMyAsset()
+                  }
                 }
               })
             ])

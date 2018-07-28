@@ -54,7 +54,7 @@ export default {
       tokenList: [],
       magAddrRules: {
         tokenType: [
-          { required: true, message: '请选择币种', trigger: 'blur' }
+          { required: true, message: '请选择币种', trigger: 'change' }
         ],
         addr: [
           { required: true, message: '请输入提币地址', trigger: 'blur' }
@@ -71,7 +71,7 @@ export default {
           filters: [],
           filterMultiple: false,
           filterMethod (value, row) {
-            return row.type == value
+            return row.type === value
           }
         },
         {
@@ -113,13 +113,13 @@ export default {
       ax.get('/api/quotation/getSymbolLists')
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
-            console.log(res.data.result)
             var result = res.data.result
             var obj = {}
             for (var key in result) {
               obj.value = key
               obj.label = key
               this.tokenList.push(JSON.parse(JSON.stringify(obj)))
+              this.addrListTable[0].filters.push(JSON.parse(JSON.stringify(obj)))
             }
           }
         })
@@ -131,8 +131,6 @@ export default {
       })
       .then((res) => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          console.log(res.data) // 这是提币地址列表
-          this.addrListTable[0].filters = [...res.data.result.data]
           this.addrListData = [...res.data.result.data]
         }
       })
@@ -148,9 +146,7 @@ export default {
             outer_address: vu.magAddrForm.addr
           })
           .then((res) => {
-            console.log(1)
             if (res.status == '200' && res.data.errorCode == 0) {
-              console.log(res.data.result) // 这是添加提币地址后返回的
               vu.getWithdrawAddress()
               vu.$refs.magAddrForm.resetFields()
               vu.$Message.success('添加地址成功！')
@@ -160,7 +156,7 @@ export default {
           })
           .catch((err) => {})
         } else {
-          console.log('请检查您的输入')
+          vu.$Message.error('请检查您的输入')
         }
       })    
     },
@@ -172,7 +168,6 @@ export default {
       })
       .then((res) => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          console.log(res.data.result) // 这是删除提币地址后返回的
           this.addrListData.splice(index, 1)
           this.getWithdrawAddress()
           vu.$Message.success('删除地址成功！')
@@ -184,10 +179,9 @@ export default {
     }
   },
   mounted () {
-    // outerAddress
     this.getTokenList()
     this.getWithdrawAddress()
-    this.addrListTable[0].filters = [...this.tokenList]  // 测试用
+    this.addrListTable[0].filters = [...this.tokenList]
   }
 }
 </script>

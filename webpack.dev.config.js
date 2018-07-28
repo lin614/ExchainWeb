@@ -40,7 +40,7 @@ module.exports = merge(webpackBaseConfig, {
         // port: 4001,
         proxy: {
             '/api': {
-                target: 'http://172.16.2.30',
+                target: 'http://172.16.2.30:80',
                 changeOrigin: true
             }
         },

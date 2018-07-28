@@ -7,7 +7,7 @@
         </FormItem>
         <FormItem label="数量" prop="amount" style="width: 100%;" class="available-box">
           <Input v-model="getCashModal.amount" @on-blur="handleAmountBlur"></Input>
-          <span class="available-amount">余额为{{accountData.account_available}}</span>
+          <span class="available-amount">余额为{{accountData.account_available}} {{token}}</span>
           <!-- <span class="available-amount">余额为 <i v-show="(trabsferModal.from === 'master')">{{master}}</i><i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span> -->
         </FormItem>
         <FormItem label="手续费" prop="fee" style="width: 45%;">
@@ -21,9 +21,10 @@
             <p class="friendly-notice-title">温馨提示</p>
             <li class="friendly-notice-item">请勿向上述地址充值任何非 {{token}} 资产，否则资产将不可找回。</li>
             <li class="friendly-notice-item">因币种限制，最多支持到小数点后 {{accountData.decimal}} 位</li>
+            <li class="friendly-notice-item">最小提现额度为 {{params.withdraw_min}} {{token}}</li>
           </div>
           <div class="get-btn-box fr">
-            <Button type="primary" @click="handleGetCash">
+            <Button type="primary" @click="handleGetCash('getCashForm')">
               <span>提币</span>
               <Spin size="large" fix v-if="spinShow"></Spin>
             </Button>
@@ -72,16 +73,17 @@ export default {
               }
               // 判断精度
               var decimal = this.accountData.decimal
-              console.log('decimal' + decimal)
               var reg = RegExp('^[0-9]{0,8}(\.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
                 callback('因币种限制，最多支持到小数点后' + decimal + '位')
               }
               if (parseFloat(value) > parseFloat(this.accountData.account_available)) {
                 callback('超出可用额度')
-              } else {
-                callback()
               }
+              if (value < this.fee) {
+                callback('提现数量不足以支付手续费')
+              }
+              callback()
             }, trigger: 'change, blur'
            }
         ],
@@ -93,56 +95,63 @@ export default {
   },
   watch: {
     fee () {
-      console.log('fee' + this.fee)
       this.getCashModal.fee = this.fee
     },
     params () {
       this.accountData = JSON.parse(JSON.stringify(this.params))
     },
     decimal () {
-      console.log('this.decimal = ' + this.decimal)
       this.tokenDecimal = this.decimal
+    },
+    token () {
+      this.$refs.getCashForm && this.$refs.getCashForm.resetFields()
+      this.getCashModal.fee = this.fee
     }
   },
   methods: {
-    handleGetCash () {
+    handleGetCash (form) {
       if (this.spinShow) {
         return
       }
-      this.spinShow = true
       var vu = this
-      ax.post('/api/account/withdraw', {
-        type: this.token,
-        outer_address: this.getCashModal.destAddr,
-        balance: this.getCashModal.amount
-      })
-      .then((res) => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          vu.spinShow = false
-          vu.$refs.getCashForm.resetFields()
-          this.getCashModal.fee = this.fee
-          vu.$Message.success('提币请求已提交！')
-        } else {
-          vu.spinShow = false
-          vu.$Message.error('网络异常')
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          this.spinShow = true
+          ax.post('/api/account/withdraw', {
+            type: this.token,
+            outer_address: this.getCashModal.destAddr,
+            balance: this.getCashModal.amount
+          })
+          .then((res) => {
+            if (res.status == '200' && res.data.errorCode == 0) {
+              vu.spinShow = false
+              vu.$refs.getCashForm.resetFields()
+              this.getCashModal.fee = this.fee
+              this.$emit('submitGetCash')
+              vu.$Message.success('提币请求已提交！')
+            } else {
+              vu.spinShow = false
+              vu.$Message.error('网络异常')
+            }
+          })
+          .catch((err) => {
+            vu.spinShow = false
+              vu.$Message.error('网络异常')
+            console.log(err)
+          })
         }
       })
-      .catch((err) => {
-        vu.spinShow = false
-          vu.$Message.error('网络异常')
-        console.log(err)
-      })
+      
     },
     handleAmountBlur (e) {
-      // 大数字涉及到计算精度问题
+      /**
+       * 数字计算精度问题
+       */
       this.getCashModal.actualAmount = NP.minus(parseFloat(e.target.value), parseFloat(this.getCashModal.fee))
-      // this.getCashModal.actualAmount = parseFloat(e.target.value) - parseFloat(this.getCashModal.fee)
-      console.log('实际到账金额' + this.getCashModal.actualAmount)
     }
   },
   mounted () {
     this.accountData = JSON.parse(JSON.stringify(this.params))
-    console.log(this.accountData)
     this.getCashModal.fee = this.fee
   }
 }

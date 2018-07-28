@@ -42,11 +42,11 @@ ax.defaults.headers.post['Content-Type'] = "application/json"
 const navLang = navigator.language;
 let localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false;
 if (localLang === 'zh-CN') {
-    localLang = 'cn'
+    localLang = 'zh'
 } else if (localLang === 'en-US') {
     localLang = 'en'
 }
-const lang = window.localStorage.getItem('language') || localLang || 'cn';
+const lang = window.localStorage.getItem('language') || localLang || 'zh';
 
 Vue.config.lang = lang;
 console.log('lang = ' + lang)
@@ -54,14 +54,17 @@ console.log('lang = ' + lang)
 // const locales = Locales;
 const mergeZH = Object.assign(zhLocale, LangZhCn);
 const mergeEN = Object.assign(enLocale, LangEnUs);
-Vue.locale('zh-CN', mergeZH);
-Vue.locale('en-US', mergeEN);
+
+const messages = {
+    zh: mergeZH,
+    en: mergeEN
+};
+
+// Vue.locale('zh-CN', mergeZH);
+// Vue.locale('en-US', mergeEN);
 const i18n = new VueI18n({
     locale: lang,
-    messages: {
-        'cn': mergeZH,
-        'en': mergeEN
-    }
+    messages
 })
 
 // 路由配置

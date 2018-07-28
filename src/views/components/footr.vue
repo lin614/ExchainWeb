@@ -4,53 +4,53 @@
             <Row type="flex" justify="center" align="top" class="menu" slot="inner">
                 <Col span="7">
                 <img src="../../static/imgs/logo.png">
-                <p>Copyright © 2018 Exchain</p>
+                <p>{{ $t('footer.copyright') }}</p>
                 </Col>
                 <Col span="9">
 
                 <Row type="flex" justify="start" align="top">
                     <Col span="8">
-                    <h2>服务</h2>
+                    <h2>{{ $t("footer.services.services") }}</h2>
                     </Col>
                     <Col span="8">
-                    <h2>条款说明</h2>
+                    <h2>{{ $t("footer.clauseInstruction.clauseInstruction") }}</h2>
                     </Col>
                     <Col span="8">
-                    <h2>关于我们</h2>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="8">交易中心</Col>
-                    <Col span="8">
-                    <router-link to="/priv">隐私政策</router-link>
-                    </Col>
-                    <Col span="8">
-                    <a target="_blank" href="http://t.me/Exchain_cn">客户支持</a>
+                    <h2>{{ $t("footer.aboutUs.aboutUs") }}</h2>
                     </Col>
                 </Row>
                 <Row>
+                    <Col span="8">{{ $t("footer.services.exchange") }}</Col>
                     <Col span="8">
-                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn">支持</a>
+                    <router-link to="/priv">{{ $t("footer.clauseInstruction.privacyPolicy") }}</router-link>
                     </Col>
                     <Col span="8">
-                    <router-link to="/cont">用户协议</router-link>
-                    </Col>
-                    <Col span="8">
-                    <a target="_blank" href="http://t.me/Exchain_cn">联系我们</a>
+                    <a target="_blank" href="http://t.me/Exchain_cn">{{ $t("footer.aboutUs.customerSupport") }}</a>
                     </Col>
                 </Row>
                 <Row>
                     <Col span="8">
-                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn/requests/new">提交请求</a>
+                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn">{{ $t("footer.services.support") }}</a>
                     </Col>
                     <Col span="8">
-                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360006962932-%E4%BA%A4%E6%98%93%E6%89%8B%E7%BB%AD%E8%B4%B9%E8%AF%B4%E6%98%8E">手续费</a>
+                    <router-link to="/cont">{{ $t("footer.clauseInstruction.serAgreement") }}</router-link>
+                    </Col>
+                    <Col span="8">
+                    <a target="_blank" href="http://t.me/Exchain_cn">{{ $t("footer.aboutUs.contactUs") }}</a>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="8">
+                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn/requests/new">{{ $t("footer.services.submitARequest") }}</a>
+                    </Col>
+                    <Col span="8">
+                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360006962932-%E4%BA%A4%E6%98%93%E6%89%8B%E7%BB%AD%E8%B4%B9%E8%AF%B4%E6%98%8E">{{ $t("footer.clauseInstruction.fees") }}</a>
                     </Col>
                     <Col span="8"></Col>
                 </Row>
                 </Col>
                 <Col span="8">
-                <h2>社区</h2>
+                <h2>{{ $t("footer.social") }}</h2>
                 <p class="social">
                     <Poptip trigger="hover" :style="{ minWidth:0}">
                         <i class=" iconfont icon-weixin"></i>
