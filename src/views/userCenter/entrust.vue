@@ -34,7 +34,8 @@ export default {
       columns1: [
         {
           title: '时间',
-          key: 'ctime'
+          key: 'ctime',
+          width: 200
         },
         {
           title: '市场',
@@ -43,6 +44,7 @@ export default {
         {
           title: '类型',
           key: 'side',
+          width: 100,
           render: function (h, params) {
             return h('div', this.row.side === 1 ? '买' : '卖');
           }
