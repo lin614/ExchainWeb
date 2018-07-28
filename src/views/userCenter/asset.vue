@@ -119,7 +119,7 @@ export default {
               console.log('decimal' + decimal)
               var reg = RegExp('^[0-9]{0,8}(\.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
-                callback('划转数量格式有误')
+                callback('因币种限制，最多支持到小数点后' + decimal + '位')
               }
               if (this.trabsferModal.from === 'master') {
                 if (parseFloat(value) > parseFloat(this.master)) {
@@ -135,7 +135,7 @@ export default {
                 }
               }
               callback()
-            }, trigger: 'change'
+            }, trigger: 'change, blur'
           }
         ]
       },
