@@ -6,9 +6,9 @@
           <div class="banner_1">
             <block>
               <div slot="inner">
-                <h2>收入与合作伙伴共享，收益与交易伙伴共享</h2>
+                <h2>{{ $t('banner.title') }}</h2>
                 <hr/>
-                <p>Exchain是全球首家共享型交易平台，不仅将合作交易费的20%支付给合作伙伴，<br/>50%支付给超级合伙伙伴，还将交易平台100%的收入每日分配给Exchain Token（ET）持有者，<br/>全免费交易计时开始。</p>
+                <p class="banner-descript" v-html="$t('banner.descript')"></p>
               </div>
             </block>
           </div>
@@ -19,7 +19,6 @@
               <div slot="inner">
                 <h2>Exchain内测即将开启，强拳重推合作伙伴计划</h2>
                 <hr/>
-
                 <p>Exchain全球首家共享型交易平台Exchain全新上线，并即将开启内测。<br/>先启动“合作伙伴计划”招募<br/>成为合作伙伴，享受交易费20%-50%回报+平台币(ET)奖励<br/>交易即挖矿，ET升值+平台收入奖励，收益+++<br/>限时全免，等你来！</p>
               </div>
             </block>
@@ -71,6 +70,8 @@ export default {
     position: relative;
     height: 380px;
     background-color: @banner-bg-color;
+    background-repeat: no-repeat;
+    background-position: center center;
     h2 {
       padding-top: 50px;
       font-size: @banner-font-title;
@@ -90,8 +91,9 @@ export default {
       color: white;
       line-height: 40px;
     }
-    background-repeat: no-repeat;
-    background-position: center center;
+    .banner-descript {
+      width: 850px;
+    }
   }
   .banner_1 {
     .block {
