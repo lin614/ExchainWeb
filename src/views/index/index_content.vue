@@ -192,7 +192,8 @@ export default {
     var subQuo = pair =>
       ws.postData({
         event: 'sub',
-        channel: 'huobi.market.' + pair + '.trade.detail'
+        // channel: 'huobi.market.' + pair + '.trade.detail'
+        channel: 'huobi.market.' + pair + '.kline.day'
         // channel: 'test'
       })
     var list = [...this.data1, ...this.data2, ...this.data3, ...this.data4]
@@ -204,12 +205,13 @@ export default {
       console.log(list[i].parm)
       list[i].cur = list[i].pair.split('/')[1]
       //订阅
-      // subQuo(list[i].parm)
+      subQuo(list[i].parm)
     }
     let vu = this
     bus.$on('wsUpdate', data => {
       var info = list.filter(
-        p => 'huobi.market.' + p.parm + '.trade.detail' == data.channel
+        // p => 'huobi.market.' + p.parm + '.trade.detail' == data.channel
+        p => 'huobi.market.' + p.parm + '.kline.day' == data.channel
       )[0]
 
       if (info) {

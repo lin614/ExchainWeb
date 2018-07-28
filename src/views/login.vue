@@ -123,6 +123,7 @@ export default {
                   cookie.set('email', vu.loginInfo.email, {
                     domain: config.url.domain
                   })
+                  cookie.set('uid')
                   var Pn = encodeURIComponent(res.data.result.PN)
                   sessionStorage.setItem('PN', Pn)
                 }

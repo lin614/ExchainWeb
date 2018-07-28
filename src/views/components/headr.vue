@@ -120,20 +120,20 @@ export default {
       return info ? (info.length > 5 ? info.slice(0, 5) + '...' : info) : ''
     },
     activeLang: {
-      get: function () {
+      get: function() {
         if (this.$store.state.activeLang !== '') {
           return this.$store.state.activeLang
         } else {
           return 'cn'
         }
       },
-      set: function () {}
+      set: function() {}
     }
   },
   data() {
     return {
       showLogin: false,
-      loginLoading: false,
+      loginLoading: false
     }
   },
   methods: {
@@ -147,6 +147,7 @@ export default {
     },
     logout() {
       sessionStorage.clear()
+      cookie.remove('PN')
       cookie.remove('PN', { domain: config.url.domain })
       
       ax.get('/api/user/logout').then(res => {
@@ -158,7 +159,7 @@ export default {
         force: true
       })
     },
-    handleLangChange (name) {
+    handleLangChange(name) {
       this.activeLang = name
       // this.$i18n.locale = name
       this.$store.commit('setActiveLang', name)
