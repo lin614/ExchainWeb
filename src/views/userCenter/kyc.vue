@@ -18,21 +18,25 @@
                 <Input v-model="formField.idcardNo" placeholder="身份证号码"></Input>
               </FormItem>
 
-              <FormItem class="form-item" label="证件正面" prop="fontImg">
+              <FormItem class="form-item" label="证件正面" prop="frontImg">
                 <Upload
-                  multiple
-                  :on-success="handleFontSuccess"
+                  :on-success="handleFrontSuccess"
+                  :on-format-error="handleFormatErr"
+                  :on-error="handleFrontUploadErr"
                   action="/api/user/userUploadIdentity"
-                  :data="{type: 'pid', idCardSide: 'font'}"
-                  :with-credentials="true">
-                  <div style="padding: 20px 0">
+                  :data="{type: 'pid', idCardSide: 'front'}"
+                  :with-credentials="true"
+                  :format="['jpg','jpeg','png']"
+                  accept="image"
+                  :show-upload-list="false">
+                  <div style="padding: 20px 0;">
                       <img src="../../static/imgs/kyc-idcard-upload.png" alt="上传">
                       <p class="tip">上传身份证件信息</p>
+                      <p class="after-tip" v-if="files.front">点击更改</p>
+                      <img class="uploaded-img" v-if="files.front" :src="'//' + formField.frontImg" alt="证件正面">
                   </div>
                 </Upload>
                 
-                <img class="uploaded-img" v-if="formField.fontImg" :src="formField.fontImg" alt="证件正面">
-
                 <div class="sample">
                   <div class="sample-img-wrap">
                     <img src="../../static/imgs/kyc-idcard1.png" alt="证件正面">
@@ -43,16 +47,22 @@
 
               <FormItem class="form-item" label="证件背面" prop="backImg">
                 <Upload
-                  multiple
                   :on-success="handleBackSuccess"
-                  action="/api/user/userUploadIdentity">
+                  :on-format-error="handleFormatErr"
+                  :on-error="handleBackUploadErr"
+                  action="/api/user/userUploadIdentity"
+                  :data="{type: 'pid', idCardSide: 'back'}"
+                  :with-credentials="true"
+                  :format="['jpg','jpeg','png']"
+                  accept="image"
+                  :show-upload-list="false">
                   <div style="padding: 20px 0">
                       <img src="../../static/imgs/kyc-idcard-upload.png" alt="上传">
                       <p class="tip">上传身份证件信息</p>
+                      <p class="after-tip" v-if="files.back">点击更改</p>
+                      <img class="uploaded-img" v-if="files.back" :src="'//' + formField.backImg" alt="证件正面">                      
                   </div>
                 </Upload>
-
-                <img class="uploaded-img" v-if="formField.backImg" :src="formField.backImg" alt="证件正面">
 
                 <div class="sample">
                   <div class="sample-img-wrap" style="padding-top:10px;">
@@ -64,16 +74,22 @@
 
               <FormItem class="form-item" label="手持证件照片" prop="holdImg">
                 <Upload
-                  multiple
                   :on-success="handleHoldSuccess"
-                  action="/api/user/userUploadIdentity">
+                  :on-format-error="handleFormatErr"
+                  :on-error="handleHoldUploadErr"
+                  action="/api/user/userUploadIdentity"
+                  :data="{type: 'pid', idCardSide: 'hold'}"
+                  :with-credentials="true"
+                  :format="['jpg','jpeg','png']"
+                  accept="image"
+                  :show-upload-list="false">
                   <div style="padding: 20px 0">
                       <img src="../../static/imgs/kyc-idcard-upload.png" alt="上传">
                       <p class="tip">上传身份证件信息</p>
+                      <p class="after-tip" v-if="files.hold">点击更改</p>
+                       <img class="uploaded-img" v-if="files.hold" :src="'//' + formField.holdImg" alt="证件正面">
                   </div>
                 </Upload>
-
-                <img class="uploaded-img" v-if="formField.holdImg" :src="formField.holdImg" alt="证件正面">
 
                 <div class="sample">
                   <div class="sample-img-wrap" style="padding-top:5px;">
@@ -89,7 +105,7 @@
                 </div>
               </FormItem>
 
-              <Button class="submit" type="primary" @click="handleSubmit()">申请提交</Button>
+              <Button class="submit" type="primary" @click="handleSubmit('formField')">申请提交</Button>
             </Form>
           </div>
         </crd>
@@ -101,6 +117,7 @@
 <script>
 import page from "../components/page"
 import crd from "../components/crd.vue"
+import ax from 'axios'
 export default {
   name: 'kyc',
   data () {
@@ -110,12 +127,12 @@ export default {
         firstName: '',
         familyName: '',
         idcardNo: '',
-        fontImg: '',
+        frontImg: '',
         backImg: '',
         holdImg: ''
       },
       files: {
-        font: '',
+        front: '',
         back: '',
         hold: ''
       },
@@ -128,15 +145,6 @@ export default {
         ],
         idcardNo: [
           { required: true, message: '请输入身份证号码', trigger: 'blur' }
-        ],
-        fontImg: [
-          { required: true, message: '请上传证件正面', trigger: 'change' }
-        ],
-        backImg: [
-          { required: true, message: '请上传证件反面', trigger: 'change' }
-        ],
-        holdImg: [
-          { required: true, message: '请上传手持证件照片', trigger: 'change' }
         ]
       },
     }
@@ -149,29 +157,87 @@ export default {
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
     },
-    handleSubmit () {
-      this.$refs.formField.validate(valid => {
+    handleSubmit (form) {
+      if (!this.files.front) {
+        this.$Message.error('请上传身份证正面照')
+        return
+      } else if (!this.files.back) {
+        this.$Message.error('请上传身份证背面照')
+        return
+      } else if (!this.files.hold) {
+        this.$Message.error('请上传手持身份证照')
+        return
+      }
+      var vu = this
+      this.$refs[form].validate(valid => {
+        if (valid) {
+          ax.post('/api/user/userKycRequest', {
+            type: 'pid',
+            name: this.formField.familyName + this.formField.firstName,
+            idCardNumber: this.formField.idcardNo,
+            idCardFrontUrl: this.files.front,
+            idCardBackUrl: this.files.back,
+            idCardHoldUrl: this.files.hold
+          })
+          .then((res) => {
+            console.log(res)
+            if (res.status === 200 && res.data.errorCode === 0) {
+              this.$router.push('/usercenter')
+              //修改kyc状态为待审核
+              vu.$Message.success('kyc 认证提交成功')
+            } else {
+              vu.$Message.error('网络异常')
+            }
+          })
+          .catch((err) => {
+            vu.$Message.error('网络异常')
+          })
+        } else {
+          vu.$Message.error('请检查您的的输入')
+        }
       });
     },
     /**
      * 证件正面上传成功处理
      */
-    handleFontSuccess (res, file) {
-      // this.formField.Font = res.data;
-      console.log(res)
-      console.log(file)
+    handleFrontSuccess (res, file, fileList) {
+      this.files.front = file.name
+      this.formField.frontImg = res.result
+      console.log('front ---- ' + this.files.front)
+    },
+    /**
+     * 正面上传文件失败，指服务器拒绝之类的问题
+     */
+    handleFrontUploadErr () {
+      this.$Message.success('网络异常')
     },
     /**
      * 证件反面上传成功处理
      */
-    handleBackSuccess () {
-      // this.formField.backImg = res.data;
+    handleBackSuccess (res, file, fileList) {
+      this.files.back = file.name
+      this.formField.backImg = res.result
+      console.log('back ---- ' + this.files.back)
+    },
+    handleBackUploadErr () {
+      this.$Message.success('网络异常')
     },
     /**
      * 手持证件照片上传成功处理
      */
-    handleHoldSuccess () {
-      // this.formField.holdImg = res.data;
+    handleHoldSuccess (res, file, fileList) {
+      this.files.hold = file.name
+      this.formField.holdImg = res.result
+      console.log('hold ---- ' + this.files.hold)
+    },
+    handleHoldUploadErr () {
+      this.$Message.success('网络异常')
+    },
+    /**
+     * 错误的文件后缀
+     */
+    handleFormatErr () {
+      this.$Message.success('错误的文件后缀')
     }
   },
   created () {
@@ -232,6 +298,14 @@ export default {
       .ivu-upload .tip {
         font-size: 16px;
         color: rgba(89,153,229,1);
+      }
+      .ivu-upload .after-tip {
+        position: relative;
+        z-index: 1;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(89,153,229,1);
+        cursor: pointer;
       }
       .sample {
         position: absolute;

@@ -106,11 +106,11 @@ export default {
               }
             )
             .then(function(res) {
-              console.log(res.data)
+              // console.log(res.data)
               if (res.status == '200' && res.data.errorCode == 0) {
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
-                console.log(vu.$store.state.islogin)
+                // console.log(vu.$store.state.islogin)
                 vu.$store.commit('showUserInfo', {
                   email: res.data.result.email,
                   mtime: res.data.result.mtime
@@ -123,7 +123,7 @@ export default {
                   cookie.set('email', vu.loginInfo.email, {
                     domain: config.url.domain
                   })
-                  sessionStorage.setItem('PN', res.data.result.PN)
+                  sessionStorage.setItem('PN', Pn)
                 }
 
                 vu.$router.push('/userCenter')

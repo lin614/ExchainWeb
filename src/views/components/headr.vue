@@ -80,44 +80,22 @@
             </DropdownMenu>
           </Dropdown>
 
-          <Dropdown class="lan">
+          <Dropdown class="lan" @on-click="handleLangChange">
             <a href="javascript:void(0)">
               <Icon type="earth"></Icon>
-              简体中文
+              <span>{{activeLang === 'cn' ? '简体中文' : 'English'}}</span>
               <Icon type="arrow-down-b"></Icon>
             </a>
             <DropdownMenu slot="list">
-              <DropdownItem>
+              <DropdownItem name="cn">
                 <span class="lan-item">简体中文</span>
               </DropdownItem>
-              <DropdownItem>English</DropdownItem>
+              <DropdownItem name="en">English</DropdownItem>
             </DropdownMenu>
           </Dropdown>
       </div>
       </Col>
     </Row>
-    <Modal v-model="showLogin" class-name="login-model" :closable="false" @on-cancel="handleCloseLoginModal">
-      <crd potColor="#4399e9">
-        <span slot="title">登录 Exchain</span>
-        <div class="form-box">
-          <Form ref="loginForm" :rules="rules" :model="loginModal" label-position="top">
-            <FormItem label="邮箱" prop="email">
-              <Input v-model="loginModal.email"></Input>
-            </FormItem>
-            <FormItem label="密码" prop="password">
-              <Input type="password" v-model="loginModal.password"></Input>
-            </FormItem>
-          </Form>
-        </div>
-      </crd>
-      <div slot="footer">
-        <div class="login-model-footer clearfix">
-          <span class="model-btn model-btn-active fl" @click="handleLogin">
-            <Spin v-if="loginLoading" size="small"></Spin>登录</span>
-          <span class="model-btn fr" @click="handleCloseLoginModal">取消</span>
-        </div>
-      </div>
-    </Modal>
   </block>
 
 </template>
@@ -140,20 +118,22 @@ export default {
     email() {
       var info = sessionStorage.getItem('email')
       return info ? (info.length > 5 ? info.slice(0, 5) + '...' : info) : ''
+    },
+    activeLang: {
+      get: function () {
+        if (this.$store.state.activeLang !== '') {
+          return this.$store.state.activeLang
+        } else {
+          return 'cn'
+        }
+      },
+      set: function () {}
     }
   },
   data() {
     return {
       showLogin: false,
       loginLoading: false,
-      loginModal: {
-        email: '',
-        password: ''
-      },
-      rules: {
-        email: [{ required: true, message: '邮箱不能为空', trigger: 'blur' }],
-        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
-      }
     }
   },
   methods: {
@@ -165,49 +145,6 @@ export default {
       this.$refs['loginForm'].resetFields()
       this.showLogin = false
     },
-    handleLogin() {
-      var vu = this
-      this.$refs['loginForm'].validate(valid => {
-        if (valid) {
-          ax
-            .post(
-              config.url.user + '/api/user/login',
-              {
-                email: vu.loginModal.email,
-                password: md5(vu.loginModal.password)
-              },
-              {
-                withcredentials: true
-              }
-            )
-            .then(function(res) {
-              console.log(1)
-              console.log(res.data)
-              if (res.status == '200' && res.data.errorCode == 0) {
-                vu.$refs['loginForm'].resetFields()
-                vu.showLogin = false
-                sessionStorage.setItem('uid', res.data.result.id)
-                sessionStorage.setItem('email', res.data.result.email)
-                sessionStorage.setItem('PN', res.data.result.PN)
-
-                cookie.set('PN', encodeURIComponent(res.data.result.PN), {
-                  domain: config.url.domain
-                })
-                vu.$router.push('/userCenter')
-              } else {
-                vu.$Message.error({ content: '登录失败:' + res.data.errorMsg })
-              }
-            })
-            .catch(function(error) {
-              console.log(error)
-              vu.$Message.error({ content: '登录失败:' + error })
-            })
-        } else {
-          this.$Message.error('验证失败!')
-        }
-      })
-    },
-
     logout() {
       sessionStorage.clear()
       cookie.remove('PN', { domain: config.url.domain })
@@ -220,10 +157,17 @@ export default {
         path: '/',
         force: true
       })
+    },
+    handleLangChange (name) {
+      this.activeLang = name
+      // this.$i18n.locale = name
+      this.$store.commit('setActiveLang', name)
+      // if (name === 'cn') {
+      //   document.title = ''
+      // } else if (name === 'en') {
+      //   document.title = ''
+      // }
     }
-  },
-  destroyed() {
-    console.log('header destroyed!')
   },
   mounted() {
     console.log(this.isLogin)

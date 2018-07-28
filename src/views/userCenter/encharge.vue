@@ -7,7 +7,7 @@
       </div>
       <div class="fl">
         <input type="hidden" v-model="addr" id="addr">
-        <a class="copy-addr" id="btnLink" data-clipboard-target="#addr">复制</a>
+        <a class="copy-addr" id="btnLink" :data-clipboard-text="addr" @click="handleCopy">复制</a>
         <Poptip content="content" placement="bottom">
           <span class="show-addr-qr">二维码</span>
           <div class="qr-box" slot="content">
@@ -68,6 +68,18 @@ export default {
         .catch((err) => {
           this.spinShow = true
         })
+    },
+    handleCopy () {
+      var vu = this
+      var clipboard = new ClipboardJS('.copy-addr')
+      clipboard.on('success', e => {
+        vu.$Message.success('复制成功')
+        clipboard.destroy()
+      })
+      clipboard.on('error', e => {
+        vu.$Message.success('该浏览器不支持自动复制')
+        clipboard.destroy()
+      })
     }
   },
   mounted () {

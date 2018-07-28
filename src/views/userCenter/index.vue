@@ -10,7 +10,7 @@
               <router-link to="/usercenter/kyc" class="to-kyc">kyc认证 ></router-link>
             </div>
             <div class="basic-btm">
-              <span class="recent-time">最近登录时间： {{userMtime}}</span>
+              <span class="recent-time">最近登录时间： {{mtime ? mtime : userMtime}}</span>
               <span>IP: {{userIP}}</span>
             </div>
           </div>
@@ -27,11 +27,11 @@
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
               <router-link to="/usercenter/bind" class="card-item-opera fr">修改 ></router-link>
             </div>
-            <div class="card-item car-item-unline">
+            <!-- <div class="card-item car-item-unline">
               <span class="card-item-title fl">谷歌验证</span>
               <span class="card-item-text fl">提现，修改密码，及安全设置时以收取验证短信</span>
               <span @click="handleShowGAModel" class="card-item-opera fr">设置 ></span>
-            </div>
+            </div> -->
           </div>
 
           <!-- 修改密码框 -->
@@ -122,7 +122,7 @@
         <crd potColor="#fe7263">
           <span slot="title">最近登录</span>
           <div class="card-box recent-login">
-            <Table :columns="columns1" :data="data1"></Table>
+            <Table :columns="recentUserCol" :data="recentUserInfo"></Table>
           </div>
         </crd>
       </div>
@@ -144,29 +144,45 @@ export default {
   },
   computed: {
     userEmail() {
-      return this.$store.state.email
+      if (this.$store.state.email) {
+        return this.$store.state.email
+      } else if (sessionStorage.getItem('email')) {
+        return sessionStorage.getItem('email')
+      } else {
+        return '***@***.***'
+      }
     },
     userMtime() {
-      return this.$store.state.mtime
+      if (this.$store.state.mtime) {
+        return this.$store.state.mtime
+      } else {
+        return new Date().toLocaleDateString()
+      }
+    }
+  },
+  watch: {
+    recentUserInfo () {
+      this.mtime = this.recentUserInfo[0].time
+      this.userIP = this.recentUserInfo[0].ip
     }
   },
   data() {
     return {
-      columns1: [
+      mtime: '',
+      recentUserCol: [
         {
           title: '登录',
-          key: 'type'
+          key: 'device'
         },
         {
           title: 'IP地址',
-          key: 'address'
+          key: 'ip'
         },
         {
           title: '状态',
-          key: 'status',
+          key: 'event',
           render: (h, params) => {
-            console.log('---' + params.row.status)
-            if (params.row.status === '0') {
+            if (params.row.event === 'Sign-in') {
               return h(
                 'span',
                 {
@@ -190,27 +206,11 @@ export default {
           }
         }
       ],
-      data1: [
-        {
-          type: 'Web',
-          address: '128.0.0.1',
-          status: '0'
-        },
-        {
-          type: 'PC',
-          address: '128.0.0.2',
-          status: '0'
-        },
-        {
-          type: 'APP',
-          address: '128.0.0.3',
-          status: '1'
-        }
-      ],
+      recentUserInfo: [],
       changePwdModal: {},
       showChangePwd: false,
       changeLoading: false,
-      userIP: '228.1.6.54',
+      userIP: '192.168.1.1',
       rules: {
         currentPwd: [
           { required: true, message: '请输入当前的密码', trigger: 'blur' }
@@ -243,6 +243,20 @@ export default {
     }
   },
   methods: {
+    getUserInfo () {
+      var vu = this
+      ax.post('/api/user/getUserInfo')
+        .then((res) => {
+          if (res.status === 200 && res.data.result.errorCode === 0) {
+            console.log(res.data.result)
+          } else {
+            console.log('网络异常！')
+          }
+        })
+        .catch((err) => {
+          console.log('网络异常！')
+        })
+    },
     handleShowChangePwdModel() {
       console.log('change pwd')
       this.showChangePwd = true
@@ -253,7 +267,7 @@ export default {
       this.$refs[form].validate(valid => {
         if (valid) {
           ax
-            .post(config.url.user + '/api/user/changePassword', {
+            .post('/api/user/changePassword', {
               password: md5(this.changePwdModal.currentPwd),
               new_password: md5(this.changePwdModal.password)
             })
@@ -262,7 +276,8 @@ export default {
               if (res.status == '200' && res.data.errorCode == 0) {
                 console.log(res.data)
                 this.changeLoading = false
-                vu.$Message.success('添加地址成功！')
+                vu.$Message.success(res.data.errorMsg)
+                this.showChangePwd = false
               } else {
                 this.changeLoading = false
                 vu.$Message.error(res.data.errorMsg)
@@ -277,7 +292,19 @@ export default {
         }
       })
     },
-    loadData() {},
+    getRecentActivity() {
+      ax.get('/api/user/getRecentActivity')
+        .then((res) => {
+          console.log(typeof res.status)
+          if (res.status === 200 && res.data.errorCode === 0) {
+            this.recentUserInfo = res.data.result.data
+            console.log(this.recentUserInfo)
+          }
+        })
+        .catch((err) => {
+          //
+        })
+    },
     handleCloseChangePwd(form) {
       this.changeLoading = false
       this.$refs[form].resetFields()
@@ -290,8 +317,9 @@ export default {
       this.showGAModel = true
     }
   },
-  created() {
-    this.loadData()
+  mounted() {
+    this.getUserInfo()
+    this.getRecentActivity()
   }
 }
 </script>
