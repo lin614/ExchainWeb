@@ -24,6 +24,7 @@ global.ws = ws()
 global.bus = bus
 
 import './static/icons/iconfont.css'
+import './libs/gt'
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -131,11 +132,7 @@ const store = new Vuex.Store({
     }
 });
 
-// window.onbeforeunload = function (event) {
-//     console.log('bd')
-//     localStorage.clear()
-//     return confirm("确定退出吗")
-// }
+Vue.prototype.$initGeetest = window.initGeetest
 
 new Vue({
     el: '#app',

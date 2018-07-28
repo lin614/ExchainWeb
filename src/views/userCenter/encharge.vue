@@ -18,11 +18,7 @@
     </div>
     <div class="friendly-notice">
       <p class="friendly-notice-title">温馨提示</p>
-      <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
-      <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
-      <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
-      <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
-      <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
+      <li class="friendly-notice-item">请勿向上述地址充值任何非{{token}}资产，否则资产将不可找回。</li>
     </div>
      <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
