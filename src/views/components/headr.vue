@@ -148,7 +148,7 @@ export default {
     logout() {
       sessionStorage.clear()
       cookie.remove('PN', { domain: config.url.domain })
-
+      
       ax.get('/api/user/logout').then(res => {
         console.log('登出')
       })

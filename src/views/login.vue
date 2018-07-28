@@ -117,9 +117,9 @@ export default {
                 })
 
                 if (res.data.result.PN) {
-                  cookie.set('PN', encodeURIComponent(res.data.result.PN), {
-                    domain: config.url.domain
-                  })
+                  // cookie.set('PN', encodeURIComponent(res.data.result.PN), {
+                  //   domain: config.url.domain
+                  // })
                   cookie.set('email', vu.loginInfo.email, {
                     domain: config.url.domain
                   })
