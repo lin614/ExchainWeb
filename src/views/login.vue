@@ -120,6 +120,9 @@ export default {
                   cookie.set('PN', encodeURIComponent(res.data.result.PN), {
                     domain: config.url.domain
                   })
+                  cookie.set('email', vu.loginInfo.email, {
+                    domain: config.url.domain
+                  })
                   sessionStorage.setItem('PN', res.data.result.PN)
                 }
 

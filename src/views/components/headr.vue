@@ -5,7 +5,7 @@
       <div class="logo">
         <router-link to="/"><img src="../../static/imgs/logo.png"></router-link>
       </div>
-      <Button class="menu" type="text" @click="toTrade">交易</Button>
+      <Button class="menu" type="text" @click="toTrade()">交易</Button>
       <router-link to="/et">
         <Button class="menu" type="text">ET</Button>
       </router-link>
@@ -207,17 +207,7 @@ export default {
         }
       })
     },
-    toTrade() {
-      var pair = 'eth_usdt'
-      sessionStorage.setItem('pair', pair)
-      cookie.set('pair', pair, {
-        domain: config.url.domain
-      })
-      console.log('toTrade', pair)
-      console.log(config.url.trade)
-      // window.open(config.url.trade)
-      window.location.href = config.url.trade
-    },
+
     logout() {
       sessionStorage.clear()
       cookie.remove('PN', { domain: config.url.domain })

@@ -66,6 +66,15 @@ const RouterConfig = {
 };
 const router = new VueRouter(RouterConfig);
 
+Vue.prototype.toTrade = function (pair) {
+    pair = pair ? pair : 'btc_usdt'
+    cookie.set('pair', pair, {
+        domain: config.url.domain
+    })
+
+    window.location.href = config.url.trade
+}
+
 router.beforeEach((to, from, next) => {
     console.log(to)
     if (!to.meta.noNeedLogin && cookie.get('PN', {
