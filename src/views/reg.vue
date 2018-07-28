@@ -133,7 +133,7 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           ax
-            .post(config.url.user + '/api/user/verifyRegister', {
+            .post('/api/user/verifyRegister', {
               email: vu.regInfo.email,
               code: vu.regInfo.emailcode,
               token: vu.regtoken,
@@ -163,7 +163,7 @@ export default {
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
           ax
-            .post(config.url.user + '/api/user/register', {
+            .post('/api/user/register', {
               email: vu.regInfo.email
             })
             .then(function(res) {

@@ -5,21 +5,21 @@
       <div class="logo">
         <router-link to="/"><img src="../../static/imgs/logo.png"></router-link>
       </div>
-      <Button class="menu" type="text">交易</Button>
+      <Button class="menu" type="text">{{ $t("header.exchange") }}</Button>
       <router-link to="/et">
-        <Button class="menu" type="text">ET</Button>
+        <Button class="menu" type="text">{{ $t("header.et") }}</Button>
       </router-link>
       <router-link to="/paper">
-        <Button class="menu" type="text">白皮书</Button>
+        <Button class="menu" type="text">{{ $t("header.whitepaper") }}</Button>
       </router-link>
 
       <a target="_blank" href="https://support.exchain.com/hc/zh-cn">
-        <Button class="menu" type="text">公告</Button>
+        <Button class="menu" type="text">{{ $t("header.announcement") }}</Button>
       </a>
 
       <router-link to="/partner">
         <!-- <Tooltip :always="true" :transfer="true" placement="top-end" content="HOT!" :style="{ minWidth:0}"> -->
-        <Button class="menu" type="text">合作伙伴计划</Button>
+        <Button class="menu" type="text">{{ $t("header.partnerProject") }}</Button>
         <!-- <div slot="content">
 
               HOT!
@@ -35,13 +35,13 @@
           <Button type="text" id="btnLogin" @click="login()">登录</Button>
         </a> -->
         <router-link to="/login" v-if="!isLogin">
-          <Button type="text" id="btnLogin">登录</Button>
+          <Button type="text" id="btnLogin">{{ $t("header.login") }}</Button>
         </router-link>
         <router-link to="/reg" v-if="!isLogin">
-          <Button type="text" id="btnReg">注册</Button>
+          <Button type="text" id="btnReg">{{ $t("header.register") }}</Button>
         </router-link>
         <router-link to="/usercenter/asset" v-if="isLogin">
-          <Button type="text">我的资产</Button>
+          <Button type="text">{{ $t("header.myAsset") }}</Button>
         </router-link>
         <Dropdown class="lan" v-if="isLogin">
           <!-- <router-link to="/usercenter">
@@ -59,22 +59,22 @@
           <Dropdown class="lan" <DropdownMenu slot="list">
             <DropdownItem>
               <router-link to="/usercenter">
-                <span class="lan-item">个人中心</span>
+                <span class="lan-item">{{ $t("header.userCenter") }}</span>
               </router-link>
             </DropdownItem>
             <DropdownItem>
               <router-link to="/usercenter/entrust">
-                <span class="lan-item">委托管理</span>
+                <span class="lan-item">{{ $t("header.promiseManage") }}</span>
               </router-link>
             </DropdownItem>
             <DropdownItem>
               <router-link to="/bonus">
-                <span class="lan-item">合作伙伴</span>
+                <span class="lan-item">{{ $t("header.partner") }}</span>
               </router-link>
             </DropdownItem>
             <DropdownItem>
               <a @click="logout()">
-                <span class="lan-item">登出</span>
+                <span class="lan-item">{{ $t("header.logout") }}</span>
               </a>
             </DropdownItem>
             </DropdownMenu>
@@ -87,7 +87,7 @@
               <Icon type="arrow-down-b"></Icon>
             </a>
             <DropdownMenu slot="list">
-              <DropdownItem name="cn">
+              <DropdownItem name="zh">
                 <span class="lan-item">简体中文</span>
               </DropdownItem>
               <DropdownItem name="en">English</DropdownItem>
@@ -149,7 +149,7 @@ export default {
       sessionStorage.clear()
       cookie.remove('PN', { domain: config.url.domain })
 
-      ax.get(config.url.user + '/api/user/logout').then(res => {
+      ax.get('/api/user/logout').then(res => {
         console.log('登出')
       })
       console.log(this.$router)
@@ -160,7 +160,7 @@ export default {
     },
     handleLangChange (name) {
       this.activeLang = name
-      // this.$i18n.locale = name
+      this.$i18n.locale = name
       this.$store.commit('setActiveLang', name)
       // if (name === 'cn') {
       //   document.title = ''

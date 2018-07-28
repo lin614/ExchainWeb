@@ -28,7 +28,6 @@
     "rasterizehtml": "^1.2.4",
     "socket.io-client": "^2.1.1",
     "vue": "^2.5.2",
-    "vue-i18n": "^5.0.3",
     "vue-pdf": "^3.3.1",
     "vue-pdfjs": "^1.1.1",
     "vue-router": "^3.0.1",
@@ -52,17 +51,18 @@
     "iview-loader": "^1.0.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "node-sass": "^3.10.1",
+    "sass-loader": "^4.0.2",
     "style-loader": "^0.19.1",
     "url-loader": "^0.6.2",
     "vue-hot-reload-api": "^2.2.4",
     "vue-html-loader": "^1.2.3",
+    "vue-i18n": "^8.0.0",
     "vue-loader": "^13.5.0",
     "vue-style-loader": "^3.0.3",
     "vue-template-compiler": "^2.2.1",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.2",
-    "webpack-merge": "^4.1.1",
-    "node-sass": "^3.10.1",
-    "sass-loader": "^4.0.2"
+    "webpack-merge": "^4.1.1"
   }
 }

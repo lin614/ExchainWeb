@@ -1,31 +1,34 @@
 <template>
   <block class="index_content">
     <div slot="inner">
+
       <crd potColor="#683c40">
-        <span slot="title">主区</span>
+        <span slot="title">{{ $t('index.markets.mainBoard.title') }}</span>
+
         <Table size="large" :columns="col1" :data="data1"></Table>
       </crd>
+
       <crd potColor="#419aea">
         <span slot="title">
-          创新区
-          <Poptip placement="right" trigger="hover" title="创新区" content="content">
+          {{ $t('index.markets.innovationBoard.title') }}
+          <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.innovationBoard.title')" content="content">
             <Button size="small" shape="circle" icon="information"></Button>
             <div slot="content">
-              <div>创新区数字资产属于新型投资产品，有一定投资风险。<br/> 在投资前，我们希望您能充分了解目标数字资产，<br/> 合理判断您自己的投资能力，并认真做出投资决策。<br/></div>
-
+              <div>{{ $t('index.markets.innovationBoard.tip') }}</div>
             </div>
           </Poptip>
-
         </span>
+
         <Table size="large" :columns="col1" :data="data2"></Table>
       </crd>
+
       <crd potColor="#febd3d">
         <span slot="title">
-          创投区
-          <Poptip placement="right" trigger="hover" title="创投区" content="content">
+          {{ $t('index.markets.ventureCapitalBoard.title') }}
+          <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.ventureCapitalBoard.title')" content="content">
             <Button size="small" shape="circle" icon="information"></Button>
             <div slot="content">
-              <div>相对于创新区的区块链项目，创投区的项目通常处<br/> 于早期阶段，存在极高的不确定性风险，请投资者务<br/> 必审慎评估自身风险承受能力以及投资能力，谨慎投<br/> 资。<br/></div>
+              <div>{{ $t('index.markets.ventureCapitalBoard.tip') }}</div>
 
             </div>
           </Poptip>
@@ -34,12 +37,11 @@
       </crd>
       <crd potColor="#13b387">
         <span slot="title">
-          风投区
-          <Poptip placement="right" trigger="hover" title="风投区" content="content">
+          {{ $t('index.markets.angelInvestmentBoard.title') }}
+          <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.angelInvestmentBoard.title')" content="content">
             <Button size="small" shape="circle" icon="information"></Button>
             <div slot="content">
-              <div>风险投资区的数字资产通常处于项目的天使阶段，有<br/> 极高的不确定性风险。请投资者根据自身承担风险能<br/>力慎重投资。<br/></div>
-
+              <div>{{ $t('index.markets.angelInvestmentBoard.tip') }}</div>
             </div>
           </Poptip>
         </span>
@@ -63,32 +65,32 @@ export default {
       usdt: 0, //usdt汇率
       col1: [
         {
-          title: '交易对',
+          title: this.$t('index.markets.rowName.pair'),
           key: 'pair'
         },
         {
-          title: '最新价格',
+          title: this.$t('index.markets.rowName.lastPrice'),
           key: 'priceshow',
           width: 250
         },
         {
-          title: '24h波动',
+          title: this.$t('index.markets.rowName.changeBy24h'),
           key: 'p24'
         },
         {
-          title: '24h高点',
+          title: this.$t('index.markets.rowName.highBy24h'),
           key: 'h24'
         },
         {
-          title: '24h低点',
+          title: this.$t('index.markets.rowName.lowBy24h'),
           key: 'l24'
         },
         {
-          title: '24h交易量',
+          title: this.$t('index.markets.rowName.volumeBy24h'),
           key: 'v24'
         },
         {
-          title: '去交易',
+          title:  this.$t('index.markets.rowName.action'),
           key: 'action',
           width: 150,
           align: 'center',
@@ -181,7 +183,7 @@ export default {
   },
   created() {
     var vu = this
-    ax.get(config.url.user + '/api/quotation/getUSDCNY').then(res => {
+    ax.get('/api/quotation/getUSDCNY').then(res => {
       if (res.status == '200' && res.data.errorCode == 0) {
         vu.usdt = res.data.result
         console.log('usdt 汇率:' + vu.usdt)
@@ -241,6 +243,9 @@ export default {
   }
   .ivu-table th {
     background-color: @table-th-color; // transparent; // #f8f8f9;
+  }
+  .poptip-markets .ivu-poptip-inner {
+    white-space: inherit;
   }
 }
 </style>

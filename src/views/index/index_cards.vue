@@ -3,7 +3,7 @@
         <Row type="flex" justify="space-between" :gutter="16" slot="inner">
             <Col span="8">
             <crd2 potColor="#439aea">
-                <span slot="p1">当日总成交额</span>
+                <span slot="p1">{{ $t('index.txSumary.currentDay') }}</span>
                 <span slot="p2">
                     <Icon type="social-bitcoin"></Icon>&nbsp {{valume}}
                 </span>
@@ -13,12 +13,11 @@
 
             <Col span="8">
             <crd2 potColor="#13b385">
-                <p slot="p1">ET总市值</p>
+                <p slot="p1">{{ $t('index.txSumary.etMarketValue') }}</p>
                 <p slot="p2">
                     <Icon type="social-bitcoin"></Icon>&nbsp {{etvalue}}
-
                 </p>
-                <p slot="p3">ET总流通量
+                <p slot="p3">{{ $t('index.txSumary.etCirculation') }}
                     <span>
                         {{etnum}}
 
@@ -28,9 +27,9 @@
             </Col>
             <Col span="8">
             <crd2 potColor="#f5162b">
-                <p slot="p1">限时免费期</p>
+                <p slot="p1">{{ $t('index.txSumary.freeTitle') }}</p>
                 <p slot="p2">
-                    90 天</p>
+                    90 {{ $t('index.txSumary.freeUnit') }}</p>
                 <p slot="p3">&nbsp</p>
             </crd2>
             </Col>
