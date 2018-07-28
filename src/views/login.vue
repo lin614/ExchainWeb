@@ -51,7 +51,7 @@ import crd from './components/crd'
 import ax from 'axios'
 import config from '../config/config.js'
 import cookie from 'js-cookie'
-import md5 from 'md5'
+import md5 from 'crypto-md5'
 // import bus from '../bus.js'
 export default {
   name: 'login',
@@ -90,6 +90,8 @@ export default {
       var vu = this
       // console.log('pwd', md5(vu.loginInfo.pwd))
       // console.log(this.$refs['loginInfo'])
+      console.log('密码:' + vu.loginInfo.pwd)
+      console.log('密码:' + md5(vu.loginInfo.pwd))
       this.$refs['loginInfo'].validate(valid => {
         if (valid) {
           ax
@@ -113,8 +115,9 @@ export default {
                   email: res.data.result.email,
                   mtime: res.data.result.mtime
                 })
+
                 if (res.data.result.PN) {
-                  cookie.set('PN', res.data.result.PN, {
+                  cookie.set('PN', encodeURIComponent(res.data.result.PN), {
                     domain: config.url.domain
                   })
                   sessionStorage.setItem('PN', res.data.result.PN)

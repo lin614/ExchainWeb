@@ -5,7 +5,7 @@
       <div class="logo">
         <router-link to="/"><img src="../../static/imgs/logo.png"></router-link>
       </div>
-      <Button class="menu" type="text">交易</Button>
+      <Button class="menu" type="text" @click="toTrade">交易</Button>
       <router-link to="/et">
         <Button class="menu" type="text">ET</Button>
       </router-link>
@@ -128,14 +128,14 @@ import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
-import md5 from 'md5'
+import md5 from 'crypto-md5'
 // import bus from '../../bus.js'
 export default {
   name: 'headr',
   components: { block, crd },
   computed: {
     isLogin() {
-      return sessionStorage.getItem('PN') != null
+      return cookie.get('PN', config.url.domain)
     },
     email() {
       var info = sessionStorage.getItem('email')
@@ -188,8 +188,11 @@ export default {
                 vu.showLogin = false
                 sessionStorage.setItem('uid', res.data.result.id)
                 sessionStorage.setItem('email', res.data.result.email)
-                sessionStorage.setItem('PN', res.data.result.pn)
-                cookie.set('PN', encodeURIComponent(res.data.result.pn))
+                sessionStorage.setItem('PN', res.data.result.PN)
+
+                cookie.set('PN', encodeURIComponent(res.data.result.PN), {
+                  domain: config.url.domain
+                })
                 vu.$router.push('/userCenter')
               } else {
                 vu.$Message.error({ content: '登录失败:' + res.data.errorMsg })
@@ -203,6 +206,17 @@ export default {
           this.$Message.error('验证失败!')
         }
       })
+    },
+    toTrade() {
+      var pair = 'eth_usdt'
+      sessionStorage.setItem('pair', pair)
+      cookie.set('pair', pair, {
+        domain: config.url.domain
+      })
+      console.log('toTrade', pair)
+      console.log(config.url.trade)
+      // window.open(config.url.trade)
+      window.location.href = config.url.trade
     },
     logout() {
       sessionStorage.clear()

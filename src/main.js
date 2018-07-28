@@ -6,7 +6,7 @@ import Vuex from 'vuex';
 import Util from './libs/util';
 import App from './app.vue';
 import 'iview/dist/styles/iview.css';
-
+import cookie from 'js-cookie'
 import VueI18n from 'vue-i18n';
 import Locales from './locale';
 import zhLocale from 'iview/src/locale/lang/zh-CN';
@@ -68,7 +68,9 @@ const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
     console.log(to)
-    if (!to.meta.noNeedLogin && sessionStorage.getItem('PN') == null) {
+    if (!to.meta.noNeedLogin && cookie.get('PN', {
+            domain: config.url.domain
+        }) == null) {
         router.push('/login')
     }
     iView.LoadingBar.start();
@@ -96,7 +98,8 @@ const store = new Vuex.Store({
         showUserInfo(s, data) {
             s.email = data.email
             s.mtime = data.mtime
-        }
+        },
+
     },
     getters: {
         // islogin: function () {
@@ -108,10 +111,16 @@ const store = new Vuex.Store({
     }
 });
 
+// window.onbeforeunload = function (event) {
+//     console.log('bd')
+//     localStorage.clear()
+//     return confirm("确定退出吗")
+// }
 
 new Vue({
     el: '#app',
     router: router,
     store: store,
-    render: h => h(App)
+    render: h => h(App),
+    mounted() {}
 });

@@ -204,7 +204,7 @@ export default {
       console.log(list[i].parm)
       list[i].cur = list[i].pair.split('/')[1]
       //订阅
-      subQuo(list[i].parm)
+      // subQuo(list[i].parm)
     }
     let vu = this
     bus.$on('wsUpdate', data => {
