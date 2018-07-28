@@ -123,7 +123,7 @@ export default {
                   cookie.set('email', vu.loginInfo.email, {
                     domain: config.url.domain
                   })
-                  sessionStorage.setItem('PN', Pn)
+                  sessionStorage.setItem('PN', res.data.result.PN)
                 }
 
                 vu.$router.push('/userCenter')

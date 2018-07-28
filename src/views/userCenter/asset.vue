@@ -544,11 +544,11 @@ export default {
     }
   },
   created() {
-    // this.getTokenObj()
-    // this.getBalance()
-    // this.getMyAsset()
-    // this.pageHeight = window.innerHeight - 360
-    // window.addEventListener('resize', this.handleWindowResize)
+    this.getTokenObj()
+    this.getBalance()
+    this.getMyAsset()
+    this.pageHeight = window.innerHeight - 360
+    window.addEventListener('resize', this.handleWindowResize)
   },
   destroyed() {
     window.removeEventListener('resize', this.handleWindowResize)
