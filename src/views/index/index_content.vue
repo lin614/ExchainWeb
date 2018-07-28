@@ -90,7 +90,7 @@ export default {
           key: 'v24'
         },
         {
-          title:  this.$t('index.markets.rowName.action'),
+          title: this.$t('index.markets.rowName.action'),
           key: 'action',
           width: 150,
           align: 'center',
@@ -207,6 +207,7 @@ export default {
       console.log(list[i].parm)
       list[i].cur = list[i].pair.split('/')[1]
       //订阅
+      console.log('huobi.market.' + list[i].parm + '.kline.day')
       subQuo(list[i].parm)
     }
     let vu = this
