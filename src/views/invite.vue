@@ -4,25 +4,25 @@
     <div class="invite">
       <block>
         <crd slot="inner">
-          <span slot="title">邀请记录</span>
+          <span slot="title">{{ $t('userCenter.invite.title') }}</span>
           <!-- <router-link to="/bonus" slot="extra">
                         <<返回 </router-link> -->
           <div class=" content">
             <Row type="flex" :gutter="16">
               <Col span="8">
               <p class="earn">
-                <b>被邀请人账号</b>
+                <b>{{ $t('userCenter.invite.title') }}</b>
               </p>
               </Col>
               <Col span="8">
               <p class="earn">
-                <b>时间</b>
+                <b>{{ $t('userCenter.invite.time') }}</b>
               </p>
 
               </Col>
               <Col span="8">
               <p class="earn">
-                <b>状态</b>
+                <b>{{ $t('userCenter.invite.status') }}</b>
               </p>
 
               </Col>
@@ -37,7 +37,7 @@
 
               </Col>
               <Col span="8">
-              <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
+              <p class="earn"> {{p.isActive ? $t('userCenter.invite.traded') : $t('userCenter.invite.untraded')}}</p>
 
               </Col>
             </Row>

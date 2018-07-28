@@ -124,13 +124,68 @@ module.exports = {
         recentLoginTime: '最近登陆时间'
       },
       safeSetting: {
-        title: '',
-        pwd: ''
+        title: '安全设置',
+        loginPassword: '登录密码',
+        change: '修改',
+        linkPhone: '手机绑定',
+        link: '绑定',
+        unlink: '解绑',
+        linkPhoneTip: '提现，修改密码，及安全设置时收取验证短信',
+        nowLink: '您当前绑定的手机号是'
+      },
+      changePwd: {
+        title: '修改密码',
+        curPwd: '当前密码',
+        newPwd: '新密码',
+        confirmPwd: '确认密码',
+        cancel: '取消',
+        change: '修改'
+      },
+      loginLog: {
+        title: '最近登录',
+        device: '登录',
+        ip: 'IP地址',
+        status: '状态',
+        success: '成功',
+        fail: '失败',
       }
     },
     asset: {},
     kyc: {},
     manageAddr: {},
-    entrust: {}
+    entrust: {},
+    bindPhone: {
+      bindPhone: '绑定手机号',
+      unBindPhone: '解绑手机号',
+      china: '中国',
+      country: '国家',
+      mbileNumber: '手机号',
+      smsCode: '短信验证码',
+      getCode: '发送验证码',
+      ga: '谷歌验证码',
+      confirm: '确认'
+    },
+    login: {
+      login: '登录',
+      email: '邮箱',
+      password: '密码',
+      pleaseInputEmail: '请输入邮箱',
+      pleaseInputPassword: '请输入密码',
+      welcomeLogin: '欢迎登录',
+      forgotPassword: '忘记密码',
+      resetPassword: '重置密码',
+      isnotEXUser: '您还不是Exchain的用户',
+      quickReg: '立即注册，开始在全球首家全面共享型计时免费交易平台上交易',
+      signUp: '立即注册'
+    },
+    // 邀请记录
+    invite: {
+      title: '邀请记录',
+      invitee: '被邀请人账号',
+      time: '时间',
+      status: '状态',
+      traded: '已交易',
+      untraded: '未交易'
+    }
   }
 }

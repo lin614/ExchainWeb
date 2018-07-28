@@ -3,29 +3,36 @@
     <div class="bindphone-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main">
         <crd potColor="#4399e9">
-          <span slot="title">{{pageTitle}}</span>
+          <span slot="title">{{bindStatus === 'bind' ? $t('userCenter.bindPhone.unBindPhone') : $t('userCenter.bindPhone.bindPhone')}}</span>
           <div class="bind-main">
-            <div class="main-title">{{pageTitle}} <span v-if="!bind" class="user-num">{{userNum}}</span></div>
+            <div class="main-title">
+              {{bindStatus === 'bind' ? $t('userCenter.bindPhone.unBindPhone') : $t('userCenter.bindPhone.bindPhone')}}
+              <span v-if="!bind" class="user-num">{{userNum}}</span>
+            </div>
             <div class="form-box">
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
-                <FormItem label="国家" prop="country">
+                <FormItem :label="$t('userCenter.bindPhone.country')" prop="country">
                   <Select v-model="bindForm.country" style="width:100%;height: 50px;">
                     <Option v-for="(item, index) in countryList" :value="item.value" :key="index">{{ item.label }}</Option>
                   </Select>
                 </FormItem>
-                <FormItem label="手机号" prop="phone">
+
+                <FormItem :label="$t('userCenter.bindPhone.mbileNumber')"  prop="phone">
                   <Input v-model="bindForm.phone" @on-change="handlePhoneIpt"></Input>
                 </FormItem>
-                <FormItem label="短信验证码" prop="phoneCode" class="phone-form-item">
+
+                <FormItem :label="$t('userCenter.bindPhone.smsCode')"  prop="phoneCode" class="phone-form-item">
                   <Input style="width: 360px" v-model="bindForm.phoneCode" class="fl"></Input>
                   <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
-                  <div v-show="!codeDown" class="send-code-btn fr" @click="handleSendCode"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>发送验证码</span></div>
+                  <div v-show="!codeDown" class="send-code-btn fr" @click="handleSendCode"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{ $t('userCenter.bindPhone.getCode') }}</span></div>
                 </FormItem>
-                <FormItem label="谷歌验证码" prop="googleCode">
+
+                <FormItem :label="$t('userCenter.bindPhone.ga')"  prop="googleCode">
                   <Input v-model="bindForm.googleCode"></Input>
                 </FormItem>
+
                 <FormItem>
-                  <Button type="primary" @click="handleConfirmClick('bindForm')" long>确认</Button>
+                  <Button type="primary" @click="handleConfirmClick('bindForm')" long>{{ $t('userCenter.bindPhone.confirm') }}</Button>
                 </FormItem>
               </Form>
             </div>
@@ -57,11 +64,11 @@ export default {
       token: '',
       bind: false,
       userNum: '',
-      pageTitle: '绑定手机号',
+      bindStatus: '',
       type: '',
       countryList: [
         {
-          label: '中国 86',
+          label: `${this.$t('userCenter.bindPhone.china')} 86`,
           value: '86'
         }
       ],
@@ -232,12 +239,12 @@ export default {
             if (res.data.result.phone.number) {
               vu.bind = true
               sessionStorage.setItem('bindPhone', 'bind')
-              vu.pageTitle = '解绑手机号'
+              vu.bindStatus = 'bind'
               vu.type = 'release'
               vu.userNum = '+ ' + res.data.result.phone.code + ' '  + res.data.result.phone.number
             } else {
               vu.bind = false
-              vu.pageTitle = '绑定手机号'
+              vu.bindStatus = 'unbind'
               sessionStorage.setItem('bindPhone', 'unbind')
             }
             sessionStorage.setItem('email', res.data.result.email)
@@ -256,13 +263,14 @@ export default {
     var userNum = sessionStorage.getItem('userNum')
     if (bindStatus) {
       if (bindStatus === 'bind') {
-        this.pageTitle = '解绑手机号'
+        this.bindStatus = bindStatus
         this.type = 'release'
         this.userNum = userNum
       } else if (bindStatus === 'unbind') {
-        this.pageTitle = '绑定手机号'
+        this.bindStatus = bindStatus
       }
     } else {
+      this.bindStatus = 'unbind' // '默认为unbind'
       this.getUserInfo()
     }
   },

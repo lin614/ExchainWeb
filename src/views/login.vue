@@ -4,37 +4,35 @@
     <div class="login">
       <block>
         <crd slot="inner">
-          <span slot="title">登录</span>
+          <span slot="title">{{ $t('userCenter.login.login') }}</span>
           <div class=" content">
-            <h1>欢迎登录</h1>
+            <h1>{{ $t('userCenter.login.welcomeLogin') }}</h1>
             <hr/>
 
             <div class="login_form">
               <Form ref="loginInfo" label-position="top" :model="loginInfo" :rules="rules">
-                <FormItem prop="email" label="邮箱">
-                  <Input v-model="loginInfo.email" placeholder="请输入邮箱"></Input>
+                <FormItem prop="email" :label="$t('userCenter.login.email')">
+                  <Input v-model="loginInfo.email" :placeholder="$t('userCenter.login.pleaseInputEmail')"></Input>
                 </FormItem>
 
-                <FormItem prop="pwd" label="密码">
-                  <Input v-model="loginInfo.pwd" type="password" placeholder="请输入密码">
+                <FormItem prop="pwd" :label="$t('userCenter.login.password')">
+                  <Input v-model="loginInfo.pwd" type="password" :placeholder="$t('userCenter.login.pleaseInputPassword')">
                   </Input>
                 </FormItem>
 
                 <FormItem>
-                  <Button type="primary" @click="login()">登录</Button>
-                  忘记密码？
-                  <router-link to="/reset">重置密码</router-link>
+                  <Button type="primary" @click="login()">{{ $t('userCenter.login.login') }}</Button>
+                  {{ $t('userCenter.login.forgotPassword') }}?
+                  <router-link to="/reset">{{ $t('userCenter.login.resetPassword') }}</router-link>
                   </router-link>
                 </FormItem>
               </Form>
             </div>
 
             <div class="info">
-              <p>
-                您还不是 Exchain 的用户<br/> 立即注册，在全球领先的数字交易平台开始交易。
-                <br/>
-                <router-link to="/reg">立即注册</router-link>
-              </p>
+              <p>{{ $t('userCenter.login.isnotEXUser') }} ?</p>
+              <p>{{ $t('userCenter.login.quickReg') }}</p>
+              <router-link to="/reg">{{ $t('userCenter.login.signUp') }}</router-link>
             </div>
           </div>
         </crd>

@@ -148,7 +148,7 @@ export default {
             let amount = parseFloat(data[i].amount);
             let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
             data[i].closeRate = rate.toFixed(2);
-            data[i].opera = '撤单';
+            data[i].opera = '';
             this.hisData = data;
           }
         } else {
@@ -201,6 +201,7 @@ export default {
     cancelOrder (row) {
       let params = {
         order_id: row.order_id,
+        market: row.market
       }
       ax.get('/api/exchange/orderCancel', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
