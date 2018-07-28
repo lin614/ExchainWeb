@@ -11,7 +11,7 @@
           <!-- <span class="available-amount">余额为 <i v-show="(trabsferModal.from === 'master')">{{master}}</i><i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span> -->
         </FormItem>
         <FormItem label="手续费" prop="fee" style="width: 45%;">
-          <Input v-model="getCashModal.fee"></Input>
+          <Input disabled v-model="getCashModal.fee"></Input>
         </FormItem>
         <FormItem label="到账数量" prop="actualAmount" style="width: 45%;" class="fr">
           <Input disabled v-model="getCashModal.actualAmount"></Input>
@@ -19,11 +19,8 @@
         <FormItem style="width: 100%;">
           <div class="tip-intro fl">
             <p class="friendly-notice-title">温馨提示</p>
-            <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
-            <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
-            <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
-            <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
-            <li class="friendly-notice-item">请勿向上述地址充值任何非BTC资产，否则资产将不可找回。</li>
+            <li class="friendly-notice-item">请勿向上述地址充值任何非 {{token}} 资产，否则资产将不可找回。</li>
+            <li class="friendly-notice-item">因币种限制，最多支持到小数点后 {{accountData.decimal}} 位</li>
           </div>
           <div class="get-btn-box fr">
             <Button type="primary" @click="handleGetCash">
@@ -40,14 +37,14 @@
 <script>
 import ax from 'axios'
 import util from '../../libs/util.js'
+import NP from 'number-precision'
 export default {
   name: 'getCash',
   props: {
     showCharge: Boolean,
     fee: String,
     token: String,
-    params: Object,
-    tokenObj: Object
+    params: Object
   },
   data () {
     return {
@@ -85,7 +82,7 @@ export default {
               } else {
                 callback()
               }
-            }, trigger: 'change'
+            }, trigger: 'change, blur'
            }
         ],
         fee: [
@@ -138,6 +135,7 @@ export default {
     },
     handleAmountBlur (e) {
       // 大数字涉及到计算精度问题
+      this.getCashModal.actualAmount = NP.minus(parseFloat(e.target.value), parseFloat(this.getCashModal.fee))
       // this.getCashModal.actualAmount = parseFloat(e.target.value) - parseFloat(this.getCashModal.fee)
       console.log('实际到账金额' + this.getCashModal.actualAmount)
     }

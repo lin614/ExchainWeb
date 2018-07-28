@@ -24,6 +24,7 @@ global.ws = ws()
 global.bus = bus
 
 import './static/icons/iconfont.css'
+import './libs/gt'
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -118,6 +119,7 @@ const store = new Vuex.Store({
     }
 });
 
+Vue.prototype.$initGeetest = window.initGeetest
 
 new Vue({
     el: '#app',

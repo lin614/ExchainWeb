@@ -3,9 +3,9 @@
     <div class="bindphone-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main">
         <crd potColor="#4399e9">
-          <span slot="title">绑定手机号</span>
+          <span slot="title">{{pageTitle}}</span>
           <div class="bind-main">
-            <div class="main-title">绑定手机号</div>
+            <div class="main-title">{{pageTitle}} <span v-if="!bind" class="user-num">{{userNum}}</span></div>
             <div class="form-box">
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
                 <FormItem label="国家" prop="country">
@@ -55,6 +55,10 @@ export default {
       timer: null,
       codeDownText: '120s后重新发送',
       token: '',
+      bind: false,
+      userNum: '',
+      pageTitle: '绑定手机号',
+      type: '',
       countryList: [
         {
           label: '中国 86',
@@ -98,9 +102,6 @@ export default {
           },
           trigger: 'blur' }
         ],
-        googleCode: [
-          { required: false, message: '请输入Google验证码', trigger: 'blur' }
-        ],
       }
     }
   },
@@ -121,13 +122,15 @@ export default {
       }
       this.sendCodeLoading = true
       if (this.isPhone) {
+        var vu = this
         ax({
           url: '/api/user/bindPhone',
           method: 'post',
           data: {
-            phone: this.bindForm.phone,
-            country: this.bindForm.country,
-            pn: cookie.get('PN')
+            phone: vu.bindForm.phone,
+            country: vu.bindForm.country,
+            pn: cookie.get('PN'),
+            type: vu.type,
           },
           transformRequest: [function (data) {
             // Do whatever you want to transform the data
@@ -142,21 +145,24 @@ export default {
           }
         })
         .then((res) => {
-          this.sendCodeLoading = false
+          vu.sendCodeLoading = false
           if (res.status == '200' && res.data.errorCode == 0) {
-            this.codeDown = true
-            this.token = res.data.result.token
-            this.handleCodeDown()
-            console.log('发送成功')
+            vu.codeDown = true
+            vu.token = res.data.result.token
+            vu.handleCodeDown()
+          } else if (res.data.errorCode == 710) {
+            vu.$Message.error('请先解绑现有手机号')
+          } else {
+            vu.codeDown = true
+            vu.handleCodeDown()
           }
         })
         .catch((err) => {
-          this.sendCodeLoading = false
-          console.log(err)
+          vu.codeDown = true
+          vu.sendCodeLoading = false
         })
       } else {
         this.$refs.bindForm.validateField('phone', () => {
-          
         })
         this.sendCodeLoading = false
       }
@@ -175,8 +181,6 @@ export default {
     },
     handleConfirmClick (form) {
       // this.confirmLoading = true
-      console.log(1 + '-----')
-      console.log(this.$refs.bindForm)
       this.$refs[form].validate((valid) => {
         console.log(2)
         if (valid) {
@@ -189,6 +193,7 @@ export default {
               country: this.bindForm.country,
               code: this.bindForm.phoneCode,
               pn: cookie.get('PN'),
+              type: this.type,
               token: this.token
             },
             transformRequest: [function (data) {
@@ -204,7 +209,7 @@ export default {
           })
           .then((res) => {
             if (res.status == '200' && res.data.errorCode == 0) {
-              this.$Message.success('绑定成功')
+              this.$Message.success('操作成功')
               this.$refs.bindForm.resetFields()
               this.$router.push('/usercenter')
             } else {
@@ -217,6 +222,48 @@ export default {
           })
         }
       })
+    },
+    getUserInfo () {
+      var vu = this
+      ax.post('/api/user/getUserInfo')
+        .then((res) => {
+          if (res.status === 200 && res.data.errorCode === 0) {
+            sessionStorage.setItem('idCardStatus', res.data.result.idCardStatus)
+            if (res.data.result.phone.number) {
+              vu.bind = true
+              sessionStorage.setItem('bindPhone', 'bind')
+              vu.pageTitle = '解绑手机号'
+              vu.type = 'release'
+              vu.userNum = '+ ' + res.data.result.phone.code + ' '  + res.data.result.phone.number
+            } else {
+              vu.bind = false
+              vu.pageTitle = '绑定手机号'
+              sessionStorage.setItem('bindPhone', 'unbind')
+            }
+            sessionStorage.setItem('email', res.data.result.email)
+            console.log(res.data.result)
+          } else {
+            console.log('网络异常！')
+          }
+        })
+        .catch((err) => {
+          console.log('网络异常！')
+        })
+    }
+  },
+  mounted () {
+    var bindStatus = sessionStorage.getItem('bindPhone')
+    var userNum = sessionStorage.getItem('userNum')
+    if (bindStatus) {
+      if (bindStatus === 'bind') {
+        this.pageTitle = '解绑手机号'
+        this.type = 'release'
+        this.userNum = userNum
+      } else if (bindStatus === 'unbind') {
+        this.pageTitle = '绑定手机号'
+      }
+    } else {
+      this.getUserInfo()
     }
   },
   created () {
@@ -254,6 +301,9 @@ export default {
         color: #5999E5;
         padding-bottom: 46px;
         border-bottom: 1px solid #EBEBEB;
+        .user-num {
+          font-size: 16px;
+        }
       }
     }
     .form-box {

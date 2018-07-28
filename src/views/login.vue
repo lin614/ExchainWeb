@@ -94,7 +94,7 @@ export default {
         if (valid) {
           ax
             .post(
-              config.url.user + '/api/user/login',
+              '/api/user/login',
               {
                 email: vu.loginInfo.email,
                 password: md5(vu.loginInfo.pwd)
@@ -117,10 +117,10 @@ export default {
                   var Pn = encodeURIComponent(res.data.result.PN)
                   // console.log('Pn --- ' + Pn)
                   // document.cookie = 'PN=' + Pn
-                  cookie.set('PN', Pn, {
-                    domain: config.url.domain,
-                    path: '/'
-                  })
+                  // cookie.set('PN', Pn, {
+                  //   domain: config.url.domain,
+                  //   path: '/'
+                  // })
                   sessionStorage.setItem('PN', Pn)
                 }
 

@@ -244,7 +244,7 @@ export default {
                 width: '100%',
                 padding: '20px',
                 minHeight: '200px',
-                backgroundColor: '#f5f5f5' 
+                backgroundColor: 'rgb(247, 247, 247)' 
               }
             }, [
               h(encharge, {
@@ -363,6 +363,8 @@ export default {
             obj.recharge = vu.tokenObj[key].recharge
             obj.withdraw = vu.tokenObj[key].withdraw
             obj.decimal = vu.tokenObj[key].decimal
+            obj.recharge_min = vu.tokenObj[key].recharge_min
+            obj.withdraw_min = vu.tokenObj[key].withdraw_min
             vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
           }
         }

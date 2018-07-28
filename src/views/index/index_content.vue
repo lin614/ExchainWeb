@@ -181,7 +181,7 @@ export default {
   },
   created() {
     var vu = this
-    ax.get(config.url.user + '/api/quotation/getUSDCNY').then(res => {
+    ax.get('/api/quotation/getUSDCNY').then(res => {
       if (res.status == '200' && res.data.errorCode == 0) {
         vu.usdt = res.data.result
         console.log('usdt 汇率:' + vu.usdt)

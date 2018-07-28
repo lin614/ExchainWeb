@@ -130,7 +130,7 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           ax
-            .post(config.url.user + '/api/user/verifyResetPassword', {
+            .post(+ '/api/user/verifyResetPassword', {
               email: vu.resetInfo.email,
               code: vu.resetInfo.emailcode,
               token: vu.resettoken,
@@ -160,7 +160,7 @@ export default {
         if (!error) {
           ax
             .post(
-              config.url.user + '/api/user/resetPassword',
+              '/api/user/resetPassword',
               {
                 email: vu.resetInfo.email
               }
