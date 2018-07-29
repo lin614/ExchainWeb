@@ -3,23 +3,23 @@
     <div class="manage-addr-cont">
       <div class="content-body-main">
         <crd>
-          <span slot="title">提现地址管理</span>
+          <span slot="title">{{ $t('userCenter.withdrawAddress.title') }}</span>
           <div class="mge-addr-main">
             <div class="form-box">
               <Form class="clearfix" ref="magAddrForm" :rules="magAddrRules" :model="magAddrForm" label-position="top" inline>
-                <FormItem label="币种" prop="tokenType" style="width: 180px;">
+                <FormItem :label="$t('userCenter.withdrawAddress.coin')" prop="tokenType" style="width: 180px;">
                   <Select v-model="magAddrForm.tokenType">
                     <Option v-for="(item, index) in tokenList" :value="item.value" :key="index">{{ item.label }}</Option>
                   </Select>
                 </FormItem>
-                <FormItem label="提币地址" prop="addr" style="width: 420px;">
+                <FormItem  :label="$t('userCenter.withdrawAddress.address')" prop="addr" style="width: 420px;">
                   <Input v-model="magAddrForm.addr"></Input>
                 </FormItem>
-                <FormItem label="备注" prop="note" style="width: 420px;">
+                <FormItem  :label="$t('userCenter.withdrawAddress.notes')" prop="note" style="width: 420px;">
                   <Input v-model="magAddrForm.note"></Input>
                 </FormItem>
                 <FormItem class="fr">
-                  <Button class="add-btn" @click="handleAddAddr">添加</Button>
+                  <Button class="add-btn" @click="handleAddAddr">{{  $t('userCenter.withdrawAddress.add') }}</Button>
                 </FormItem>
               </Form>
             </div>
@@ -54,7 +54,7 @@ export default {
       tokenList: [],
       magAddrRules: {
         tokenType: [
-          { required: true, message: '请选择币种', trigger: 'change' }
+          { required: true, message: this.$t('userCenter.withdrawAddress.coinTip'), trigger: 'change' }
         ],
         addr: [
           { required: true, message: '请输入提币地址', trigger: 'blur' }
@@ -65,7 +65,7 @@ export default {
       },
       addrListTable: [
         {
-          title: '币种',
+          title: this.$t('userCenter.withdrawAddress.coin'),
           key: 'type',
           maxWidth: 150,
           filters: [],
@@ -75,7 +75,7 @@ export default {
           }
         },
         {
-          title: '提币地址',
+          title: this.$t('userCenter.withdrawAddress.address'),
           key: 'outer_address',
           minWidth: 250,
           render: function(h, params) {
@@ -83,12 +83,12 @@ export default {
           }
         },
         {
-          title: '备注',
+          title: this.$t('userCenter.withdrawAddress.notes'),
           minWidth: 250,
           key: 'name'
         },
         {
-          title: '操作',
+          title: this.$t('userCenter.withdrawAddress.action'),
           key: 'opera',
           render: (h, params) => {
             return h('span', {
@@ -101,7 +101,7 @@ export default {
                   this.handleRemoveAddr(params.index, params.row.type, params.row.outer_address)
                 }
               }
-            }, '删除')
+            }, this.$t('userCenter.withdrawAddress.delete'))
           }
         }
       ],

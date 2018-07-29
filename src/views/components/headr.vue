@@ -83,7 +83,7 @@
           <Dropdown class="lan" @on-click="handleLangChange">
             <a href="javascript:void(0)">
               <Icon type="earth"></Icon>
-              <span>{{activeLang === 'cn' ? '简体中文' : 'English'}}</span>
+              <span>{{activeLang === 'zh' ? '简体中文' : 'English'}}</span>
               <Icon type="arrow-down-b"></Icon>
             </a>
             <DropdownMenu slot="list">
@@ -124,7 +124,7 @@ export default {
         if (this.$store.state.activeLang !== '') {
           return this.$store.state.activeLang
         } else {
-          return 'cn'
+          return 'zh'
         }
       },
       set: function() {}
@@ -162,6 +162,7 @@ export default {
     handleLangChange(name) {
       this.activeLang = name
       this.$i18n.locale = name
+      localStorage.setItem('language', name);
       this.$store.commit('setActiveLang', name)
       // if (name === 'cn') {
       //   document.title = ''

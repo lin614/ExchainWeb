@@ -150,10 +150,80 @@ module.exports = {
         fail: '失败',
       }
     },
-    asset: {},
+    // 我的资产
+    asset: {
+      title: '我的资产',
+      estimatedValue: '当前估值',
+      withdrawAddress: '提现地址管理',
+      transfer: {
+        title: '划转',
+        coin: '币种',
+        from: '从',
+        to: '转至',
+        volume: '数量',
+        balance: '余额为',
+        cancel: '取消',
+        confirm: '立刻划转',
+        mainAccount: '主账户',
+        exchangeAccount: '交易账户',
+        deposit: '充值',
+        withdraw: '提现',
+        frozen: '冻结',
+        transfer: '划转',
+        trade: '交易'
+      }
+    },
     kyc: {},
-    manageAddr: {},
-    entrust: {},
+    // 提现地址管理
+    withdrawAddress: {
+      title: '提现地址管理',
+      coin: '币种',
+      address: '提币地址',
+      notes: '备注',
+      action: '操作',
+      add: '添加',
+      delete: '删除',
+      coinTip: '请选择币种'
+    },
+    // 充值
+    depositBox: {
+      title: '充币地址',
+      copy: '复制',
+      qrCode: '二维码',
+      tip: '温馨提示',
+      tipP1: '请勿向上述地址充值任何非',
+      tipP2: '资产，否则资产将不可找回。'
+    },
+    // 提现
+    withdrawBox: {
+      title: '提币地址',
+      amount: '数量',
+      balance: '余额为',
+      fees: '手续费',
+      receiveAmount: '到账数量',
+      tip: '温馨提示',
+      tipP1: '最小提现额度为',
+      withdraw: '提币'
+    },
+    // 委托管理
+    entrust: {
+      title: '委托管理',
+      currentOrder: '当前委托',
+      historyOrder: '成交历史',
+      time: '时间',
+      pair: '市场',
+      type: '类型',
+      price: '价格',
+      amount: '数量',
+      filled: '成交率',
+      averagePrice: '成交均价',
+      action: '操作',
+      detail: '详情',
+      limitPrice: '限价买入',
+      sell: '卖',
+      buy: '买'
+    },
+    
     bindPhone: {
       bindPhone: '绑定手机号',
       unBindPhone: '解绑手机号',

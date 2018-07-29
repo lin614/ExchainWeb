@@ -3,14 +3,14 @@
     <div class="entrust-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main clearfix">
         <crd potColor="#4399e9">
-          <span slot="title">委托管理</span>
+          <span slot="title">{{ $t('userCenter.entrust.title') }}</span>
           <div class="entrust-tab">
             <div class="entrust-tab-item fl"
                  @click="handleTabClick('current')"
-                 :class="currentTab === 'current' ? 'tab-active' : ''">当前委托</div>
+                 :class="currentTab === 'current' ? 'tab-active' : ''">{{ $t('userCenter.entrust.currentOrder') }}</div>
             <div class="entrust-tab-item fl"
                  @click="handleTabClick('history')"
-                 :class="currentTab === 'history' ? 'tab-active' : ''">成交历史</div>
+                 :class="currentTab === 'history' ? 'tab-active' : ''">{{ $t('userCenter.entrust.historyOrder') }}</div>
           </div>
           <Table v-if="currentTab === 'current'" :columns="columns1" :data="curData"></Table>
           <Table v-if="currentTab === 'history'" :columns="columns1" :data="hisData"></Table>
@@ -33,38 +33,38 @@ export default {
       currentTab: 'current',
       columns1: [
         {
-          title: '时间',
+          title: this.$t('userCenter.entrust.time'),
           key: 'ctime'
         },
         {
-          title: '市场',
+          title: this.$t('userCenter.entrust.pair'),
           key: 'market'
         },
         {
-          title: '类型',
+          title: this.$t('userCenter.entrust.type'),
           key: 'side',
           render: function (h, params) {
-            return h('div', this.row.side === 1 ? '买' : '卖');
+            return h('div', this.row.side === 1 ? this.$t('userCenter.entrust.buy') : this.$t('userCenter.entrust.sell'));
           }
         },
         {
-          title: '价格',
+          title: this.$t('userCenter.entrust.price'),
           key: 'price'
         },
         {
-          title: '数量',
+          title: this.$t('userCenter.entrust.amount'),
           key: 'amount'
         },
         {
-          title: '成交率%',
+          title: this.$t('userCenter.entrust.filled') + '%',
           key: 'closeRate'
         },
         {
-          title: '成交均价',
+          title: this.$t('userCenter.entrust.averagePrice'),
           key: 'averPrice'
         },
         {
-          title: '操作',
+          title: this.$t('userCenter.entrust.action'),
           key: 'opera',
           render: (h, params) => {
             return h('span', {

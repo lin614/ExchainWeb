@@ -1,16 +1,18 @@
 <template>
   <div class="encharge-main" v-if="showCharge">
     <div v-if="!no_encharge">
-      <div>充币地址</div>
+      <div>{{ $t('userCenter.depositBox.title') }}</div>
       <div class="addr-box">
         <div class="fl">
           <span class="addr-main">{{addr}}</span>
         </div>
         <div class="fl">
           <input type="hidden" v-model="addr" id="addr">
-          <a class="copy-addr" id="btnLink" :data-clipboard-text="addr" @click="handleCopy">复制</a>
+
+          <a class="copy-addr" id="btnLink" :data-clipboard-text="addr" @click="handleCopy">{{ $t('userCenter.depositBox.copy') }}</a>
+          
           <Poptip content="content" placement="bottom">
-            <span class="show-addr-qr">二维码</span>
+            <span class="show-addr-qr">{{ $t('userCenter.depositBox.qrCode') }}</span>
             <div class="qr-box" slot="content">
               <img :src="qrCode" alt="">
             </div>
@@ -18,8 +20,8 @@
         </div>
       </div>
       <div class="friendly-notice">
-        <p class="friendly-notice-title">温馨提示</p>
-        <li class="friendly-notice-item">请勿向上述地址充值任何非{{token}}资产，否则资产将不可找回。</li>
+        <p class="friendly-notice-title">{{ $t('userCenter.depositBox.tip') }}</p>
+        <li class="friendly-notice-item">{{ $t('userCenter.depositBox.tipP1') }} {{token}} {{ $t('userCenter.depositBox.tipP2') }}</li>
       </div>
     </div>
     <div v-else class="no-encharge">暂无可用充值地址</div>
