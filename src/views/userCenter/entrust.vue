@@ -34,7 +34,8 @@ export default {
       columns1: [
         {
           title: this.$t('userCenter.entrust.time'),
-          key: 'ctime'
+          key: 'ctime',
+          width: 200
         },
         {
           title: this.$t('userCenter.entrust.pair'),
@@ -43,6 +44,7 @@ export default {
         {
           title: this.$t('userCenter.entrust.type'),
           key: 'side',
+          width: 100,
           render: function (h, params) {
             return h('div', this.row.side === 1 ? this.$t('userCenter.entrust.buy') : this.$t('userCenter.entrust.sell'));
           }
@@ -148,7 +150,7 @@ export default {
             let amount = parseFloat(data[i].amount);
             let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
             data[i].closeRate = rate.toFixed(2);
-            data[i].opera = '撤单';
+            data[i].opera = '';
             this.hisData = data;
           }
         } else {
@@ -201,6 +203,7 @@ export default {
     cancelOrder (row) {
       let params = {
         order_id: row.order_id,
+        market: row.market
       }
       ax.get('/api/exchange/orderCancel', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
