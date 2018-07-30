@@ -121,6 +121,12 @@ const routers = [{
             title: ''
         },
         component: (resolve) => require(['./views/userCenter/manageAddr.vue'], resolve)
+    }, {
+        path: '*',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/notFound.vue'], resolve)
     }
 ];
 export default routers;

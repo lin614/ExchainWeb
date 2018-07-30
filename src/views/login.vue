@@ -56,6 +56,8 @@ export default {
   components: { page, block, crd },
   data() {
     return {
+      geetOnReady: false,
+      gtserver: '',
       loginInfo: {
         email: '',
         pwd: ''
@@ -86,62 +88,101 @@ export default {
   methods: {
     login() {
       var vu = this
-      // console.log('pwd', md5(vu.loginInfo.pwd))
-      // console.log(this.$refs['loginInfo'])
-      console.log('密码:' + vu.loginInfo.pwd)
-      console.log('密码:' + md5(vu.loginInfo.pwd))
       this.$refs['loginInfo'].validate(valid => {
         if (valid) {
-          ax
-            .post(
-              '/api/user/login',
-              {
-                email: vu.loginInfo.email,
-                password: md5(vu.loginInfo.pwd)
-              },
-              {
-                withcredentials: true
-              }
-            )
-            .then(function(res) {
-              // console.log(res.data)
-              if (res.status == '200' && res.data.errorCode == 0) {
-                sessionStorage.setItem('uid', res.data.result.id)
-                sessionStorage.setItem('email', res.data.result.email)
-                // console.log(vu.$store.state.islogin)
-                vu.$store.commit('showUserInfo', {
-                  email: res.data.result.email,
-                  mtime: res.data.result.mtime
-                })
-
-                if (res.data.result.PN) {
-                  // cookie.set('PN', encodeURIComponent(res.data.result.PN), {
-                  //   domain: config.url.domain
-                  // })
-                  cookie.set('email', vu.loginInfo.email, {
-                    domain: config.url.domain
-                  })
-                  cookie.set('uid')
-                  var Pn = encodeURIComponent(res.data.result.PN)
-                  sessionStorage.setItem('PN', Pn)
-                }
-
-                vu.$router.push('/userCenter')
-              } else {
-                vu.$Modal.error({ content: '登录失败:' + res.data.errorMsg })
-              }
-            })
-            .catch(function(error) {
-              console.log(error)
-              vu.$Modal.error({ content: '登录失败:' + error })
-            })
+          if (this.geetOnReady) {
+            vu.geettest.verify()
+          } else {
+            vu.$Message.error('验证码加载失败，请重试')
+          }
         } else {
-          this.$Message.error('验证失败!')
+          vu.$Message.error('验证失败!')
         }
       })
+    },
+    loginFn () {
+      var vu = this
+      var result = this.geettest.getValidate()
+      ax
+        .post(
+          '/api/user/login',
+          {
+            email: vu.loginInfo.email,
+            password: md5(vu.loginInfo.pwd),
+            geetest_challenge: result.geetest_challenge,
+            geetest_validate: result.geetest_validate,
+            geetest_seccode: result.geetest_seccode,
+            gtserver: vu.gtserver
+          },
+          {
+            withcredentials: true
+          }
+        )
+        .then(function(res) {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            sessionStorage.setItem('uid', res.data.result.id)
+            sessionStorage.setItem('email', res.data.result.email)
+            vu.$store.commit('showUserInfo', {
+              email: res.data.result.email,
+              mtime: res.data.result.mtime
+            })
+
+            if (res.data.result.PN) {
+              cookie.set('email', vu.loginInfo.email, {
+                domain: config.url.domain
+              })
+              cookie.set('uid')
+              var Pn = encodeURIComponent(res.data.result.PN)
+              sessionStorage.setItem('PN', Pn)
+            }
+
+            vu.$router.push('/userCenter')
+          } else if (res.data.errorCode == 202) {
+            vu.geettest.reset()
+            vu.$Message.error('用户名或密码错误')
+          } else {
+            vu.geettest.reset()
+            vu.$Message.error('登录失败')
+          }
+        })
+        .catch(function(error) {
+          vu.geettest.reset()
+          vu.$Message.error('登录失败')
+        })
+    },
+    initGeetest () {
+      var vu = this
+      ax.post('/api/user/initCaptcha')
+        .then((res) => {
+          var data = res.data
+          vu.gtserver = data.gtserver
+          vu.$initGeetest({
+            gt: data.gt,
+            challenge: data.challenge,
+            offline: !data.success,
+            new_captcha: true,
+            product: 'bind'
+          }, function (captchaObj) {
+            vu.geettest = captchaObj
+            captchaObj.onReady(function(){
+              vu.geetOnReady = true
+            }).onSuccess(function(){
+                vu.loginFn()
+            }).onError(function(){
+              vu.geetOnReady = false
+              vu.$Message.error('验证码初始化异常，请尝试刷新页面来进行验证码初始化')
+            })
+
+          })
+        })
+        .catch(() => {
+          console.log('网络异常')
+        })
     }
   },
-  mounted() {}
+  mounted() {
+    this.initGeetest()
+  }
 }
 </script>
 

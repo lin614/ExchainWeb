@@ -8,7 +8,7 @@
             <div class="asset-amount">
               <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span>
               <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
-              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.volumeUnit') }}{{CNYBalance}} CNY</span>
+              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.transfer.volumeUnit') }}{{CNYBalance}}</span>
             </div>
             <div class="opera-box clearfix">
               <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
@@ -507,15 +507,16 @@ export default {
     }
   },
   mounted () {
-    // var subQuo = pair =>
-    //   ws.postData({
-    //     event: 'sub',
-    //     channel: 'huobi.market.' + pair + '.kline.1min'
-    //   })
-    // subQuo('btcusdt')
-    // this.$on('wsUpdate', data => {
-    //   console.log(data)
-    // })
+    function subQuo (pair) {
+      ws.postData({
+        event: 'sub',
+        channel: 'huobi.market.' + pair + '.kline.1min'
+      })
+    }
+    subQuo('btcusdt')
+    bus.$on('wsUpdate', data => {
+      console.log(data)
+    })
   },
   created () {
     this.getTokenObj()
@@ -523,6 +524,11 @@ export default {
     this.getMyAsset()
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
+  },
+  updated () {
+    // console.log('this.assetListTable --- ')
+    // console.log(this.assetListTable)
+    // console.log('this.assetListTable --- ')
   },
   destroyed () {
     window.removeEventListener('resize', this.handleWindowResize)
