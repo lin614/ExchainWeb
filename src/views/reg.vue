@@ -147,7 +147,7 @@ export default {
       var vu = this
       var result = this.geettest.getValidate()
       ax
-        .post('/api/user/verifyRegister', {
+        .post(config.url.user+'/api/user/verifyRegister', {
           email: vu.regInfo.email,
           code: vu.regInfo.emailcode,
           token: vu.regtoken,
@@ -186,7 +186,7 @@ export default {
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
           ax
-            .post('/api/user/register', {
+            .post(config.url.user+'/api/user/register', {
               email: vu.regInfo.email
             })
             .then(function(res) {
@@ -207,7 +207,7 @@ export default {
     },
     initGeetest () {
       var vu = this
-      ax.post('/api/user/initCaptcha')
+      ax.post(config.url.user+'/api/user/initCaptcha')
         .then((res) => {
           var data = res.data
           vu.gtserver = data.gtserver

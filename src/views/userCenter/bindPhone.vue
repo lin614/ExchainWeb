@@ -126,7 +126,7 @@ export default {
       if (this.isPhone) {
         var vu = this
         ax({
-          url: '/api/user/bindPhone',
+          url: config.url.user+'/api/user/bindPhone',
           method: 'post',
           data: {
             phone: vu.bindForm.phone,
@@ -188,7 +188,7 @@ export default {
         if (valid) {
           console.log(3)
           ax({
-            url: '/api/user/verifyBindPhone',
+            url: config.url.user+'/api/user/verifyBindPhone',
             method: 'post',
             data: {
               phone: this.bindForm.phone,
@@ -227,7 +227,7 @@ export default {
     },
     getUserInfo () {
       var vu = this
-      ax.post('/api/user/getUserInfo')
+      ax.post(config.url.user+'/api/user/getUserInfo')
         .then((res) => {
           if (res.status === 200 && res.data.errorCode === 0) {
             sessionStorage.setItem('idCardStatus', res.data.result.idCardStatus)
@@ -254,7 +254,7 @@ export default {
     },
     getPhoneSupportList () {
       var vu = this
-      ax.post('/api/user/getPhoneSupportList')
+      ax.post(config.url.user+'/api/user/getPhoneSupportList')
         .then((res) => {
           if (res.status === 200 && res.data.errorCode === 0) {
             console.log(res.data.result)

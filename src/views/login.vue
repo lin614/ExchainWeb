@@ -105,7 +105,7 @@ export default {
       var result = this.geettest.getValidate()
       ax
         .post(
-          '/api/user/login',
+          config.url.user + '/api/user/login',
           {
             email: vu.loginInfo.email,
             password: md5(vu.loginInfo.pwd),
@@ -155,7 +155,7 @@ export default {
     initGeetest() {
       var vu = this
       ax
-        .post('/api/user/initCaptcha')
+        .post(config.url.user + '/api/user/initCaptcha')
         .then(res => {
           var data = res.data
           vu.gtserver = data.gtserver

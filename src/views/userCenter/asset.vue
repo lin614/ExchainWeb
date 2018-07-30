@@ -331,7 +331,7 @@ export default {
   },
   methods: {
     getBalance () {
-      ax.get('/api/account/balanceQuery?types=BTC,CNY', {withcredentials: true}, {
+      ax.get(config.url.user+'/api/account/balanceQuery?types=BTC,CNY', {withcredentials: true}, {
         headers: {
           "pn": sessionStorage.pn
         }
@@ -353,7 +353,7 @@ export default {
     getMyAsset () {
       var vu = this
       this.assetListData = []
-      ax.get('/api/account/assetsList', {
+      ax.get(config.url.user+'/api/account/assetsList', {
         headers: {
           "pn": sessionStorage.PN
         }
@@ -381,7 +381,7 @@ export default {
     },
     getTokenObj () {
       var vu = this
-      ax.get('/api/quotation/getSymbolLists')
+      ax.get(config.url.user+'/api/quotation/getSymbolLists')
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
@@ -450,7 +450,7 @@ export default {
           this.transferLoading = true
           if (this.trabsferModal.to === 'trade') {
             // 转到交易账户
-            ax.get('/api/account/toExchange?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
+            ax.get(config.url.user+'/api/account/toExchange?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
               .then((res) => {
                 if (res.status == '200' && res.data.errorCode == 0) {
                   this.getMyAsset()
@@ -469,7 +469,7 @@ export default {
               })
           } else if (this.trabsferModal.to === 'master') {
             // 转到主账户
-            ax.get('/api/exchange/toAccount?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
+            ax.get(config.url.user+'/api/exchange/toAccount?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
               .then((res) => {
                 if (res.status == '200' && res.data.errorCode == 0) {
                   this.getMyAsset()

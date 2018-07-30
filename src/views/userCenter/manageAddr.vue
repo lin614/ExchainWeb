@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     getTokenList () {
-      ax.get('/api/quotation/getSymbolLists')
+      ax.get(config.url.user+'/api/quotation/getSymbolLists')
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
@@ -126,7 +126,7 @@ export default {
         .catch((err) => {})
     },
     getWithdrawAddress () {
-      ax.post('/api/account/getWithdrawAddress', {
+      ax.post(config.url.user+'/api/account/getWithdrawAddress', {
         type: ''
       })
       .then((res) => {
@@ -140,7 +140,7 @@ export default {
       const vu = this
       this.$refs.magAddrForm.validate((valid) => {
         if (valid) {
-          ax.post('/api/account/addWithdrawAddress', {
+          ax.post(config.url.user+'/api/account/addWithdrawAddress', {
             type: vu.magAddrForm.tokenType,
             name: vu.magAddrForm.note,
             outer_address: vu.magAddrForm.addr
@@ -162,7 +162,7 @@ export default {
     },
     handleRemoveAddr (index, type, addr) {
       const vu = this
-      ax.post('/api/account/delWithdrawAddress', {
+      ax.post(config.url.user+'/api/account/delWithdrawAddress', {
         type: type,
         outerAddress: addr
       })

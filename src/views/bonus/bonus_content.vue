@@ -160,6 +160,8 @@ export default {
     // this.$Loading.start()
     var obj = this
     var uid = cookie.get('uid', { domain: config.url.domain })
+    console.log('c_pn', cookie.get('PN'))
+    console.log('uid', uid)
     ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN')
     ax
       .all([
@@ -169,9 +171,9 @@ export default {
         ax.post(config.url.invite + '/api/invite/invitedList', {
           userId: uid
         }),
-        ax.get(
-          config.url.fee + '/api/exet/stats/userBouns?userId=' + uid
-        )
+        ax.post(config.url.fee + '/api/exet/stats/userBouns', {
+          userId: uid
+        })
       ])
       .then(
         ax.spread(function(res1, res2, res3) {

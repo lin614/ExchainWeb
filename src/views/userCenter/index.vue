@@ -270,7 +270,7 @@ export default {
      */
     getUserInfo () {
       var vu = this
-      ax.post('/api/user/getUserInfo')
+      ax.post(config.url.user+'/api/user/getUserInfo')
         .then((res) => {
           if (res.status === 200 && res.data.errorCode === 0) {
             sessionStorage.setItem('idCardStatus', res.data.result.idCardStatus)
@@ -308,7 +308,7 @@ export default {
       this.$refs[form].validate(valid => {
         if (valid) {
           ax
-            .post('/api/user/changePassword', {
+            .post(config.url.user+'/api/user/changePassword', {
               password: md5(this.changePwdModal.currentPwd),
               new_password: md5(this.changePwdModal.password)
             })
@@ -334,7 +334,7 @@ export default {
       })
     },
     getRecentActivity() {
-      ax.get('/api/user/getRecentActivity')
+      ax.get(config.url.user+'/api/user/getRecentActivity')
         .then((res) => {
           console.log(typeof res.status)
           if (res.status === 200 && res.data.errorCode === 0) {

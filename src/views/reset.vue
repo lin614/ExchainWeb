@@ -140,11 +140,11 @@ export default {
         }
       })
     },
-    resSetPwdFn () {
+    resSetPwdFn() {
       var vu = this
       var result = this.geettest.getValidate()
       ax
-        .post('/api/user/verifyResetPassword', {
+        .post(config.url.user + '/api/user/verifyResetPassword', {
           email: vu.resetInfo.email,
           code: vu.resetInfo.emailcode,
           token: vu.resettoken,
@@ -184,12 +184,9 @@ export default {
       this.$refs['resetInfo'].validateField('email', function(error) {
         if (!error) {
           ax
-            .post(
-              '/api/user/resetPassword',
-              {
-                email: vu.resetInfo.email
-              }
-            )
+            .post(config.url.user + '/api/user/resetPassword', {
+              email: vu.resetInfo.email
+            })
             .then(function(res) {
               console.log(res)
               vu.resettoken = res.data.result.token
@@ -200,31 +197,39 @@ export default {
         }
       })
     },
-    initGeetest () {
+    initGeetest() {
       var vu = this
-      ax.post('/api/user/initCaptcha')
-        .then((res) => {
+      ax
+        .post(config.url.user + '/api/user/initCaptcha')
+        .then(res => {
           var data = res.data
           vu.gtserver = data.gtserver
-          vu.$initGeetest({
-            gt: data.gt,
-            challenge: data.challenge,
-            offline: !data.success,
-            new_captcha: true,
-            product: 'bind'
-          }, function (captchaObj) {
-            vu.geettest = captchaObj
-            captchaObj.onReady(function(){
-              console.log('onready')
-              vu.geetOnReady = true
-            }).onSuccess(function(){
-                vu.resSetPwdFn()
-            }).onError(function(){
-              vu.geetOnReady = false
-              vu.$Message.error('验证码初始化异常，请尝试刷新页面来进行验证码初始化')
-            })
-
-          })
+          vu.$initGeetest(
+            {
+              gt: data.gt,
+              challenge: data.challenge,
+              offline: !data.success,
+              new_captcha: true,
+              product: 'bind'
+            },
+            function(captchaObj) {
+              vu.geettest = captchaObj
+              captchaObj
+                .onReady(function() {
+                  console.log('onready')
+                  vu.geetOnReady = true
+                })
+                .onSuccess(function() {
+                  vu.resSetPwdFn()
+                })
+                .onError(function() {
+                  vu.geetOnReady = false
+                  vu.$Message.error(
+                    '验证码初始化异常，请尝试刷新页面来进行验证码初始化'
+                  )
+                })
+            }
+          )
         })
         .catch(() => {
           console.log('网络异常')

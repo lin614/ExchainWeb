@@ -171,7 +171,7 @@ export default {
       var vu = this
       this.$refs[form].validate(valid => {
         if (valid) {
-          ax.post('/api/user/userKycRequest', {
+          ax.post(config.url.user+'/api/user/userKycRequest', {
             type: 'pid',
             name: this.formField.familyName + this.formField.firstName,
             idCardNumber: this.formField.idcardNo,

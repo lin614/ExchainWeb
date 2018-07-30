@@ -9,8 +9,7 @@ let config = {
         quote: 'ws://service.exchain.com/wsapp/', //行情相关接口
 
         domain: 'exchain.com',
-        // trade: 'http://dash.exchain.com:81', //交易地址
-        trade: 'http://www.exchain.com:81'
+        trade: 'http://www.exchain.com:81' //交易
     },
     // userid: '40006834'
 };
