@@ -2,30 +2,30 @@
   <div class="get-cash-main" v-if="!showCharge">
     <div class="getcash-form">
       <Form ref="getCashForm" :rules="getCashRules" :model="getCashModal" label-position="top" inline class="clearfix">
-        <FormItem label="提币地址" prop="destAddr" style="width: 100%;">
+        <FormItem :label="$t('userCenter.withdrawBox.title')" prop="destAddr" style="width: 100%;">
           <Input v-model="getCashModal.destAddr"></Input>
         </FormItem>
-        <FormItem label="数量" prop="amount" style="width: 100%;" class="available-box">
+        <FormItem :label="$t('userCenter.withdrawBox.amount')" prop="amount" style="width: 100%;" class="available-box">
           <Input v-model="getCashModal.amount" @on-blur="handleAmountBlur"></Input>
-          <span class="available-amount">余额为{{accountData.account_available}} {{token}}</span>
+          <span class="available-amount">{{ $t('userCenter.withdrawBox.balance') }} {{accountData.account_available}} {{token}}</span>
           <!-- <span class="available-amount">余额为 <i v-show="(trabsferModal.from === 'master')">{{master}}</i><i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span> -->
         </FormItem>
-        <FormItem label="手续费" prop="fee" style="width: 45%;">
+        <FormItem :label="$t('userCenter.withdrawBox.fees')" prop="fee" style="width: 45%;">
           <Input disabled v-model="getCashModal.fee"></Input>
         </FormItem>
-        <FormItem label="到账数量" prop="actualAmount" style="width: 45%;" class="fr">
+        <FormItem :label="$t('userCenter.withdrawBox.receiveAmount')" prop="actualAmount" style="width: 45%;" class="fr">
           <Input disabled v-model="getCashModal.actualAmount"></Input>
         </FormItem>
+
         <FormItem style="width: 100%;">
           <div class="tip-intro fl">
-            <p class="friendly-notice-title">温馨提示</p>
-            <li class="friendly-notice-item">请勿向上述地址充值任何非 {{token}} 资产，否则资产将不可找回。</li>
+            <p class="friendly-notice-title">{{ $t('userCenter.withdrawBox.tip') }}</p>
             <li class="friendly-notice-item">因币种限制，最多支持到小数点后 {{accountData.decimal}} 位</li>
-            <li class="friendly-notice-item">最小提现额度为 {{params.withdraw_min}} {{token}}</li>
+            <li class="friendly-notice-item">{{ $t('userCenter.withdrawBox.tipP1') }} : {{params.withdraw_min}} {{token}}</li>
           </div>
           <div class="get-btn-box fr">
             <Button type="primary" @click="handleGetCash('getCashForm')">
-              <span>提币</span>
+              <span>{{ $t('userCenter.withdrawBox.withdraw') }}</span>
               <Spin size="large" fix v-if="spinShow"></Spin>
             </Button>
           </div>

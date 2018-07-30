@@ -3,45 +3,49 @@
     <div class="asset-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main">
         <crd potColor="#4399e9">
-          <span slot="title">我的资产</span>
+          <span slot="title">{{ $t('userCenter.asset.title') }}</span>
           <div class="card-main clearfix">
             <div class="asset-amount">
-              <span class="asset-amount-title">我的资产</span>
-              <span>当前估值：</span>
-              <span class="total-amount">{{BTCBalance}}BTC / ￥{{CNYBalance}} CNY</span>
+              <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span>
+              <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
+              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.volumeUnit') }}{{CNYBalance}} CNY</span>
             </div>
             <div class="opera-box clearfix">
-              <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">提现地址管理</router-link>
+              <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
             </div>
             <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>
           </div>
+
           <Modal
             v-model="showTransferModal"
             class-name="change-pwd-model"
             :closable="false">
             <crd potColor="#4399e9">
-              <span slot="title">资金划转</span>
+              <span slot="title">{{ $t('userCenter.asset.transfer.title') }}</span>
               <div class="form-box">
                 <Form ref="formCustom" :rules="transRules" :model="trabsferModal" label-position="top">
-                  <FormItem label="币种" prop="tokenType">
+                  <FormItem :label="$t('userCenter.asset.transfer.coin')" prop="tokenType">
                     <!-- <Select v-model="trabsferModal.tokenType">
                       <Option v-for="(item, index) in transferTokenList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select> -->
                     <Input v-model="trabsferModal.token" disabled></Input>
                   </FormItem>
-                  <FormItem label="从" prop="from" class="available-box">
+
+                  <FormItem :label="$t('userCenter.asset.transfer.from')" prop="from" class="available-box">
                     <Select v-model="trabsferModal.from" @on-change="handleSelectFromChange">
                       <Option v-for="(item, index) in fromList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
-                    <span class="available-amount">余额为 <i v-show="(trabsferModal.from === 'master')">{{master}}</i><i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
+                    <span class="available-amount">{{ $t('userCenter.asset.transfer.balance') }} : <i v-show="(trabsferModal.from === 'master')">{{master}}</i><i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
                   </FormItem>
-                  <FormItem label="转至" prop="to" class="available-box">
+
+                  <FormItem :label="$t('userCenter.asset.transfer.to')" prop="to" class="available-box">
                     <Select v-model="trabsferModal.to" @on-change="handleSelectToChange">
                       <Option v-for="(item, index) in toList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
-                    <span class="available-amount">余额为 <i v-show="(trabsferModal.to === 'master')">{{master}}</i><i v-show="(trabsferModal.to === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
+                    <span class="available-amount">{{ $t('userCenter.asset.transfer.balance') }} : <i v-show="(trabsferModal.to === 'master')">{{master}}</i><i v-show="(trabsferModal.to === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
                   </FormItem>
-                  <FormItem label="数量" prop="amount">
+
+                  <FormItem :label="$t('userCenter.asset.transfer.volume')" prop="amount">
                     <Input v-model="trabsferModal.amount"></Input>
                   </FormItem>
                 </Form>
@@ -49,9 +53,9 @@
             </crd>
             <div slot="footer">
               <div class="change-model-footer clearfix">
-                <span class="model-btn fr" @click="handleCloseTransfer('formCustom')">取消</span>
+                <span class="model-btn fr" @click="handleCloseTransfer('formCustom')">{{$t('userCenter.asset.transfer.cancel')}}</span>
                 <div class="model-btn model-btn-active fl" @click="handleTransfer('formCustom')">
-                  <span>立刻划转</span>
+                  <span>{{ $t('userCenter.asset.transfer.confirm') }}</span>
                   <Spin v-if="transferLoading" size="small" fix></Spin>
                 </div>
               </div>
@@ -139,21 +143,22 @@ export default {
           }
         ]
       },
+
       assetListTable: [
         {
-          title: '币种',
+          title: this.$t('userCenter.asset.transfer.coin'),
           key: 'token'
         },
         {
-          title: '主账户',
+          title: this.$t('userCenter.asset.transfer.mainAccount'),
           key: 'account_available'
         },
         {
-          title: '交易账户',
+          title: this.$t('userCenter.asset.transfer.exchangeAccount'),
           key: 'exchange_available'
         },
         {
-          title: '冻结',
+          title: this.$t('userCenter.asset.transfer.frozen'),
           key: 'exchange_freeze'
         },
         {
@@ -176,7 +181,7 @@ export default {
                   }
                 }
               }, [
-                h('i', '充值'),
+                h('i', this.$t('userCenter.asset.transfer.deposit')),
                 h('Icon', {
                   props: {
                     type: 'arrow-down-b'
@@ -200,7 +205,7 @@ export default {
                   }
                 }
               }, [
-                h('i', '提现'),
+                h('i', this.$t('userCenter.asset.transfer.withdraw')),
                 h('Icon', {
                   props: {
                     type: 'arrow-down-b'
@@ -220,7 +225,7 @@ export default {
                     this.handleTransferShow(params.row.token, params.row.account_available, params.row.exchange_available)
                   }
                 }
-              }, '划转'),
+              }, this.$t('userCenter.asset.transfer.transfer')),
               h('span', {
                 style: {
                   cursor: 'pointer',
@@ -231,7 +236,7 @@ export default {
                   click: () => {
                   }
                 }
-              }, '交易')
+              }, this.$t('userCenter.asset.transfer.trade'))
             ]);
           }
         },
@@ -287,21 +292,21 @@ export default {
       ],
       fromList: [
         {
-          label: '主账户',
+          label: this.$t('userCenter.asset.transfer.mainAccount'),
           value: 'master'
         },
         {
-          label: '交易账户',
+          label: this.$t('userCenter.asset.transfer.exchangeAccount'),
           value: 'trade'
         }
       ],
       toList: [
         {
-          label: '主账户',
+          label: this.$t('userCenter.asset.transfer.mainAccount'),
           value: 'master'
         },
         {
-          label: '交易账户',
+          label: this.$t('userCenter.asset.transfer.exchangeAccount'),
           value: 'trade'
         }
       ],

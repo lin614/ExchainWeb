@@ -151,10 +151,80 @@ module.exports = {
         fail: 'Fail',
       }
     },
-    asset: {},
+    // 我的资产
+    asset: {
+      title: 'My Asset',
+      estimatedValue: 'Estimated Value',
+      withdrawAddress: 'Withdraw',
+      transfer: {
+        title: 'Transfer',
+        coin: 'Coin',
+        from: 'From',
+        to: 'To',
+        volume: 'Volume',
+        volumeUnit: '$',
+        balance: 'Balance',
+        cancel: 'cancel',
+        confirm: 'Transfer Now',
+        mainAccount: 'Main Account',
+        exchangeAccount: 'Exchange Account',
+        deposit: 'Deposit',
+        withdraw: 'Withdraw',
+        frozen: 'Frozen',
+        transfer: 'Transfer',
+        trade: 'Trade'
+      }
+    },
     kyc: {},
-    manageAddr: {},
-    entrust: {},
+    // 提现地址管理
+    withdrawAddress: {
+      title: 'Withdraw Address',
+      coin: 'Coin',
+      address: 'Address',
+      notes: 'Notes',
+      action: 'Action',
+      add: 'Add',
+      delete: 'Delete',
+      coinTip: 'Please select coin'
+    },
+    // 充值
+    depositBox: {
+      title: 'Deposit Address',
+      copy: 'Copy',
+      qrCode: 'QR Code',
+      tip: 'Tip',
+      tipP1: 'Please don’t deposit any other digital assets except',
+      tipP2: 'to the above address'
+    },
+    // 提现
+    withdrawBox: {
+      title: 'Withdraw Address',
+      amount: 'Amount',
+      balance: 'Balance',
+      fees: 'Fee',
+      receiveAmount: 'Receive Amount',
+      tip: 'Tip',
+      tipP1: 'Minimum withdrawal amount',
+      withdraw: 'Withdraw'
+    },
+    // 委托管理
+    entrust: {
+      title: 'Order management',
+      currentOrder: 'Current order',
+      historyOrder: 'History order',
+      time: 'Time',
+      pair: 'Pair',
+      type: 'Type',
+      price: 'Price',
+      amount: 'Amount',
+      filled: 'Filled',
+      averagePrice: 'Average price',
+      detail: 'Detail',
+      limitPrice: 'Limit price',
+      sell: 'Sell',
+      buy: 'Buy',
+      action: 'Action'
+    },
     bindPhone: {
       bindPhone: 'Bind Mobile Number',
       unBindPhone: 'UnBind Mobile Number',
