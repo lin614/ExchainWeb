@@ -144,9 +144,6 @@ export default {
       
     },
     handleAmountBlur (e) {
-      /**
-       * 数字计算精度问题
-       */
       this.getCashModal.actualAmount = NP.minus(parseFloat(e.target.value), parseFloat(this.getCashModal.fee))
     }
   },

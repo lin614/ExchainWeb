@@ -109,6 +109,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * 获取币种支持列表
+     */
     getTokenList () {
       ax.get('/api/quotation/getSymbolLists')
         .then((res) => {
@@ -125,6 +128,9 @@ export default {
         })
         .catch((err) => {})
     },
+    /**
+     * 查询地址列表
+     */
     getWithdrawAddress () {
       ax.post('/api/account/getWithdrawAddress', {
         type: ''
@@ -136,6 +142,9 @@ export default {
       })
       .catch(() => {})
     },
+    /**
+     * 添加地址
+     */
     handleAddAddr () {
       const vu = this
       this.$refs.magAddrForm.validate((valid) => {
@@ -160,6 +169,9 @@ export default {
         }
       })    
     },
+    /**
+     * 删除地址
+     */
     handleRemoveAddr (index, type, addr) {
       const vu = this
       ax.post('/api/account/delWithdrawAddress', {

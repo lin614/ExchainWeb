@@ -52,6 +52,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * 获取充值地址和二维码
+     */
     getAddress (token) {
       this.spinShow = true
       ax.get('/api/account/getAddress?type=' + token)
@@ -71,6 +74,9 @@ export default {
           this.no_encharge = true
         })
     },
+    /**
+     * 复制
+     */
     handleCopy () {
       var vu = this
       var clipboard = new ClipboardJS('.copy-addr')
@@ -96,6 +102,7 @@ export default {
   .encharge-main {
     position: relative;
     width: 100%;
+    background-color: rgb(247, 247, 247);
     .addr-box {
       height: 30px;
       margin-bottom: 20px;

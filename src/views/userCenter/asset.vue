@@ -330,6 +330,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * 获取资产估值
+     */
     getBalance () {
       ax.get('/api/account/balanceQuery?types=BTC,CNY', {withcredentials: true}, {
         headers: {
@@ -344,6 +347,9 @@ export default {
         })
         .catch((err) => {})
     },
+    /**
+     * 屏幕
+     */
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
     },
@@ -379,6 +385,9 @@ export default {
         }
       })
     },
+    /**
+     * 获取所有币种的属性
+     */
     getTokenObj () {
       var vu = this
       ax.get('/api/quotation/getSymbolLists')
@@ -399,6 +408,9 @@ export default {
           //
         })
     },
+    /**
+     * 充值和提现点击操作
+     */
     handleOpera (index, params, exType) {
       this.assetListData.forEach((value, index) => {
         value._expanded = false
@@ -427,12 +439,18 @@ export default {
         this.$set(this.assetListData, index, this.assetListData[index])
       }
     },
+    /**
+     * 划转模态框的显示
+     */
     handleTransferShow (token, master, trade) {
       this.master = master
       this.trade = trade
       this.showTransferModal = true
       this.trabsferModal.token = token
     },
+    /**
+     * 关闭划转模态框
+     */
     handleCloseTransfer (form) {
       this.$refs[form].resetFields()
       this.showTransferModal = false
@@ -489,6 +507,9 @@ export default {
         } else {}
       })
     },
+    /**
+     * 选择划出账户
+     */
     handleSelectFromChange () {
       if (this.trabsferModal.from === 'master') {
         this.trabsferModal.to = 'trade'
@@ -497,6 +518,9 @@ export default {
         this.trabsferModal.to = 'master'
       }
     },
+    /**
+     * 选择划至账户
+     */
     handleSelectToChange () {
       if (this.trabsferModal.to === 'master') {
         this.trabsferModal.from = 'trade'
@@ -507,16 +531,16 @@ export default {
     }
   },
   mounted () {
-    function subQuo (pair) {
-      ws.postData({
-        event: 'sub',
-        channel: 'huobi.market.' + pair + '.kline.1min'
-      })
-    }
-    subQuo('btcusdt')
-    bus.$on('wsUpdate', data => {
-      console.log(data)
-    })
+    // function subQuo (pair) {
+    //   ws.postData({
+    //     event: 'sub',
+    //     channel: 'huobi.market.' + pair + '.kline.1min'
+    //   })
+    // }
+    // subQuo('btcusdt')
+    // bus.$on('wsUpdate', data => {
+    //   console.log(data)
+    // })
   },
   created () {
     this.getTokenObj()
@@ -614,6 +638,9 @@ export default {
       .ivu-table-cell-expand {
         display: none;
       }
+    }
+    .ivu-spin-fix {
+      background-color: rgb(247, 247, 247);
     }
   }
   .available-box {

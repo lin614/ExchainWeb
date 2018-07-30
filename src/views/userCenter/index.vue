@@ -281,7 +281,6 @@ export default {
               vu.userNum = '+ ' + res.data.result.phone.code + ' '  + res.data.result.phone.number
             } else {
               vu.bind = false
-              console.log('unbind')
               sessionStorage.setItem('bindPhone', 'unbind')
               sessionStorage.setItem('userNum', null)
             }
@@ -293,13 +292,10 @@ export default {
           }
         })
         .catch((err) => {
-          console.log('err')
-          console.log(err)
           console.log('网络异常！')
         })
     },
     handleShowChangePwdModel() {
-      console.log('change pwd')
       this.showChangePwd = true
     },
     handleChangePwd(form) {

@@ -18,7 +18,7 @@
                 </FormItem>
 
                 <FormItem :label="$t('userCenter.bindPhone.mbileNumber')"  prop="phone">
-                  <Input v-model="bindForm.phone" @on-change="handlePhoneIpt"></Input>
+                  <Input v-model="bindForm.phone"></Input>
                 </FormItem>
 
                 <FormItem :label="$t('userCenter.bindPhone.smsCode')"  prop="phoneCode" class="phone-form-item">
@@ -115,9 +115,9 @@ export default {
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
     },
-    handlePhoneIpt () {
-      // console.log(this.bindForm.phone)
-    },
+    /**
+     * 发送验证码
+     */
     handleSendCode () {
       if (this.sendCodeLoading) {
         return
@@ -169,6 +169,9 @@ export default {
         this.sendCodeLoading = false
       }
     },
+    /**
+     * 倒计时
+     */
     handleCodeDown () {
       var time = 120
       clearInterval(this.timer)
@@ -181,6 +184,9 @@ export default {
         this.codeDownText = time + 's后重新发送'
       }, 1000)
     },
+    /**
+     * 绑定 && 解绑
+     */
     handleConfirmClick (form) {
       // this.confirmLoading = true
       this.$refs[form].validate((valid) => {
@@ -225,6 +231,9 @@ export default {
         }
       })
     },
+    /**
+     * 获取用户信息
+     */
     getUserInfo () {
       var vu = this
       ax.post('/api/user/getUserInfo')
@@ -252,6 +261,9 @@ export default {
           console.log('网络异常！')
         })
     },
+    /**
+     * 获取支持的国家码
+     */
     getPhoneSupportList () {
       var vu = this
       ax.post('/api/user/getPhoneSupportList')

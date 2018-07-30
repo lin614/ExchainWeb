@@ -81,6 +81,7 @@ export default {
       },
       geettest: null,
       geetOnReady: false,
+      sendCodeLoading: false,
       rules: {
         email: [
           {
@@ -182,22 +183,32 @@ export default {
         })
     },
     sendemail() {
+      if (this.sendCodeLoading) {
+        return
+      }
       var vu = this
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
+          vu.sendCodeLoading = true
           ax
             .post('/api/user/register', {
               email: vu.regInfo.email
             })
             .then(function(res) {
+              vu.sendCodeLoading = false
               if (res.status == '200' && res.data.errorCode == 0) {
                 vu.regtoken = res.data.result.token
                 vu.$Message.success('已发送邮件成功!')
               } else if (res.data.errorCode == 200) {
                 vu.$Message.error('用户已存在')
+              } else if (res.data.errorCode == 707) {
+                vu.$Message.error('限制请求，请稍候再试')
+              } else {
+                vu.$Message.error('网络异常')
               }
             })
             .catch(() => {
+              vu.sendCodeLoading = false
               vu.$Message.error('网络异常')
             })
         } else {

@@ -157,6 +157,9 @@ export default {
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
     },
+    /**
+     * 提交
+     */
     handleSubmit (form) {
       if (!this.files.front) {
         this.$Message.error('请上传身份证正面照')
@@ -219,6 +222,9 @@ export default {
       this.formField.backImg = res.result
       console.log('back ---- ' + this.files.back)
     },
+    /**
+     * 反面上传失败
+     */
     handleBackUploadErr () {
       this.$Message.success('网络异常')
     },
@@ -230,6 +236,9 @@ export default {
       this.formField.holdImg = res.result
       console.log('hold ---- ' + this.files.hold)
     },
+    /**
+     * 手持上传失败
+     */
     handleHoldUploadErr () {
       this.$Message.success('网络异常')
     },
