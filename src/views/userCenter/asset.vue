@@ -501,6 +501,17 @@ export default {
       }
     }
   },
+  mounted () {
+    // var subQuo = pair =>
+    //   ws.postData({
+    //     event: 'sub',
+    //     channel: 'huobi.market.' + pair + '.kline.1min'
+    //   })
+    // subQuo('btcusdt')
+    // this.$on('wsUpdate', data => {
+    //   console.log(data)
+    // })
+  },
   created () {
     this.getTokenObj()
     this.getBalance()
