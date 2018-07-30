@@ -162,6 +162,7 @@ module.exports = {
         from: 'From',
         to: 'To',
         volume: 'Volume',
+        volumeUnit: '$',
         balance: 'Balance',
         cancel: 'cancel',
         confirm: 'Transfer Now',
@@ -221,7 +222,8 @@ module.exports = {
       detail: 'Detail',
       limitPrice: 'Limit price',
       sell: 'Sell',
-      buy: 'Buy'
+      buy: 'Buy',
+      action: 'Action'
     },
     bindPhone: {
       bindPhone: 'Bind Mobile Number',

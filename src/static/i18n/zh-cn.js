@@ -161,6 +161,7 @@ module.exports = {
         from: '从',
         to: '转至',
         volume: '数量',
+        volumeUnit: '￥',
         balance: '余额为',
         cancel: '取消',
         confirm: '立刻划转',

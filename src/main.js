@@ -9,8 +9,8 @@ import 'iview/dist/styles/iview.css';
 import cookie from 'js-cookie'
 import VueI18n from 'vue-i18n';
 import Locales from './locale';
-import zhLocale from 'iview/src/locale/lang/zh-CN';
-import enLocale from 'iview/src/locale/lang/en-US';
+import zhLocale from 'iview/dist/locale/zh-CN';
+import enLocale from 'iview/dist/locale/en-US';
 import ax from 'axios'
 import LangZhCn from './static/i18n/zh-cn.js'
 import LangEnUs from './static/i18n/en-us.js'
@@ -30,6 +30,7 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueI18n);
 Vue.use(iView);
+Vue.locale = () => {};
 
 import config from './config/config'
 import {
@@ -52,8 +53,8 @@ Vue.config.lang = lang;
 console.log('lang = ' + lang)
 // 多语言配置
 // const locales = Locales;
-const mergeZH = Object.assign(zhLocale, LangZhCn);
-const mergeEN = Object.assign(enLocale, LangEnUs);
+const mergeZH = Object.assign(LangZhCn, zhLocale);
+const mergeEN = Object.assign(LangEnUs, enLocale);
 
 const messages = {
     zh: mergeZH,
@@ -109,7 +110,7 @@ router.afterEach(() => {
  */
 const store = new Vuex.Store({
     state: {
-        activeLang: 'cn',
+        activeLang: lang,
         email: '',
         mtime: '',
         kycphoneStatus: '0',

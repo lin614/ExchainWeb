@@ -8,7 +8,7 @@
             <div class="asset-amount">
               <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span>
               <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
-              <span class="total-amount">{{BTCBalance}}BTC / ￥{{CNYBalance}} CNY</span>
+              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.volumeUnit') }}{{CNYBalance}} CNY</span>
             </div>
             <div class="opera-box clearfix">
               <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
