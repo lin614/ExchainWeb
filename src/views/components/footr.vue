@@ -75,7 +75,7 @@
                             <qrcode-vue value="https://t.me/Exchangechain_cn" size="120" level="H" background="white" foreground="navy"></qrcode-vue>
                         </div>
                     </Poptip> -->
-                    <a target="_blank" href='ttps://twitter.com/exchangechain'>
+                    <a target="_blank" href='https://twitter.com/exchangechain'>
                         <i class=" iconfont icon-twitter"></i>
 
                     </a>
