@@ -43,11 +43,12 @@ ax.defaults.headers.post['Content-Type'] = "application/json"
 const navLang = navigator.language;
 let localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false;
 if (localLang === 'zh-CN') {
-    localLang = 'zh'
+    localLang = 'cn'
 } else if (localLang === 'en-US') {
     localLang = 'en'
 }
-const lang = window.localStorage.getItem('language') || localLang || 'zh';
+const lang = window.localStorage.getItem('language') || localLang || 'cn';
+// window.localStorage.setItem('exchain_language', lang);
 
 Vue.config.lang = lang;
 console.log('lang = ' + lang)
@@ -57,7 +58,7 @@ const mergeZH = Object.assign(LangZhCn, zhLocale);
 const mergeEN = Object.assign(LangEnUs, enLocale);
 
 const messages = {
-    zh: mergeZH,
+    cn: mergeZH,
     en: mergeEN
 };
 

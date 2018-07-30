@@ -71,6 +71,7 @@ export default {
     }
     return {
       regtoken: '',
+      gtserver: '',
       regInfo: {
         email: '',
         emailcode: '',
@@ -79,6 +80,7 @@ export default {
         code: ''
       },
       geettest: null,
+      geetOnReady: false,
       rules: {
         email: [
           {
@@ -129,56 +131,75 @@ export default {
   methods: {
     regUser(name) {
       var vu = this
-
       this.$refs[name].validate(valid => {
         if (valid) {
-          ax
-            .post('/api/user/verifyRegister', {
-              email: vu.regInfo.email,
-              code: vu.regInfo.emailcode,
-              token: vu.regtoken,
-              password: md5(vu.regInfo.pwd)
-            })
-            .then(function(res) {
-              console.log(res)
-              if (res.status == '200' && res.data.errorCode == 0) {
-                // vu.$Message.success('用户注册成功!')
-                vu.$Modal.success({
-                  content: '用户注册成功！',
-                  onOk: function() {
-                    vu.$router.push('/login')
-                  }
-                })
-              } else {
-                vu.$Modal.error('注册失败:' + res.data.errorMsg)
-              }
-            })
+          if (vu.geetOnReady) {
+            vu.geettest.verify()
+          } else {
+            vu.$Message.error('验证码加载失败，请重试')
+          }
         } else {
-          this.$Message.error('验证失败!')
+          vu.$Message.error('验证失败!')
         }
       })
     },
-    sendemailFn() {    
+    regUserFn () {
       var vu = this
+      var result = this.geettest.getValidate()
       ax
-        .post('/api/user/register', {
-          email: vu.regInfo.email
+        .post('/api/user/verifyRegister', {
+          email: vu.regInfo.email,
+          code: vu.regInfo.emailcode,
+          token: vu.regtoken,
+          password: md5(vu.regInfo.pwd),
+          geetest_challenge: result.geetest_challenge,
+          geetest_validate: result.geetest_validate,
+          geetest_seccode: result.geetest_seccode,
+          gtserver: vu.gtserver
         })
         .then(function(res) {
           console.log(res)
-          vu.regtoken = res.data.result.token
-          vu.$Message.success('已发送邮件成功!')
+          if (res.status == '200' && res.data.errorCode == 0) {
+            vu.$Message.success('注册成功!')
+            vu.$router.push('/login')
+            // vu.$Modal.success({
+            //   content: '用户注册成功！',
+            //   onOk: function() {
+            //     vu.$router.push('/login')
+            //   }
+            // })
+          } else if (res.data.errorCode == 2) {
+            vu.geettest.reset()
+            vu.$Message.error('信息填写有误，请检查您的输入')
+          } else {
+            vu.geettest.reset()
+            vu.$Message.error('操作失败')
+          }
         })
-        
-      
+        .catch(() => {
+          vu.geettest.reset()
+          vu.$Message.error('网络异常')
+        })
     },
     sendemail() {
-      // 判断是否 onReady
       var vu = this
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
-          // vu.geettest.verify()
-          vu.sendemailFn()
+          ax
+            .post('/api/user/register', {
+              email: vu.regInfo.email
+            })
+            .then(function(res) {
+              if (res.status == '200' && res.data.errorCode == 0) {
+                vu.regtoken = res.data.result.token
+                vu.$Message.success('已发送邮件成功!')
+              } else if (res.data.errorCode == 200) {
+                vu.$Message.error('用户已存在')
+              }
+            })
+            .catch(() => {
+              vu.$Message.error('网络异常')
+            })
         } else {
           vu.$Message.error(error)
         }
@@ -189,37 +210,34 @@ export default {
       ax.post('/api/user/initCaptcha')
         .then((res) => {
           var data = res.data
-          console.log(res.data)
+          vu.gtserver = data.gtserver
           vu.$initGeetest({
-            // 以下配置参数来自服务端 SDK
             gt: data.gt,
             challenge: data.challenge,
             offline: !data.success,
             new_captcha: true,
             product: 'bind'
           }, function (captchaObj) {
-            // 这里可以调用验证实例 captchaObj 的实例方法
             vu.geettest = captchaObj
             captchaObj.onReady(function(){
-              //验证码ready之后才能调用verify方法显示验证码
+              console.log('onready')
+              vu.geetOnReady = true
             }).onSuccess(function(){
-                vu.sendemailFn()
+                vu.regUserFn()
             }).onError(function(){
-                //your code
+              vu.geetOnReady = false
+              vu.$Message.error('验证码初始化异常，请尝试刷新页面来进行验证码初始化')
             })
-            // 按钮提交事件
-            // button.click = function(){
-                // some code
-                // 检测验证码是否ready, 验证码的onReady是否执行
-                //captchaObj.verify(); 显示验证码
-                // some code
-            // }
 
           })
+        })
+        .catch(() => {
+          console.log('网络异常')
         })
     }
   },
   created() {
+    this.initGeetest()
     this.regInfo.code = this.$route.params.code
     // console.log(this.$initGeetest)
     // this.initGeetest()

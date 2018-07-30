@@ -68,6 +68,7 @@ export default {
     }
     return {
       resettoken: '',
+      gtserver: '',
       resetInfo: {
         email: '',
         emailcode: '',
@@ -129,30 +130,54 @@ export default {
 
       this.$refs[name].validate(valid => {
         if (valid) {
-          ax
-            .post('/api/user/verifyResetPassword', {
-              email: vu.resetInfo.email,
-              code: vu.resetInfo.emailcode,
-              token: vu.resettoken,
-              password: md5(vu.resetInfo.pwd)
-            })
-            .then(function(res) {
-              console.log(res)
-              if (res.status == '200' && res.data.errorCode == 0) {
-                vu.$Modal.success({
-                  content: '重置密码成功！',
-                  onOk: function() {
-                    vu.$router.push('/login')
-                  }
-                })
-              } else {
-                vu.$Modal.error('重置密码失败:' + res.data.errorMsg)
-              }
-            })
+          if (vu.geetOnReady) {
+            vu.geettest.verify()
+          } else {
+            vu.$Message.error('验证码加载失败，请重试')
+          }
         } else {
-          this.$Message.error('验证失败!')
+          vu.$Message.error('验证失败!')
         }
       })
+    },
+    resSetPwdFn () {
+      var vu = this
+      var result = this.geettest.getValidate()
+      ax
+        .post('/api/user/verifyResetPassword', {
+          email: vu.resetInfo.email,
+          code: vu.resetInfo.emailcode,
+          token: vu.resettoken,
+          password: md5(vu.resetInfo.pwd),
+          geetest_challenge: result.geetest_challenge,
+          geetest_validate: result.geetest_validate,
+          geetest_seccode: result.geetest_seccode,
+          gtserver: vu.gtserver
+        })
+        .then(function(res) {
+          console.log(res)
+          if (res.status == 200 && res.data.errorCode == 0) {
+            // vu.$Modal.success({
+            //   content: '重置密码成功！',
+            //   onOk: function() {
+            //     vu.$router.push('/login')
+            //   }
+            // })
+            vu.$Message.success('重置密码成功！')
+            vu.$router.push('/login')
+          } else if (res.data.errorCode == 2) {
+            vu.geettest.reset()
+            vu.$Message.error('信息填写有误，请检查您的输入')
+          } else {
+            vu.geettest.reset()
+            vu.$Message.error('操作失败')
+            // vu.$Modal.error('重置密码失败:' + res.data.errorMsg)
+          }
+        })
+        .catch(() => {
+          vu.geettest.reset()
+          vu.$Message.error('网络异常')
+        })
     },
     sendemail() {
       var vu = this
@@ -174,9 +199,40 @@ export default {
           vu.$Message.error(error)
         }
       })
+    },
+    initGeetest () {
+      var vu = this
+      ax.post('/api/user/initCaptcha')
+        .then((res) => {
+          var data = res.data
+          vu.gtserver = data.gtserver
+          vu.$initGeetest({
+            gt: data.gt,
+            challenge: data.challenge,
+            offline: !data.success,
+            new_captcha: true,
+            product: 'bind'
+          }, function (captchaObj) {
+            vu.geettest = captchaObj
+            captchaObj.onReady(function(){
+              console.log('onready')
+              vu.geetOnReady = true
+            }).onSuccess(function(){
+                vu.resSetPwdFn()
+            }).onError(function(){
+              vu.geetOnReady = false
+              vu.$Message.error('验证码初始化异常，请尝试刷新页面来进行验证码初始化')
+            })
+
+          })
+        })
+        .catch(() => {
+          console.log('网络异常')
+        })
     }
   },
   created() {
+    this.initGeetest()
     this.resetInfo.code = this.$route.params.code
     // console.log(this.$route.params)
   }

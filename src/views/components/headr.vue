@@ -83,11 +83,11 @@
           <Dropdown class="lan" @on-click="handleLangChange">
             <a href="javascript:void(0)">
               <Icon type="earth"></Icon>
-              <span>{{activeLang === 'zh' ? '简体中文' : 'English'}}</span>
+              <span>{{activeLang === 'cn' ? '简体中文' : 'English'}}</span>
               <Icon type="arrow-down-b"></Icon>
             </a>
             <DropdownMenu slot="list">
-              <DropdownItem name="zh">
+              <DropdownItem name="cn">
                 <span class="lan-item">简体中文</span>
               </DropdownItem>
               <DropdownItem name="en">English</DropdownItem>
@@ -124,7 +124,7 @@ export default {
         if (this.$store.state.activeLang !== '') {
           return this.$store.state.activeLang
         } else {
-          return 'zh'
+          return 'cn'
         }
       },
       set: function() {}
