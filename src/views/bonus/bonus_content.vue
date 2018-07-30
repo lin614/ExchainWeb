@@ -159,17 +159,18 @@ export default {
     // this.$Loading.start()
     // this.$Loading.start()
     var obj = this
+    var uid = cookie.get('uid', { domain: config.url.domain })
     ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN')
     ax
       .all([
         ax.post(config.url.invite + '/api/invite/getInvitedCode', {
-          userId: config.userid
+          userId: uid
         }),
         ax.post(config.url.invite + '/api/invite/invitedList', {
-          userId: config.userid
+          userId: uid
         }),
         ax.get(
-          config.url.fee + '/api/exet/stats/userBouns?userId=' + config.userid
+          config.url.fee + '/api/exet/stats/userBouns?userId=' + uid
         )
       ])
       .then(
