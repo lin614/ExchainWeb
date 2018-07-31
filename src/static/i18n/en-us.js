@@ -146,7 +146,7 @@ module.exports = {
         title: 'Recent Login History',
         device: 'Device',
         ip: 'IP address',
-        status: 'status',
+        event: 'status',
         success: 'Successful',
         fail: 'Fail',
       }
@@ -158,7 +158,7 @@ module.exports = {
       withdrawAddress: 'Withdraw',
       transfer: {
         title: 'Transfer',
-        coin: 'Coin',
+        token: 'Coin',
         from: 'From',
         to: 'To',
         volume: 'Volume',
@@ -166,11 +166,11 @@ module.exports = {
         balance: 'Balance',
         cancel: 'cancel',
         confirm: 'Transfer Now',
-        mainAccount: 'Main Account',
-        exchangeAccount: 'Exchange Account',
+        account_available: 'Main Account',
+        exchange_available: 'Exchange Account',
         deposit: 'Deposit',
         withdraw: 'Withdraw',
-        frozen: 'Frozen',
+        exchange_freeze: 'Frozen',
         transfer: 'Transfer',
         trade: 'Trade'
       }
@@ -179,10 +179,10 @@ module.exports = {
     // 提现地址管理
     withdrawAddress: {
       title: 'Withdraw Address',
-      coin: 'Coin',
-      address: 'Address',
-      notes: 'Notes',
-      action: 'Action',
+      type: 'Coin',
+      outer_address: 'Address',
+      name: 'Notes',
+      opera: 'Action',
       add: 'Add',
       delete: 'Delete',
       coinTip: 'Please select coin'
@@ -212,18 +212,19 @@ module.exports = {
       title: 'Order management',
       currentOrder: 'Current order',
       historyOrder: 'History order',
-      time: 'Time',
-      pair: 'Pair',
-      type: 'Type',
+      ctime: 'Time',
+      market: 'Pair',
+      side: 'Type',
       price: 'Price',
       amount: 'Amount',
-      filled: 'Filled',
-      averagePrice: 'Average price',
+      closeRate: 'Filled',
+      averPrice: 'Average price',
       detail: 'Detail',
       limitPrice: 'Limit price',
       sell: 'Sell',
       buy: 'Buy',
-      action: 'Action'
+      opera: 'Action',
+      cancelOrder: 'Cancel'
     },
     bindPhone: {
       bindPhone: 'Bind Mobile Number',
@@ -233,6 +234,7 @@ module.exports = {
       mbileNumber: 'mobile Number',
       smsCode: 'SMS code',
       getCode: 'Get code',
+      codeDownText: 'later send',
       ga: 'Google authentication Verification Code',
       confirm: 'Confirm'
     },
@@ -258,5 +260,79 @@ module.exports = {
       traded: 'Traded',
       untraded: 'Untraded'
     }
+  },
+  register: {
+    title: '注册',
+    dec: '注册 Exchain 账号',
+    email: '邮箱',
+    pleaseIptEmail: '请输入有效的邮箱',
+    emailcode: '邮箱验证码',
+    pleaseIptEmailCode: '请输入邮箱里收到的验证码',
+    pwd: '密码',
+    pleaseIptPwd: '请输入6位以上字符的密码',
+    pwd2: '确认密码',
+    pleaseInputPwd2: '请再次输入密码',
+    code: '邀请码（选填）',
+    register: '注册',
+    toLogin: '已有账户？请',
+    login: '登录',
+    sendCode: '发送验证码',
+    info1: '验证邮件可能会被误判为垃圾邮件，请注意查收。',
+    info2: '请妥善保存您的 Exchain 账号及登录密码。',
+    info3: '请勿和其他网站使用相同的登录密码。'
+  },
+  reset: {
+    title: '重置密码',
+    dec: '验证邮箱',
+    resetBtn: '重置密码',
+    toLogin: '返回',
+    login: '登录'
+  },
+  errorMsg: {
+    // 通用错误
+    SUCCESS: '操作成功',
+    FAIL: '操作失败',
+    NETWORK_ERROR: '网络异常',
+    // 修改密码
+    CURRENT_PASSWORD_BLANK: '请输入当前的密码',
+    NEW_PASSWORD_BLANK: '请输入您要修改的密码',
+    CONFIRM_PASSWORD_BLANK: '请再次输入您要修改的密码',
+    DIFFERENT_PASSWORD_IPT: '两次密码输入不一致',
+    // 资产
+    FROM_ADDR_BLANK: '请选择转出账户',
+    TO_ADDR_BLANK: '请选择转入账户',
+    AMOUNT_BLANK: '请输入划转数量',
+    DECIMAL_LIMIT: '因币种限制，最多支持到小数点后',
+    DECIMAL_UNIT: '位',
+    OVER_AVAILABLE_AMOUNT: '超过可用额度',
+    // 地址管理
+    TOKEN_UNSELECT: '请选择币种',
+    ADDR_BLANK: '请输入提币地址',
+    NOTE_BLANK: '请输入备注',
+    // 绑定/解绑手机号
+    COUNTRY_UNSELECT: '请选择国家',
+    PHONE_BLANK: '请输入您的手机号',
+    PHONE_NOT_NUM: '手机号为数字',
+    CODE_BLANK: '请输入手机号验证码',
+    CODE_NOT_NUM: '验证码为数字',
+    PHONE_BIND_EXIST: '请先解绑现有手机号',
+    // 充值
+    COPY_SUCCESS: '复制成功',
+    BROWSER_COPY_LIMIT: '该浏览器不支持自动复制',
+    // 提现
+    ADDR_BLANK: '地址不能为空',
+    AMOUNT_BLANK: '请输入提现数量',
+    AMOUNT_LESS_FEE: '提现数量不足以支付手续费',
+    FEE_BLANK: '交易费不能为空',
+    WITHDRAW_REQ_SUBMIT: '提币请求已提交',
+    // kyc
+    FIRSTNAME_BLANK: '请输入名字',
+    FAMILYNAME_BLANK: '请输入姓',
+    CARD_BLANK: '请输入身份证号码',
+    FRONT_BLANK: '请上传身份证正面照',
+    BACK_BLANK: '请上传身份证背面照',
+    HOLD_BLANK: '请上传手持身份证照',
+    KYC_SUBMIT: 'KYC 认证提交成功',
+    FORMAT_ERROR: '错误的文件后缀'
   }
 }

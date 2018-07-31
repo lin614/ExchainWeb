@@ -25,6 +25,7 @@ import page from "../components/page"
 import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
+import util from '../../libs/util.js'
 export default {
   name: 'entrust',
   data () {
@@ -33,16 +34,16 @@ export default {
       currentTab: 'current',
       columns1: [
         {
-          title: this.$t('userCenter.entrust.time'),
+          title: this.$t('userCenter.entrust.ctime'),
           key: 'ctime',
           width: 200
         },
         {
-          title: this.$t('userCenter.entrust.pair'),
+          title: this.$t('userCenter.entrust.market'),
           key: 'market'
         },
         {
-          title: this.$t('userCenter.entrust.type'),
+          title: this.$t('userCenter.entrust.side'),
           key: 'side',
           width: 100,
           render: function (h, params) {
@@ -58,15 +59,15 @@ export default {
           key: 'amount'
         },
         {
-          title: this.$t('userCenter.entrust.filled') + '%',
+          title: this.$t('userCenter.entrust.closeRate') + '%',
           key: 'closeRate'
         },
         {
-          title: this.$t('userCenter.entrust.averagePrice'),
+          title: this.$t('userCenter.entrust.averPrice'),
           key: 'averPrice'
         },
         {
-          title: this.$t('userCenter.entrust.action'),
+          title: this.$t('userCenter.entrust.opera'),
           key: 'opera',
           render: (h, params) => {
             return h('span', {
@@ -125,7 +126,7 @@ export default {
             let amount = parseFloat(data[i].amount);
             let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
             data[i].closeRate = rate.toFixed(2);
-            data[i].opera = '撤单';
+            data[i].opera = this.$t('userCenter.entrust.cancelOrder');
             this.curData = data;
           }
         } else {
@@ -205,15 +206,23 @@ export default {
         order_id: row.order_id,
         market: row.market
       }
-      ax.get('/api/exchange/orderCancel', {params}).then(res => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          this.getCurData();
-          this.$Message.success('撤单成功!')
-        } else {
-          this.$Modal.error({ content: res.data.errorMsg });
-        }
-      });
+      ax.get('/api/exchange/orderCancel', {params})
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            this.getCurData();
+            this.$Message.success(this.$t('errorMsg.SUCCESS'))
+          } else {
+            this.$Modal.error({ content: res.data.errorMsg });
+          }
+        });
     }
+  },
+  mounted () {
+    var vu = this
+    util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
+    bus.$on('langChange', () => {
+      util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
+    })
   },
   created () {
     this.pageHeight = window.innerHeight - 360

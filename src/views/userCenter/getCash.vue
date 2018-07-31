@@ -20,7 +20,7 @@
         <FormItem style="width: 100%;">
           <div class="tip-intro fl">
             <p class="friendly-notice-title">{{ $t('userCenter.withdrawBox.tip') }}</p>
-            <li class="friendly-notice-item">因币种限制，最多支持到小数点后 {{accountData.decimal}} 位</li>
+            <li class="friendly-notice-item">{{$t('errorMsg.DECIMAL_LIMIT')}} {{accountData.decimal}} {{$t('errorMsg.DECIMAL_UNIT')}}</li>
             <li class="friendly-notice-item">{{ $t('userCenter.withdrawBox.tipP1') }} : {{params.withdraw_min}} {{token}}</li>
           </div>
           <div class="get-btn-box fr">
@@ -62,33 +62,33 @@ export default {
       },
       getCashRules: {
         destAddr: [
-          { required: true, message: '地址不能为空', trigger: 'blur' }
+          { required: true, message: this.$t('errorMsg.ADDR_BLANK'), trigger: 'blur' }
         ],
         amount: [
-          { required: true, message: '提现数量不能为空', trigger: 'blur' },
+          { required: true, message: this.$t('errorMsg.AMOUNT_BLANK'), trigger: 'blur' },
           { 
             validator: (rule, value, callback) => {
               if (value === '' || value === 0 || value === '0') {
-                callback('请输入提现数量')
+                callback(this.$t('errorMsg.AMOUNT_BLANK'))
               }
               // 判断精度
               var decimal = this.accountData.decimal
               var reg = RegExp('^[0-9]{0,8}(\.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
-                callback('因币种限制，最多支持到小数点后' + decimal + '位')
+                callback(this.$t('errorMsg.DECIMAL_LIMIT') + decimal + this.$t('errorMsg.DECIMAL_UNIT'))
               }
               if (parseFloat(value) > parseFloat(this.accountData.account_available)) {
-                callback('超出可用额度')
+                callback(this.$t('errorMsg.OVER_AVAILABLE_AMOUNT'))
               }
               if (value < this.fee) {
-                callback('提现数量不足以支付手续费')
+                callback(this.$t('errorMsg.AMOUNT_LESS_FEE'))
               }
               callback()
             }, trigger: 'change, blur'
            }
         ],
         fee: [
-          { required: true, message: '交易费不能为空', trigger: 'blur' }
+          { required: true, message: this.$t('errorMsg.FEE_BLANK'), trigger: 'blur' }
         ]
       }
     }
@@ -128,15 +128,15 @@ export default {
               vu.$refs.getCashForm.resetFields()
               this.getCashModal.fee = this.fee
               this.$emit('submitGetCash')
-              vu.$Message.success('提币请求已提交！')
+              vu.$Message.success(this.$t('errorMsg.WITHDRAW_REQ_SUBMIT'))
             } else {
               vu.spinShow = false
-              vu.$Message.error('网络异常')
+              vu.$Message.error(this.$t('errorMsg.FAIL'))
             }
           })
           .catch((err) => {
             vu.spinShow = false
-              vu.$Message.error('网络异常')
+              vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
             console.log(err)
           })
         }

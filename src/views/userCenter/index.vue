@@ -27,6 +27,7 @@
           </div>
         </crd>
 
+        <!-- 安全设置 -->
         <crd potColor="#449aec">
           <span slot="title">{{ $t('userCenter.index.safeSetting.title') }}</span>
           <div class="card-box safe-setting">
@@ -151,6 +152,7 @@ import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import md5 from 'crypto-md5'
+import util from '../../libs/util.js'
 export default {
   name: 'usercenter',
   components: {
@@ -197,7 +199,7 @@ export default {
           key: 'ip'
         },
         {
-          title: this.$t('userCenter.index.loginLog.status'),
+          title: this.$t('userCenter.index.loginLog.event'),
           key: 'event',
           render: (h, params) => {
             if (params.row.event === 'Sign-in') {
@@ -231,15 +233,15 @@ export default {
       userIP: '192.168.1.1',
       rules: {
         currentPwd: [
-          { required: true, message: '请输入当前的密码', trigger: 'blur' }
+          { required: true, message: this.$t('errorMsg.CURRENT_PASSWORD_BLANK'), trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入您要修改的密码', trigger: 'blur' }
+          { required: true, message: this.$t('errorMsg.NEW_PASSWORD_BLANK'), trigger: 'blur' }
         ],
         confirmPwd: [
           {
             required: true,
-            message: '请再次输入您要修改的密码',
+            message: this.$t('errorMsg.CONFIRM_PASSWORD_BLANK'),
             trigger: 'blur'
           },
           {
@@ -249,7 +251,7 @@ export default {
               ) {
                 callback()
               } else {
-                callback(new Error('两次密码输入不一致'))
+                callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
               }
             },
             trigger: 'blur'
@@ -286,7 +288,6 @@ export default {
             }
             sessionStorage.setItem('email', res.data.result.email)
             sessionStorage.setItem('userNum', vu.userNum)
-            console.log(res.data.result)
           } else {
             console.log('网络异常！')
           }
@@ -313,16 +314,16 @@ export default {
               if (res.status == '200' && res.data.errorCode == 0) {
                 console.log(res.data)
                 this.changeLoading = false
-                vu.$Message.success(res.data.errorMsg)
+                vu.$Message.success(this.$t('errorMsg.SUCCESS'))
                 this.showChangePwd = false
               } else {
                 this.changeLoading = false
-                vu.$Message.error(res.data.errorMsg)
+                vu.$Message.error(this.$t('errorMsg.FAIL'))
               }
             })
             .catch(err => {
               this.changeLoading = false
-              vu.$Message.error('网络异常！')
+              vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
             })
         } else {
           this.changeLoading = false
@@ -357,6 +358,11 @@ export default {
   mounted() {
     this.getUserInfo()
     this.getRecentActivity()
+    var vu = this
+    util.toggleTableHeaderLang(vu.recentUserCol, 2, 'userCenter.index.loginLog.', vu)
+    bus.$on('langChange', () => {
+      util.toggleTableHeaderLang(vu.recentUserCol, 2, 'userCenter.index.loginLog.', vu)
+    })
   }
 }
 </script>

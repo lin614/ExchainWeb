@@ -4,41 +4,41 @@
     <div class="reset">
       <block>
         <crd slot="inner">
-          <span slot="title">重置密码</span>
+          <span slot="title">{{$t('reset.title')}}</span>
           <div class=" content">
-            <h1>验证邮箱重设密码</h1>
+            <h1>{{$t('reset.dec')}}</h1>
             <hr/>
             <div class="reset_form">
               <Form ref="resetInfo" label-position="top" :model="resetInfo" :rules="rules">
-                <FormItem prop="email" label="邮箱">
-                  <Input v-model="resetInfo.email" placeholder="请输入有效的邮箱"></Input>
+                <FormItem prop="email" :label="$t('register.email')">
+                  <Input v-model="resetInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
                 </FormItem>
-                <FormItem prop="emailcode" label="邮箱验证码">
-                  <Input v-model="resetInfo.emailcode" placeholder="请输入邮箱里收到的验证码"></Input>
+                <FormItem prop="emailcode" :label="$t('register.emailcode')">
+                  <Input v-model="resetInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')"></Input>
                 </FormItem>
-                <FormItem prop="pwd" label="密码">
-                  <Input v-model="resetInfo.pwd" type="password" placeholder="请输入6位以上字符的密码">
+                <FormItem prop="pwd" :label="$t('register.pwd')">
+                  <Input v-model="resetInfo.pwd" type="password" :placeholder="$t('register.pleaseIptPwd')">
                   </Input>
                 </FormItem>
-                <FormItem prop="pwd2" label="确认密码">
-                  <Input v-model="resetInfo.pwd2" type="password" placeholder="请再次输入密码">
+                <FormItem prop="pwd2" :label="$t('register.pwd2')">
+                  <Input v-model="resetInfo.pwd2" type="password" :placeholder="$t('register.pleaseInputPwd2')">
                   </Input>
                 </FormItem>
 
                 <FormItem>
-                  <Button type="primary" @click="resSetPwd('resetInfo')">重置密码</Button>返回
-                  <router-link to="/login">登录</router-link>
+                  <Button type="primary" @click="resSetPwd('resetInfo')">{{$t('reset.resetBtn')}}</Button>{{$t('reset.toLogin')}}
+                  <router-link to="/login">{{$t('reset.login')}}</router-link>
                 </FormItem>
               </Form>
             </div>
             <div class="reg_sendemail">
-              <a @click="sendemail">发送验证码</a>
+              <a @click="sendemail">{{$t('register.sendCode')}}</a>
             </div>
-            <div class="info">
+            <!-- <div class="info">
               <p>
-                验证邮件可能会被误判为垃圾邮件，请注意查收。<br/> 请妥善保存您的 Exchain 账号及登录密码。<br/> 请勿和其他网站使用相同的登录密码。
+                {{$t('register.info1')}}<br/> {{$t('register.info2')}}<br/> {{$t('register.info3')}}
               </p>
-            </div>
+            </div> -->
           </div>
         </crd>
       </block>

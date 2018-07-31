@@ -55,12 +55,13 @@ export default {
   data () {
     return {
       pageHeight: 0,
+      haveCountry: false,
       isPhone: false,
       sendCodeLoading: false,
       confirmLoading: false,
       codeDown: false,
       timer: null,
-      codeDownText: '120s后重新发送',
+      codeDownText: '',
       token: '',
       bind: false,
       userNum: '',
@@ -68,17 +69,27 @@ export default {
       type: '',
       countryList: [],
       bindForm: {
-        country: '86',
+        country: '',
         phone: '',
         phoneCode: '',
         googleCode: ''
       },
       rules: {
-        currentPwd: [
-          { country: true, message: '请选择国家', trigger: 'blur' }
+        country: [
+          {
+            validator: (rule, value, callback) => {
+               console.log(value)
+               if (value) {
+                 this.haveCountry = true
+                 callback()
+               } else {
+                 this.haveCountry = false
+                 callback(this.$t('errorMsg.COUNTRY_UNSELECT'))
+               }
+            }, trigger: 'change'}
         ],
         phone: [
-          { required: true, message: '请输入您的手机号', trigger: 'blur' },
+          { required: true, message: this.$t('errorMsg.PHONE_BLANK'), trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
                var reg = /^\d+$/
@@ -87,19 +98,18 @@ export default {
                  callback()
                } else {
                  this.isPhone = false
-                 callback('手机号为数字')
+                 callback(this.$t('errorMsg.PHONE_NOT_NUM'))
                }
-            }
-          }
+            }, trigger: 'blur'}
         ],
         phoneCode: [
-          { required: true, message: '请输入手机号验证码', trigger: 'blur' },
+          { required: true, message: this.$t('errorMsg.CODE_BLANK'), trigger: 'blur' },
           { validator: (rule, value, callback) => {
             var reg = /^\d+$/
             if (reg.test(value)) {
               callback()
             } else {
-              callback('验证码为数字')
+              callback(this.$t('errorMsg.CODE_NOT_NUM'))
             }
           },
           trigger: 'blur' }
@@ -123,7 +133,7 @@ export default {
         return
       }
       this.sendCodeLoading = true
-      if (this.isPhone) {
+      if (this.isPhone && this.haveCountry) {
         var vu = this
         ax({
           url: '/api/user/bindPhone',
@@ -153,7 +163,7 @@ export default {
             vu.token = res.data.result.token
             vu.handleCodeDown()
           } else if (res.data.errorCode == 710) {
-            vu.$Message.error('请先解绑现有手机号')
+            vu.$Message.error(this.$t('errorMsg.PHONE_BIND_EXIST'))
           } else {
             vu.codeDown = true
             vu.handleCodeDown()
@@ -166,6 +176,8 @@ export default {
       } else {
         this.$refs.bindForm.validateField('phone', () => {
         })
+        this.$refs.bindForm.validateField('country', () => {
+        })
         this.sendCodeLoading = false
       }
     },
@@ -174,6 +186,7 @@ export default {
      */
     handleCodeDown () {
       var time = 120
+      this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
       clearInterval(this.timer)
       this.timer = setInterval(() => {
         time -= 1
@@ -181,7 +194,7 @@ export default {
           this.codeDown = false
           clearInterval(this.timer)
         }
-        this.codeDownText = time + 's后重新发送'
+        this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
       }, 1000)
     },
     /**
@@ -217,15 +230,15 @@ export default {
           })
           .then((res) => {
             if (res.status == '200' && res.data.errorCode == 0) {
-              this.$Message.success('操作成功')
+              this.$Message.success(this.$t('errorMsg.SUCCESS'))
               this.$refs.bindForm.resetFields()
               this.$router.push('/usercenter')
             } else {
-              this.$Message.error('网络异常')
+              this.$Message.error(this.$t('errorMsg.FAIL'))
             }
           })
           .catch((err) => {
-            this.$Message.error('网络异常')
+            this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
             console.log(err)
           })
         }
@@ -297,6 +310,10 @@ export default {
       this.bindStatus = 'unbind' // '默认为unbind'
       this.getUserInfo()
     }
+    var vu = this
+    bus.$on('langChange', () => {
+      vu.$refs.bindForm.resetFields()
+    })
   },
   created () {
     this.pageHeight = window.innerHeight - 360
