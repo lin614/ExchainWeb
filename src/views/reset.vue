@@ -61,7 +61,7 @@ export default {
     var vu = this
     var vali = function(rule, value, callback) {
       if (value != vu.resetInfo.pwd) {
-        callback(new Error('两次密码必须一致'))
+        callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
       } else {
         callback()
       }
@@ -81,39 +81,39 @@ export default {
         email: [
           {
             required: true,
-            message: '邮箱不能为空',
+            message: this.$t('errorMsg.EMAIL_BLANK'),
             trigger: 'blur'
           },
           {
             type: 'email',
-            message: '邮箱格式不正确',
+            message: this.$t('errorMsg.EMAIL_ERR'),
             trigger: 'blur'
           }
         ],
         emailcode: [
           {
             required: true,
-            message: '邮箱验证码不能为空',
+            message: this.$t('errorMsg.EMAIL_CODE_BLANK'),
             trigger: 'blur'
           }
         ],
         pwd: [
           {
             required: true,
-            message: '密码不能为空.',
+            message: this.$t('errorMsg.PWD_BLANK'),
             trigger: 'blur'
           },
           {
             type: 'string',
             min: 6,
-            message: '密码长度必须大于6位',
+            message: this.$t('errorMsg.pwd_limit'),
             trigger: 'blur'
           }
         ],
         pwd2: [
           {
             required: true,
-            message: '确认密码不能为空',
+            message: this.$t('errorMsg.pwd_blank'),
             trigger: 'blur'
           },
           {
@@ -133,10 +133,10 @@ export default {
           if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
-            vu.$Message.error('验证码加载失败，请重试')
+            vu.$Message.error(this.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
         } else {
-          vu.$Message.error('验证失败!')
+          vu.$Message.error(this.$t('errorMsg.CHECK_FAIL'))
         }
       })
     },
@@ -163,20 +163,20 @@ export default {
             //     vu.$router.push('/login')
             //   }
             // })
-            vu.$Message.success('重置密码成功！')
+            vu.$Message.success(this.$t('errorMsg.RESET_SUCC'))
             vu.$router.push('/login')
           } else if (res.data.errorCode == 2) {
             vu.geettest.reset()
-            vu.$Message.error('信息填写有误，请检查您的输入')
+            vu.$Message.error(this.$t('errorMsg.REGISTER_IPT_ERR'))
           } else {
             vu.geettest.reset()
-            vu.$Message.error('操作失败')
+            vu.$Message.error(this.$t('errorMsg.FAIL'))
             // vu.$Modal.error('重置密码失败:' + res.data.errorMsg)
           }
         })
         .catch(() => {
           vu.geettest.reset()
-          vu.$Message.error('网络异常')
+          vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
         })
     },
     sendemail() {
@@ -193,7 +193,7 @@ export default {
             .then(function(res) {
               console.log(res)
               vu.resettoken = res.data.result.token
-              vu.$Message.success('已发送邮件成功!')
+              vu.$Message.success(this.$t('errorMsg.EMAIL_SEND_SUCC'))
             })
         } else {
           vu.$Message.error(error)
@@ -221,13 +221,13 @@ export default {
                 vu.resSetPwdFn()
             }).onError(function(){
               vu.geetOnReady = false
-              vu.$Message.error('验证码初始化异常，请尝试刷新页面来进行验证码初始化')
+              vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
             })
 
           })
         })
         .catch(() => {
-          console.log('网络异常')
+          console.log('network error')
         })
     }
   },

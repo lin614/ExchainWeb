@@ -69,11 +69,11 @@ module.exports = {
       },
       rowName: {
         pair: 'Pair',
-        lastPrice: 'Last Price',
-        changeBy24h: '24h Change',
-        highBy24h: '24h High',
-        lowBy24h: '24h Low',
-        volumeBy24h: '24h Volume',
+        priceshow: 'Last Price',
+        p24: '24h Change',
+        h24: '24h High',
+        l24: '24h Low',
+        v24: '24h Volume',
         action: 'Action'
       }
     }
@@ -113,6 +113,9 @@ module.exports = {
     p3: 'The "generalordinary partner" becomewill be upgraded to the "super partner" when the number of recommended transaction users reaches more than 50, witch will permanently share the 50% return of the transaction fee of recommended. Both the "ordinary general partner" and "super partner" can have Exchain Token(ET) as reward at the same time. ',
     p4: 'If you are interested in the Super Partner Project, please send email to',
     p5: 'for more information.'
+  },
+  whitepaper: {
+    title: 'Whitepaper'
   },
   userCenter: {
     index: {
@@ -258,7 +261,9 @@ module.exports = {
       time: 'Time',
       status: 'Status',
       traded: 'Traded',
-      untraded: 'Untraded'
+      untraded: 'Untraded',
+      superPartner: '超级合伙人',
+      partner: '普通合伙人'
     }
   },
   register: {
@@ -333,6 +338,25 @@ module.exports = {
     BACK_BLANK: '请上传身份证背面照',
     HOLD_BLANK: '请上传手持身份证照',
     KYC_SUBMIT: 'KYC 认证提交成功',
-    FORMAT_ERROR: '错误的文件后缀'
+    FORMAT_ERROR: '错误的文件后缀',
+    // 注册
+    // DIFFERENT_PASSWORD_IPT
+    EMAIL_BLANK: '邮箱不能为空',
+    EMAIL_ERR: '邮箱格式不正确',
+    EMAIL_CODE_BLANK: '邮箱验证码不能为空',
+    PWD_BLANK: '密码不能为空',
+    PWD_LIMIT: '密码长度必须大于6位',
+    PWD_BLANK: '确认密码不能为空',
+    REGISTER_SUCC: '注册成功',
+    REGISTER_IPT_ERR: '信息填写有误，请检查您的输入',
+    EMAIL_SEND_SUCC: '邮件已发送',
+    USER_EXISTED: '用户已存在',
+    REQ_LIMIT: '限制请求，请稍候再试',
+    // 重置密码
+    RESET_SUCC: '重置密码成功',
+    // 行为验证相关
+    GEET_LOAD_ERR_TIP: '验证码加载失败，请重试',
+    GEET_INIT_ERR: '验证码初始化异常，请尝试刷新页面来进行验证码初始化',
+    CHECK_FAIL: '验证失败'
   }
 }

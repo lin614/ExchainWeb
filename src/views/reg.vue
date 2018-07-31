@@ -243,7 +243,7 @@ export default {
           })
         })
         .catch(() => {
-          console.log('网络异常')
+          console.log('network error')
         })
     }
   },

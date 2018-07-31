@@ -68,11 +68,11 @@ module.exports = {
       },
       rowName: {
         pair: '交易对',
-        lastPrice: '最新价格',
-        changeBy24h: '24h波动',
-        highBy24h: '24h高点',
-        lowBy24h: '24h低点',
-        volumeBy24h: '24h交易量',
+        priceshow: '最新价格',
+        p24: '24h波动',
+        h24: '24h高点',
+        l24: '24h低点',
+        v24: '24h交易量',
         action: '去交易'
       }
     }
@@ -112,6 +112,9 @@ module.exports = {
     p3: '普通合作伙伴成功邀请50个新用户到交易所进行交易，即可成为“超级合作伙伴”，除了享有普通合作伙伴的平台币奖励和收入分成以外，还能获得一定数额的现金回馈，邀请越多奖励越大。',
     p4: '如有意向成为Exchain的超级合作伙伴，请发邮件至',
     p5: '获取相关信息'
+  },
+  whitepaper: {
+    title: '白皮书'
   },
   userCenter: {
     index: {
@@ -276,7 +279,9 @@ module.exports = {
       time: '时间',
       status: '状态',
       traded: '已交易',
-      untraded: '未交易'
+      untraded: '未交易',
+      superPartner: '超级合伙人',
+      partner: '普通合伙人'
     }
   },
   register: {
@@ -351,6 +356,25 @@ module.exports = {
     BACK_BLANK: '请上传身份证背面照',
     HOLD_BLANK: '请上传手持身份证照',
     KYC_SUBMIT: 'KYC 认证提交成功',
-    FORMAT_ERROR: '错误的文件后缀'
+    FORMAT_ERROR: '错误的文件后缀',
+    // 注册
+    // DIFFERENT_PASSWORD_IPT
+    EMAIL_BLANK: '邮箱不能为空',
+    EMAIL_ERR: '邮箱格式不正确',
+    EMAIL_CODE_BLANK: '邮箱验证码不能为空',
+    PWD_BLANK: '密码不能为空',
+    PWD_LIMIT: '密码长度必须大于6位',
+    PWD_BLANK: '确认密码不能为空',
+    REGISTER_SUCC: '注册成功',
+    REGISTER_IPT_ERR: '信息填写有误，请检查您的输入',
+    EMAIL_SEND_SUCC: '邮件已发送',
+    USER_EXISTED: '用户已存在',
+    REQ_LIMIT: '限制请求，请稍候再试',
+    // 重置密码
+    RESET_SUCC: '重置密码成功',
+    // 行为验证相关
+    GEET_LOAD_ERR_TIP: '验证码加载失败，请重试',
+    GEET_INIT_ERR: '验证码初始化异常，请尝试刷新页面来进行验证码初始化',
+    CHECK_FAIL: '验证失败'
   }
 }
