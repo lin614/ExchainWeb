@@ -51,6 +51,7 @@ import config from '../config/config.js'
 import cookie from 'js-cookie'
 import md5 from 'crypto-md5'
 // import bus from '../bus.js'
+
 export default {
   name: 'login',
   components: { page, block, crd },
@@ -127,14 +128,17 @@ export default {
               mtime: res.data.result.mtime
             })
 
-            if (res.data.result.PN) {
+            if (res.data.result.pn) {
+              cookie.set('PN', res.data.result.pn, {
+                domain: config.url.domain
+              })
               cookie.set('email', vu.loginInfo.email, {
                 domain: config.url.domain
               })
               cookie.set('uid', res.data.result.id, {
                 domain: config.url.domain
               })
-              var Pn = encodeURIComponent(res.data.result.PN)
+              var Pn = encodeURIComponent(res.data.result.pn)
               sessionStorage.setItem('PN', Pn)
             }
 

@@ -39,6 +39,7 @@
 import ax from 'axios'
 import util from '../../libs/util.js'
 import NP from 'number-precision'
+import config from '../../config/config.js'
 export default {
   name: 'getCash',
   props: {

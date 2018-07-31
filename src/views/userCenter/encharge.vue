@@ -32,6 +32,7 @@
 <script>
 import ax from 'axios'
 import ClipboardJS from 'clipboard'
+import config from '../../config/config.js'
 export default {
   name: 'encharge',
   props: {

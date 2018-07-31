@@ -12,14 +12,14 @@
                     <Option v-for="(item, index) in tokenList" :value="item.value" :key="index">{{ item.label }}</Option>
                   </Select>
                 </FormItem>
-                <FormItem  :label="$t('userCenter.withdrawAddress.address')" prop="addr" style="width: 420px;">
+                <FormItem :label="$t('userCenter.withdrawAddress.address')" prop="addr" style="width: 420px;">
                   <Input v-model="magAddrForm.addr"></Input>
                 </FormItem>
-                <FormItem  :label="$t('userCenter.withdrawAddress.notes')" prop="note" style="width: 420px;">
+                <FormItem :label="$t('userCenter.withdrawAddress.notes')" prop="note" style="width: 420px;">
                   <Input v-model="magAddrForm.note"></Input>
                 </FormItem>
                 <FormItem class="fr">
-                  <Button class="add-btn" @click="handleAddAddr">{{  $t('userCenter.withdrawAddress.add') }}</Button>
+                  <Button class="add-btn" @click="handleAddAddr">{{ $t('userCenter.withdrawAddress.add') }}</Button>
                 </FormItem>
               </Form>
             </div>
@@ -35,16 +35,17 @@
 </template>
 
 <script>
-import page from "../components/page"
-import crd from "../components/crd.vue"
+import page from '../components/page'
+import crd from '../components/crd.vue'
 import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'manageAddr',
   components: {
     page,
     crd
   },
-  data () {
+  data() {
     return {
       magAddrForm: {
         tokenType: '',
@@ -54,14 +55,14 @@ export default {
       tokenList: [],
       magAddrRules: {
         tokenType: [
-          { required: true, message: this.$t('userCenter.withdrawAddress.coinTip'), trigger: 'change' }
+          {
+            required: true,
+            message: this.$t('userCenter.withdrawAddress.coinTip'),
+            trigger: 'change'
+          }
         ],
-        addr: [
-          { required: true, message: '请输入提币地址', trigger: 'blur' }
-        ],
-        note: [
-          { required: true, message: '请输入备注', trigger: 'blur' }
-        ]
+        addr: [{ required: true, message: '请输入提币地址', trigger: 'blur' }],
+        note: [{ required: true, message: '请输入备注', trigger: 'blur' }]
       },
       addrListTable: [
         {
@@ -70,7 +71,7 @@ export default {
           maxWidth: 150,
           filters: [],
           filterMultiple: false,
-          filterMethod (value, row) {
+          filterMethod(value, row) {
             return row.type === value
           }
         },
@@ -91,17 +92,25 @@ export default {
           title: this.$t('userCenter.withdrawAddress.action'),
           key: 'opera',
           render: (h, params) => {
-            return h('span', {
-              style: {
-                color: '#419aec',
-                cursor: 'pointer'
-              },
-              on: {
-                click: () => {
-                  this.handleRemoveAddr(params.index, params.row.type, params.row.outer_address)
+            return h(
+              'span',
+              {
+                style: {
+                  color: '#419aec',
+                  cursor: 'pointer'
+                },
+                on: {
+                  click: () => {
+                    this.handleRemoveAddr(
+                      params.index,
+                      params.row.type,
+                      params.row.outer_address
+                    )
+                  }
                 }
-              }
-            }, this.$t('userCenter.withdrawAddress.delete'))
+              },
+              this.$t('userCenter.withdrawAddress.delete')
+            )
           }
         }
       ],
@@ -109,9 +118,10 @@ export default {
     }
   },
   methods: {
-    getTokenList () {
-      ax.get(config.url.user+'/api/quotation/getSymbolLists')
-        .then((res) => {
+    getTokenList() {
+      ax
+        .get(config.url.user + '/api/quotation/getSymbolLists')
+        .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
             var obj = {}
@@ -119,66 +129,71 @@ export default {
               obj.value = key
               obj.label = key
               this.tokenList.push(JSON.parse(JSON.stringify(obj)))
-              this.addrListTable[0].filters.push(JSON.parse(JSON.stringify(obj)))
+              this.addrListTable[0].filters.push(
+                JSON.parse(JSON.stringify(obj))
+              )
             }
           }
         })
-        .catch((err) => {})
+        .catch(err => {})
     },
-    getWithdrawAddress () {
-      ax.post(config.url.user+'/api/account/getWithdrawAddress', {
-        type: ''
-      })
-      .then((res) => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          this.addrListData = [...res.data.result.data]
-        }
-      })
-      .catch(() => {})
+    getWithdrawAddress() {
+      ax
+        .post(config.url.user + '/api/account/getWithdrawAddress', {
+          type: ''
+        })
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            this.addrListData = [...res.data.result.data]
+          }
+        })
+        .catch(() => {})
     },
-    handleAddAddr () {
+    handleAddAddr() {
       const vu = this
-      this.$refs.magAddrForm.validate((valid) => {
+      this.$refs.magAddrForm.validate(valid => {
         if (valid) {
-          ax.post(config.url.user+'/api/account/addWithdrawAddress', {
-            type: vu.magAddrForm.tokenType,
-            name: vu.magAddrForm.note,
-            outer_address: vu.magAddrForm.addr
-          })
-          .then((res) => {
-            if (res.status == '200' && res.data.errorCode == 0) {
-              vu.getWithdrawAddress()
-              vu.$refs.magAddrForm.resetFields()
-              vu.$Message.success('添加地址成功！')
-            } else {
-              vu.$Message.error('网络异常！')
-            }
-          })
-          .catch((err) => {})
+          ax
+            .post(config.url.user + '/api/account/addWithdrawAddress', {
+              type: vu.magAddrForm.tokenType,
+              name: vu.magAddrForm.note,
+              outer_address: vu.magAddrForm.addr
+            })
+            .then(res => {
+              if (res.status == '200' && res.data.errorCode == 0) {
+                vu.getWithdrawAddress()
+                vu.$refs.magAddrForm.resetFields()
+                vu.$Message.success('添加地址成功！')
+              } else {
+                vu.$Message.error('网络异常！')
+              }
+            })
+            .catch(err => {})
         } else {
           vu.$Message.error('请检查您的输入')
         }
-      })    
+      })
     },
-    handleRemoveAddr (index, type, addr) {
+    handleRemoveAddr(index, type, addr) {
       const vu = this
-      ax.post(config.url.user+'/api/account/delWithdrawAddress', {
-        type: type,
-        outerAddress: addr
-      })
-      .then((res) => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          this.addrListData.splice(index, 1)
-          this.getWithdrawAddress()
-          vu.$Message.success('删除地址成功！')
-        } else {
-          vu.$Message.error('网络异常！')
-        }
-      })
-      .catch((err) => {})
+      ax
+        .post(config.url.user + '/api/account/delWithdrawAddress', {
+          type: type,
+          outerAddress: addr
+        })
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            this.addrListData.splice(index, 1)
+            this.getWithdrawAddress()
+            vu.$Message.success('删除地址成功！')
+          } else {
+            vu.$Message.error('网络异常！')
+          }
+        })
+        .catch(err => {})
     }
   },
-  mounted () {
+  mounted() {
     this.getTokenList()
     this.getWithdrawAddress()
     this.addrListTable[0].filters = [...this.tokenList]
@@ -187,33 +202,33 @@ export default {
 </script>
 
 <style lang="less">
-  @import '../style/config.less';
-  .manage-addr-cont {
-    padding: 40px 0;
-    .mge-addr-main {
-      padding: 50px 60px 80px;
-      .form-box {
-        padding-bottom: 30px;
-        border-bottom: 1px solid #eee;
-        .add-btn {
-          display: inline-block;
-          min-width: 240px;
-          height: 50px;
-          line-height: 50px;
-          font-size: 18px;
-          padding: 0 10px;
-          color: #fff;
-          background-color: @font-color-blue;
-          text-align: center;
-        }
+@import '../style/config.less';
+.manage-addr-cont {
+  padding: 40px 0;
+  .mge-addr-main {
+    padding: 50px 60px 80px;
+    .form-box {
+      padding-bottom: 30px;
+      border-bottom: 1px solid #eee;
+      .add-btn {
+        display: inline-block;
+        min-width: 240px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 18px;
+        padding: 0 10px;
+        color: #fff;
+        background-color: @font-color-blue;
+        text-align: center;
       }
-      .addr-list {
-        padding-top: 40px;
-        .addr-list-title {
-          line-height: 1.5;
-          color: #000;
-        }
+    }
+    .addr-list {
+      padding-top: 40px;
+      .addr-list-title {
+        line-height: 1.5;
+        color: #000;
       }
     }
   }
+}
 </style>

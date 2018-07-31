@@ -118,6 +118,7 @@
 import page from "../components/page"
 import crd from "../components/crd.vue"
 import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'kyc',
   data () {
