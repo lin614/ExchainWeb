@@ -118,6 +118,7 @@
 import page from "../components/page"
 import crd from "../components/crd.vue"
 import ax from 'axios'
+import config from '../../config/config.js'
 export default {
   name: 'kyc',
   data () {
@@ -174,7 +175,7 @@ export default {
       var vu = this
       this.$refs[form].validate(valid => {
         if (valid) {
-          ax.post('/api/user/userKycRequest', {
+          ax.post(config.url.user+'/api/user/userKycRequest', {
             type: 'pid',
             name: this.formField.familyName + this.formField.firstName,
             idCardNumber: this.formField.idcardNo,

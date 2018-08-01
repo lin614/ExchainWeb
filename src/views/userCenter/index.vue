@@ -38,7 +38,8 @@
             <div class="card-item car-item-unline">
               <span class="card-item-title fl">{{ $t('userCenter.index.safeSetting.linkPhone') }}</span>
               <span class="card-item-text fl">{{ $t('userCenter.index.safeSetting.linkPhoneTip') }}</span>
-              <router-link v-if="bind" to="/usercenter/bind" class="card-item-opera fr">{{ $t('userCenter.index.safeSetting.nowLink') }} : <span>{{userNum}}</span> {{ $t('userCenter.index.safeSetting.unlink') }} ></router-link>
+              <router-link v-if="bind" to="/usercenter/bind" class="card-item-opera fr">{{ $t('userCenter.index.safeSetting.nowLink') }} :
+                <span>{{userNum}}</span> {{ $t('userCenter.index.safeSetting.unlink') }} ></router-link>
               <router-link v-else to="/usercenter/bind" class="card-item-opera fr">{{ $t('userCenter.index.safeSetting.link') }} ></router-link>
             </div>
 
@@ -153,6 +154,7 @@ import ax from 'axios'
 import config from '../../config/config.js'
 import md5 from 'crypto-md5'
 import util from '../../libs/util.js'
+import cookie from 'js-cookie'
 export default {
   name: 'usercenter',
   components: {
@@ -178,7 +180,7 @@ export default {
     }
   },
   watch: {
-    recentUserInfo () {
+    recentUserInfo() {
       this.mtime = this.recentUserInfo[0].time
       this.userIP = this.recentUserInfo[0].ip
     }
@@ -233,10 +235,18 @@ export default {
       userIP: '192.168.1.1',
       rules: {
         currentPwd: [
-          { required: true, message: this.$t('errorMsg.CURRENT_PASSWORD_BLANK'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('errorMsg.CURRENT_PASSWORD_BLANK'),
+            trigger: 'blur'
+          }
         ],
         password: [
-          { required: true, message: this.$t('errorMsg.NEW_PASSWORD_BLANK'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('errorMsg.NEW_PASSWORD_BLANK'),
+            trigger: 'blur'
+          }
         ],
         confirmPwd: [
           {
@@ -270,17 +280,22 @@ export default {
      * 2 已通过
      * 3 被驳回
      */
-    getUserInfo () {
+    getUserInfo() {
       var vu = this
-      ax.post('/api/user/getUserInfo')
-        .then((res) => {
+      ax
+        .post(config.url.user + '/api/user/getUserInfo')
+        .then(res => {
           if (res.status === 200 && res.data.errorCode === 0) {
             sessionStorage.setItem('idCardStatus', res.data.result.idCardStatus)
             vu.idCardStatus = res.data.result.idCardStatus
             if (res.data.result.phone) {
               vu.bind = true
               sessionStorage.setItem('bindPhone', 'bind')
-              vu.userNum = '+ ' + res.data.result.phone.code + ' '  + res.data.result.phone.number
+              vu.userNum =
+                '+ ' +
+                res.data.result.phone.code +
+                ' ' +
+                res.data.result.phone.number
             } else {
               vu.bind = false
               sessionStorage.setItem('bindPhone', 'unbind')
@@ -292,7 +307,7 @@ export default {
             console.log('网络异常！')
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log('网络异常！')
         })
     },
@@ -305,7 +320,7 @@ export default {
       this.$refs[form].validate(valid => {
         if (valid) {
           ax
-            .post('/api/user/changePassword', {
+            .post(config.url.user + '/api/user/changePassword', {
               password: md5(this.changePwdModal.currentPwd),
               new_password: md5(this.changePwdModal.password)
             })
@@ -331,15 +346,16 @@ export default {
       })
     },
     getRecentActivity() {
-      ax.get('/api/user/getRecentActivity')
-        .then((res) => {
+      ax
+        .get(config.url.user + '/api/user/getRecentActivity')
+        .then(res => {
           console.log(typeof res.status)
           if (res.status === 200 && res.data.errorCode === 0) {
             this.recentUserInfo = res.data.result.data
             console.log(this.recentUserInfo)
           }
         })
-        .catch((err) => {
+        .catch(err => {
           //
         })
     },
@@ -356,12 +372,25 @@ export default {
     }
   },
   mounted() {
+    ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+      domain: config.url.domain
+    })
     this.getUserInfo()
     this.getRecentActivity()
     var vu = this
-    util.toggleTableHeaderLang(vu.recentUserCol, 2, 'userCenter.index.loginLog.', vu)
+    util.toggleTableHeaderLang(
+      vu.recentUserCol,
+      2,
+      'userCenter.index.loginLog.',
+      vu
+    )
     bus.$on('langChange', () => {
-      util.toggleTableHeaderLang(vu.recentUserCol, 2, 'userCenter.index.loginLog.', vu)
+      util.toggleTableHeaderLang(
+        vu.recentUserCol,
+        2,
+        'userCenter.index.loginLog.',
+        vu
+      )
     })
   }
 }

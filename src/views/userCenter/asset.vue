@@ -16,10 +16,7 @@
             <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>
           </div>
 
-          <Modal
-            v-model="showTransferModal"
-            class-name="change-pwd-model"
-            :closable="false">
+          <Modal v-model="showTransferModal" class-name="change-pwd-model" :closable="false">
             <crd potColor="#4399e9">
               <span slot="title">{{ $t('userCenter.asset.transfer.title') }}</span>
               <div class="form-box">
@@ -35,14 +32,18 @@
                     <Select v-model="trabsferModal.from" @on-change="handleSelectFromChange">
                       <Option v-for="(item, index) in fromList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
-                    <span class="available-amount">{{ $t('userCenter.asset.transfer.balance') }} : <i v-show="(trabsferModal.from === 'master')">{{master}}</i><i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
+                    <span class="available-amount">{{ $t('userCenter.asset.transfer.balance') }} :
+                      <i v-show="(trabsferModal.from === 'master')">{{master}}</i>
+                      <i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
                   </FormItem>
 
                   <FormItem :label="$t('userCenter.asset.transfer.to')" prop="to" class="available-box">
                     <Select v-model="trabsferModal.to" @on-change="handleSelectToChange">
                       <Option v-for="(item, index) in toList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
-                    <span class="available-amount">{{ $t('userCenter.asset.transfer.balance') }} : <i v-show="(trabsferModal.to === 'master')">{{master}}</i><i v-show="(trabsferModal.to === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
+                    <span class="available-amount">{{ $t('userCenter.asset.transfer.balance') }} :
+                      <i v-show="(trabsferModal.to === 'master')">{{master}}</i>
+                      <i v-show="(trabsferModal.to === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
                   </FormItem>
 
                   <FormItem :label="$t('userCenter.asset.transfer.volume')" prop="amount">
@@ -68,13 +69,27 @@
 </template>
 
 <script>
-import page from "../components/page"
-import crd from "../components/crd.vue"
+import page from '../components/page'
+import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import encharge from './encharge'
 import getCash from './getCash'
 import manageAddr from './manageAddr'
+import cookie from 'js-cookie'
+// ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+//   domain: config.url.domain
+// })
+// ax.defaults.headers.common['X-EXCHAIN-PN'] = cookie.get('PN', {
+//   domain: config.url.domain
+// })
+var header = {
+  headers: {
+    'X-EXCHAIN-PN': cookie.get('PN', {
+      domain: config.url.domain
+    })
+  }
+}
 import util from '../../libs/util.js'
 import { setInterval } from 'timers';
 export default {
@@ -86,7 +101,7 @@ export default {
     getCash,
     manageAddr
   },
-  data () {
+  data() {
     return {
       pageHeight: 0,
       showExType: '',
@@ -123,7 +138,7 @@ export default {
               // 判断精度
               var decimal = this.tokenObj[this.trabsferModal.token].decimal
               console.log('decimal' + decimal)
-              var reg = RegExp('^[0-9]{0,8}(\.[0-9]{0,' + decimal + '})?$')
+              var reg = RegExp('^[0-9]{0,8}(.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
                 callback(this.$t('errorMsg.DECIMAL_LIMIT') + decimal + this.$t('errorMsg.DECIMAL_UNIT'))
               }
@@ -141,7 +156,8 @@ export default {
                 }
               }
               callback()
-            }, trigger: 'change, blur'
+            },
+            trigger: 'change, blur'
           }
         ]
       },
@@ -169,113 +185,140 @@ export default {
           minWidth: 250,
           render: (h, params) => {
             return h('div', [
-              h('span', {
-                style: {
-                  color: this.assetListData[params.index].showCharge ? '#419cf6' : '',
-                  cursor: 'pointer',
-                  marginRight: '30px',
-                  display: params.row.recharge ? 'inline' : 'none'
-                },
-                on: {
-                  click: () => {
-                    this.showColor = 'encharge'
-                    this.handleOpera(params.index, params.row, 'encharge')
-                  }
-                }
-              }, [
-                h('i', this.$t('userCenter.asset.transfer.deposit')),
-                h('Icon', {
-                  props: {
-                    type: 'arrow-down-b'
-                  },
+              h(
+                'span',
+                {
                   style: {
-                    marginLeft: '4px'
-                  }
-                })
-              ]),
-              h('span', {
-                style: {
-                  cursor: 'pointer',
-                  marginRight: '30px',
-                  color: this.assetListData[params.index].showCash ? '#419cf6' : '',
-                  display: params.row.withdraw ? 'inline' : 'none'
-                },
-                on: {
-                  click: () => {
-                    this.showColor = 'getCash'
-                    this.handleOpera(params.index, params.row, 'getCash')
-                  }
-                }
-              }, [
-                h('i', this.$t('userCenter.asset.transfer.withdraw')),
-                h('Icon', {
-                  props: {
-                    type: 'arrow-down-b'
+                    color: this.assetListData[params.index].showCharge
+                      ? '#419cf6'
+                      : '',
+                    cursor: 'pointer',
+                    marginRight: '30px',
+                    display: params.row.recharge ? 'inline' : 'none'
                   },
+                  on: {
+                    click: () => {
+                      this.showColor = 'encharge'
+                      this.handleOpera(params.index, params.row, 'encharge')
+                    }
+                  }
+                },
+                [
+                  h('i', this.$t('userCenter.asset.transfer.deposit')),
+                  h('Icon', {
+                    props: {
+                      type: 'arrow-down-b'
+                    },
+                    style: {
+                      marginLeft: '4px'
+                    }
+                  })
+                ]
+              ),
+              h(
+                'span',
+                {
                   style: {
-                    marginLeft: '4px'
+                    cursor: 'pointer',
+                    marginRight: '30px',
+                    color: this.assetListData[params.index].showCash
+                      ? '#419cf6'
+                      : '',
+                    display: params.row.withdraw ? 'inline' : 'none'
+                  },
+                  on: {
+                    click: () => {
+                      this.showColor = 'getCash'
+                      this.handleOpera(params.index, params.row, 'getCash')
+                    }
                   }
-                })
-              ]),
-              h('span', {
-                style: {
-                  cursor: 'pointer',
-                  marginRight: '30px'
                 },
-                on: {
-                  click: () => {
-                    this.handleTransferShow(params.row.token, params.row.account_available, params.row.exchange_available)
+                [
+                  h('i', this.$t('userCenter.asset.transfer.withdraw')),
+                  h('Icon', {
+                    props: {
+                      type: 'arrow-down-b'
+                    },
+                    style: {
+                      marginLeft: '4px'
+                    }
+                  })
+                ]
+              ),
+              h(
+                'span',
+                {
+                  style: {
+                    cursor: 'pointer',
+                    marginRight: '30px'
+                  },
+                  on: {
+                    click: () => {
+                      this.handleTransferShow(
+                        params.row.token,
+                        params.row.account_available,
+                        params.row.exchange_available
+                      )
+                    }
                   }
-                }
-              }, this.$t('userCenter.asset.transfer.transfer')),
-              h('span', {
-                style: {
-                  cursor: 'pointer',
-                  marginRight: '30px',
-                  display: params.row.trade ? 'inline' : 'none'
                 },
-                on: {
-                  click: () => {
+                this.$t('userCenter.asset.transfer.transfer')
+              ),
+              h(
+                'span',
+                {
+                  style: {
+                    cursor: 'pointer',
+                    marginRight: '30px',
+                    display: params.row.trade ? 'inline' : 'none'
+                  },
+                  on: {
+                    click: () => {}
                   }
-                }
-              }, this.$t('userCenter.asset.transfer.trade'))
-            ]);
+                },
+                this.$t('userCenter.asset.transfer.trade')
+              )
+            ])
           }
         },
         {
           type: 'expand',
           width: 50,
           render: (h, params) => {
-            return h('div', {
-              style: {
-                width: '100%',
-                padding: '20px',
-                backgroundColor: 'rgb(247, 247, 247)' 
-              }
-            }, [
-              h(encharge, {
-                props: {
-                  showCharge: this.showCharge,
-                  token: this.enchargeToken
+            return h(
+              'div',
+              {
+                style: {
+                  width: '100%',
+                  padding: '20px',
+                  backgroundColor: 'rgb(247, 247, 247)'
                 }
-              }),
-              h(getCash, {
-                props: {
-                  showCharge: this.showCharge,
-                  fee: this.tokenFee,
-                  token: this.enchargeToken,
-                  params: params.row,
-                  getTokenObj: this.tokenObj
-                },
-                on: {
-                  submitGetCash: () => {
-                    this.getMyAsset()
+              },
+              [
+                h(encharge, {
+                  props: {
+                    showCharge: this.showCharge,
+                    token: this.enchargeToken
                   }
-                }
-              })
-            ])
+                }),
+                h(getCash, {
+                  props: {
+                    showCharge: this.showCharge,
+                    fee: this.tokenFee,
+                    token: this.enchargeToken,
+                    params: params.row,
+                    getTokenObj: this.tokenObj
+                  },
+                  on: {
+                    submitGetCash: () => {
+                      this.getMyAsset()
+                    }
+                  }
+                })
+              ]
+            )
           }
-        },  
+        }
       ],
       assetListData: [],
       transferTokenList: [
@@ -316,7 +359,7 @@ export default {
     }
   },
   watch: {
-    tokenObj () {
+    tokenObj() {
       for (var key in this.tokenObj) {
         for (var i = 0; i < this.assetListData.length; i++) {
           if (this.assetListData[i].token === key) {
@@ -324,7 +367,7 @@ export default {
             this.assetListData[i].recharge = key.recharge
             this.assetListData[i].withdraw = key.withdraw
             this.assetListData[i].decimal = key.decimal
-            this.$set( this.assetListData, i, this.assetListData[i])
+            this.$set(this.assetListData, i, this.assetListData[i])
             break
           }
         }
@@ -332,22 +375,19 @@ export default {
     }
   },
   methods: {
-    /**
-     * 获取资产估值
-     */
-    getBalance () {
-      ax.get('/api/account/balanceQuery?types=BTC,CNY', {withcredentials: true}, {
-        headers: {
-          "pn": sessionStorage.pn
-        }
-      })
-        .then((res) => {
+    getBalance() {
+      ax
+        .get(
+          config.url.user + '/api/account/balanceQuery?types=BTC,CNY',
+          header
+        )
+        .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             this.BTCBalance = res.data.result.BTC.available
             this.CNYBalance = res.data.result.CNY.available
           }
         })
-        .catch((err) => {})
+        .catch(err => {})
     },
     /**
      * 屏幕
@@ -358,14 +398,10 @@ export default {
     /**
      * 获取我的资产列表
      */
-    getMyAsset () {
+    getMyAsset() {
       var vu = this
       this.assetListData = []
-      ax.get('/api/account/assetsList', {
-        headers: {
-          "pn": sessionStorage.PN
-        }
-      }).then(res => {
+      ax.get(config.url.user + '/api/account/assetsList', header).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           var obj = {}
           var result = res.data.result
@@ -392,8 +428,9 @@ export default {
      */
     getTokenObj () {
       var vu = this
-      ax.get('/api/quotation/getSymbolLists')
-        .then((res) => {
+      ax
+        .get(config.url.user + '/api/quotation/getSymbolLists')
+        .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
             vu.tokenObj = JSON.parse(JSON.stringify(result))
@@ -406,7 +443,7 @@ export default {
             })
           }
         })
-        .catch((err) => {
+        .catch(err => {
           //
         })
     },
@@ -460,18 +497,26 @@ export default {
     /**
      * 划转
      */
-    handleTransfer (form) {
+    handleTransfer(form) {
       if (this.transferLoading) {
         return
       }
-      this.$refs[form].validate((valid) => {
+      this.$refs[form].validate(valid => {
         if (valid) {
           var vu = this
           this.transferLoading = true
           if (this.trabsferModal.to === 'trade') {
             // 转到交易账户
-            ax.get('/api/account/toExchange?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
-              .then((res) => {
+            ax
+              .get(
+                config.url.user +
+                  '/api/account/toExchange?type=' +
+                  this.trabsferModal.token +
+                  '&balance=' +
+                  this.trabsferModal.amount,
+                header
+              )
+              .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {
                   this.getMyAsset()
                   // 可优化为只改变需要改变的数据
@@ -490,8 +535,16 @@ export default {
               })
           } else if (this.trabsferModal.to === 'master') {
             // 转到主账户
-            ax.get('/api/exchange/toAccount?type=' + this.trabsferModal.token + '&balance=' + this.trabsferModal.amount)
-              .then((res) => {
+            ax
+              .get(
+                config.url.user +
+                  '/api/exchange/toAccount?type=' +
+                  this.trabsferModal.token +
+                  '&balance=' +
+                  this.trabsferModal.amount,
+                header
+              )
+              .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {
                   this.getMyAsset()
                   this.$refs[form].resetFields()
@@ -508,7 +561,8 @@ export default {
                 this.transferLoading = false
               })
           }
-        } else {}
+        } else {
+        }
       })
     },
     /**
@@ -534,19 +588,19 @@ export default {
       }
     }
   },
-  mounted () {
-    // function subQuo (pair) {
-    //   ws.postData({
-    //     event: 'sub',
-    //     channel: 'huobi.market.' + pair + '.kline.1min'
-    //   })
-    // }
-    // subQuo('btcusdt')
-    // bus.$on('wsUpdate', data => {
-    //   console.log(data)
-    // })
+  mounted() {
+    function subQuo(pair) {
+      ws.postData({
+        event: 'sub',
+        channel: 'huobi.market.' + pair + '.kline.1min'
+      })
+    }
+    subQuo('btcusdt')
+    bus.$on('wsUpdate', data => {
+      console.log(data)
+    })
   },
-  created () {
+  created() {
     this.getTokenObj()
     this.getBalance()
     this.getMyAsset()
@@ -565,94 +619,94 @@ export default {
 </script>
 
 <style lang="less">
-  @import url(../style/config.less);
-  .asset-cont {
-    padding: 40px 0;
-    font-size: 14px;
-    .crd {
-      margin-bottom: 0;
-      .ivu-card {
-        &:hover {
-          transform: none;
-          box-shadow: none;
-        }
-      }
-      .card-main {
-        padding: 55px 60px 0;
-        .asset-amount {
-          padding-bottom: 45px;
-          line-height: 1.5;
-          border-bottom: 1px solid #e9eaec;
-          .asset-amount-title {
-            padding-right: 120px;
-          }
-          .total-amount {
-            font-size: 24px;
-            line-height: 24px;
-            color: #4b96e6;
-          }
-        }
-        .opera-box {
-          width: 100%;
-          margin-top: 16px;
-          .opera-box-btn {
-            display: inline-block;
-            min-width: 160px;
-            height: 40px;
-            line-height: 40px;
-            padding: 0 10px;
-            text-align: center;
-            color: #fff;
-            background-color: @font-color-blue;
-            cursor: pointer;
-          }
-        }
+@import url(../style/config.less);
+.asset-cont {
+  padding: 40px 0;
+  font-size: 14px;
+  .crd {
+    margin-bottom: 0;
+    .ivu-card {
+      &:hover {
+        transform: none;
+        box-shadow: none;
       }
     }
-    .ivu-table-wrapper {
-      border: none;
-      padding-top: 55px;
-      padding-bottom: 25px;
-      .ivu-table::after {
-        width: 0;
+    .card-main {
+      padding: 55px 60px 0;
+      .asset-amount {
+        padding-bottom: 45px;
+        line-height: 1.5;
+        border-bottom: 1px solid #e9eaec;
+        .asset-amount-title {
+          padding-right: 120px;
+        }
+        .total-amount {
+          font-size: 24px;
+          line-height: 24px;
+          color: #4b96e6;
+        }
       }
-      .ivu-table::before {
-        width: 0;
-      }
-      .ivu-table tr {
-        height: 41px;
-        line-height: 41px;
-      }
-      .ivu-table th {
-        background-color: transparent;
-        border-bottom: none;
-      }
-      .ivu-table th:last-child {
-        width: 250px;
-      }
-      .ivu-table td{
-        border-bottom: none;
-      }
-      .ivu-table td:last-child {
-        width: 250px;
-      }
-      td.ivu-table-expanded-cell {
-        padding: 0;
-      }
-      .ivu-table-cell-expand {
-        display: none;
+      .opera-box {
+        width: 100%;
+        margin-top: 16px;
+        .opera-box-btn {
+          display: inline-block;
+          min-width: 160px;
+          height: 40px;
+          line-height: 40px;
+          padding: 0 10px;
+          text-align: center;
+          color: #fff;
+          background-color: @font-color-blue;
+          cursor: pointer;
+        }
       }
     }
     .ivu-spin-fix {
       background-color: rgb(247, 247, 247);
     }
   }
-  .available-box {
-    position: relative;
-      .available-amount {
-        position: absolute;
-        top: -27px;
-        right: 0;
-      }
+  .ivu-table-wrapper {
+    border: none;
+    padding-top: 55px;
+    padding-bottom: 25px;
+    .ivu-table::after {
+      width: 0;
+    }
+    .ivu-table::before {
+      width: 0;
+    }
+    .ivu-table tr {
+      height: 41px;
+      line-height: 41px;
+    }
+    .ivu-table th {
+      background-color: transparent;
+      border-bottom: none;
+    }
+    .ivu-table th:last-child {
+      width: 250px;
+    }
+    .ivu-table td {
+      border-bottom: none;
+    }
+    .ivu-table td:last-child {
+      width: 250px;
+    }
+    td.ivu-table-expanded-cell {
+      padding: 0;
+    }
+    .ivu-table-cell-expand {
+      display: none;
+    }
   }
+}
+.available-box {
+  position: relative;
+  .available-amount {
+    position: absolute;
+    top: -27px;
+    right: 0;
+  }
+}
 </style>

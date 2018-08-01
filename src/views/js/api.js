@@ -1,6 +1,7 @@
 import axios from 'axios';
 import qs from 'qs'
 import * as Constant from '@/assets/js/constant';
+import config from '../../config/config'
 
 axios.interceptors.request.use((config) => {
   debugger
@@ -10,8 +11,8 @@ axios.interceptors.request.use((config) => {
   return config;
 })
 
-const pend = "/api/v1-b";
-const pend2 = '/api';
+const pend = config.url.user + "/api/v1-b";
+const pend2 = config.url.user + '/api';
 
 //k线图
 export const getKlineHistory = ({

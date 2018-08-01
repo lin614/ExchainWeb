@@ -32,6 +32,7 @@
 <script>
 import ax from 'axios'
 import ClipboardJS from 'clipboard'
+import config from '../../config/config.js'
 export default {
   name: 'encharge',
   props: {
@@ -57,7 +58,7 @@ export default {
      */
     getAddress (token) {
       this.spinShow = true
-      ax.get('/api/account/getAddress?type=' + token)
+      ax.get(config.url.user+'/api/account/getAddress?type=' + token)
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
             this.addr = res.data.result.address

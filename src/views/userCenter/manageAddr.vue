@@ -19,7 +19,7 @@
                   <Input v-model="magAddrForm.note"></Input>
                 </FormItem>
                 <FormItem class="fr">
-                  <Button class="add-btn" @click="handleAddAddr">{{  $t('userCenter.withdrawAddress.add') }}</Button>
+                  <Button class="add-btn" @click="handleAddAddr">{{ $t('userCenter.withdrawAddress.add') }}</Button>
                 </FormItem>
               </Form>
             </div>
@@ -35,9 +35,10 @@
 </template>
 
 <script>
-import page from "../components/page"
-import crd from "../components/crd.vue"
+import page from '../components/page'
+import crd from '../components/crd.vue'
 import ax from 'axios'
+import config from '../../config/config.js'
 import util from '../../libs/util.js'
 export default {
   name: 'manageAddr',
@@ -45,7 +46,7 @@ export default {
     page,
     crd
   },
-  data () {
+  data() {
     return {
       magAddrForm: {
         tokenType: '',
@@ -71,7 +72,7 @@ export default {
           maxWidth: 150,
           filters: [],
           filterMultiple: false,
-          filterMethod (value, row) {
+          filterMethod(value, row) {
             return row.type === value
           }
         },
@@ -92,17 +93,25 @@ export default {
           title: this.$t('userCenter.withdrawAddress.opera'),
           key: 'opera',
           render: (h, params) => {
-            return h('span', {
-              style: {
-                color: '#419aec',
-                cursor: 'pointer'
-              },
-              on: {
-                click: () => {
-                  this.handleRemoveAddr(params.index, params.row.type, params.row.outer_address)
+            return h(
+              'span',
+              {
+                style: {
+                  color: '#419aec',
+                  cursor: 'pointer'
+                },
+                on: {
+                  click: () => {
+                    this.handleRemoveAddr(
+                      params.index,
+                      params.row.type,
+                      params.row.outer_address
+                    )
+                  }
                 }
-              }
-            }, this.$t('userCenter.withdrawAddress.delete'))
+              },
+              this.$t('userCenter.withdrawAddress.delete')
+            )
           }
         }
       ],
@@ -114,7 +123,7 @@ export default {
      * 获取币种支持列表
      */
     getTokenList () {
-      ax.get('/api/quotation/getSymbolLists')
+      ax.get(config.url.user + '/api/quotation/getSymbolLists')
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
@@ -123,17 +132,19 @@ export default {
               obj.value = key
               obj.label = key
               this.tokenList.push(JSON.parse(JSON.stringify(obj)))
-              this.addrListTable[0].filters.push(JSON.parse(JSON.stringify(obj)))
+              this.addrListTable[0].filters.push(
+                JSON.parse(JSON.stringify(obj))
+              )
             }
           }
         })
-        .catch((err) => {})
+        .catch(err => {})
     },
     /**
      * 查询地址列表
      */
     getWithdrawAddress () {
-      ax.post('/api/account/getWithdrawAddress', {
+      ax.post(config.url.user + '/api/account/getWithdrawAddress', {
         type: ''
       })
       .then((res) => {
@@ -148,9 +159,9 @@ export default {
      */
     handleAddAddr () {
       const vu = this
-      this.$refs.magAddrForm.validate((valid) => {
+      this.$refs.magAddrForm.validate(valid => {
         if (valid) {
-          ax.post('/api/account/addWithdrawAddress', {
+          ax.post(config.url.user + '/api/account/addWithdrawAddress', {
             type: vu.magAddrForm.tokenType,
             name: vu.magAddrForm.note,
             outer_address: vu.magAddrForm.addr
@@ -168,14 +179,14 @@ export default {
             vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
           })
         }
-      })    
+      })
     },
     /**
      * 删除地址
      */
     handleRemoveAddr (index, type, addr) {
       const vu = this
-      ax.post('/api/account/delWithdrawAddress', {
+      ax.post(config.url.user + '/api/account/delWithdrawAddress', {
         type: type,
         outerAddress: addr
       })
@@ -193,7 +204,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.getTokenList()
     this.getWithdrawAddress()
     this.addrListTable[0].filters = [...this.tokenList]
@@ -208,33 +219,33 @@ export default {
 </script>
 
 <style lang="less">
-  @import '../style/config.less';
-  .manage-addr-cont {
-    padding: 40px 0;
-    .mge-addr-main {
-      padding: 50px 60px 80px;
-      .form-box {
-        padding-bottom: 30px;
-        border-bottom: 1px solid #eee;
-        .add-btn {
-          display: inline-block;
-          min-width: 240px;
-          height: 50px;
-          line-height: 50px;
-          font-size: 18px;
-          padding: 0 10px;
-          color: #fff;
-          background-color: @font-color-blue;
-          text-align: center;
-        }
+@import '../style/config.less';
+.manage-addr-cont {
+  padding: 40px 0;
+  .mge-addr-main {
+    padding: 50px 60px 80px;
+    .form-box {
+      padding-bottom: 30px;
+      border-bottom: 1px solid #eee;
+      .add-btn {
+        display: inline-block;
+        min-width: 240px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 18px;
+        padding: 0 10px;
+        color: #fff;
+        background-color: @font-color-blue;
+        text-align: center;
       }
-      .addr-list {
-        padding-top: 40px;
-        .addr-list-title {
-          line-height: 1.5;
-          color: #000;
-        }
+    }
+    .addr-list {
+      padding-top: 40px;
+      .addr-list-title {
+        line-height: 1.5;
+        color: #000;
       }
     }
   }
+}
 </style>

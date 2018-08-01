@@ -51,6 +51,7 @@ import config from '../config/config.js'
 import cookie from 'js-cookie'
 import md5 from 'crypto-md5'
 // import bus from '../bus.js'
+
 export default {
   name: 'login',
   components: { page, block, crd },
@@ -100,12 +101,12 @@ export default {
         }
       })
     },
-    loginFn () {
+    loginFn() {
       var vu = this
       var result = this.geettest.getValidate()
       ax
         .post(
-          '/api/user/login',
+          config.url.user + '/api/user/login',
           {
             email: vu.loginInfo.email,
             password: md5(vu.loginInfo.pwd),
@@ -127,12 +128,17 @@ export default {
               mtime: res.data.result.mtime
             })
 
-            if (res.data.result.PN) {
+            if (res.data.result.pn) {
+              cookie.set('PN', res.data.result.pn, {
+                domain: config.url.domain
+              })
               cookie.set('email', vu.loginInfo.email, {
                 domain: config.url.domain
               })
-              cookie.set('uid')
-              var Pn = encodeURIComponent(res.data.result.PN)
+              cookie.set('uid', res.data.result.id, {
+                domain: config.url.domain
+              })
+              var Pn = encodeURIComponent(res.data.result.pn)
               sessionStorage.setItem('PN', Pn)
             }
 
@@ -150,30 +156,38 @@ export default {
           vu.$Message.error('登录失败')
         })
     },
-    initGeetest () {
+    initGeetest() {
       var vu = this
-      ax.post('/api/user/initCaptcha')
-        .then((res) => {
+      ax
+        .post(config.url.user + '/api/user/initCaptcha')
+        .then(res => {
           var data = res.data
           vu.gtserver = data.gtserver
-          vu.$initGeetest({
-            gt: data.gt,
-            challenge: data.challenge,
-            offline: !data.success,
-            new_captcha: true,
-            product: 'bind'
-          }, function (captchaObj) {
-            vu.geettest = captchaObj
-            captchaObj.onReady(function(){
-              vu.geetOnReady = true
-            }).onSuccess(function(){
-                vu.loginFn()
-            }).onError(function(){
-              vu.geetOnReady = false
-              vu.$Message.error('验证码初始化异常，请尝试刷新页面来进行验证码初始化')
-            })
-
-          })
+          vu.$initGeetest(
+            {
+              gt: data.gt,
+              challenge: data.challenge,
+              offline: !data.success,
+              new_captcha: true,
+              product: 'bind'
+            },
+            function(captchaObj) {
+              vu.geettest = captchaObj
+              captchaObj
+                .onReady(function() {
+                  vu.geetOnReady = true
+                })
+                .onSuccess(function() {
+                  vu.loginFn()
+                })
+                .onError(function() {
+                  vu.geetOnReady = false
+                  vu.$Message.error(
+                    '验证码初始化异常，请尝试刷新页面来进行验证码初始化'
+                  )
+                })
+            }
+          )
         })
         .catch(() => {
           console.log('网络异常')

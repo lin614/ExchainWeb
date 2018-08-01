@@ -3,7 +3,7 @@ import EventBus from './eventBus';
 import config from '../../config/config'
 
 const SOCKET_URL_WS = config.url.quote //"ws://58.87.100.210:8080";
-const SOCKET_URL_WSS = "wss://ws.stockchain.co";
+// const SOCKET_URL_WSS = "wss://ws.stockchain.co";
 // const DEFAULT_URL = "https:" === window.location.protocol? SOCKET_URL_WSS:SOCKET_URL_WS;
 const DEFAULT_URL = SOCKET_URL_WS;
 

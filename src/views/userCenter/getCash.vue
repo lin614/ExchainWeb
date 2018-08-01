@@ -39,6 +39,7 @@
 import ax from 'axios'
 import util from '../../libs/util.js'
 import NP from 'number-precision'
+import config from '../../config/config.js'
 export default {
   name: 'getCash',
   props: {
@@ -117,7 +118,7 @@ export default {
       this.$refs[form].validate((valid) => {
         if (valid) {
           this.spinShow = true
-          ax.post('/api/account/withdraw', {
+          ax.post(config.url.user+'/api/account/withdraw', {
             type: this.token,
             outer_address: this.getCashModal.destAddr,
             balance: this.getCashModal.amount

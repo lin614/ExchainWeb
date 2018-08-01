@@ -140,11 +140,11 @@ export default {
         }
       })
     },
-    resSetPwdFn () {
+    resSetPwdFn() {
       var vu = this
       var result = this.geettest.getValidate()
       ax
-        .post('/api/user/verifyResetPassword', {
+        .post(config.url.user + '/api/user/verifyResetPassword', {
           email: vu.resetInfo.email,
           code: vu.resetInfo.emailcode,
           token: vu.resettoken,
@@ -184,12 +184,9 @@ export default {
       this.$refs['resetInfo'].validateField('email', function(error) {
         if (!error) {
           ax
-            .post(
-              '/api/user/resetPassword',
-              {
-                email: vu.resetInfo.email
-              }
-            )
+            .post(config.url.user + '/api/user/resetPassword', {
+              email: vu.resetInfo.email
+            })
             .then(function(res) {
               console.log(res)
               vu.resettoken = res.data.result.token
@@ -200,10 +197,11 @@ export default {
         }
       })
     },
-    initGeetest () {
+    initGeetest() {
       var vu = this
-      ax.post('/api/user/initCaptcha')
-        .then((res) => {
+      ax
+        .post(config.url.user + '/api/user/initCaptcha')
+        .then(res => {
           var data = res.data
           vu.gtserver = data.gtserver
           vu.$initGeetest({

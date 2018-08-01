@@ -118,7 +118,7 @@ export default {
         method: 'active',
         t: new Date().getTime()
       }
-      ax.get('/api/order/lists', {params}).then(res => {
+      ax.get(config.url.user+'/api/order/lists', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           let data = res.data.result.data;
           for (let i = 0; i < data.length; i++) {
@@ -143,7 +143,7 @@ export default {
         method: 'history',
         t: new Date().getTime()
       }
-      ax.get('/api/order/lists', {params}).then(res => {
+      ax.get(config.url.user+'/api/order/lists', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           let data = res.data.result.data;
           for (let i = 0; i < data.length; i++) {
@@ -206,15 +206,14 @@ export default {
         order_id: row.order_id,
         market: row.market
       }
-      ax.get('/api/exchange/orderCancel', {params})
-        .then(res => {
-          if (res.status == '200' && res.data.errorCode == 0) {
-            this.getCurData();
-            this.$Message.success(this.$t('errorMsg.SUCCESS'))
-          } else {
-            this.$Modal.error({ content: res.data.errorMsg });
-          }
-        });
+      ax.get(config.url.user+'/api/exchange/orderCancel', {params}).then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          this.getCurData();
+          this.$Message.success('撤单成功!')
+        } else {
+          this.$Modal.error({ content: res.data.errorMsg });
+        }
+      });
     }
   },
   mounted () {
