@@ -50,6 +50,16 @@ global.getHeader = (() => {
         }
     }
 })()
+
+//生成参数字符串
+global.toParmStr = obj => {
+    // var list = obj.map(p => p.key + '=' + p.value)
+    var list = []
+    for (var k in obj) {
+        list.push(k + '=' + obj[k])
+    }
+    return list.join('&')
+}
 ax.defaults.headers.post['Content-Type'] = "application/json"
 // ax.defaults.headers.post['referer'] = config.url.domain
 // ax.defaults.headers.post['origin'] = config.url.domain
