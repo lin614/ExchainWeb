@@ -396,13 +396,8 @@ export default {
     getBalance() {
       ax
         .get(
-<<<<<<< HEAD
           config.url.user + '/api/account/balanceQuery?types=BTC',
-          header
-=======
-          config.url.user + '/api/account/balanceQuery?types=BTC,CNY',
           getHeader
->>>>>>> fcdb1518c17e138a5da5bbaefc8b643092236c0b
         )
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
@@ -651,18 +646,9 @@ export default {
       vu
     )
     bus.$on('langChange', () => {
-<<<<<<< HEAD
       // vu.activeLang = e.value.lang
       // console.log(e)
       util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
-=======
-      util.toggleTableHeaderLang(
-        vu.assetListTable,
-        3,
-        'userCenter.asset.transfer.',
-        vu
-      )
->>>>>>> fcdb1518c17e138a5da5bbaefc8b643092236c0b
     })
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)

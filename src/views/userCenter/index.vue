@@ -290,7 +290,7 @@ export default {
         .then(res => {
           if (res.status === 200 && res.data.errorCode === 0) {
             sessionStorage.setItem('idCardStatus', res.data.result.idCardStatus)
-            vu.idCardStatus = res.data.result.idCardStatus
+            vu.idCardStatus = res.data.result.idCardStatus + ''
             if (res.data.result.phone) {
               vu.bind = true
               sessionStorage.setItem('bindPhone', 'bind')

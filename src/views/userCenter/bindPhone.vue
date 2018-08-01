@@ -282,7 +282,10 @@ export default {
       var vu = this
       ax.post(config.url.user+'/api/user/getPhoneSupportList')
         .then((res) => {
-          if (res.status === 200 && res.data.errorCode === 0) {
+          res.status && (res.status += '')
+          console.log(res)
+          if (res.status === '200' && res.data.errorCode === 0) {
+            console.log(123123123)
             console.log(res.data.result)
             var result = res.data.result
             var obj = {}
