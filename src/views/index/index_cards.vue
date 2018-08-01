@@ -55,21 +55,21 @@ export default {
   },
   created() {
     //当日交易额
-    ax.get(config.url.fee + '/api/exet/stats/dengesAmount').then(res => {
+    ax.get(config.url.fee + '/api/exet/stats/dengesAmount',getHeader).then(res => {
       if (res.status == 200 && res.data.meta.code == '0') {
         // console.log(res)
         this.valume = res.data.data.dengesAmount
       }
     })
     //ET总市值
-    ax.get(config.url.fee + '/api/exet/stats/etStandardCirculate').then(res => {
+    ax.get(config.url.fee + '/api/exet/stats/etStandardCirculate',getHeader).then(res => {
       if (res.status == 200 && res.data.meta.code == '0') {
         // console.log(res)
         this.etvalue = res.data.data.etCirculate
       }
     })
     //et总流通量
-    ax.get(config.url.fee + '/api/exet/stats/etCirculate').then(res => {
+    ax.get(config.url.fee + '/api/exet/stats/etCirculate',getHeader).then(res => {
       if (res.status == 200 && res.data.meta.code == '0') {
         // console.log(res)
         this.etnum = res.data.data.etCirculate

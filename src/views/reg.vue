@@ -137,20 +137,21 @@ export default {
           if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
-            vu.$Message.error(this.$t('errorMsg.GEET_LOAD_ERR_TIP'))
+            vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
         } else {
-          vu.$Message.error(this.$t('errorMsg.CHECK_FAIL'))
+          vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
         }
       })
     },
-    regUserFn () {
+    regUserFn() {
       var vu = this
       var result = this.geettest.getValidate()
       ax
-        .post(config.url.user+'/api/user/verifyRegister', {
+        .post(config.url.user + '/api/user/verifyRegister', {
           email: vu.regInfo.email,
           code: vu.regInfo.emailcode,
+          inviteCode: vu.regInfo.code,
           token: vu.regtoken,
           password: md5(vu.regInfo.pwd),
           geetest_challenge: result.geetest_challenge,
@@ -161,7 +162,7 @@ export default {
         .then(function(res) {
           console.log(res)
           if (res.status == '200' && res.data.errorCode == 0) {
-            vu.$Message.success(this.$t('errorMsg.REGISTER_SUCC'))
+            vu.$Message.success(vu.$t('errorMsg.REGISTER_SUCC'))
             vu.$router.push('/login')
             // vu.$Modal.success({
             //   content: '用户注册成功！',
@@ -171,15 +172,15 @@ export default {
             // })
           } else if (res.data.errorCode == 2) {
             vu.geettest.reset()
-            vu.$Message.error(this.$t('errorMsg.REGISTER_IPT_ERR'))
+            vu.$Message.error(vu.$t('errorMsg.REGISTER_IPT_ERR'))
           } else {
             vu.geettest.reset()
-            vu.$Message.error(this.$t('errorMsg.FAIL'))
+            vu.$Message.error(vu.$t('errorMsg.FAIL'))
           }
         })
         .catch(() => {
           vu.geettest.reset()
-          vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
     },
     sendemail() {
@@ -191,56 +192,62 @@ export default {
         if (!error) {
           vu.sendCodeLoading = true
           ax
-            .post(config.url.user+'/api/user/register', {
+            .post(config.url.user + '/api/user/register', {
               email: vu.regInfo.email
             })
             .then(function(res) {
               vu.sendCodeLoading = false
               if (res.status == '200' && res.data.errorCode == 0) {
                 vu.regtoken = res.data.result.token
-                vu.$Message.success(this.$t('errorMsg.EMAIL_SEND_SUCC'))
+                vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
               } else if (res.data.errorCode == 200) {
-                vu.$Message.error(this.$t('errorMsg.USER_EXISTED'))
+                vu.$Message.error(vu.$t('errorMsg.USER_EXISTED'))
               } else if (res.data.errorCode == 707) {
-                vu.$Message.error(this.$t('errorMsg.REQ_LIMIT'))
+                vu.$Message.error(vu.$t('errorMsg.REQ_LIMIT'))
               } else {
-                vu.$Message.error(this.$t('errorMsg.FAIL'))
+                vu.$Message.error(vu.$t('errorMsg.FAIL'))
               }
             })
             .catch(() => {
               vu.sendCodeLoading = false
-              vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
             })
         } else {
           vu.$Message.error(error)
         }
       })
     },
-    initGeetest () {
+    initGeetest() {
       var vu = this
-      ax.post(config.url.user+'/api/user/initCaptcha')
-        .then((res) => {
+      ax
+        .post(config.url.user + '/api/user/initCaptcha')
+        .then(res => {
           var data = res.data
           vu.gtserver = data.gtserver
-          vu.$initGeetest({
-            gt: data.gt,
-            challenge: data.challenge,
-            offline: !data.success,
-            new_captcha: true,
-            product: 'bind'
-          }, function (captchaObj) {
-            vu.geettest = captchaObj
-            captchaObj.onReady(function(){
-              console.log('onready')
-              vu.geetOnReady = true
-            }).onSuccess(function(){
-                vu.regUserFn()
-            }).onError(function(){
-              vu.geetOnReady = false
-              vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
-            })
-
-          })
+          vu.$initGeetest(
+            {
+              gt: data.gt,
+              challenge: data.challenge,
+              offline: !data.success,
+              new_captcha: true,
+              product: 'bind'
+            },
+            function(captchaObj) {
+              vu.geettest = captchaObj
+              captchaObj
+                .onReady(function() {
+                  console.log('onready')
+                  vu.geetOnReady = true
+                })
+                .onSuccess(function() {
+                  vu.regUserFn()
+                })
+                .onError(function() {
+                  vu.geetOnReady = false
+                  vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
+                })
+            }
+          )
         })
         .catch(() => {
           console.log('network error')

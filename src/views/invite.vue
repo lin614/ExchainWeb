@@ -99,7 +99,7 @@ export default {
         }
       })
     ax
-      .get(config.url.fee + '/api/exet/stats/userBouns?userId=' + config.userid)
+      .get(config.url.fee + '/api/exet/stats/userBouns?userId=' + config.userid,getHeader)
       .then(res => {
         console.log(res)
         if (res.status == '200' && res.data.meta.code == '0') {

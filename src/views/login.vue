@@ -129,6 +129,7 @@ export default {
             })
 
             if (res.data.result.pn) {
+              ax.defaults.headers.post['X-EXCHAIN-PN'] = res.data.result.pn
               cookie.set('PN', res.data.result.pn, {
                 domain: config.url.domain
               })
@@ -182,9 +183,7 @@ export default {
                 })
                 .onError(function() {
                   vu.geetOnReady = false
-                  vu.$Message.error(
-                    vu.$t('errorMsg.GEET_INIT_ERR')
-                  )
+                  vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
                 })
             }
           )

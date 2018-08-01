@@ -155,6 +155,9 @@ import config from '../../config/config.js'
 import md5 from 'crypto-md5'
 import util from '../../libs/util.js'
 import cookie from 'js-cookie'
+ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+  domain: config.url.domain
+})
 export default {
   name: 'usercenter',
   components: {
@@ -348,7 +351,7 @@ export default {
     getRecentActivity() {
       var vu = this
       ax
-        .get(config.url.user + '/api/user/getRecentActivity')
+        .get(config.url.user + '/api/user/getRecentActivity', getHeader)
         .then(res => {
           console.log(typeof res.status)
           if (res.status === 200 && res.data.errorCode === 0) {

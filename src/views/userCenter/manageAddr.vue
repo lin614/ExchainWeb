@@ -12,10 +12,10 @@
                     <Option v-for="(item, index) in tokenList" :value="item.value" :key="index">{{ item.label }}</Option>
                   </Select>
                 </FormItem>
-                <FormItem  :label="$t('userCenter.withdrawAddress.outer_address')" prop="addr" style="width: 420px;">
+                <FormItem :label="$t('userCenter.withdrawAddress.outer_address')" prop="addr" style="width: 420px;">
                   <Input v-model="magAddrForm.addr"></Input>
                 </FormItem>
-                <FormItem  :label="$t('userCenter.withdrawAddress.name')" prop="note" style="width: 420px;">
+                <FormItem :label="$t('userCenter.withdrawAddress.name')" prop="note" style="width: 420px;">
                   <Input v-model="magAddrForm.note"></Input>
                 </FormItem>
                 <FormItem class="fr">
@@ -56,13 +56,25 @@ export default {
       tokenList: [],
       magAddrRules: {
         tokenType: [
-          { required: true, message: this.$t('errorMsg.TOKEN_UNSELECT'), trigger: 'change' }
+          {
+            required: true,
+            message: this.$t('errorMsg.TOKEN_UNSELECT'),
+            trigger: 'change'
+          }
         ],
         addr: [
-          { required: true, message: this.$t('errorMsg.ADDR_BLANK'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('errorMsg.ADDR_BLANK'),
+            trigger: 'blur'
+          }
         ],
         note: [
-          { required: true, message: this.$t('errorMsg.NOTE_BLANK'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('errorMsg.NOTE_BLANK'),
+            trigger: 'blur'
+          }
         ]
       },
       addrListTable: [
@@ -122,10 +134,11 @@ export default {
     /**
      * 获取币种支持列表
      */
-    getTokenList () {
+    getTokenList() {
       var vu = this
-      ax.get(config.url.user + '/api/quotation/getSymbolLists')
-        .then((res) => {
+      ax
+        .get(config.url.user + '/api/quotation/getSymbolLists', getHeader)
+        .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
             var obj = {}
@@ -133,9 +146,7 @@ export default {
               obj.value = key
               obj.label = key
               vu.tokenList.push(JSON.parse(JSON.stringify(obj)))
-              vu.addrListTable[0].filters.push(
-                JSON.parse(JSON.stringify(obj))
-              )
+              vu.addrListTable[0].filters.push(JSON.parse(JSON.stringify(obj)))
             }
           }
         })
@@ -144,66 +155,69 @@ export default {
     /**
      * 查询地址列表
      */
-    getWithdrawAddress () {
+    getWithdrawAddress() {
       var vu = this
-      ax.post(config.url.user + '/api/account/getWithdrawAddress', {
-        type: ''
-      })
-      .then((res) => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          vu.addrListData = [...res.data.result.data]
-        }
-      })
-      .catch(() => {})
+      ax
+        .post(config.url.user + '/api/account/getWithdrawAddress', {
+          type: ''
+        })
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            vu.addrListData = [...res.data.result.data]
+          }
+        })
+        .catch(() => {})
     },
     /**
      * 添加地址
      */
-    handleAddAddr () {
+    handleAddAddr() {
       const vu = this
       this.$refs.magAddrForm.validate(valid => {
         if (valid) {
-          ax.post(config.url.user + '/api/account/addWithdrawAddress', {
-            type: vu.magAddrForm.tokenType,
-            name: vu.magAddrForm.note,
-            outer_address: vu.magAddrForm.addr
-          })
-          .then((res) => {
-            if (res.status == '200' && res.data.errorCode == 0) {
-              vu.getWithdrawAddress()
-              vu.$refs.magAddrForm.resetFields()
-              vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
-            } else {
-              vu.$Message.error(vu.$t('errorMsg.FAIL'))
-            }
-          })
-          .catch((err) => {
-            vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
-          })
+          ax
+            .post(config.url.user + '/api/account/addWithdrawAddress', {
+              type: vu.magAddrForm.tokenType,
+              name: vu.magAddrForm.note,
+              outer_address: vu.magAddrForm.addr
+            })
+            .then(res => {
+              if (res.status == '200' && res.data.errorCode == 0) {
+                vu.getWithdrawAddress()
+                vu.$refs.magAddrForm.resetFields()
+                vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
+              } else {
+                vu.$Message.error(vu.$t('errorMsg.FAIL'))
+              }
+            })
+            .catch(err => {
+              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+            })
         }
       })
     },
     /**
      * 删除地址
      */
-    handleRemoveAddr (index, type, addr) {
+    handleRemoveAddr(index, type, addr) {
       const vu = this
-      ax.post(config.url.user + '/api/account/delWithdrawAddress', {
-        type: type,
-        outerAddress: addr
-      })
-      .then((res) => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          vu.addrListData.splice(index, 1)
-          vu.getWithdrawAddress()
-          vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
-        } else {
-          vu.$Message.error(vu.$t('errorMsg.FAIL'))
-        }
-      })
-      .catch((err) => {
-        vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
-      })
+      ax
+        .post(config.url.user + '/api/account/delWithdrawAddress', {
+          type: type,
+          outerAddress: addr
+        })
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            vu.addrListData.splice(index, 1)
+            vu.getWithdrawAddress()
+            vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
+          } else {
+            vu.$Message.error(vu.$t('errorMsg.FAIL'))
+          }
+        })
+        .catch(err => {
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+        })
     }
   },
   mounted() {
@@ -211,10 +225,20 @@ export default {
     this.getWithdrawAddress()
     this.addrListTable[0].filters = [...this.tokenList]
     var vu = this
-    util.toggleTableHeaderLang(vu.addrListTable, 3, 'userCenter.withdrawAddress.', vu)
+    util.toggleTableHeaderLang(
+      vu.addrListTable,
+      3,
+      'userCenter.withdrawAddress.',
+      vu
+    )
     bus.$on('langChange', () => {
       vu.$refs.magAddrForm.resetFields()
-      util.toggleTableHeaderLang(vu.addrListTable, 3, 'userCenter.withdrawAddress.', vu)
+      util.toggleTableHeaderLang(
+        vu.addrListTable,
+        3,
+        'userCenter.withdrawAddress.',
+        vu
+      )
     })
   }
 }

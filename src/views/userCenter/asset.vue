@@ -84,15 +84,9 @@ import NP from 'number-precision'
 // ax.defaults.headers.common['X-EXCHAIN-PN'] = cookie.get('PN', {
 //   domain: config.url.domain
 // })
-var header = {
-  headers: {
-    'X-EXCHAIN-PN': cookie.get('PN', {
-      domain: config.url.domain
-    })
-  }
-}
+
 import util from '../../libs/util.js'
-import { setInterval } from 'timers';
+import { setInterval } from 'timers'
 export default {
   name: 'asset',
   components: {
@@ -126,14 +120,26 @@ export default {
       },
       transRules: {
         from: [
-          { required: true, message: this.$t('errorMsg.FROM_ADDR_BLANK'), trigger: 'change' }
+          {
+            required: true,
+            message: this.$t('errorMsg.FROM_ADDR_BLANK'),
+            trigger: 'change'
+          }
         ],
         to: [
-          { required: true, message: this.$t('errorMsg.TO_ADDR_BLANK'), trigger: 'change' }
+          {
+            required: true,
+            message: this.$t('errorMsg.TO_ADDR_BLANK'),
+            trigger: 'change'
+          }
         ],
         amount: [
-          { required: true, message: this.$t('errorMsg.AMOUNT_BLANK'), trigger: 'blur' },
-          { 
+          {
+            required: true,
+            message: this.$t('errorMsg.AMOUNT_BLANK'),
+            trigger: 'blur'
+          },
+          {
             validator: (rule, value, callback) => {
               if (value === '' || value === 0 || value === '0') {
                 callback(this.$t('errorMsg.AMOUNT_BLANK'))
@@ -143,7 +149,11 @@ export default {
               console.log('decimal' + decimal)
               var reg = RegExp('^[0-9]{0,8}(.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
-                callback(this.$t('errorMsg.DECIMAL_LIMIT') + decimal + this.$t('errorMsg.DECIMAL_UNIT'))
+                callback(
+                  this.$t('errorMsg.DECIMAL_LIMIT') +
+                    decimal +
+                    this.$t('errorMsg.DECIMAL_UNIT')
+                )
               }
               if (this.trabsferModal.from === 'master') {
                 if (parseFloat(value) > parseFloat(this.master)) {
@@ -386,8 +396,13 @@ export default {
     getBalance() {
       ax
         .get(
+<<<<<<< HEAD
           config.url.user + '/api/account/balanceQuery?types=BTC',
           header
+=======
+          config.url.user + '/api/account/balanceQuery?types=BTC,CNY',
+          getHeader
+>>>>>>> fcdb1518c17e138a5da5bbaefc8b643092236c0b
         )
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
@@ -400,7 +415,7 @@ export default {
     /**
      * 屏幕
      */
-    handleWindowResize () {
+    handleWindowResize() {
       this.pageHeight = window.innerHeight - 360
     },
     /**
@@ -409,35 +424,37 @@ export default {
     getMyAsset() {
       var vu = this
       this.assetListData = []
-      ax.get(config.url.user + '/api/account/assetsList', header).then(res => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          var obj = {}
-          var result = res.data.result
-          for (var key in result) {
-            obj.token = key
-            obj.account_available = result[key].account_available
-            obj.withdraw_fee = result[key].withdraw_fee
-            obj.exchange_available = result[key].exchange_available
-            obj.exchange_freeze = result[key].exchange_freeze
-            obj._expanded = false
-            obj.trade = vu.tokenObj[key].trade
-            obj.recharge = vu.tokenObj[key].recharge
-            obj.withdraw = vu.tokenObj[key].withdraw
-            obj.decimal = vu.tokenObj[key].decimal
-            obj.recharge_min = vu.tokenObj[key].recharge_min
-            obj.withdraw_min = vu.tokenObj[key].withdraw_min
-            vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
+      ax
+        .get(config.url.user + '/api/account/assetsList', getHeader)
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            var obj = {}
+            var result = res.data.result
+            for (var key in result) {
+              obj.token = key
+              obj.account_available = result[key].account_available
+              obj.withdraw_fee = result[key].withdraw_fee
+              obj.exchange_available = result[key].exchange_available
+              obj.exchange_freeze = result[key].exchange_freeze
+              obj._expanded = false
+              obj.trade = vu.tokenObj[key].trade
+              obj.recharge = vu.tokenObj[key].recharge
+              obj.withdraw = vu.tokenObj[key].withdraw
+              obj.decimal = vu.tokenObj[key].decimal
+              obj.recharge_min = vu.tokenObj[key].recharge_min
+              obj.withdraw_min = vu.tokenObj[key].withdraw_min
+              vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
+            }
           }
-        }
-      })
+        })
     },
     /**
      * 获取所有币种的属性
      */
-    getTokenObj () {
+    getTokenObj() {
       var vu = this
       ax
-        .get(config.url.user + '/api/quotation/getSymbolLists')
+        .get(config.url.user + '/api/quotation/getSymbolLists', getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
@@ -458,7 +475,7 @@ export default {
     /**
      * 充值和提现点击操作
      */
-    handleOpera (index, params, exType) {
+    handleOpera(index, params, exType) {
       this.assetListData.forEach((value, index) => {
         value._expanded = false
         value.showCharge = false
@@ -489,7 +506,7 @@ export default {
     /**
      * 划转模态框的显示
      */
-    handleTransferShow (token, master, trade) {
+    handleTransferShow(token, master, trade) {
       this.master = master
       this.trade = trade
       this.showTransferModal = true
@@ -498,7 +515,7 @@ export default {
     /**
      * 关闭划转模态框
      */
-    handleCloseTransfer (form) {
+    handleCloseTransfer(form) {
       this.$refs[form].resetFields()
       this.showTransferModal = false
     },
@@ -522,7 +539,7 @@ export default {
                   vu.trabsferModal.token +
                   '&balance=' +
                   vu.trabsferModal.amount,
-                header
+                getHeader
               )
               .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {
@@ -537,7 +554,7 @@ export default {
                   vu.$Message.error(vu.$t('errorMsg.FAIL'))
                 }
               })
-              .catch((err) => {
+              .catch(err => {
                 vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
                 vu.transferLoading = false
               })
@@ -550,7 +567,7 @@ export default {
                   vu.trabsferModal.token +
                   '&balance=' +
                   vu.trabsferModal.amount,
-                header
+                getHeader
               )
               .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {
@@ -564,7 +581,7 @@ export default {
                   vu.transferLoading = false
                 }
               })
-              .catch((err) => {
+              .catch(err => {
                 vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
                 vu.transferLoading = false
               })
@@ -576,7 +593,7 @@ export default {
     /**
      * 选择划出账户
      */
-    handleSelectFromChange () {
+    handleSelectFromChange() {
       if (this.trabsferModal.from === 'master') {
         this.trabsferModal.to = 'trade'
       }
@@ -587,7 +604,7 @@ export default {
     /**
      * 选择划至账户
      */
-    handleSelectToChange () {
+    handleSelectToChange() {
       if (this.trabsferModal.to === 'master') {
         this.trabsferModal.from = 'trade'
       }
@@ -627,16 +644,30 @@ export default {
     this.getBalance()
     this.getMyAsset()
     var vu = this
-    util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
+    util.toggleTableHeaderLang(
+      vu.assetListTable,
+      3,
+      'userCenter.asset.transfer.',
+      vu
+    )
     bus.$on('langChange', () => {
+<<<<<<< HEAD
       // vu.activeLang = e.value.lang
       // console.log(e)
       util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
+=======
+      util.toggleTableHeaderLang(
+        vu.assetListTable,
+        3,
+        'userCenter.asset.transfer.',
+        vu
+      )
+>>>>>>> fcdb1518c17e138a5da5bbaefc8b643092236c0b
     })
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
-  destroyed () {
+  destroyed() {
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }
