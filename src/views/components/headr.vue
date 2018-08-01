@@ -154,10 +154,10 @@ export default {
       cookie.remove('PN', { domain: config.url.domain })
 
       console.log(this.$router)
-      // this.$router.go({
-      //   path: '/',
-      //   force: true
-      // })
+      this.$router.go({
+        path: '/',
+        force: true
+      })
     },
     handleLangChange(name) {
       this.activeLang = name
