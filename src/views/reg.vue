@@ -4,44 +4,44 @@
     <div class="reg">
       <block>
         <crd slot="inner">
-          <span slot="title">注册</span>
+          <span slot="title">{{$t('register.title')}}</span>
           <div class=" content">
-            <h1>注册 Exchain 账号</h1>
+            <h1>{{$t('register.dec')}}</h1>
             <hr/>
             <div class="reg_form">
               <Form ref="regInfo" label-position="top" :model="regInfo" :rules="rules">
-                <FormItem prop="email" label="邮箱">
-                  <Input v-model="regInfo.email" placeholder="请输入有效的邮箱"></Input>
+                <FormItem prop="email" :label="$t('register.email')">
+                  <Input v-model="regInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
                 </FormItem>
-                <FormItem prop="emailcode" label="邮箱验证码">
-                  <Input v-model="regInfo.emailcode" placeholder="请输入邮箱里收到的验证码"></Input>
+                <FormItem prop="emailcode" :label="$t('register.emailcode')">
+                  <Input v-model="regInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')"></Input>
                 </FormItem>
-                <FormItem prop="pwd" label="密码">
-                  <Input v-model="regInfo.pwd" type="password" placeholder="请输入6位以上字符的密码">
+                <FormItem prop="pwd" :label="$t('register.pwd')">
+                  <Input v-model="regInfo.pwd" type="password" :placeholder="$t('register.pleaseIptPwd')">
                   </Input>
                 </FormItem>
-                <FormItem prop="pwd2" label="确认密码">
-                  <Input v-model="regInfo.pwd2" type="password" placeholder="请再次输入密码">
+                <FormItem prop="pwd2" :label="$t('register.pwd2')">
+                  <Input v-model="regInfo.pwd2" type="password" :placeholder="$t('register.pleaseInputPwd2')">
                   </Input>
                 </FormItem>
-                <FormItem prop="code" label="邀请码（选填）">
+                <FormItem prop="code" :label="$t('register.code')">
                   <Input v-model="regInfo.code" type="text" placeholder="">
                   </Input>
                 </FormItem>
                 <FormItem>
-                  <Button type="primary" @click="regUser('regInfo')">注册</Button> 已有账户？请
-                  <router-link to="/login">登录</router-link>
+                  <Button type="primary" @click="regUser('regInfo')">{{$t('register.registerBtn')}}</Button> {{$t('register.toLogin')}}
+                  <router-link to="/login">{{$t('register.login')}}</router-link>
                 </FormItem>
               </Form>
             </div>
             <div class="reg_sendemail">
-              <a @click="sendemail">发送验证码</a>
+              <a @click="sendemail">{{$t('register.sendCode')}}</a>
             </div>
-            <div class="info">
+            <!-- <div class="info">
               <p>
-                验证邮件可能会被误判为垃圾邮件，请注意查收。<br/> 请妥善保存您的 Exchain 账号及登录密码。<br/> 请勿和其他网站使用相同的登录密码。
+                {{$t('register.info1')}}<br/> {{$t('register.info2')}}<br/> {{$t('register.info3')}}
               </p>
-            </div>
+            </div> -->
           </div>
         </crd>
       </block>
@@ -64,7 +64,7 @@ export default {
     var vu = this
     var vali = function(rule, value, callback) {
       if (value != vu.regInfo.pwd) {
-        callback(new Error('两次密码必须一致'))
+        callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
       } else {
         callback()
       }
@@ -81,43 +81,44 @@ export default {
       },
       geettest: null,
       geetOnReady: false,
+      sendCodeLoading: false,
       rules: {
         email: [
           {
             required: true,
-            message: '邮箱不能为空',
+            message: this.$t('errorMsg.EMAIL_BLANK'),
             trigger: 'blur'
           },
           {
             type: 'email',
-            message: '邮箱格式不正确',
+            message: this.$t('errorMsg.EMAIL_ERR'),
             trigger: 'blur'
           }
         ],
         emailcode: [
           {
             required: true,
-            message: '邮箱验证码不能为空',
+            message: this.$t('errorMsg.EMAIL_CODE_BLANK'),
             trigger: 'blur'
           }
         ],
         pwd: [
           {
             required: true,
-            message: '密码不能为空.',
+            message: this.$t('errorMsg.PWD_BLANK'),
             trigger: 'blur'
           },
           {
             type: 'string',
             min: 6,
-            message: '密码长度必须大于6位',
+            message: this.$t('errorMsg.pwd_limit'),
             trigger: 'blur'
           }
         ],
         pwd2: [
           {
             required: true,
-            message: '确认密码不能为空',
+            message: this.$t('errorMsg.pwd_blank'),
             trigger: 'blur'
           },
           {
@@ -136,10 +137,10 @@ export default {
           if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
-            vu.$Message.error('验证码加载失败，请重试')
+            vu.$Message.error(this.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
         } else {
-          vu.$Message.error('验证失败!')
+          vu.$Message.error(this.$t('errorMsg.CHECK_FAIL'))
         }
       })
     },
@@ -160,7 +161,7 @@ export default {
         .then(function(res) {
           console.log(res)
           if (res.status == '200' && res.data.errorCode == 0) {
-            vu.$Message.success('注册成功!')
+            vu.$Message.success(this.$t('errorMsg.REGISTER_SUCC'))
             vu.$router.push('/login')
             // vu.$Modal.success({
             //   content: '用户注册成功！',
@@ -170,35 +171,45 @@ export default {
             // })
           } else if (res.data.errorCode == 2) {
             vu.geettest.reset()
-            vu.$Message.error('信息填写有误，请检查您的输入')
+            vu.$Message.error(this.$t('errorMsg.REGISTER_IPT_ERR'))
           } else {
             vu.geettest.reset()
-            vu.$Message.error('操作失败')
+            vu.$Message.error(this.$t('errorMsg.FAIL'))
           }
         })
         .catch(() => {
           vu.geettest.reset()
-          vu.$Message.error('网络异常')
+          vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
         })
     },
     sendemail() {
+      if (this.sendCodeLoading) {
+        return
+      }
       var vu = this
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
+          vu.sendCodeLoading = true
           ax
             .post(config.url.user+'/api/user/register', {
               email: vu.regInfo.email
             })
             .then(function(res) {
+              vu.sendCodeLoading = false
               if (res.status == '200' && res.data.errorCode == 0) {
                 vu.regtoken = res.data.result.token
-                vu.$Message.success('已发送邮件成功!')
+                vu.$Message.success(this.$t('errorMsg.EMAIL_SEND_SUCC'))
               } else if (res.data.errorCode == 200) {
-                vu.$Message.error('用户已存在')
+                vu.$Message.error(this.$t('errorMsg.USER_EXISTED'))
+              } else if (res.data.errorCode == 707) {
+                vu.$Message.error(this.$t('errorMsg.REQ_LIMIT'))
+              } else {
+                vu.$Message.error(this.$t('errorMsg.FAIL'))
               }
             })
             .catch(() => {
-              vu.$Message.error('网络异常')
+              vu.sendCodeLoading = false
+              vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
             })
         } else {
           vu.$Message.error(error)
@@ -226,13 +237,13 @@ export default {
                 vu.regUserFn()
             }).onError(function(){
               vu.geetOnReady = false
-              vu.$Message.error('验证码初始化异常，请尝试刷新页面来进行验证码初始化')
+              vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
             })
 
           })
         })
         .catch(() => {
-          console.log('网络异常')
+          console.log('network error')
         })
     }
   },

@@ -53,6 +53,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * 获取充值地址和二维码
+     */
     getAddress (token) {
       this.spinShow = true
       ax.get(config.url.user+'/api/account/getAddress?type=' + token)
@@ -72,15 +75,18 @@ export default {
           this.no_encharge = true
         })
     },
+    /**
+     * 复制
+     */
     handleCopy () {
       var vu = this
       var clipboard = new ClipboardJS('.copy-addr')
       clipboard.on('success', e => {
-        vu.$Message.success('复制成功')
+        vu.$Message.success(this.$t('errorMsg.COPY_SUCCESS'))
         clipboard.destroy()
       })
       clipboard.on('error', e => {
-        vu.$Message.success('该浏览器不支持自动复制')
+        vu.$Message.error(this.$t('errorMsg.该浏览器不支持自动复制'))
         clipboard.destroy()
       })
     }
@@ -97,6 +103,7 @@ export default {
   .encharge-main {
     position: relative;
     width: 100%;
+    background-color: rgb(247, 247, 247);
     .addr-box {
       height: 30px;
       margin-bottom: 20px;

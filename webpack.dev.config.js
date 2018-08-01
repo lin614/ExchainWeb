@@ -36,13 +36,13 @@ module.exports = merge(webpackBaseConfig, {
   ],
   devServer: {
     // // host: '127.0.0.1',
-    port: 4001,
-    proxy: {
-      '/api': {
-        target: 'http://service.exchain.com',
-        changeOrigin: true
-      }
-    },
+    // port: 4001,
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://service.exchain.com',
+    //     changeOrigin: true
+    //   }
+    // },
     host: 'www.exchain.com',
     port: '80'
   }

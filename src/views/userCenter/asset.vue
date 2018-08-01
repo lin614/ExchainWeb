@@ -21,7 +21,7 @@
               <span slot="title">{{ $t('userCenter.asset.transfer.title') }}</span>
               <div class="form-box">
                 <Form ref="formCustom" :rules="transRules" :model="trabsferModal" label-position="top">
-                  <FormItem :label="$t('userCenter.asset.transfer.coin')" prop="tokenType">
+                  <FormItem :label="$t('userCenter.asset.transfer.token')" prop="tokenType">
                     <!-- <Select v-model="trabsferModal.tokenType">
                       <Option v-for="(item, index) in transferTokenList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select> -->
@@ -90,6 +90,8 @@ var header = {
     })
   }
 }
+import util from '../../libs/util.js'
+import { setInterval } from 'timers';
 export default {
   name: 'asset',
   components: {
@@ -121,34 +123,36 @@ export default {
       },
       transRules: {
         from: [
-          { required: true, message: '请选择转出账户', trigger: 'change' }
+          { required: true, message: this.$t('errorMsg.FROM_ADDR_BLANK'), trigger: 'change' }
         ],
-        to: [{ required: true, message: '请选择转入账户', trigger: 'change' }],
+        to: [
+          { required: true, message: this.$t('errorMsg.TO_ADDR_BLANK'), trigger: 'change' }
+        ],
         amount: [
-          { required: true, message: '请输入划转数量', trigger: 'blur' },
-          {
+          { required: true, message: this.$t('errorMsg.AMOUNT_BLANK'), trigger: 'blur' },
+          { 
             validator: (rule, value, callback) => {
               if (value === '' || value === 0 || value === '0') {
-                callback('请输入划转数量')
+                callback(this.$t('errorMsg.AMOUNT_BLANK'))
               }
               // 判断精度
               var decimal = this.tokenObj[this.trabsferModal.token].decimal
               console.log('decimal' + decimal)
               var reg = RegExp('^[0-9]{0,8}(.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
-                callback('因币种限制，最多支持到小数点后' + decimal + '位')
+                callback(this.$t('errorMsg.DECIMAL_LIMIT') + decimal + this.$t('errorMsg.DECIMAL_UNIT'))
               }
               if (this.trabsferModal.from === 'master') {
                 if (parseFloat(value) > parseFloat(this.master)) {
-                  callback('超过可用额度')
+                  callback(this.$t('errorMsg.OVER_AVAILABLE_AMOUNT'))
                 }
               } else if (this.trabsferModal.from === 'trade') {
                 if (parseFloat(value) > parseFloat(this.trade)) {
-                  callback('超过可用额度')
+                  callback(this.$t('errorMsg.OVER_AVAILABLE_AMOUNT'))
                 }
               } else {
                 if (parseFloat(value) > 0) {
-                  callback('超过可用额度')
+                  callback(this.$t('errorMsg.OVER_AVAILABLE_AMOUNT'))
                 }
               }
               callback()
@@ -160,19 +164,19 @@ export default {
 
       assetListTable: [
         {
-          title: this.$t('userCenter.asset.transfer.coin'),
+          title: 'token',
           key: 'token'
         },
         {
-          title: this.$t('userCenter.asset.transfer.mainAccount'),
+          title: 'account_available',
           key: 'account_available'
         },
         {
-          title: this.$t('userCenter.asset.transfer.exchangeAccount'),
+          title: 'exchange_available',
           key: 'exchange_available'
         },
         {
-          title: this.$t('userCenter.asset.transfer.frozen'),
+          title: 'exchange_freeze',
           key: 'exchange_freeze'
         },
         {
@@ -333,21 +337,21 @@ export default {
       ],
       fromList: [
         {
-          label: this.$t('userCenter.asset.transfer.mainAccount'),
+          label: this.$t('userCenter.asset.transfer.account_available'),
           value: 'master'
         },
         {
-          label: this.$t('userCenter.asset.transfer.exchangeAccount'),
+          label: this.$t('userCenter.asset.transfer.exchange_available'),
           value: 'trade'
         }
       ],
       toList: [
         {
-          label: this.$t('userCenter.asset.transfer.mainAccount'),
+          label: this.$t('userCenter.asset.transfer.account_available'),
           value: 'master'
         },
         {
-          label: this.$t('userCenter.asset.transfer.exchangeAccount'),
+          label: this.$t('userCenter.asset.transfer.exchange_available'),
           value: 'trade'
         }
       ],
@@ -385,7 +389,10 @@ export default {
         })
         .catch(err => {})
     },
-    handleWindowResize() {
+    /**
+     * 屏幕
+     */
+    handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
     },
     /**
@@ -416,7 +423,10 @@ export default {
         }
       })
     },
-    getTokenObj() {
+    /**
+     * 获取所有币种的属性
+     */
+    getTokenObj () {
       var vu = this
       ax
         .get(config.url.user + '/api/quotation/getSymbolLists')
@@ -437,7 +447,10 @@ export default {
           //
         })
     },
-    handleOpera(index, params, exType) {
+    /**
+     * 充值和提现点击操作
+     */
+    handleOpera (index, params, exType) {
       this.assetListData.forEach((value, index) => {
         value._expanded = false
         value.showCharge = false
@@ -465,13 +478,19 @@ export default {
         this.$set(this.assetListData, index, this.assetListData[index])
       }
     },
-    handleTransferShow(token, master, trade) {
+    /**
+     * 划转模态框的显示
+     */
+    handleTransferShow (token, master, trade) {
       this.master = master
       this.trade = trade
       this.showTransferModal = true
       this.trabsferModal.token = token
     },
-    handleCloseTransfer(form) {
+    /**
+     * 关闭划转模态框
+     */
+    handleCloseTransfer (form) {
       this.$refs[form].resetFields()
       this.showTransferModal = false
     },
@@ -504,13 +523,14 @@ export default {
                   this.$refs[form].resetFields()
                   this.showTransferModal = false
                   this.transferLoading = false
-                  vu.$Message.success('操作成功')
+                  vu.$Message.success(this.$t('errorMsg.SUCCESS'))
                 } else {
                   this.transferLoading = false
-                  vu.$Message.error('网络异常')
+                  vu.$Message.error(this.$t('errorMsg.FAIL'))
                 }
               })
-              .catch(err => {
+              .catch((err) => {
+                vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
                 this.transferLoading = false
               })
           } else if (this.trabsferModal.to === 'master') {
@@ -530,13 +550,14 @@ export default {
                   this.$refs[form].resetFields()
                   this.showTransferModal = false
                   this.transferLoading = false
-                  vu.$Message.success('操作成功')
+                  vu.$Message.success(this.$t('errorMsg.SUCCESS'))
                 } else {
-                  vu.$Message.error('网络异常')
+                  vu.$Message.error(this.$t('errorMsg.FAIL'))
                   this.transferLoading = false
                 }
               })
-              .catch(err => {
+              .catch((err) => {
+                vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
                 this.transferLoading = false
               })
           }
@@ -544,7 +565,10 @@ export default {
         }
       })
     },
-    handleSelectFromChange() {
+    /**
+     * 选择划出账户
+     */
+    handleSelectFromChange () {
       if (this.trabsferModal.from === 'master') {
         this.trabsferModal.to = 'trade'
       }
@@ -552,7 +576,10 @@ export default {
         this.trabsferModal.to = 'master'
       }
     },
-    handleSelectToChange() {
+    /**
+     * 选择划至账户
+     */
+    handleSelectToChange () {
       if (this.trabsferModal.to === 'master') {
         this.trabsferModal.from = 'trade'
       }
@@ -577,15 +604,15 @@ export default {
     this.getTokenObj()
     this.getBalance()
     this.getMyAsset()
+    var vu = this
+    util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
+    bus.$on('langChange', () => {
+      util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
+    })
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
-  updated() {
-    // console.log('this.assetListTable --- ')
-    // console.log(this.assetListTable)
-    // console.log('this.assetListTable --- ')
-  },
-  destroyed() {
+  destroyed () {
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }
@@ -634,6 +661,9 @@ export default {
           cursor: pointer;
         }
       }
+    }
+    .ivu-spin-fix {
+      background-color: rgb(247, 247, 247);
     }
   }
   .ivu-table-wrapper {

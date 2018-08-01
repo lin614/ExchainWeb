@@ -44,4 +44,22 @@ util.checkPointNum = (value, s) => {
     }
 }
 
+/**
+ * 
+ * @param {Array} arr  表头数组
+ * @param {Number} count   表头展示格数
+ * @param {String} langStr   i18n字符串
+ * @param {Object} vu   Vue 实例
+ */
+util.toggleTableHeaderLang = (arr, count, langStr, vu) => {
+    arr.forEach((value, index) => {
+        if (index > count) {
+            return
+        } else {
+            var title = vu.$t(langStr + value.key)
+            value.title = title
+        }
+    })
+}
+
 export default util;

@@ -4,7 +4,7 @@
         <div class="paper">
             <block>
                 <crd slot="inner">
-                    <span slot="title">白皮书</span>
+                    <span slot="title">{{$t('whitepaper.title')}}</span>
                     <div class=" content">
                         <img src="../static/imgs/paper/01.jpg" />
                         <img src="../static/imgs/paper/02.jpg" />

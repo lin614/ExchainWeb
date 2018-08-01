@@ -164,6 +164,7 @@ export default {
       this.$i18n.locale = name
       localStorage.setItem('language', name);
       this.$store.commit('setActiveLang', name)
+      bus.$emit('langChange')
       // if (name === 'zh') {
       //   document.title = ''
       // } else if (name === 'en') {

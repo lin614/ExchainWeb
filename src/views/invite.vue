@@ -95,7 +95,7 @@ export default {
         if (res.status == '200' && res.data.meta.code == '0') {
           this.list = res.data.data.inviteList
           this.level =
-            res.data.data.activeCount >= 50 ? '超级合伙人' : '普通合伙人'
+            res.data.data.activeCount >= 50 ? this.$t('userCenter.invite.superPartner') : this.$t('userCenter.invite.partner')
         }
       })
     ax

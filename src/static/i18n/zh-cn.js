@@ -68,11 +68,11 @@ module.exports = {
       },
       rowName: {
         pair: '交易对',
-        lastPrice: '最新价格',
-        changeBy24h: '24h波动',
-        highBy24h: '24h高点',
-        lowBy24h: '24h低点',
-        volumeBy24h: '24h交易量',
+        priceshow: '最新价格',
+        p24: '24h波动',
+        h24: '24h高点',
+        l24: '24h低点',
+        v24: '24h交易量',
         action: '去交易'
       }
     }
@@ -113,6 +113,9 @@ module.exports = {
     p4: '如有意向成为Exchain的超级合作伙伴，请发邮件至',
     p5: '获取相关信息'
   },
+  whitepaper: {
+    title: '白皮书'
+  },
   userCenter: {
     index: {
       baseInfo: {
@@ -145,7 +148,7 @@ module.exports = {
         title: '最近登录',
         device: '登录',
         ip: 'IP地址',
-        status: '状态',
+        event: '状态',
         success: '成功',
         fail: '失败',
       }
@@ -157,7 +160,7 @@ module.exports = {
       withdrawAddress: '提现地址管理',
       transfer: {
         title: '划转',
-        coin: '币种',
+        token: '币种',
         from: '从',
         to: '转至',
         volume: '数量',
@@ -165,26 +168,44 @@ module.exports = {
         balance: '余额为',
         cancel: '取消',
         confirm: '立刻划转',
-        mainAccount: '主账户',
-        exchangeAccount: '交易账户',
+        account_available: '主账户',
+        exchange_available: '交易账户',
         deposit: '充值',
         withdraw: '提现',
-        frozen: '冻结',
+        exchange_freeze: '冻结',
         transfer: '划转',
         trade: '交易'
       }
     },
-    kyc: {},
+    // kyc
+    kyc: {
+      firstName: '名',
+      familyName: '姓',
+      idcardNo: '身份证号码',
+      front: '证件正面',
+      back: '证件背面',
+      hold: '手持证件照片',
+      tip: '上传身份证件信息',
+      notice: '为方便审核，请上传清晰的照片',
+      btnText: '点击更改',
+      standard: {
+        title: '手持证件照通过标准：',
+        text1: '人物头像清晰；',
+        text2: '身份证件信息清晰；',
+        text3: '证件照旁展示一张写有：EXCHAIN+申请日期的纸张信息；',
+        text4: '完整的展示您的手臂持证。'
+      },
+      submit: '申请提交'
+    },
     // 提现地址管理
     withdrawAddress: {
       title: '提现地址管理',
-      coin: '币种',
-      address: '提币地址',
-      notes: '备注',
-      action: '操作',
+      type: '币种',
+      outer_address: '提币地址',
+      name: '备注',
+      opera: '操作',
       add: '添加',
-      delete: '删除',
-      coinTip: '请选择币种'
+      delete: '删除'
     },
     // 充值
     depositBox: {
@@ -211,18 +232,19 @@ module.exports = {
       title: '委托管理',
       currentOrder: '当前委托',
       historyOrder: '成交历史',
-      time: '时间',
-      pair: '市场',
-      type: '类型',
+      ctime: '时间',
+      market: '市场',
+      side: '类型',
       price: '价格',
       amount: '数量',
-      filled: '成交率',
-      averagePrice: '成交均价',
-      action: '操作',
+      closeRate: '成交率',
+      averPrice: '成交均价',
+      opera: '操作',
       detail: '详情',
       limitPrice: '限价买入',
       sell: '卖',
-      buy: '买'
+      buy: '买',
+      cancelOrder: '撤单'
     },
     
     bindPhone: {
@@ -233,6 +255,7 @@ module.exports = {
       mbileNumber: '手机号',
       smsCode: '短信验证码',
       getCode: '发送验证码',
+      codeDownText: '后重新发送',
       ga: '谷歌验证码',
       confirm: '确认'
     },
@@ -256,7 +279,102 @@ module.exports = {
       time: '时间',
       status: '状态',
       traded: '已交易',
-      untraded: '未交易'
+      untraded: '未交易',
+      superPartner: '超级合伙人',
+      partner: '普通合伙人'
     }
+  },
+  register: {
+    title: '注册',
+    dec: '注册 Exchain 账号',
+    email: '邮箱',
+    pleaseIptEmail: '请输入有效的邮箱',
+    emailcode: '邮箱验证码',
+    pleaseIptEmailCode: '请输入邮箱里收到的验证码',
+    pwd: '密码',
+    pleaseIptPwd: '请输入6位以上字符的密码',
+    pwd2: '确认密码',
+    pleaseInputPwd2: '请再次输入密码',
+    code: '邀请码（选填）',
+    registerBtn: '注册',
+    toLogin: '已有账户？请',
+    login: '登录',
+    sendCode: '发送验证码',
+    info1: '验证邮件可能会被误判为垃圾邮件，请注意查收。',
+    info2: '请妥善保存您的 Exchain 账号及登录密码。',
+    info3: '请勿和其他网站使用相同的登录密码。'
+  },
+  reset: {
+    title: '重置密码',
+    dec: '验证邮箱',
+    resetBtn: '重置密码',
+    toLogin: '返回',
+    login: '登录'
+  },
+  errorMsg: {
+    // 通用错误
+    SUCCESS: '操作成功',
+    FAIL: '操作失败',
+    NETWORK_ERROR: '网络异常',
+    // 修改密码
+    CURRENT_PASSWORD_BLANK: '请输入当前的密码',
+    NEW_PASSWORD_BLANK: '请输入您要修改的密码',
+    CONFIRM_PASSWORD_BLANK: '请再次输入您要修改的密码',
+    DIFFERENT_PASSWORD_IPT: '两次密码输入不一致',
+    // 资产
+    FROM_ADDR_BLANK: '请选择转出账户',
+    TO_ADDR_BLANK: '请选择转入账户',
+    AMOUNT_BLANK: '请输入划转数量',
+    DECIMAL_LIMIT: '因币种限制，最多支持到小数点后',
+    DECIMAL_UNIT: '位',
+    OVER_AVAILABLE_AMOUNT: '超过可用额度',
+    // 地址管理
+    TOKEN_UNSELECT: '请选择币种',
+    ADDR_BLANK: '请输入提币地址',
+    NOTE_BLANK: '请输入备注',
+    // 绑定/解绑手机号
+    COUNTRY_UNSELECT: '请选择国家',
+    PHONE_BLANK: '请输入您的手机号',
+    PHONE_NOT_NUM: '手机号为数字',
+    CODE_BLANK: '请输入手机号验证码',
+    CODE_NOT_NUM: '验证码为数字',
+    PHONE_BIND_EXIST: '请先解绑现有手机号',
+    // 充值
+    COPY_SUCCESS: '复制成功',
+    BROWSER_COPY_LIMIT: '该浏览器不支持自动复制',
+    // 提现
+    ADDR_BLANK: '地址不能为空',
+    AMOUNT_BLANK: '请输入提现数量',
+    AMOUNT_LESS_FEE: '提现数量不足以支付手续费',
+    FEE_BLANK: '交易费不能为空',
+    WITHDRAW_REQ_SUBMIT: '提币请求已提交',
+    // kyc
+    FIRSTNAME_BLANK: '请输入名字',
+    FAMILYNAME_BLANK: '请输入姓',
+    CARD_BLANK: '请输入身份证号码',
+    FRONT_BLANK: '请上传身份证正面照',
+    BACK_BLANK: '请上传身份证背面照',
+    HOLD_BLANK: '请上传手持身份证照',
+    KYC_SUBMIT: 'KYC 认证提交成功',
+    FORMAT_ERROR: '错误的文件后缀',
+    // 注册
+    // DIFFERENT_PASSWORD_IPT
+    EMAIL_BLANK: '邮箱不能为空',
+    EMAIL_ERR: '邮箱格式不正确',
+    EMAIL_CODE_BLANK: '邮箱验证码不能为空',
+    PWD_BLANK: '密码不能为空',
+    PWD_LIMIT: '密码长度必须大于6位',
+    PWD_BLANK: '确认密码不能为空',
+    REGISTER_SUCC: '注册成功',
+    REGISTER_IPT_ERR: '信息填写有误，请检查您的输入',
+    EMAIL_SEND_SUCC: '邮件已发送',
+    USER_EXISTED: '用户已存在',
+    REQ_LIMIT: '限制请求，请稍候再试',
+    // 重置密码
+    RESET_SUCC: '重置密码成功',
+    // 行为验证相关
+    GEET_LOAD_ERR_TIP: '验证码加载失败，请重试',
+    GEET_INIT_ERR: '验证码初始化异常，请尝试刷新页面来进行验证码初始化',
+    CHECK_FAIL: '验证失败'
   }
 }

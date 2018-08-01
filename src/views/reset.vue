@@ -4,41 +4,41 @@
     <div class="reset">
       <block>
         <crd slot="inner">
-          <span slot="title">重置密码</span>
+          <span slot="title">{{$t('reset.title')}}</span>
           <div class=" content">
-            <h1>验证邮箱重设密码</h1>
+            <h1>{{$t('reset.dec')}}</h1>
             <hr/>
             <div class="reset_form">
               <Form ref="resetInfo" label-position="top" :model="resetInfo" :rules="rules">
-                <FormItem prop="email" label="邮箱">
-                  <Input v-model="resetInfo.email" placeholder="请输入有效的邮箱"></Input>
+                <FormItem prop="email" :label="$t('register.email')">
+                  <Input v-model="resetInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
                 </FormItem>
-                <FormItem prop="emailcode" label="邮箱验证码">
-                  <Input v-model="resetInfo.emailcode" placeholder="请输入邮箱里收到的验证码"></Input>
+                <FormItem prop="emailcode" :label="$t('register.emailcode')">
+                  <Input v-model="resetInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')"></Input>
                 </FormItem>
-                <FormItem prop="pwd" label="密码">
-                  <Input v-model="resetInfo.pwd" type="password" placeholder="请输入6位以上字符的密码">
+                <FormItem prop="pwd" :label="$t('register.pwd')">
+                  <Input v-model="resetInfo.pwd" type="password" :placeholder="$t('register.pleaseIptPwd')">
                   </Input>
                 </FormItem>
-                <FormItem prop="pwd2" label="确认密码">
-                  <Input v-model="resetInfo.pwd2" type="password" placeholder="请再次输入密码">
+                <FormItem prop="pwd2" :label="$t('register.pwd2')">
+                  <Input v-model="resetInfo.pwd2" type="password" :placeholder="$t('register.pleaseInputPwd2')">
                   </Input>
                 </FormItem>
 
                 <FormItem>
-                  <Button type="primary" @click="resSetPwd('resetInfo')">重置密码</Button>返回
-                  <router-link to="/login">登录</router-link>
+                  <Button type="primary" @click="resSetPwd('resetInfo')">{{$t('reset.resetBtn')}}</Button>{{$t('reset.toLogin')}}
+                  <router-link to="/login">{{$t('reset.login')}}</router-link>
                 </FormItem>
               </Form>
             </div>
             <div class="reg_sendemail">
-              <a @click="sendemail">发送验证码</a>
+              <a @click="sendemail">{{$t('register.sendCode')}}</a>
             </div>
-            <div class="info">
+            <!-- <div class="info">
               <p>
-                验证邮件可能会被误判为垃圾邮件，请注意查收。<br/> 请妥善保存您的 Exchain 账号及登录密码。<br/> 请勿和其他网站使用相同的登录密码。
+                {{$t('register.info1')}}<br/> {{$t('register.info2')}}<br/> {{$t('register.info3')}}
               </p>
-            </div>
+            </div> -->
           </div>
         </crd>
       </block>
@@ -61,7 +61,7 @@ export default {
     var vu = this
     var vali = function(rule, value, callback) {
       if (value != vu.resetInfo.pwd) {
-        callback(new Error('两次密码必须一致'))
+        callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
       } else {
         callback()
       }
@@ -81,39 +81,39 @@ export default {
         email: [
           {
             required: true,
-            message: '邮箱不能为空',
+            message: this.$t('errorMsg.EMAIL_BLANK'),
             trigger: 'blur'
           },
           {
             type: 'email',
-            message: '邮箱格式不正确',
+            message: this.$t('errorMsg.EMAIL_ERR'),
             trigger: 'blur'
           }
         ],
         emailcode: [
           {
             required: true,
-            message: '邮箱验证码不能为空',
+            message: this.$t('errorMsg.EMAIL_CODE_BLANK'),
             trigger: 'blur'
           }
         ],
         pwd: [
           {
             required: true,
-            message: '密码不能为空.',
+            message: this.$t('errorMsg.PWD_BLANK'),
             trigger: 'blur'
           },
           {
             type: 'string',
             min: 6,
-            message: '密码长度必须大于6位',
+            message: this.$t('errorMsg.pwd_limit'),
             trigger: 'blur'
           }
         ],
         pwd2: [
           {
             required: true,
-            message: '确认密码不能为空',
+            message: this.$t('errorMsg.pwd_blank'),
             trigger: 'blur'
           },
           {
@@ -133,10 +133,10 @@ export default {
           if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
-            vu.$Message.error('验证码加载失败，请重试')
+            vu.$Message.error(this.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
         } else {
-          vu.$Message.error('验证失败!')
+          vu.$Message.error(this.$t('errorMsg.CHECK_FAIL'))
         }
       })
     },
@@ -163,20 +163,20 @@ export default {
             //     vu.$router.push('/login')
             //   }
             // })
-            vu.$Message.success('重置密码成功！')
+            vu.$Message.success(this.$t('errorMsg.RESET_SUCC'))
             vu.$router.push('/login')
           } else if (res.data.errorCode == 2) {
             vu.geettest.reset()
-            vu.$Message.error('信息填写有误，请检查您的输入')
+            vu.$Message.error(this.$t('errorMsg.REGISTER_IPT_ERR'))
           } else {
             vu.geettest.reset()
-            vu.$Message.error('操作失败')
+            vu.$Message.error(this.$t('errorMsg.FAIL'))
             // vu.$Modal.error('重置密码失败:' + res.data.errorMsg)
           }
         })
         .catch(() => {
           vu.geettest.reset()
-          vu.$Message.error('网络异常')
+          vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
         })
     },
     sendemail() {
@@ -190,7 +190,7 @@ export default {
             .then(function(res) {
               console.log(res)
               vu.resettoken = res.data.result.token
-              vu.$Message.success('已发送邮件成功!')
+              vu.$Message.success(this.$t('errorMsg.EMAIL_SEND_SUCC'))
             })
         } else {
           vu.$Message.error(error)
@@ -204,35 +204,28 @@ export default {
         .then(res => {
           var data = res.data
           vu.gtserver = data.gtserver
-          vu.$initGeetest(
-            {
-              gt: data.gt,
-              challenge: data.challenge,
-              offline: !data.success,
-              new_captcha: true,
-              product: 'bind'
-            },
-            function(captchaObj) {
-              vu.geettest = captchaObj
-              captchaObj
-                .onReady(function() {
-                  console.log('onready')
-                  vu.geetOnReady = true
-                })
-                .onSuccess(function() {
-                  vu.resSetPwdFn()
-                })
-                .onError(function() {
-                  vu.geetOnReady = false
-                  vu.$Message.error(
-                    '验证码初始化异常，请尝试刷新页面来进行验证码初始化'
-                  )
-                })
-            }
-          )
+          vu.$initGeetest({
+            gt: data.gt,
+            challenge: data.challenge,
+            offline: !data.success,
+            new_captcha: true,
+            product: 'bind'
+          }, function (captchaObj) {
+            vu.geettest = captchaObj
+            captchaObj.onReady(function(){
+              console.log('onready')
+              vu.geetOnReady = true
+            }).onSuccess(function(){
+                vu.resSetPwdFn()
+            }).onError(function(){
+              vu.geetOnReady = false
+              vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
+            })
+
+          })
         })
         .catch(() => {
-          console.log('网络异常')
+          console.log('network error')
         })
     }
   },

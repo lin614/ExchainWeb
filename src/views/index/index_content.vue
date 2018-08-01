@@ -57,6 +57,7 @@ import crd from '../components/crd'
 import io from 'socket.io-client'
 import config from '../../config/config.js'
 import ax from 'axios'
+import util from '../../libs/util.js'
 export default {
   name: 'index_content',
   components: { block, crd },
@@ -70,24 +71,24 @@ export default {
           key: 'pair'
         },
         {
-          title: this.$t('index.markets.rowName.lastPrice'),
+          title: this.$t('index.markets.rowName.priceshow'),
           key: 'priceshow',
           width: 250
         },
         {
-          title: this.$t('index.markets.rowName.changeBy24h'),
+          title: this.$t('index.markets.rowName.p24'),
           key: 'p24'
         },
         {
-          title: this.$t('index.markets.rowName.highBy24h'),
+          title: this.$t('index.markets.rowName.h24'),
           key: 'h24'
         },
         {
-          title: this.$t('index.markets.rowName.lowBy24h'),
+          title: this.$t('index.markets.rowName.l24'),
           key: 'l24'
         },
         {
-          title: this.$t('index.markets.rowName.volumeBy24h'),
+          title: this.$t('index.markets.rowName.v24'),
           key: 'v24'
         },
         {
@@ -241,6 +242,11 @@ export default {
 
         info.priceshow = info.price + '/≈' + info.money + '元'
       }
+    })
+
+    util.toggleTableHeaderLang(vu.col1, 6, 'index.markets.rowName.', vu)
+    bus.$on('langChange', () => {
+      util.toggleTableHeaderLang(vu.col1, 6, 'index.markets.rowName.', vu)
     })
   }
 }
