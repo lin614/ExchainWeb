@@ -83,13 +83,7 @@ import cookie from 'js-cookie'
 // ax.defaults.headers.common['X-EXCHAIN-PN'] = cookie.get('PN', {
 //   domain: config.url.domain
 // })
-var header = {
-  headers: {
-    'X-EXCHAIN-PN': cookie.get('PN', {
-      domain: config.url.domain
-    })
-  }
-}
+
 import util from '../../libs/util.js'
 import { setInterval } from 'timers';
 export default {
@@ -401,7 +395,7 @@ export default {
     getMyAsset() {
       var vu = this
       this.assetListData = []
-      ax.get(config.url.user + '/api/account/assetsList', header).then(res => {
+      ax.get(config.url.user + '/api/account/assetsList', getHeader).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           var obj = {}
           var result = res.data.result
@@ -429,7 +423,7 @@ export default {
     getTokenObj () {
       var vu = this
       ax
-        .get(config.url.user + '/api/quotation/getSymbolLists')
+        .get(config.url.user + '/api/quotation/getSymbolLists',getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
@@ -513,8 +507,7 @@ export default {
                   '/api/account/toExchange?type=' +
                   vu.trabsferModal.token +
                   '&balance=' +
-                  vu.trabsferModal.amount,
-                header
+                  vu.trabsferModal.amount,getHeader
               )
               .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {
@@ -542,7 +535,7 @@ export default {
                   vu.trabsferModal.token +
                   '&balance=' +
                   vu.trabsferModal.amount,
-                header
+                getHeader
               )
               .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {

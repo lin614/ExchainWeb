@@ -119,7 +119,7 @@ export default {
         t: new Date().getTime()
       }
       var vu = this
-      ax.get(config.url.user+'/api/order/lists', {params}).then(res => {
+      ax.get(config.url.user+'/api/order/lists', {params},getHeader).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           let data = res.data.result.data;
           for (let i = 0; i < data.length; i++) {
@@ -145,7 +145,7 @@ export default {
         t: new Date().getTime()
       }
       var vu = this
-      ax.get(config.url.user+'/api/order/lists', {params}).then(res => {
+      ax.get(config.url.user+'/api/order/lists', {params},getHeader).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           let data = res.data.result.data;
           for (let i = 0; i < data.length; i++) {
@@ -209,7 +209,7 @@ export default {
         market: row.market
       }
       var vu = this
-      ax.get(config.url.user+'/api/exchange/orderCancel', {params}).then(res => {
+      ax.get(config.url.user+'/api/exchange/orderCancel', {params},getHeader).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           vu.getCurData();
           vu.$Message.success(vu.$t('errorMsg.SUCCESS'))

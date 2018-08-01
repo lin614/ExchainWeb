@@ -348,7 +348,7 @@ export default {
     getRecentActivity() {
       var vu = this
       ax
-        .get(config.url.user + '/api/user/getRecentActivity')
+        .get(config.url.user + '/api/user/getRecentActivity',getHeader)
         .then(res => {
           console.log(typeof res.status)
           if (res.status === 200 && res.data.errorCode === 0) {

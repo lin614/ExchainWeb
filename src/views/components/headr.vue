@@ -146,23 +146,23 @@ export default {
       this.showLogin = false
     },
     logout() {
+      ax.get(config.url.user + '/api/user/logout', getHeader).then(res => {
+        console.log('登出')
+      })
       sessionStorage.clear()
       cookie.remove('PN')
       cookie.remove('PN', { domain: config.url.domain })
-      
-      ax.get(config.url.user+'/api/user/logout').then(res => {
-        console.log('登出')
-      })
+
       console.log(this.$router)
-      this.$router.go({
-        path: '/',
-        force: true
-      })
+      // this.$router.go({
+      //   path: '/',
+      //   force: true
+      // })
     },
     handleLangChange(name) {
       this.activeLang = name
       this.$i18n.locale = name
-      localStorage.setItem('language', name);
+      localStorage.setItem('language', name)
       this.$store.commit('setActiveLang', name)
       bus.$emit('langChange')
       // if (name === 'zh') {

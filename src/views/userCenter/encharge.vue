@@ -59,7 +59,7 @@ export default {
     getAddress (token) {
       this.spinShow = true
       var vu = this
-      ax.get(config.url.user+'/api/account/getAddress?type=' + token)
+      ax.get(config.url.user+'/api/account/getAddress?type=' + token,getHeader)
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
             vu.addr = res.data.result.address

@@ -188,7 +188,7 @@ export default {
   },
   created() {
     var vu = this
-    ax.get(config.url.user+'/api/quotation/getUSDCNY').then(res => {
+    ax.get(config.url.user+'/api/quotation/getUSDCNY',getHeader).then(res => {
       if (res.status == '200' && res.data.errorCode == 0) {
         vu.usdt = res.data.result
         window.localStorage.setItem('exchange-usdt', vu.usdt)

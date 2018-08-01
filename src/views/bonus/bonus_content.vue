@@ -92,7 +92,7 @@
           <div class="content ">
 
             <div class="lv-text">
-               {{$t('bonus.invited')}}{{n_all}}{{$t('bonus.inviteUnit')}} {{$t('bonus.traded')}}{{n_act}}{{$t('bonus.inviteUnit')}}
+              {{$t('bonus.invited')}}{{n_all}}{{$t('bonus.inviteUnit')}} {{$t('bonus.traded')}}{{n_act}}{{$t('bonus.inviteUnit')}}
             </div>
             <Row type="flex" :gutter="16">
               <Col span="8">
@@ -170,7 +170,9 @@ export default {
     var uid = cookie.get('uid', { domain: config.url.domain })
     console.log('c_pn', cookie.get('PN'))
     console.log('uid', uid)
-    ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN')
+    ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+      domain: config.url.domain
+    })
     ax
       .all([
         ax.post(config.url.invite + '/api/invite/getInvitedCode', {

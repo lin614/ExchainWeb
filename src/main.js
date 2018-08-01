@@ -23,6 +23,10 @@ import ws from './views/js/websocket.js'
 global.ws = ws()
 global.bus = bus
 
+
+
+
+
 import './static/icons/iconfont.css'
 import './libs/gt'
 
@@ -36,6 +40,15 @@ import config from './config/config'
 import {
     isBoolean
 } from 'util';
+global.getHeader = (() => {
+    return {
+        headers: {
+            'X-EXCHAIN-PN': cookie.get('PN', {
+                domain: config.url.domain
+            })
+        }
+    }
+})()
 ax.defaults.headers.post['Content-Type'] = "application/json"
 // ax.defaults.headers.post['referer'] = config.url.domain
 // ax.defaults.headers.post['origin'] = config.url.domain
