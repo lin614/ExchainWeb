@@ -151,6 +151,7 @@ export default {
         .post(config.url.user + '/api/user/verifyRegister', {
           email: vu.regInfo.email,
           code: vu.regInfo.emailcode,
+          inviteCode: vu.regInfo.code,
           token: vu.regtoken,
           password: md5(vu.regInfo.pwd),
           geetest_challenge: result.geetest_challenge,
