@@ -13,9 +13,9 @@
         <Button class="menu" type="text">{{ $t("header.whitepaper") }}</Button>
       </router-link>
 
-      <a target="_blank" href="https://support.exchain.com/hc/zh-cn">
+      <!-- <a target="_blank" href="https://support.exchain.com/hc/zh-cn">
         <Button class="menu" type="text">{{ $t("header.announcement") }}</Button>
-      </a>
+      </a> -->
 
       <router-link to="/partner">
         <!-- <Tooltip :always="true" :transfer="true" placement="top-end" content="HOT!" :style="{ minWidth:0}"> -->

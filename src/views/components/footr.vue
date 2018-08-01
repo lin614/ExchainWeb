@@ -41,10 +41,18 @@
                 </Row>
                 <Row>
                     <Col span="8">
-                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn/requests/new">{{ $t("footer.services.submitARequest") }}</a>
+                    <a target="_blank" href="https://support.exchain.com/hc/zh-cn/requests/new">{{ $t("footer.services.feedback") }}</a>
                     </Col>
                     <Col span="8">
                     <a target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360006962932-%E4%BA%A4%E6%98%93%E6%89%8B%E7%BB%AD%E8%B4%B9%E8%AF%B4%E6%98%8E">{{ $t("footer.clauseInstruction.fees") }}</a>
+                    </Col>
+                    <Col span="8"></Col>
+                </Row>
+                <Row>
+                    <Col span="8">
+                    <a target="_blank" href="https://docs.google.com/forms/d/1beEwbj80Bi7HzrJzAADzWDdaHLVfutJtg_x_lmmvPiw/edit?ts=5b602bfe">{{ $t("footer.services.listingApplication") }}</a>
+                    </Col>
+                    <Col span="8">
                     </Col>
                     <Col span="8"></Col>
                 </Row>

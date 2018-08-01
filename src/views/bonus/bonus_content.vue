@@ -8,7 +8,7 @@
 
           </div>
           <div class="lv-name">
-            <h2>您当前等级：
+            <h2>{{$t('bonus.currentLevel')}}
               <span>{{levelName}} </span>
             </h2>
           </div>
@@ -16,55 +16,63 @@
             <div class="lv-fee">
               <Row type="flex" :gutter="16">
                 <Col span="8">
-                <p class="earn">昨日被邀请人手续费返还：
+                <p class="earn">{{$t('bonus.yesterdayFeeRet')}}
                   <Icon type="social-bitcoin"></Icon> {{fee1}}</p>
-                <p class="earn">昨日获得ET返还量：
+                <p class="earn">{{$t('bonus.yesterdayETRet')}}
                   <Icon type="social-bitcoin"></Icon> {{et1}}</p>
                 </Col>
                 <Col span="16">
-                <p class="earn"> 被邀请人手续费累积返还
+                <p class="earn"> {{$t('bonus.accumulateFeeRet')}}
                   <Icon type="social-bitcoin"></Icon> {{fee2}}</p>
-                <p class="earn">累积ET返还量：
+                <p class="earn">{{$t('bonus.accumulateETRet')}}
                   <Icon type="social-bitcoin"></Icon> {{et2}}</p>
                 </Col>
               </Row>
             </div>
             <div class="lv-text">
-              <h3>超级合作伙伴：
+              <h3>{{$t('bonus.superPartner')}}
               </h3>
-              <p>邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。
+              <p>{{$t('bonus.notice1')}}
               </p>
-              <h3>普通合作伙伴：
+              <h3>{{$t('bonus.partner')}}
               </h3>
-              <p>邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。
+              <p>{{$t('bonus.notice2')}}
+              </p>
+              <h3>{{$t('bonus.tradeUser')}}
+              </h3>
+              <p>{{$t('bonus.notice3')}}
+              </p>
+              <h3>{{$t('bonus.normalUser')}}
+              </h3>
+              <p>{{$t('bonus.notice4')}}
               </p>
             </div>
           </div>
         </crd>
         <crd>
           <span slot="title">
-            邀请方式
+            {{$t('bonus.inviteType')}}
           </span>
           <div class="content">
             <Row type="flex" :gutter="16">
               <Col span="8">
               <div class="invistyle">
-                <p>邀请码：</p>
+                <p>{{$t('bonus.inviteCode')}}</p>
                 <div>
                   <input id="foo" :value="code">
                   <!-- <span>{{code}}</span> -->
-                  <a type="text" id="btnCode" data-clipboard-target="#foo">复制邀请码</a>
+                  <a type="text" id="btnCode" data-clipboard-target="#foo">{{$t('bonus.copyInviteCode')}}</a>
 
                 </div>
               </div>
               </Col>
               <Col span="16">
               <div class="invistyle">
-                <p>邀请链接：</p>
+                <p>{{$t('bonus.inviteLink')}}</p>
                 <div>
                   <input id="foo2" :value="link">
                   <!-- <span> {{link}} </span> -->
-                  <a type="text" id="btnLink" data-clipboard-target="#foo2">复制邀请码</a>
+                  <a type="text" id="btnLink" data-clipboard-target="#foo2">{{$t('bonus.copyInviteCode')}}</a>
 
                 </div>
               </div>
@@ -74,7 +82,7 @@
         </crd>
         <crd>
           <span slot="title">
-            邀请记录
+            {{$t('bonus.inviteRecord')}}
 
           </span>
           <!-- <router-link target="_blank" to="/invite" slot="extra">
@@ -84,23 +92,23 @@
           <div class="content ">
 
             <div class="lv-text">
-              已邀请{{n_all}}人，已完成交易{{n_act}}人
+               {{$t('bonus.invited')}}{{n_all}}{{$t('bonus.inviteUnit')}} {{$t('bonus.traded')}}{{n_act}}{{$t('bonus.inviteUnit')}}
             </div>
             <Row type="flex" :gutter="16">
               <Col span="8">
               <p class="earn">
-                <b>被邀请人账号</b>
+                <b>{{$t('bonus.account')}}</b>
               </p>
               </Col>
               <Col span="8">
               <p class="earn">
-                <b>时间</b>
+                <b>{{$t('bonus.time')}}</b>
               </p>
 
               </Col>
               <Col span="8">
               <p class="earn">
-                <b>状态</b>
+                <b>{{$t('bonus.status')}}</b>
               </p>
 
               </Col>
@@ -115,13 +123,13 @@
 
               </Col>
               <Col span="8">
-              <p class="earn"> {{p.isActive?'已交易':'未交易'}}</p>
+              <p class="earn"> {{p.isActive ? $t('bonus.traded') : $t('bonus.untrade')}}</p>
 
               </Col>
             </Row>
 
           </div>
-          <router-link class="to-more" target="_blank" to="/invite">点击查看更多</router-link>
+          <router-link class="to-more" target="_blank" to="/invite">{{$t('bonus.toMore')}}</router-link>
         </crd>
 
       </div>

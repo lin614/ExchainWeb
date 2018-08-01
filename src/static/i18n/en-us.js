@@ -19,7 +19,8 @@ module.exports = {
       services: 'Services',
       exchange: 'Exchange',
       support: 'Support',
-      submitARequest: 'Submit a request'
+      feedback: 'Feedback',
+      listingApplication: 'Apply to list'
     },
     clauseInstruction: {
         clauseInstruction: 'Clause Instruction',
@@ -42,6 +43,7 @@ module.exports = {
   index: {
     announcement: {
       title: 'Announcement',
+      more: 'More',
       news: 'Exchain start the Partner Project'
     },
     txSumary: {
@@ -117,6 +119,34 @@ module.exports = {
   whitepaper: {
     title: 'Whitepaper'
   },
+  bonus: {
+    currentLevel: '您当前等级：',
+    yesterdayFeeRet: '昨日被邀请人手续费返还：',
+    accumulateFeeRet: '被邀请人手续费累积返还',
+    yesterdayETRet: '昨日获得ET返还量：',
+    accumulateETRet: '累积ET返还量：',
+    superPartner: '超级合作伙伴：',
+    notice1: '邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。',
+    partner: '普通合作伙伴：',
+    notice2: '邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。',
+    tradeUser: '交易用户：',
+    notice3: '任何用户产生至少一笔交易即可成为交易伙伴。',
+    normalUser: '普通用户：',
+    notice4: '任何注册用户均为普通用户。',
+    inviteType: '邀请方式',
+    inviteCode: '邀请码：',
+    copyInviteCode: '复制邀请码',
+    inviteLink: '邀请链接：',
+    inviteRecord: '邀请记录',
+    invited: '已邀请',
+    untrade: '未交易',
+    traded: '已完成交易',
+    inviteUnit: '人',
+    account: '被邀请人账号',
+    time: '时间',
+    status: '状态',
+    toMore: '点击查看更多'
+  },
   userCenter: {
     index: {
       baseInfo: {
@@ -178,7 +208,25 @@ module.exports = {
         trade: 'Trade'
       }
     },
-    kyc: {},
+    kyc: {
+      firstName: '名',
+      familyName: '姓',
+      idcardNo: '身份证号码',
+      front: '证件正面',
+      back: '证件背面',
+      hold: '手持证件照片',
+      tip: '上传身份证件信息',
+      notice: '为方便审核，请上传清晰的照片',
+      btnText: '点击更改',
+      standard: {
+        title: '手持证件照通过标准：',
+        text1: '人物头像清晰；',
+        text2: '身份证件信息清晰；',
+        text3: '证件照旁展示一张写有：EXCHAIN+申请日期的纸张信息；',
+        text4: '完整的展示您的手臂持证。'
+      },
+      submit: '申请提交'
+    },
     // 提现地址管理
     withdrawAddress: {
       title: 'Withdraw Address',
@@ -245,8 +293,8 @@ module.exports = {
       login: 'Log in',
       email: 'Email',
       password: 'Password',
-      pleaseInputEmail: 'Please input email',
-      pleaseInputPassword: 'Please input password',
+      pleaseInputEmail: '',
+      pleaseInputPassword: '',
       welcomeLogin: 'Welcome to log in with Exchain account',
       forgotPassword: 'Forgot your password',
       resetPassword: 'reset password',
@@ -262,74 +310,74 @@ module.exports = {
       status: 'Status',
       traded: 'Traded',
       untraded: 'Untraded',
-      superPartner: '超级合伙人',
-      partner: '普通合伙人'
+      superPartner: 'Super partner',
+      partner: 'General partner'
     }
   },
   register: {
-    title: '注册',
-    dec: '注册 Exchain 账号',
-    email: '邮箱',
-    pleaseIptEmail: '请输入有效的邮箱',
-    emailcode: '邮箱验证码',
-    pleaseIptEmailCode: '请输入邮箱里收到的验证码',
-    pwd: '密码',
-    pleaseIptPwd: '请输入6位以上字符的密码',
-    pwd2: '确认密码',
-    pleaseInputPwd2: '请再次输入密码',
-    code: '邀请码（选填）',
-    register: '注册',
-    toLogin: '已有账户？请',
-    login: '登录',
-    sendCode: '发送验证码',
-    info1: '验证邮件可能会被误判为垃圾邮件，请注意查收。',
-    info2: '请妥善保存您的 Exchain 账号及登录密码。',
-    info3: '请勿和其他网站使用相同的登录密码。'
+    title: 'Register',
+    dec: 'Register Exchain Account',
+    email: 'E-mail',
+    pleaseIptEmail: '',
+    emailcode: 'E-mail code',
+    pleaseIptEmailCode: '',
+    pwd: 'Password',
+    pleaseIptPwd: '',
+    pwd2: 'Confirm password',
+    pleaseInputPwd2: '',
+    code: 'Invitation code(Optional)',
+    registerBtn: 'Register',
+    toLogin: '',
+    login: 'Login',
+    sendCode: 'Get code',
+    // info1: '验证邮件可能会被误判为垃圾邮件，请注意查收。',
+    // info2: '请妥善保存您的 Exchain 账号及登录密码。',
+    // info3: '请勿和其他网站使用相同的登录密码。'
   },
   reset: {
-    title: '重置密码',
-    dec: '验证邮箱',
-    resetBtn: '重置密码',
-    toLogin: '返回',
-    login: '登录'
+    title: 'Reset Password',
+    dec: 'Email Verification',
+    resetBtn: 'Reset Password',
+    toLogin: 'Return',
+    login: 'Login'
   },
   errorMsg: {
     // 通用错误
-    SUCCESS: '操作成功',
-    FAIL: '操作失败',
-    NETWORK_ERROR: '网络异常',
+    SUCCESS: 'successful',
+    FAIL: 'fail',
+    NETWORK_ERROR: 'network error',
     // 修改密码
-    CURRENT_PASSWORD_BLANK: '请输入当前的密码',
-    NEW_PASSWORD_BLANK: '请输入您要修改的密码',
-    CONFIRM_PASSWORD_BLANK: '请再次输入您要修改的密码',
-    DIFFERENT_PASSWORD_IPT: '两次密码输入不一致',
+    CURRENT_PASSWORD_BLANK: 'Please input current password',
+    NEW_PASSWORD_BLANK: 'Please input new password',
+    CONFIRM_PASSWORD_BLANK: 'Please input new password again',
+    DIFFERENT_PASSWORD_IPT: 'Two passwords are not consistent',
     // 资产
-    FROM_ADDR_BLANK: '请选择转出账户',
-    TO_ADDR_BLANK: '请选择转入账户',
-    AMOUNT_BLANK: '请输入划转数量',
-    DECIMAL_LIMIT: '因币种限制，最多支持到小数点后',
-    DECIMAL_UNIT: '位',
-    OVER_AVAILABLE_AMOUNT: '超过可用额度',
+    FROM_ADDR_BLANK: 'From',
+    TO_ADDR_BLANK: 'TO',
+    AMOUNT_BLANK: 'amount',
+    DECIMAL_LIMIT: 'Maximum Decimal Places: ',
+    DECIMAL_UNIT: '',
+    OVER_AVAILABLE_AMOUNT: 'Over available amount',
     // 地址管理
-    TOKEN_UNSELECT: '请选择币种',
-    ADDR_BLANK: '请输入提币地址',
-    NOTE_BLANK: '请输入备注',
+    TOKEN_UNSELECT: 'Please choose a coin',
+    ADDR_BLANK: 'Please input your address',
+    NOTE_BLANK: 'Please input remark',
     // 绑定/解绑手机号
-    COUNTRY_UNSELECT: '请选择国家',
-    PHONE_BLANK: '请输入您的手机号',
-    PHONE_NOT_NUM: '手机号为数字',
-    CODE_BLANK: '请输入手机号验证码',
-    CODE_NOT_NUM: '验证码为数字',
-    PHONE_BIND_EXIST: '请先解绑现有手机号',
+    COUNTRY_UNSELECT: 'Country',
+    PHONE_BLANK: 'Telehone',
+    PHONE_NOT_NUM: 'Telephone must be digits',
+    CODE_BLANK: 'Please input code',
+    CODE_NOT_NUM: 'Code must be digits',
+    PHONE_BIND_EXIST: 'Please unlink your current telephone',
     // 充值
-    COPY_SUCCESS: '复制成功',
-    BROWSER_COPY_LIMIT: '该浏览器不支持自动复制',
+    COPY_SUCCESS: 'Copy success',
+    BROWSER_COPY_LIMIT: 'Your browser do not support copy',
     // 提现
-    ADDR_BLANK: '地址不能为空',
-    AMOUNT_BLANK: '请输入提现数量',
-    AMOUNT_LESS_FEE: '提现数量不足以支付手续费',
-    FEE_BLANK: '交易费不能为空',
-    WITHDRAW_REQ_SUBMIT: '提币请求已提交',
+    ADDR_BLANK: 'Address can not be null',
+    AMOUNT_BLANK: 'Please input amount',
+    AMOUNT_LESS_FEE: 'Amount can not cover trans-fee',
+    FEE_BLANK: '',
+    WITHDRAW_REQ_SUBMIT: 'Withdraw submit success',
     // kyc
     FIRSTNAME_BLANK: '请输入名字',
     FAMILYNAME_BLANK: '请输入姓',
@@ -341,22 +389,22 @@ module.exports = {
     FORMAT_ERROR: '错误的文件后缀',
     // 注册
     // DIFFERENT_PASSWORD_IPT
-    EMAIL_BLANK: '邮箱不能为空',
-    EMAIL_ERR: '邮箱格式不正确',
-    EMAIL_CODE_BLANK: '邮箱验证码不能为空',
-    PWD_BLANK: '密码不能为空',
-    PWD_LIMIT: '密码长度必须大于6位',
-    PWD_BLANK: '确认密码不能为空',
-    REGISTER_SUCC: '注册成功',
-    REGISTER_IPT_ERR: '信息填写有误，请检查您的输入',
-    EMAIL_SEND_SUCC: '邮件已发送',
-    USER_EXISTED: '用户已存在',
-    REQ_LIMIT: '限制请求，请稍候再试',
+    EMAIL_BLANK: 'E-mail address can not be null',
+    EMAIL_ERR: 'Format error',
+    EMAIL_CODE_BLANK: 'Code can not be null',
+    PWD_BLANK: 'Password can not be null',
+    PWD_LIMIT: 'Password must at least 6 characters',
+    PWD_BLANK: 'Password can not be null',
+    REGISTER_SUCC: 'register success',
+    REGISTER_IPT_ERR: 'Input information error',
+    EMAIL_SEND_SUCC: 'E-mail has been send',
+    USER_EXISTED: 'User exist',
+    REQ_LIMIT: 'Request limited, please try later',
     // 重置密码
-    RESET_SUCC: '重置密码成功',
+    RESET_SUCC: 'reset password success',
     // 行为验证相关
-    GEET_LOAD_ERR_TIP: '验证码加载失败，请重试',
-    GEET_INIT_ERR: '验证码初始化异常，请尝试刷新页面来进行验证码初始化',
-    CHECK_FAIL: '验证失败'
+    GEET_LOAD_ERR_TIP: 'Auth code load fail,please try again',
+    GEET_INIT_ERR: 'Auth code load error,please refresh',
+    CHECK_FAIL: 'authentication failed'
   }
 }

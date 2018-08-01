@@ -19,7 +19,8 @@ module.exports = {
         services: '服务',
         exchange: '交易中心',
         support: '支持',
-        submitARequest: '提交请求'
+        feedback: '问题反馈',
+        listingApplication: '上币申请'
     },
     clauseInstruction: {
         clauseInstruction: '条款说明',
@@ -41,6 +42,7 @@ module.exports = {
   index: {
     announcement: {
       title: '公告',
+      more: '更多',
       news: 'Exchain超级合作伙伴计划开启'
     },
     txSumary: {
@@ -115,6 +117,34 @@ module.exports = {
   },
   whitepaper: {
     title: '白皮书'
+  },
+  bonus: {
+    currentLevel: '您当前等级：',
+    yesterdayFeeRet: '昨日被邀请人手续费返还：',
+    accumulateFeeRet: '被邀请人手续费累积返还',
+    yesterdayETRet: '昨日获得ET返还量：',
+    accumulateETRet: '累积ET返还量：',
+    superPartner: '超级合作伙伴：',
+    notice1: '邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。',
+    partner: '普通合作伙伴：',
+    notice2: '邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。',
+    tradeUser: '交易用户：',
+    notice3: '任何用户产生至少一笔交易即可成为交易伙伴。',
+    normalUser: '普通用户：',
+    notice4: '任何注册用户均为普通用户。',
+    inviteType: '邀请方式',
+    inviteCode: '邀请码：',
+    copyInviteCode: '复制邀请码',
+    inviteLink: '邀请链接：',
+    inviteRecord: '邀请记录',
+    invited: '已邀请',
+    untrade: '未交易',
+    traded: '已完成交易',
+    inviteUnit: '人',
+    account: '被邀请人账号',
+    time: '时间',
+    status: '状态',
+    toMore: '点击查看更多'
   },
   userCenter: {
     index: {
@@ -263,8 +293,8 @@ module.exports = {
       login: '登录',
       email: '邮箱',
       password: '密码',
-      pleaseInputEmail: '请输入邮箱',
-      pleaseInputPassword: '请输入密码',
+      pleaseInputEmail: '',
+      pleaseInputPassword: '',
       welcomeLogin: '欢迎登录',
       forgotPassword: '忘记密码',
       resetPassword: '重置密码',
@@ -288,13 +318,13 @@ module.exports = {
     title: '注册',
     dec: '注册 Exchain 账号',
     email: '邮箱',
-    pleaseIptEmail: '请输入有效的邮箱',
+    pleaseIptEmail: '',
     emailcode: '邮箱验证码',
-    pleaseIptEmailCode: '请输入邮箱里收到的验证码',
+    pleaseIptEmailCode: '',
     pwd: '密码',
-    pleaseIptPwd: '请输入6位以上字符的密码',
+    pleaseIptPwd: '',
     pwd2: '确认密码',
-    pleaseInputPwd2: '请再次输入密码',
+    pleaseInputPwd2: '',
     code: '邀请码（选填）',
     registerBtn: '注册',
     toLogin: '已有账户？请',
