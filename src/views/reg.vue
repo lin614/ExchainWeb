@@ -111,14 +111,14 @@ export default {
           {
             type: 'string',
             min: 6,
-            message: this.$t('errorMsg.pwd_limit'),
+            message: this.$t('errorMsg.PWD_LIMIT'),
             trigger: 'blur'
           }
         ],
         pwd2: [
           {
             required: true,
-            message: this.$t('errorMsg.pwd_blank'),
+            message: this.$t('errorMsg.PWD_BLANK'),
             trigger: 'blur'
           },
           {

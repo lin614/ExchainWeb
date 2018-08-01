@@ -400,7 +400,7 @@ module.exports = {
     EMAIL_SEND_SUCC: 'E-mail has been send',
     USER_EXISTED: 'User exist',
     REQ_LIMIT: 'Request limited, please try later',
-    USERNAME_OR_PWD_ERR: '用户名或密码错误',
+    USERNAME_OR_PWD_ERR: 'Username or password error',
     // 重置密码
     RESET_SUCC: 'reset password success',
     // 行为验证相关
