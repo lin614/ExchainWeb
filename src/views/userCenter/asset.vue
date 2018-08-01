@@ -501,64 +501,64 @@ export default {
       if (this.transferLoading) {
         return
       }
+      var vu = this
       this.$refs[form].validate(valid => {
         if (valid) {
-          var vu = this
-          this.transferLoading = true
-          if (this.trabsferModal.to === 'trade') {
+          vu.transferLoading = true
+          if (vu.trabsferModal.to === 'trade') {
             // 转到交易账户
             ax
               .get(
                 config.url.user +
                   '/api/account/toExchange?type=' +
-                  this.trabsferModal.token +
+                  vu.trabsferModal.token +
                   '&balance=' +
-                  this.trabsferModal.amount,
+                  vu.trabsferModal.amount,
                 header
               )
               .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {
-                  this.getMyAsset()
+                  vu.getMyAsset()
                   // 可优化为只改变需要改变的数据
-                  this.$refs[form].resetFields()
-                  this.showTransferModal = false
-                  this.transferLoading = false
-                  vu.$Message.success(this.$t('errorMsg.SUCCESS'))
+                  vu.$refs[form].resetFields()
+                  vu.showTransferModal = false
+                  vu.transferLoading = false
+                  vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
                 } else {
-                  this.transferLoading = false
-                  vu.$Message.error(this.$t('errorMsg.FAIL'))
+                  vu.transferLoading = false
+                  vu.$Message.error(vu.$t('errorMsg.FAIL'))
                 }
               })
               .catch((err) => {
-                vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
-                this.transferLoading = false
+                vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+                vu.transferLoading = false
               })
-          } else if (this.trabsferModal.to === 'master') {
+          } else if (vu.trabsferModal.to === 'master') {
             // 转到主账户
             ax
               .get(
                 config.url.user +
                   '/api/exchange/toAccount?type=' +
-                  this.trabsferModal.token +
+                  vu.trabsferModal.token +
                   '&balance=' +
-                  this.trabsferModal.amount,
+                  vu.trabsferModal.amount,
                 header
               )
               .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {
-                  this.getMyAsset()
-                  this.$refs[form].resetFields()
-                  this.showTransferModal = false
-                  this.transferLoading = false
-                  vu.$Message.success(this.$t('errorMsg.SUCCESS'))
+                  vu.getMyAsset()
+                  vu.$refs[form].resetFields()
+                  vu.showTransferModal = false
+                  vu.transferLoading = false
+                  vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
                 } else {
-                  vu.$Message.error(this.$t('errorMsg.FAIL'))
-                  this.transferLoading = false
+                  vu.$Message.error(vu.$t('errorMsg.FAIL'))
+                  vu.transferLoading = false
                 }
               })
               .catch((err) => {
-                vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
-                this.transferLoading = false
+                vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+                vu.transferLoading = false
               })
           }
         } else {

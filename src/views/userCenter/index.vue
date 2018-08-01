@@ -321,24 +321,24 @@ export default {
         if (valid) {
           ax
             .post(config.url.user + '/api/user/changePassword', {
-              password: md5(this.changePwdModal.currentPwd),
-              new_password: md5(this.changePwdModal.password)
+              password: md5(vu.changePwdModal.currentPwd),
+              new_password: md5(vu.changePwdModal.password)
             })
             .then(res => {
               console.log(res)
               if (res.status == '200' && res.data.errorCode == 0) {
                 console.log(res.data)
-                this.changeLoading = false
-                vu.$Message.success(this.$t('errorMsg.SUCCESS'))
-                this.showChangePwd = false
+                vu.changeLoading = false
+                vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
+                vu.showChangePwd = false
               } else {
-                this.changeLoading = false
-                vu.$Message.error(this.$t('errorMsg.FAIL'))
+                vu.changeLoading = false
+                vu.$Message.error(vu.$t('errorMsg.FAIL'))
               }
             })
             .catch(err => {
-              this.changeLoading = false
-              vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+              vu.changeLoading = false
+              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
             })
         } else {
           this.changeLoading = false
@@ -346,13 +346,14 @@ export default {
       })
     },
     getRecentActivity() {
+      var vu = this
       ax
         .get(config.url.user + '/api/user/getRecentActivity')
         .then(res => {
           console.log(typeof res.status)
           if (res.status === 200 && res.data.errorCode === 0) {
-            this.recentUserInfo = res.data.result.data
-            console.log(this.recentUserInfo)
+            vu.recentUserInfo = res.data.result.data
+            console.log(vu.recentUserInfo)
           }
         })
         .catch(err => {

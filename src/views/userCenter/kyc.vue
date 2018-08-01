@@ -177,23 +177,23 @@ export default {
         if (valid) {
           ax.post(config.url.user+'/api/user/userKycRequest', {
             type: 'pid',
-            name: this.formField.familyName + this.formField.firstName,
-            idCardNumber: this.formField.idcardNo,
-            idCardFrontUrl: this.files.front,
-            idCardBackUrl: this.files.back,
-            idCardHoldUrl: this.files.hold
+            name: vu.formField.familyName + vu.formField.firstName,
+            idCardNumber: vu.formField.idcardNo,
+            idCardFrontUrl: vu.files.front,
+            idCardBackUrl: vu.files.back,
+            idCardHoldUrl: vu.files.hold
           })
           .then((res) => {
             if (res.status === 200 && res.data.errorCode === 0) {
-              this.$router.push('/usercenter')
+              vu.$router.push('/usercenter')
               //修改kyc状态为待审核
-              vu.$Message.success(this.$t('errorMsg.KYC_SUBMIT'))
+              vu.$Message.success(vu.$t('errorMsg.KYC_SUBMIT'))
             } else {
-              vu.$Message.error(this.$t('errorMsg.FAIL'))
+              vu.$Message.error(vu.$t('errorMsg.FAIL'))
             }
           })
           .catch((err) => {
-            vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+            vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
           })
         }
       });

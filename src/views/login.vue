@@ -67,19 +67,19 @@ export default {
         email: [
           {
             required: true,
-            message: '邮箱不能为空',
+            message: this.$t('errorMsg.EMAIL_BLANK'),
             trigger: 'blur'
           },
           {
             type: 'email',
-            message: '邮箱格式不正确',
+            message: this.$t('errorMsg.EMAIL_ERR'),
             trigger: 'blur'
           }
         ],
         pwd: [
           {
             required: true,
-            message: '邮箱不能为空',
+            message: this.$t('errorMsg.PWD_BLANK'),
             trigger: 'blur'
           }
         ]
@@ -91,13 +91,13 @@ export default {
       var vu = this
       this.$refs['loginInfo'].validate(valid => {
         if (valid) {
-          if (this.geetOnReady) {
+          if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
-            vu.$Message.error('验证码加载失败，请重试')
+            vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
         } else {
-          vu.$Message.error('验证失败!')
+          vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
         }
       })
     },
@@ -145,15 +145,15 @@ export default {
             vu.$router.push('/userCenter')
           } else if (res.data.errorCode == 202) {
             vu.geettest.reset()
-            vu.$Message.error('用户名或密码错误')
+            vu.$Message.error(vu.$t('errorMsg.USERNAME_OR_PWD_ERR'))
           } else {
             vu.geettest.reset()
-            vu.$Message.error('登录失败')
+            vu.$Message.error(vu.$t('errorMsg.FAIL'))
           }
         })
         .catch(function(error) {
           vu.geettest.reset()
-          vu.$Message.error('登录失败')
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
     },
     initGeetest() {
@@ -183,7 +183,7 @@ export default {
                 .onError(function() {
                   vu.geetOnReady = false
                   vu.$Message.error(
-                    '验证码初始化异常，请尝试刷新页面来进行验证码初始化'
+                    vu.$t('errorMsg.GEET_INIT_ERR')
                   )
                 })
             }

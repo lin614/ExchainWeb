@@ -118,19 +118,20 @@ export default {
         method: 'active',
         t: new Date().getTime()
       }
+      var vu = this
       ax.get(config.url.user+'/api/order/lists', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           let data = res.data.result.data;
           for (let i = 0; i < data.length; i++) {
             let amount_deal = parseFloat(data[i].amount_deal);
             let amount = parseFloat(data[i].amount);
-            let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
+            let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100);
             data[i].closeRate = rate.toFixed(2);
-            data[i].opera = this.$t('userCenter.entrust.cancelOrder');
-            this.curData = data;
+            data[i].opera = vu.$t('userCenter.entrust.cancelOrder');
+            vu.curData = data;
           }
         } else {
-          this.$Modal.error({ content: res.data.errorMsg });
+          vu.$Modal.error({ content: res.data.errorMsg });
         }
       });
     },
@@ -143,19 +144,20 @@ export default {
         method: 'history',
         t: new Date().getTime()
       }
+      var vu = this
       ax.get(config.url.user+'/api/order/lists', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           let data = res.data.result.data;
           for (let i = 0; i < data.length; i++) {
             let amount_deal = parseFloat(data[i].amount_deal);
             let amount = parseFloat(data[i].amount);
-            let rate = this.accMul(this.accDiv(amount_deal, amount), 100);
+            let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100);
             data[i].closeRate = rate.toFixed(2);
             data[i].opera = '';
-            this.hisData = data;
+            vu.hisData = data;
           }
         } else {
-          this.$Modal.error({ content: res.data.errorMsg });
+          vu.$Modal.error({ content: res.data.errorMsg });
         }
       });
     },
@@ -206,12 +208,13 @@ export default {
         order_id: row.order_id,
         market: row.market
       }
+      var vu = this
       ax.get(config.url.user+'/api/exchange/orderCancel', {params}).then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          this.getCurData();
-          this.$Message.success('撤单成功!')
+          vu.getCurData();
+          vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
         } else {
-          this.$Modal.error({ content: res.data.errorMsg });
+          vu.$Modal.error({ content: res.data.errorMsg });
         }
       });
     }

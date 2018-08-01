@@ -58,21 +58,22 @@ export default {
      */
     getAddress (token) {
       this.spinShow = true
+      var vu = this
       ax.get(config.url.user+'/api/account/getAddress?type=' + token)
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
-            this.addr = res.data.result.address
-            this.qrCode = res.data.result.qrcode
-            this.spinShow = false
-            this.no_encharge = false
+            vu.addr = res.data.result.address
+            vu.qrCode = res.data.result.qrcode
+            vu.spinShow = false
+            vu.no_encharge = false
           } else {
-            this.spinShow = false
-            this.no_encharge = true
+            vu.spinShow = false
+            vu.no_encharge = true
           }
         })
         .catch((err) => {
-          this.spinShow = false
-          this.no_encharge = true
+          vu.spinShow = false
+          vu.no_encharge = true
         })
     },
     /**
@@ -82,11 +83,11 @@ export default {
       var vu = this
       var clipboard = new ClipboardJS('.copy-addr')
       clipboard.on('success', e => {
-        vu.$Message.success(this.$t('errorMsg.COPY_SUCCESS'))
+        vu.$Message.success(vu.$t('errorMsg.COPY_SUCCESS'))
         clipboard.destroy()
       })
       clipboard.on('error', e => {
-        vu.$Message.error(this.$t('errorMsg.该浏览器不支持自动复制'))
+        vu.$Message.error(vu.$t('errorMsg.该浏览器不支持自动复制'))
         clipboard.destroy()
       })
     }

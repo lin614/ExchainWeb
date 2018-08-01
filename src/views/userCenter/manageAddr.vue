@@ -123,6 +123,7 @@ export default {
      * 获取币种支持列表
      */
     getTokenList () {
+      var vu = this
       ax.get(config.url.user + '/api/quotation/getSymbolLists')
         .then((res) => {
           if (res.status == '200' && res.data.errorCode == 0) {
@@ -131,8 +132,8 @@ export default {
             for (var key in result) {
               obj.value = key
               obj.label = key
-              this.tokenList.push(JSON.parse(JSON.stringify(obj)))
-              this.addrListTable[0].filters.push(
+              vu.tokenList.push(JSON.parse(JSON.stringify(obj)))
+              vu.addrListTable[0].filters.push(
                 JSON.parse(JSON.stringify(obj))
               )
             }
@@ -144,12 +145,13 @@ export default {
      * 查询地址列表
      */
     getWithdrawAddress () {
+      var vu = this
       ax.post(config.url.user + '/api/account/getWithdrawAddress', {
         type: ''
       })
       .then((res) => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          this.addrListData = [...res.data.result.data]
+          vu.addrListData = [...res.data.result.data]
         }
       })
       .catch(() => {})
@@ -170,13 +172,13 @@ export default {
             if (res.status == '200' && res.data.errorCode == 0) {
               vu.getWithdrawAddress()
               vu.$refs.magAddrForm.resetFields()
-              vu.$Message.success(this.$t('errorMsg.SUCCESS'))
+              vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
             } else {
-              vu.$Message.error(this.$t('errorMsg.FAIL'))
+              vu.$Message.error(vu.$t('errorMsg.FAIL'))
             }
           })
           .catch((err) => {
-            vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+            vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
           })
         }
       })
@@ -192,15 +194,15 @@ export default {
       })
       .then((res) => {
         if (res.status == '200' && res.data.errorCode == 0) {
-          this.addrListData.splice(index, 1)
-          this.getWithdrawAddress()
-          vu.$Message.success(this.$t('errorMsg.SUCCESS'))
+          vu.addrListData.splice(index, 1)
+          vu.getWithdrawAddress()
+          vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
         } else {
-          vu.$Message.error(this.$t('errorMsg.FAIL'))
+          vu.$Message.error(vu.$t('errorMsg.FAIL'))
         }
       })
       .catch((err) => {
-        vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+        vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
       })
     }
   },

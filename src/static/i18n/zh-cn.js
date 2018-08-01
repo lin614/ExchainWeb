@@ -400,6 +400,7 @@ module.exports = {
     EMAIL_SEND_SUCC: '邮件已发送',
     USER_EXISTED: '用户已存在',
     REQ_LIMIT: '限制请求，请稍候再试',
+    USERNAME_OR_PWD_ERR: '用户名或密码错误',
     // 重置密码
     RESET_SUCC: '重置密码成功',
     // 行为验证相关

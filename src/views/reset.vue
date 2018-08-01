@@ -133,10 +133,10 @@ export default {
           if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
-            vu.$Message.error(this.$t('errorMsg.GEET_LOAD_ERR_TIP'))
+            vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
         } else {
-          vu.$Message.error(this.$t('errorMsg.CHECK_FAIL'))
+          vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
         }
       })
     },
@@ -163,20 +163,20 @@ export default {
             //     vu.$router.push('/login')
             //   }
             // })
-            vu.$Message.success(this.$t('errorMsg.RESET_SUCC'))
+            vu.$Message.success(vu.$t('errorMsg.RESET_SUCC'))
             vu.$router.push('/login')
           } else if (res.data.errorCode == 2) {
             vu.geettest.reset()
-            vu.$Message.error(this.$t('errorMsg.REGISTER_IPT_ERR'))
+            vu.$Message.error(vu.$t('errorMsg.REGISTER_IPT_ERR'))
           } else {
             vu.geettest.reset()
-            vu.$Message.error(this.$t('errorMsg.FAIL'))
+            vu.$Message.error(vu.$t('errorMsg.FAIL'))
             // vu.$Modal.error('重置密码失败:' + res.data.errorMsg)
           }
         })
         .catch(() => {
           vu.geettest.reset()
-          vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
     },
     sendemail() {
@@ -190,7 +190,7 @@ export default {
             .then(function(res) {
               console.log(res)
               vu.resettoken = res.data.result.token
-              vu.$Message.success(this.$t('errorMsg.EMAIL_SEND_SUCC'))
+              vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
             })
         } else {
           vu.$Message.error(error)
@@ -219,7 +219,7 @@ export default {
                 vu.resSetPwdFn()
             }).onError(function(){
               vu.geetOnReady = false
-              vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
+              vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
             })
 
           })

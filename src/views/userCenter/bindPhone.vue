@@ -163,7 +163,7 @@ export default {
             vu.token = res.data.result.token
             vu.handleCodeDown()
           } else if (res.data.errorCode == 710) {
-            vu.$Message.error(this.$t('errorMsg.PHONE_BIND_EXIST'))
+            vu.$Message.error(vu.$t('errorMsg.PHONE_BIND_EXIST'))
           } else {
             vu.codeDown = true
             vu.handleCodeDown()
@@ -202,6 +202,7 @@ export default {
      */
     handleConfirmClick (form) {
       // this.confirmLoading = true
+      var vu = this
       this.$refs[form].validate((valid) => {
         console.log(2)
         if (valid) {
@@ -210,12 +211,12 @@ export default {
             url: config.url.user+'/api/user/verifyBindPhone',
             method: 'post',
             data: {
-              phone: this.bindForm.phone,
-              country: this.bindForm.country,
-              code: this.bindForm.phoneCode,
+              phone: vu.bindForm.phone,
+              country: vu.bindForm.country,
+              code: vu.bindForm.phoneCode,
               pn: cookie.get('PN'),
-              type: this.type,
-              token: this.token
+              type: vu.type,
+              token: vu.token
             },
             transformRequest: [function (data) {
               let ret = ''
@@ -230,15 +231,15 @@ export default {
           })
           .then((res) => {
             if (res.status == '200' && res.data.errorCode == 0) {
-              this.$Message.success(this.$t('errorMsg.SUCCESS'))
-              this.$refs.bindForm.resetFields()
-              this.$router.push('/usercenter')
+              vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
+              vu.$refs.bindForm.resetFields()
+              vu.$router.push('/usercenter')
             } else {
-              this.$Message.error(this.$t('errorMsg.FAIL'))
+              vu.$Message.error(vu.$t('errorMsg.FAIL'))
             }
           })
           .catch((err) => {
-            this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+            vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
             console.log(err)
           })
         }
@@ -288,7 +289,7 @@ export default {
             for (var key in result) {
               obj.label = key
               obj.value = result[key]
-              this.countryList.push(obj)
+              vu.countryList.push(obj)
             }
           }
         })

@@ -117,27 +117,27 @@ export default {
       var vu = this
       this.$refs[form].validate((valid) => {
         if (valid) {
-          this.spinShow = true
+          vu.spinShow = true
           ax.post(config.url.user+'/api/account/withdraw', {
-            type: this.token,
-            outer_address: this.getCashModal.destAddr,
-            balance: this.getCashModal.amount
+            type: vu.token,
+            outer_address: vu.getCashModal.destAddr,
+            balance: vu.getCashModal.amount
           })
           .then((res) => {
             if (res.status == '200' && res.data.errorCode == 0) {
               vu.spinShow = false
               vu.$refs.getCashForm.resetFields()
-              this.getCashModal.fee = this.fee
-              this.$emit('submitGetCash')
-              vu.$Message.success(this.$t('errorMsg.WITHDRAW_REQ_SUBMIT'))
+              vu.getCashModal.fee = vu.fee
+              vu.$emit('submitGetCash')
+              vu.$Message.success(vu.$t('errorMsg.WITHDRAW_REQ_SUBMIT'))
             } else {
               vu.spinShow = false
-              vu.$Message.error(this.$t('errorMsg.FAIL'))
+              vu.$Message.error(vu.$t('errorMsg.FAIL'))
             }
           })
           .catch((err) => {
             vu.spinShow = false
-              vu.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
             console.log(err)
           })
         }

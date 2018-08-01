@@ -137,13 +137,13 @@ module.exports = {
     inviteCode: '邀请码：',
     copyInviteCode: '复制邀请码',
     inviteLink: '邀请链接：',
-    inviteRecord: '邀请记录',
+    inviteRecord: 'Invite History',
     invited: '已邀请',
     untrade: '未交易',
     traded: '已完成交易',
     inviteUnit: '人',
-    account: '被邀请人账号',
-    time: '时间',
+    account: 'Invited Account',
+    time: 'Time',
     status: '状态',
     toMore: '点击查看更多'
   },
@@ -400,6 +400,7 @@ module.exports = {
     EMAIL_SEND_SUCC: 'E-mail has been send',
     USER_EXISTED: 'User exist',
     REQ_LIMIT: 'Request limited, please try later',
+    USERNAME_OR_PWD_ERR: '用户名或密码错误',
     // 重置密码
     RESET_SUCC: 'reset password success',
     // 行为验证相关
