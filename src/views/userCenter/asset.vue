@@ -8,7 +8,7 @@
             <div class="asset-amount">
               <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span>
               <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
-              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.transfer.volumeUnit') }}{{CNYBalance}}</span>
+              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.transfer.volumeUnit') }}{{balanceTotal}}</span>
             </div>
             <div class="opera-box clearfix">
               <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
@@ -77,6 +77,7 @@ import encharge from './encharge'
 import getCash from './getCash'
 import manageAddr from './manageAddr'
 import cookie from 'js-cookie'
+import NP from 'number-precision'
 // ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
 //   domain: config.url.domain
 // })
@@ -106,15 +107,17 @@ export default {
       pageHeight: 0,
       showExType: '',
       enchargeToken: '',
+      balanceTotal: null,
       tokenFee: '',
       master: '',
       trade: '',
       BTCBalance: '',
-      CNYBalance: '',
       showTransferModal: false,
       transferLoading: false,
       showCharge: false,
       showColor: '',
+      usdtPrice: null,
+      btcPrice: null,
       trabsferModal: {
         token: '',
         from: '',
@@ -182,7 +185,7 @@ export default {
         {
           title: ' ',
           key: 'opera',
-          minWidth: 250,
+          minWidth: 200,
           render: (h, params) => {
             return h('div', [
               h(
@@ -372,13 +375,18 @@ export default {
           }
         }
       }
+    },
+    btcPrice () {
+      console.log(this.btcPrice)
+      this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+      console.log(this.balanceTotal)
     }
   },
   methods: {
     getBalance() {
       ax
         .get(
-          config.url.user + '/api/account/balanceQuery?types=BTC,CNY',
+          config.url.user + '/api/account/balanceQuery?types=BTC',
           header
         )
         .then(res => {
@@ -589,15 +597,29 @@ export default {
     }
   },
   mounted() {
-    function subQuo(pair) {
-      ws.postData({
-        event: 'sub',
-        channel: 'huobi.market.' + pair + '.kline.1min'
+    this.usdtPrice = window.localStorage.getItem('exchange-usdt')
+    var vu = this
+    if (isNaN(this.usdtPrice)) {
+      ax.get(config.url.user+'/api/quotation/getUSDCNY').then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          vu.usdt = res.data.result
+          window.localStorage.setItem('exchange-usdt', vu.usdt)
+          console.log('usdt 汇率:' + vu.usdt)
+        }
       })
     }
-    subQuo('btcusdt')
+    this.usdtPrice = parseFloat(this.usdtPrice)
+    ws.postData({
+      event: 'sub',
+      channel: 'huobi.market.btcusdt.kline.1min'
+    })
     bus.$on('wsUpdate', data => {
+      console.log('data --- ')
       console.log(data)
+      if (data.data) {
+        vu.btcPrice = data.data[0][1]
+      }
+      console.log('vu.btcPrice --- ' + vu.btcPrice)
     })
   },
   created() {
@@ -607,6 +629,8 @@ export default {
     var vu = this
     util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
     bus.$on('langChange', () => {
+      // vu.activeLang = e.value.lang
+      // console.log(e)
       util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
     })
     this.pageHeight = window.innerHeight - 360

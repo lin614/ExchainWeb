@@ -205,6 +205,7 @@ export default {
         // channel: 'test'
       })
     var list = [...this.data1, ...this.data2, ...this.data3, ...this.data4]
+    console.log(list)
     for (var i in list) {
       var arr = list[i].pair.split('/')
       list[i].parm = arr.join('').toLowerCase()
