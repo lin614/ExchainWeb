@@ -16,7 +16,10 @@
             <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>
           </div>
 
-          <Modal v-model="showTransferModal" class-name="change-pwd-model" :closable="false">
+          <!-- 资金划转模态框 -->
+          <Modal v-model="showTransferModal"
+                 class-name="change-pwd-model"
+                 :closable="false">
             <crd potColor="#4399e9">
               <span slot="title">{{ $t('userCenter.asset.transfer.title') }}</span>
               <div class="form-box">
@@ -84,6 +87,9 @@ import NP from 'number-precision'
 // ax.defaults.headers.common['X-EXCHAIN-PN'] = cookie.get('PN', {
 //   domain: config.url.domain
 // })
+ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+  domain: config.url.domain
+})
 
 import util from '../../libs/util.js'
 import { setInterval } from 'timers'
@@ -396,7 +402,7 @@ export default {
     getBalance() {
       ax
         .get(
-          config.url.user + '/api/account/balanceQuery?types=BTC',
+          config.url.user + '/api/account/balanceQuery',
           getHeader
         )
         .then(res => {

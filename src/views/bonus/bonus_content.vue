@@ -113,7 +113,7 @@
 
               </Col>
             </Row>
-            <Row type="flex" :gutter="16" v-for="p in list" :key="p.user">
+            <Row type="flex" :gutter="16" v-for="(p, index) in list" :key="p.user">
               <Col span="8">
               <p class="earn">{{p.userId}}
               </p>
@@ -129,7 +129,7 @@
             </Row>
 
           </div>
-          <router-link class="to-more" target="_blank" to="/invite">{{$t('bonus.toMore')}}</router-link>
+          <router-link v-if="showMore" class="to-more" to="/invite">{{$t('bonus.toMore')}}</router-link>
         </crd>
 
       </div>
@@ -151,6 +151,7 @@ export default {
     return {
       level: 0,
       levelName: '交易伙伴',
+      showMore: false, //是否显示更多邀请记录，小于 10 条不显示按钮
       code: '', //邀请码
       link: '', //邀请链接
       fee1: '0', //昨日手续费
@@ -199,6 +200,11 @@ export default {
             obj.code = res1.data.data.code
             obj.link = 'http://www.exchain.com/reg/' + obj.code
 
+            if (res2.data.data.inviteList.length > 10) {
+              obj.showMore = true
+            } else {
+              obj.showMore = false
+            }
             obj.list = res2.data.data.inviteList.slice(0, 10)
             var num = res2.data.data.activeCount
             obj.level = num == 0 ? '0' : num > 50 ? '2' : '1'
@@ -230,6 +236,7 @@ export default {
 .bonus_content {
   margin-top: 16px;
   line-height: 40px;
+  padding-top: 40px;
   //   .pa-c {
   .lv {
     height: 80px;

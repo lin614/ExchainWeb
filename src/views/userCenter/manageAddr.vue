@@ -67,14 +67,16 @@ export default {
             required: true,
             message: this.$t('errorMsg.ADDR_BLANK'),
             trigger: 'blur'
-          }
+          },
+          { max: 100, message: this.$t('errorMsg.ADDR_LIMIT'), trigger: 'change, blur' }
         ],
         note: [
           {
             required: true,
             message: this.$t('errorMsg.NOTE_BLANK'),
             trigger: 'blur'
-          }
+          },
+          { max: 255, message: this.$t('errorMsg.NOTE_LIMIT'), trigger: 'change, blur' }
         ]
       },
       addrListTable: [
@@ -160,7 +162,7 @@ export default {
       ax
         .post(config.url.user + '/api/account/getWithdrawAddress', {
           type: ''
-        })
+        }, getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             vu.addrListData = [...res.data.result.data]
@@ -179,13 +181,15 @@ export default {
             .post(config.url.user + '/api/account/addWithdrawAddress', {
               type: vu.magAddrForm.tokenType,
               name: vu.magAddrForm.note,
-              outer_address: vu.magAddrForm.addr
-            })
+              outerAddress: vu.magAddrForm.addr
+            }, getHeader)
             .then(res => {
               if (res.status == '200' && res.data.errorCode == 0) {
                 vu.getWithdrawAddress()
                 vu.$refs.magAddrForm.resetFields()
                 vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
+              } else if (res.data.errorCode == 2) {
+                vu.$Message.error(vu.$t('errorMsg.REGISTER_IPT_ERR'))
               } else {
                 vu.$Message.error(vu.$t('errorMsg.FAIL'))
               }

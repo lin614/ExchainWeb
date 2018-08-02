@@ -9,7 +9,9 @@
             <div class="entrust-tab-item fl" @click="handleTabClick('history')" :class="currentTab === 'history' ? 'tab-active' : ''">{{ $t('userCenter.entrust.historyOrder') }}</div>
           </div>
           <Table v-if="currentTab === 'current'" :columns="columns1" :data="curData"></Table>
+          <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleCurPageChange" :total="curTotal"></Page>
           <Table v-if="currentTab === 'history'" :columns="columns1" :data="hisData"></Table>
+          <Page v-if="(currentTab === 'history') && showHisPage" @on-change="handleHisPageChange" :total="hisTotal"></Page>
         </crd>
       </div>
     </div>
@@ -22,12 +24,22 @@ import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import util from '../../libs/util.js'
+import cookie from 'js-cookie'
 export default {
   name: 'entrust',
   data() {
+    var vu = this
     return {
       pageHeight: 0,
       currentTab: 'current',
+      showCurPage: false,
+      showHisPage: false,
+      curPage: 1,
+      curSize: 10,
+      curTotal: 0,
+      hisPage: 1,
+      hisSize: 10,
+      hisTotal: 0,
       columns1: [
         {
           title: this.$t('userCenter.entrust.ctime'),
@@ -43,11 +55,18 @@ export default {
           key: 'side',
           width: 100,
           render: function(h, params) {
+            // var vu = this
+            console.log(vu)
             return h(
               'div',
-              this.row.side === 1
-                ? this.$t('userCenter.entrust.buy')
-                : this.$t('userCenter.entrust.sell')
+              {
+                style: {
+                  color: ((params.row.side + '') === '1') ? 'green' : 'red'
+                }
+              },
+              ((params.row.side + '') === '1')
+                ? vu.$t('userCenter.entrust.buy')
+                : vu.$t('userCenter.entrust.sell')
             )
           }
         },
@@ -127,7 +146,7 @@ export default {
         .get(
           config.url.user +
             '/api/order/lists?status=1&method=active&t' +
-            new Date().getTime(),
+            new Date().getTime() + '&page=' + vu.curPage + '&size=' + vu.curSize,
           getHeader
         )
         .then(res => {
@@ -140,6 +159,13 @@ export default {
               data[i].closeRate = rate.toFixed(2)
               data[i].opera = vu.$t('userCenter.entrust.cancelOrder')
               vu.curData = data
+            }
+            vu.curTotal = res.data.result.total * 1
+            if (Math.ceil(vu.curTotal / vu.curSize) > 1) {
+              console.log(1)
+              this.showCurPage = true
+            } else {
+              this.showCurPage = false
             }
           } else {
             vu.$Message.error({ content: res.data.errorMsg })
@@ -160,7 +186,7 @@ export default {
         .get(
           config.url.user +
             '/api/order/lists?status=2&method=history&t' +
-            new Date().getTime(),
+            new Date().getTime() + '&page=' + vu.hisPage + '&size=' + vu.hisSize,
           getHeader
         )
         .then(res => {
@@ -173,6 +199,12 @@ export default {
               data[i].closeRate = rate.toFixed(2)
               data[i].opera = ''
               vu.hisData = data
+            }
+            vu.hisTotal = res.data.result.total * 1
+            if (Math.ceil(vu.hisTotal / vu.hisSize) > 1) {
+              this.showHisPage = true
+            } else {
+              this.showHisPage = false
             }
           } else {
             vu.$Message.error({ content: res.data.errorMsg })
@@ -231,15 +263,10 @@ export default {
      * @param {object} row 订单记录
      */
     cancelOrder(row) {
-      let params = {
-        order_id: row.order_id,
-        market: row.market
-      }
       var vu = this
       ax
         .get(
-          config.url.user + '/api/exchange/orderCancel',
-          { params },
+          config.url.user + '/api/exchange/orderCancel?order_id=' + row.order_id + '&market=' + row.market,
           getHeader
         )
         .then(res => {
@@ -250,6 +277,20 @@ export default {
             vu.$Message.error({ content: res.data.errorMsg })
           }
         })
+    },
+    /**
+     * 当前委托页码改变
+     */
+    handleCurPageChange (e) {
+      this.curPage = e
+      this.getCurData()
+    },
+    /**
+     * 成交历史页码改变
+     */
+    handleHisPageChange(e) {
+      this.hisPage = e
+      this.getHisData()
     }
   },
   mounted() {
@@ -258,8 +299,18 @@ export default {
     bus.$on('langChange', () => {
       util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
     })
+    console.log(getHeader)
   },
   created() {
+    global.getHeader = (() => {
+        return {
+            headers: {
+                'X-EXCHAIN-PN': cookie.get('PN', {
+                    domain: config.url.domain
+                })
+            }
+        }
+    })()
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
     this.getCurData()
@@ -274,6 +325,9 @@ export default {
 .entrust-cont {
   div {
     box-sizing: border-box;
+  }
+  .mainContent {
+    padding-bottom: 20px;
   }
   box-sizing: border-box;
   width: 100%;
@@ -345,6 +399,9 @@ export default {
     .ivu-table td {
       border-bottom: none;
     }
+  }
+  .ivu-page {
+    text-align: center;
   }
 }
 </style>

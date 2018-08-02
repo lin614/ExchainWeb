@@ -47,10 +47,10 @@ module.exports = {
       news: 'Exchain start the Partner Project'
     },
     txSumary: {
-      currentDay: 'Total turnovervolume on the day',
-      etMarketValue: 'ET total market valuecap',
+      currentDay: 'Total volume on the day',
+      etMarketValue: 'ET total market cap',
       etCirculation: 'Total ET in circulation',
-      freeTitle: 'Free transaction Timetable of FreeDeadline',
+      freeTitle: 'Free transaction Deadline',
       freeUnit: 'Day'
     },
     markets: {
@@ -89,11 +89,11 @@ module.exports = {
       title: 'ET Rights',
       descript: [{
         title: 'Revenue Distribution',
-        descript: 'Exchain allocated all 100% of the transaction revenue  according to the corresponding proportion held byto ET holders. For more details, please go to the See Exchain White Paper for details.'
+        descript: 'Exchain allocated all 100% of the transaction revenue to ET holders. See Exchain White Paper for details.'
       },
       {
-        title: 'Decision－making rights',
-        descript: 'Exchain is committed to creating a shared, autonomous and transparent  communitytransparent community. All ET holders can participate in making Exchain community decisions through democratic voting.'
+        title: 'Decision - making rights',
+        descript: 'Exchain is committed to creating a shared, autonomous and transparent community. All ET holders can participate in making Exchain community decisions through democratic voting.'
       }]
     },
     getEt: {
@@ -109,10 +109,10 @@ module.exports = {
     }
   },
   partnerPage: {
-    title: 'Exchain starts The Super Partner Project, of Exchain will create a new era of win-wintransaction ecosystem.',
-    p1: 'Exchain, a digital asset exchangetrading platform, is about to be launched in late July. Exchain uses adopts “transaction mining” mode, andfor users tocan get ET reward based on transaction volume. From now on, Exchain starts the "Super Partner" project.',
-    p2: 'The user who recommends one or more successful transactions can become our "ordinarygeneral  partner" and permanently share the 20% return of the transaction fee of recommended . ',
-    p3: 'The "generalordinary partner" becomewill be upgraded to the "super partner" when the number of recommended transaction users reaches more than 50, witch will permanently share the 50% return of the transaction fee of recommended. Both the "ordinary general partner" and "super partner" can have Exchain Token(ET) as reward at the same time. ',
+    title: 'Exchain starts The Super Partner Project, create a new era of win-win.',
+    p1: 'Exchain, a digital asset trading platform, is about to be launched in late July. Exchain adopts “trans-fee mining” mode, for users to get ET reward based on transaction volume. From now on, Exchain starts the "Super Partner" project.',
+    p2: 'The user who recommends one or more successful transactions can become our "general  partner" and permanently share the 20% return of the transaction fee of recommended . ',
+    p3: 'The "general partner" will be upgraded to the "super partner" when the number of recommended transaction users reaches more than 50, witch will permanently share the 50% return of the transaction fee of recommended. Both the "general partner" and "super partner" can have Exchain Token(ET) as reward at the same time. ',
     p4: 'If you are interested in the Super Partner Project, please send email to',
     p5: 'for more information.'
   },
@@ -346,6 +346,7 @@ module.exports = {
     SUCCESS: 'successful',
     FAIL: 'fail',
     NETWORK_ERROR: 'network error',
+    NO_DATA: 'No Data',
     // 修改密码
     CURRENT_PASSWORD_BLANK: 'Please input current password',
     NEW_PASSWORD_BLANK: 'Please input new password',
@@ -362,6 +363,8 @@ module.exports = {
     TOKEN_UNSELECT: 'Please choose a coin',
     ADDR_BLANK: 'Please input your address',
     NOTE_BLANK: 'Please input remark',
+    ADDR_LIMIT: '100 characters or shorter',
+    NOTE_LIMIT: '255 characters or shorter',
     // 绑定/解绑手机号
     COUNTRY_UNSELECT: 'Country',
     PHONE_BLANK: 'Telehone',

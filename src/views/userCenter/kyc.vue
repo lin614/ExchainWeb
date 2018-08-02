@@ -119,6 +119,9 @@ import page from "../components/page"
 import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
+ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+  domain: config.url.domain
+})
 export default {
   name: 'kyc',
   data () {

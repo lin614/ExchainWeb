@@ -51,7 +51,10 @@
           </div>
 
           <!-- 修改密码框 -->
-          <Modal v-model="showChangePwd" class-name="change-pwd-model" :closable="false" on-cancel="handleCloseChangePwd">
+          <Modal v-model="showChangePwd"
+                 class-name="change-pwd-model"
+                 :closable="false"
+                 :on-cancel="handleCloseChangePwd">
             <crd potColor="#4399e9">
               <span slot="title">{{ $t('userCenter.index.changePwd.title') }}</span>
               <div class="form-box">
@@ -61,8 +64,6 @@
                   </FormItem>
                   <FormItem prop="password">
                     <span slot="label">{{ $t('userCenter.index.changePwd.newPwd') }}
-                      <!-- <Tooltip content="Top Left text" placement="right"><i class="iconfont">规则</i>
-                        </Tooltip> -->
                     </span>
                     <Input type="password" v-model="changePwdModal.password"></Input>
                   </FormItem>
@@ -119,7 +120,7 @@
                     <span class="txt">谷歌验证码</span>
                   </div>
                   <div class="cnt">
-                    <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
+                    <Form ref="gaFormCustom" :rules="rules" :model="changePwdModal" label-position="top">
                       <FormItem label="" prop="confirmPwd">
                         <Input v-model="changePwdModal.confirmPwd" placeholder="请输入谷歌验证码"></Input>
                       </FormItem>
@@ -158,6 +159,9 @@ import cookie from 'js-cookie'
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
+console.log(cookie.get('PN', {
+  domain: config.url.domain
+}))
 export default {
   name: 'usercenter',
   components: {
@@ -186,6 +190,11 @@ export default {
     recentUserInfo() {
       this.mtime = this.recentUserInfo[0].time
       this.userIP = this.recentUserInfo[0].ip
+    },
+    showChangePwd () {
+      if (!this.showChangePwd) {
+        this.$refs.formCustom.resetFields()
+      }
     }
   },
   data() {
@@ -259,13 +268,12 @@ export default {
           },
           {
             validator: (rule, value, callback) => {
-              if (
-                this.changePwdModal.password === this.changePwdModal.confirmPwd
-              ) {
+              if ( this.changePwdModal.password === this.changePwdModal.confirmPwd ) {
                 callback()
               } else {
                 callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
               }
+              callback()
             },
             trigger: 'blur'
           }
@@ -344,12 +352,16 @@ export default {
               vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
             })
         } else {
-          this.changeLoading = false
+          console.log(4)
+          vu.changeLoading = false
         }
       })
     },
     getRecentActivity() {
       var vu = this
+      console.log(cookie.get('PN', {
+        domain: config.url.domain
+      }))
       ax
         .get(config.url.user + '/api/user/getRecentActivity', getHeader)
         .then(res => {
@@ -365,6 +377,7 @@ export default {
     },
     handleCloseChangePwd(form) {
       this.changeLoading = false
+      console.log(this.$refs[form])
       this.$refs[form].resetFields()
       this.showChangePwd = false
     },
@@ -376,6 +389,15 @@ export default {
     }
   },
   mounted() {
+    global.getHeader = (() => {
+        return {
+            headers: {
+                'X-EXCHAIN-PN': cookie.get('PN', {
+                    domain: config.url.domain
+                })
+            }
+        }
+    })()
     ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
       domain: config.url.domain
     })
