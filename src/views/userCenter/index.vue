@@ -175,14 +175,14 @@ export default {
       } else if (sessionStorage.getItem('email')) {
         return sessionStorage.getItem('email')
       } else {
-        return '***@***.***'
+        return ' '
       }
     },
     userMtime() {
       if (this.$store.state.mtime) {
         return this.$store.state.mtime
       } else {
-        return new Date().toLocaleDateString()
+        return ' '
       }
     }
   },
@@ -244,7 +244,7 @@ export default {
       changePwdModal: {},
       showChangePwd: false,
       changeLoading: false,
-      userIP: '192.168.1.1',
+      userIP: '',
       rules: {
         currentPwd: [
           {

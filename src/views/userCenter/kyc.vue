@@ -23,10 +23,10 @@
                   :on-success="handleFrontSuccess"
                   :on-format-error="handleFormatErr"
                   :on-error="handleFrontUploadErr"
-                  action="/api/user/userUploadIdentity"
+                  :action="uploadPost"
                   :data="{type: 'pid', idCardSide: 'front'}"
-                  :with-credentials="true"
                   :format="['jpg','jpeg','png']"
+                  :headers="kycHeaders"
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0;">
@@ -50,10 +50,10 @@
                   :on-success="handleBackSuccess"
                   :on-format-error="handleFormatErr"
                   :on-error="handleBackUploadErr"
-                  action="/api/user/userUploadIdentity"
+                  :action="uploadPost"
                   :data="{type: 'pid', idCardSide: 'back'}"
-                  :with-credentials="true"
                   :format="['jpg','jpeg','png']"
+                  :headers="kycHeaders"
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
@@ -77,10 +77,10 @@
                   :on-success="handleHoldSuccess"
                   :on-format-error="handleFormatErr"
                   :on-error="handleHoldUploadErr"
-                  action="/api/user/userUploadIdentity"
+                  :action="uploadPost"
                   :data="{type: 'pid', idCardSide: 'hold'}"
-                  :with-credentials="true"
                   :format="['jpg','jpeg','png']"
+                  :headers="kycHeaders"
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
@@ -119,14 +119,13 @@ import page from "../components/page"
 import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
-ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
-  domain: config.url.domain
-})
+import cookie from 'js-cookie'
 export default {
   name: 'kyc',
   data () {
     return {
       pageHeight: 0,
+      uploadPost:'',
       formField: {
         firstName: '',
         familyName: '',
@@ -156,6 +155,14 @@ export default {
   components: {
     crd,
     page
+  },
+  computed: {
+    kycHeaders () {
+      console.log(cookie.get('PN', { domain: config.url.domain }))
+      return {
+        'X-EXCHAIN-PN': cookie.get('PN', { domain: config.url.domain })
+      }
+    }
   },
   methods: {
     handleWindowResize () {
@@ -207,12 +214,13 @@ export default {
     handleFrontSuccess (res, file, fileList) {
       this.files.front = file.name
       this.formField.frontImg = res.result
+      console.log(res)
     },
     /**
      * 正面上传文件失败，指服务器拒绝之类的问题
      */
     handleFrontUploadErr () {
-      this.$Message.success(this.$t('errorMsg.NETWORK_ERROR'))
+      this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
     },
     /**
      * 证件反面上传成功处理
@@ -225,7 +233,7 @@ export default {
      * 反面上传失败
      */
     handleBackUploadErr () {
-      this.$Message.success(this.$t('errorMsg.NETWORK_ERROR'))
+      this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
     },
     /**
      * 手持证件照片上传成功处理
@@ -238,7 +246,7 @@ export default {
      * 手持上传失败
      */
     handleHoldUploadErr () {
-      this.$Message.success(this.$t('errorMsg.NETWORK_ERROR'))
+      this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
     },
     /**
      * 错误的文件后缀
@@ -250,6 +258,7 @@ export default {
   created () {
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
+    this.uploadPost = config.url.user + '/api/user/userUploadIdentity'
   },
   destroyed () {
     window.removeEventListener('resize', this.handleWindowResize)

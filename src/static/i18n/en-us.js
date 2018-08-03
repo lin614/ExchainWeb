@@ -397,7 +397,7 @@ module.exports = {
     EMAIL_CODE_BLANK: 'Code can not be null',
     PWD_BLANK: 'Password can not be null',
     PWD_LIMIT: 'Password must at least 6 characters',
-    PWD_BLANK: 'Password can not be null',
+    PWD2_BLANK: 'Please enter the password again',
     REGISTER_SUCC: 'register success',
     REGISTER_IPT_ERR: 'Input information error',
     EMAIL_SEND_SUCC: 'E-mail has been send',

@@ -118,7 +118,7 @@ export default {
         pwd2: [
           {
             required: true,
-            message: this.$t('errorMsg.PWD_BLANK'),
+            message: this.$t('errorMsg.PWD2_BLANK'),
             trigger: 'blur'
           },
           {
@@ -264,6 +264,10 @@ export default {
   created() {
     this.initGeetest()
     this.regInfo.code = this.$route.params.code
+    var vu = this
+    bus.$on('langChange', () => {
+      vu.$refs.regInfo.resetFields()
+    })
     // console.log(this.$initGeetest)
     // this.initGeetest()
   }
