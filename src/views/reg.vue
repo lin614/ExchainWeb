@@ -122,8 +122,15 @@ export default {
             trigger: 'blur'
           },
           {
-            trigger: 'blur',
-            validator: vali
+            validator: (rule, value, callback) => {
+              if (value != this.regInfo.pwd) {
+                callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
+              } else {
+                callback()
+              }
+              callback()
+            },
+            trigger: 'blur'
           }
         ]
       }

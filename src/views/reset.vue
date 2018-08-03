@@ -58,14 +58,6 @@ export default {
   name: 'reg',
   components: { page, block, crd },
   data() {
-    var vu = this
-    var vali = function(rule, value, callback) {
-      if (value != vu.resetInfo.pwd) {
-        callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
-      } else {
-        callback()
-      }
-    }
     return {
       resettoken: '',
       gtserver: '',
@@ -106,19 +98,26 @@ export default {
           {
             type: 'string',
             min: 6,
-            message: this.$t('errorMsg.pwd_limit'),
+            message: this.$t('errorMsg.PWD_LIMIT'),
             trigger: 'blur'
           }
         ],
         pwd2: [
           {
             required: true,
-            message: this.$t('errorMsg.pwd_blank'),
+            message: this.$t('errorMsg.PWD_BLANK'),
             trigger: 'blur'
           },
           {
-            trigger: 'blur',
-            validator: vali
+            validator: (rule, value, callback) => {
+              if (value != this.resetInfo.pwd) {
+                callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
+              } else {
+                callback()
+              }
+              callback()
+            },
+            trigger: 'blur'
           }
         ]
       }

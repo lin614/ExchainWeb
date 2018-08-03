@@ -346,6 +346,7 @@ module.exports = {
     SUCCESS: '操作成功',
     FAIL: '操作失败',
     NETWORK_ERROR: '网络异常',
+    NO_DATA: '暂无数据',
     // 修改密码
     CURRENT_PASSWORD_BLANK: '请输入当前的密码',
     NEW_PASSWORD_BLANK: '请输入您要修改的密码',
@@ -362,6 +363,8 @@ module.exports = {
     TOKEN_UNSELECT: '请选择币种',
     ADDR_BLANK: '请输入提币地址',
     NOTE_BLANK: '请输入备注',
+    ADDR_LIMIT: '地址不能超过 100 字符',
+    NOTE_LIMIT: '备注不能超过 255 字符',
     // 绑定/解绑手机号
     COUNTRY_UNSELECT: '请选择国家',
     PHONE_BLANK: '请输入您的手机号',

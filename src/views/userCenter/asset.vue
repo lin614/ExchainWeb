@@ -16,7 +16,10 @@
             <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>
           </div>
 
-          <Modal v-model="showTransferModal" class-name="change-pwd-model" :closable="false">
+          <!-- 资金划转模态框 -->
+          <Modal v-model="showTransferModal"
+                 class-name="change-pwd-model"
+                 :closable="false">
             <crd potColor="#4399e9">
               <span slot="title">{{ $t('userCenter.asset.transfer.title') }}</span>
               <div class="form-box">
@@ -84,6 +87,9 @@ import NP from 'number-precision'
 // ax.defaults.headers.common['X-EXCHAIN-PN'] = cookie.get('PN', {
 //   domain: config.url.domain
 // })
+ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+  domain: config.url.domain
+})
 
 import util from '../../libs/util.js'
 import { setInterval } from 'timers'
@@ -399,7 +405,10 @@ export default {
   methods: {
     getBalance() {
       ax
-        .get(config.url.user + '/api/account/balanceQuery?types=BTC', getHeader)
+        .get(
+          config.url.user + '/api/account/balanceQuery',
+          getHeader
+        )
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             this.BTCBalance = res.data.result.BTC.available
@@ -649,12 +658,7 @@ export default {
     bus.$on('langChange', () => {
       // vu.activeLang = e.value.lang
       // console.log(e)
-      util.toggleTableHeaderLang(
-        vu.assetListTable,
-        3,
-        'userCenter.asset.transfer.',
-        vu
-      )
+      util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
     })
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)

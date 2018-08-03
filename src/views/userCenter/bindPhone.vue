@@ -49,7 +49,9 @@ import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
-ax.defaults.withCredentials = true;
+ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+  domain: config.url.domain
+})
 export default {
   name: 'bindphone',
   data () {
@@ -76,6 +78,7 @@ export default {
       },
       rules: {
         country: [
+          { required: true },
           {
             validator: (rule, value, callback) => {
                console.log(value)
@@ -280,9 +283,17 @@ export default {
      */
     getPhoneSupportList () {
       var vu = this
-      ax.post(config.url.user+'/api/user/getPhoneSupportList')
+      var x_pn = cookie.get('PN', { domain: config.url.domain })
+      ax.post(config.url.user+'/api/user/getPhoneSupportList', {
+        headers: {
+          'X-EXCHAIN-PN': x_pn || ''
+        }
+      })
         .then((res) => {
-          if (res.status === 200 && res.data.errorCode === 0) {
+          res.status && (res.status += '')
+          console.log(res)
+          if (res.status === '200' && res.data.errorCode === 0) {
+            console.log(123123123)
             console.log(res.data.result)
             var result = res.data.result
             var obj = {}
@@ -292,6 +303,9 @@ export default {
               vu.countryList.push(obj)
             }
           }
+        })
+        .catch((err) => {
+          console.log(err)
         })
     }
   },

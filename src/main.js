@@ -40,7 +40,6 @@ import config from './config/config'
 import {
     isBoolean
 } from 'util';
-
 global.getHeader = (() => {
     return {
         headers: {

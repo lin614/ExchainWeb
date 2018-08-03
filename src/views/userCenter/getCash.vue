@@ -40,6 +40,10 @@ import ax from 'axios'
 import util from '../../libs/util.js'
 import NP from 'number-precision'
 import config from '../../config/config.js'
+import cookie from 'js-cookie'
+ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+  domain: config.url.domain
+})
 export default {
   name: 'getCash',
   props: {
@@ -145,7 +149,14 @@ export default {
       
     },
     handleAmountBlur (e) {
-      this.getCashModal.actualAmount = NP.minus(parseFloat(e.target.value), parseFloat(this.getCashModal.fee))
+      var vu = this
+      this.$refs.getCashForm.validateField('amount', (error) => {
+        if(!error){
+          vu.getCashModal.actualAmount = NP.minus(parseFloat(e.target.value), parseFloat(vu.getCashModal.fee))
+        } else {
+          vu.getCashModal.actualAmount = ''
+        }
+      })
     }
   },
   mounted () {

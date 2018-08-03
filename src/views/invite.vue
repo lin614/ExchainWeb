@@ -41,6 +41,7 @@
 
               </Col>
             </Row>
+            <Row v-if="noData" class="no-data" type="flex" :gutter="16">{{$t('errorMsg.NO_DATA')}}</Row>
           </div>
         </crd>
       </block>
@@ -55,58 +56,35 @@ import block from './components/block'
 import crd from './components/crd'
 import ax from 'axios'
 import config from '../config/config.js'
+import cookie from 'js-cookie'
+ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+  domain: config.url.domain
+})
 export default {
   name: 'invite',
   components: { page, block, crd },
   data() {
     return {
-      level: '',
-      code: '', //邀请码
-      link: '', //邀请链接
-      fee1: '0', //昨日手续费
-      et1: '0', //昨日获得ET返还量
-      fee2: '0', //被邀请人手续费累积返还
-      et2: '0', //累积ET返还量,
-      list: [] //邀请记录
+      list: [], //邀请记录
+      noData: false
     }
   },
   created() {
-    ax
-      .post(config.url.invite + '/api/invite/getInvitedCode', {
-        userId: config.userid
-      })
-      .then(res => {
-        // console.log(res)
-        if (res.status == '200' && res.data.meta.code == '0') {
-          this.code = res.data.data.code
-          this.link =
-            'http://www.exchain.com/invite?userid=' +
-            config.userid +
-            '&code=' +
-            this.code
-        }
-      })
+    var uid = cookie.get('uid', { domain: config.url.domain })
+    console.log('uid --- ' + uid)
     ax
       .post(config.url.invite + '/api/invite/invitedList', {
-        userId: config.userid
+        userId: uid
       })
       .then(res => {
         // console.log(res)
         if (res.status == '200' && res.data.meta.code == '0') {
           this.list = res.data.data.inviteList
-          this.level =
-            res.data.data.activeCount >= 50 ? this.$t('userCenter.invite.superPartner') : this.$t('userCenter.invite.partner')
-        }
-      })
-    ax
-      .get(config.url.fee + '/api/exet/stats/userBouns?userId=' + config.userid,getHeader)
-      .then(res => {
-        console.log(res)
-        if (res.status == '200' && res.data.meta.code == '0') {
-          this.fee1 = res.data.data.inviteesBonus
-          this.fee2 = res.data.data.totalInviteesBonus
-          this.et1 = res.data.data.holderBonus
-          this.et2 = res.data.data.totalHolderBonus
+          if (this.list.length === 0) {
+            this.noData = true
+          } else {
+            this.noData = false
+          }
         }
       })
   }
@@ -117,8 +95,12 @@ export default {
 .invite {
   min-height: 800px;
   line-height: 40px;
+  padding-top: 40px;
   .content {
     padding: 16px;
+  }
+  .no-data {
+    justify-content: center;
   }
 }
 </style>
