@@ -134,9 +134,10 @@ export default {
           } else {
             vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
-        } else {
-          vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
-        }
+        } 
+        // else {
+        //   vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
+        // }
       })
     },
     resSetPwdFn() {

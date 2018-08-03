@@ -43,56 +43,44 @@
         <router-link to="/usercenter/asset" v-if="isLogin">
           <Button type="text">{{ $t("header.myAsset") }}</Button>
         </router-link>
-        <Dropdown class="lan" v-if="isLogin">
-          <!-- <router-link to="/usercenter">
-            <Button type="text">
-              <Icon type="person"></Icon>
-              {{email}}
-              <Icon type="arrow-down-b"></Icon>
-            </Button>
-          </router-link> -->
+        <Dropdown class="lan" v-if="isLogin" @on-click="toLink">
+
           <Button type="text">
             <Icon type="person"></Icon>
             {{email}}
             <Icon type="arrow-down-b"></Icon>
           </Button>
-          <Dropdown class="lan" <DropdownMenu slot="list">
-            <DropdownItem>
-              <router-link to="/usercenter">
-                <span class="lan-item">{{ $t("header.userCenter") }}</span>
-              </router-link>
+          <DropdownMenu slot="list">
+            <DropdownItem name="/usercenter">
+              <span class="lan-item">{{ $t("header.userCenter") }}</span>
             </DropdownItem>
-            <DropdownItem>
-              <router-link to="/usercenter/entrust">
-                <span class="lan-item">{{ $t("header.promiseManage") }}</span>
-              </router-link>
+            <DropdownItem name="/usercenter/entrust">
+              <span class="lan-item">{{ $t("header.promiseManage") }}</span>
             </DropdownItem>
-            <DropdownItem>
-              <router-link to="/bonus">
-                <span class="lan-item">{{ $t("header.partner") }}</span>
-              </router-link>
+            <DropdownItem name="/bonus">
+              <span class="lan-item">{{ $t("header.partner") }}</span>
             </DropdownItem>
             <DropdownItem>
               <a @click="logout()">
                 <span class="lan-item">{{ $t("header.logout") }}</span>
               </a>
             </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          </DropdownMenu>
+        </Dropdown>
 
-          <Dropdown class="lan" @on-click="handleLangChange">
-            <a href="javascript:void(0)">
-              <Icon type="earth"></Icon>
-              <span>{{activeLang === 'cn' ? '简体中文' : 'English'}}</span>
-              <Icon type="arrow-down-b"></Icon>
-            </a>
-            <DropdownMenu slot="list">
-              <DropdownItem name="cn">
-                <span class="lan-item">简体中文</span>
-              </DropdownItem>
-              <DropdownItem name="en">English</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+        <Dropdown class="lan" @on-click="handleLangChange">
+          <a href="javascript:void(0)">
+            <Icon type="earth"></Icon>
+            <span>{{activeLang === 'cn' ? '简体中文' : 'English'}}</span>
+            <Icon type="arrow-down-b"></Icon>
+          </a>
+          <DropdownMenu slot="list">
+            <DropdownItem name="cn">
+              <span class="lan-item">简体中文</span>
+            </DropdownItem>
+            <DropdownItem name="en">English</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
       </Col>
     </Row>
@@ -137,6 +125,9 @@ export default {
     }
   },
   methods: {
+    toLink(rout) {
+      
+    },
     login() {
       this.showLogin = true
     },

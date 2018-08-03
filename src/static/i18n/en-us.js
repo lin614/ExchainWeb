@@ -23,23 +23,27 @@ module.exports = {
       listingApplication: 'Apply to list'
     },
     clauseInstruction: {
-        clauseInstruction: 'Clause Instruction',
-        privacyPolicy: 'Privacy Policy',
-        serAgreement: 'User Agreement',
-        fees: 'Fees'
+      clauseInstruction: 'Clause Instruction',
+      privacyPolicy: 'Privacy Policy',
+      serAgreement: 'User Agreement',
+      fees: 'Fees'
     },
     aboutUs: {
-        aboutUs: 'About Us',
-        customerSupport: 'Customer Support',
-        contactUs: 'Contact Us'
+      aboutUs: 'About Us',
+      customerSupport: 'Customer Support',
+      contactUs: 'Contact Us'
     },
-    social: 'Social'
+    social: 'Community',
+    link: {
+      tme: 'https://t.me/exchain_en'
+    }
+
   },
   banner: {
     title: 'Share the income with partners. Share the profit with users.',
     descript: 'Exchain, the first global shared digital assets trading platform, not only sharing the trans-fee with partners which the general partner can get 20%, while the super partner can get 50% but also Exchain will distribute 100% of daily profit to the holders of Exchain Token (ET). Free transaction with limited time is beginning now.'
   },
-  
+
   index: {
     announcement: {
       title: 'Announcement',
@@ -47,10 +51,10 @@ module.exports = {
       news: 'Exchain start the Partner Project'
     },
     txSumary: {
-      currentDay: 'Total volume on the day',
-      etMarketValue: 'ET total market cap',
+      currentDay: '24 Hour Volume',
+      etMarketValue: 'ET Total Market Cap',
       etCirculation: 'Total ET in circulation',
-      freeTitle: 'Free transaction Deadline',
+      freeTitle: 'Free Transaction Countdown',
       freeUnit: 'Day'
     },
     markets: {
@@ -88,24 +92,26 @@ module.exports = {
     etRight: {
       title: 'ET Rights',
       descript: [{
-        title: 'Revenue Distribution',
-        descript: 'Exchain allocated all 100% of the transaction revenue to ET holders. See Exchain White Paper for details.'
-      },
-      {
-        title: 'Decision - making rights',
-        descript: 'Exchain is committed to creating a shared, autonomous and transparent community. All ET holders can participate in making Exchain community decisions through democratic voting.'
-      }]
+          title: 'Revenue Distribution',
+          descript: 'Exchain allocated all 100% of the transaction revenue to ET holders. See Exchain White Paper for details.'
+        },
+        {
+          title: 'Decision - making rights',
+          descript: 'Exchain is committed to creating a shared, autonomous and transparent community. All ET holders can participate in making Exchain community decisions through democratic voting.'
+        }
+      ]
     },
     getEt: {
       title: 'Tips on Getting ET',
       descript: [{
-        title: 'Get ET Through Mining',
-        descript: '1. “Transaction Mining”, get ET through transaction fees 100% reimbursement.<br/>2. “Partner Project”, get ET through inviting new users to register and exchange on Exchain.'
-      },
-      {
-        title: 'Exchange to Buy ET',
-        descript: 'Users can buy and hold ET via exchanging.'
-      }]
+          title: 'Get ET Through Mining',
+          descript: '1. “Transaction Mining”, get ET through transaction fees 100% reimbursement.<br/>2. “Partner Project”, get ET through inviting new users to register and exchange on Exchain.'
+        },
+        {
+          title: 'Exchange to Buy ET',
+          descript: 'Users can buy and hold ET via exchanging.'
+        }
+      ]
     }
   },
   partnerPage: {
@@ -117,7 +123,8 @@ module.exports = {
     p5: 'for more information.'
   },
   whitepaper: {
-    title: 'Whitepaper'
+    title: 'Whitepaper',
+    folder: 'paper_en'
   },
   bonus: {
     currentLevel: '您当前等级：',
@@ -128,7 +135,7 @@ module.exports = {
     superPartner: '超级合作伙伴：',
     notice1: '邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。',
     partner: '普通合作伙伴：',
-    notice2: '邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。',
+    notice2: '邀请 1人注册并产生1笔交易（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。',
     tradeUser: '交易用户：',
     notice3: '任何用户产生至少一笔交易即可成为交易伙伴。',
     normalUser: '普通用户：',
@@ -397,7 +404,7 @@ module.exports = {
     EMAIL_CODE_BLANK: 'Code can not be null',
     PWD_BLANK: 'Password can not be null',
     PWD_LIMIT: 'Password must at least 6 characters',
-    PWD_BLANK: 'Password can not be null',
+    PWD_BLANK2: 'Password can not be null',
     REGISTER_SUCC: 'register success',
     REGISTER_IPT_ERR: 'Input information error',
     EMAIL_SEND_SUCC: 'E-mail has been send',

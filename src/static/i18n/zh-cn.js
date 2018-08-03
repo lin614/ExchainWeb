@@ -16,24 +16,28 @@ module.exports = {
   footer: {
     copyright: 'Copyright © 2018 Exchain',
     services: {
-        services: '服务',
-        exchange: '交易中心',
-        support: '支持',
-        feedback: '问题反馈',
-        listingApplication: '上币申请'
+      services: '服务',
+      exchange: '交易中心',
+      support: '支持',
+      feedback: '问题反馈',
+      listingApplication: '上币申请'
     },
     clauseInstruction: {
-        clauseInstruction: '条款说明',
-        privacyPolicy: '隐私政策',
-        serAgreement: '用户协议',
-        fees: '手续费'
+      clauseInstruction: '条款说明',
+      privacyPolicy: '隐私政策',
+      serAgreement: '用户协议',
+      fees: '手续费'
     },
     aboutUs: {
-        aboutUs: '关于我们',
-        customerSupport: '客户支持',
-        contactUs: '联系我们'
+      aboutUs: '关于我们',
+      customerSupport: '客户支持',
+      contactUs: '联系我们'
     },
-    social: '社区'
+    social: '社区',
+    link: {
+      tme: 'https://t.me/Exchain_cn'
+    }
+
   },
   banner: {
     title: '收入与合作伙伴共享，收益与交易伙伴共享',
@@ -46,7 +50,7 @@ module.exports = {
       news: 'Exchain超级合作伙伴计划开启'
     },
     txSumary: {
-      currentDay: '当日总成交额',
+      currentDay: '24小时成交额',
       etMarketValue: 'ET总市值',
       etCirculation: 'ET总流通量',
       freeTitle: '限时免费期',
@@ -87,24 +91,26 @@ module.exports = {
     etRight: {
       title: 'ET持有者权利',
       descript: [{
-        title: '收益分配',
-        descript: 'Exchain会将全部100%的交易收入分配给ET的持有者。详情请见白皮书。'
-      },
-      {
-        title: '参与决策',
-        descript: 'Exchain致力于打造一个共享，自治，全面透明的社区，所有ET持有者可通过民主投票的形式参与Exchain社区各类决策'
-      }]
+          title: '收益分配',
+          descript: 'Exchain会将全部100%的交易收入分配给ET的持有者。详情请见白皮书。'
+        },
+        {
+          title: '参与决策',
+          descript: 'Exchain致力于打造一个共享，自治，全面透明的社区，所有ET持有者可通过民主投票的形式参与Exchain社区各类决策'
+        }
+      ]
     },
     getEt: {
       title: '获得ET的方法',
       descript: [{
-        title: '通过“交易即挖矿”获得ET',
-        descript: '1. 只要产生交易，即可按交易额占比100%返还ET的方式获取。<br/>2，通过“合作伙伴”模式，通过邀请好友注册并交易的方式获取。'
-      },
-      {
-        title: '交易购买ET',
-        descript: '用户可以通过币币交易的形式，购买并持有ET。'
-      }]
+          title: '通过“交易即挖矿”获得ET',
+          descript: '1. 只要产生交易，即可按交易额占比100%返还ET的方式获取。<br/>2，通过“合作伙伴”模式，通过邀请好友注册并交易的方式获取。'
+        },
+        {
+          title: '交易购买ET',
+          descript: '用户可以通过币币交易的形式，购买并持有ET。'
+        }
+      ]
     }
   },
   partnerPage: {
@@ -116,7 +122,8 @@ module.exports = {
     p5: '获取相关信息'
   },
   whitepaper: {
-    title: '白皮书'
+    title: '白皮书',
+    folder: 'paper_cn'
   },
   bonus: {
     currentLevel: '您当前等级：',
@@ -127,7 +134,7 @@ module.exports = {
     superPartner: '超级合作伙伴：',
     notice1: '邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。',
     partner: '普通合作伙伴：',
-    notice2: '邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。',
+    notice2: '邀请 1人注册并产生1笔交易（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。',
     tradeUser: '交易用户：',
     notice3: '任何用户产生至少一笔交易即可成为交易伙伴。',
     normalUser: '普通用户：',
@@ -276,7 +283,7 @@ module.exports = {
       buy: '买',
       cancelOrder: '撤单'
     },
-    
+
     bindPhone: {
       bindPhone: '绑定手机号',
       unBindPhone: '解绑手机号',
@@ -397,7 +404,7 @@ module.exports = {
     EMAIL_CODE_BLANK: '邮箱验证码不能为空',
     PWD_BLANK: '密码不能为空',
     PWD_LIMIT: '密码长度必须大于6位',
-    PWD_BLANK: '确认密码不能为空',
+    PWD_BLANK2: '确认密码不能为空',
     REGISTER_SUCC: '注册成功',
     REGISTER_IPT_ERR: '信息填写有误，请检查您的输入',
     EMAIL_SEND_SUCC: '邮件已发送',

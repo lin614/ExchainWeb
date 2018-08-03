@@ -25,7 +25,7 @@
                     <router-link to="/priv">{{ $t("footer.clauseInstruction.privacyPolicy") }}</router-link>
                     </Col>
                     <Col span="8">
-                    <a target="_blank" href="http://t.me/Exchain_cn">{{ $t("footer.aboutUs.customerSupport") }}</a>
+                    <a target="_blank" v-bind:href='$t("footer.link.tme")'>{{ $t("footer.aboutUs.customerSupport") }}</a>
                     </Col>
                 </Row>
                 <Row>
@@ -36,7 +36,7 @@
                     <router-link to="/cont">{{ $t("footer.clauseInstruction.serAgreement") }}</router-link>
                     </Col>
                     <Col span="8">
-                    <a target="_blank" href="http://t.me/Exchain_cn">{{ $t("footer.aboutUs.contactUs") }}</a>
+                    <a target="_blank" v-bind:href='$t("footer.link.tme")'>{{ $t("footer.aboutUs.contactUs") }}</a>
                     </Col>
                 </Row>
                 <Row>
@@ -95,7 +95,7 @@
                         <i class=" iconfont icon-medium"></i>
 
                     </a>
-                    <a target="_blank" href='https://t.me/Exchain_cn'>
+                    <a target="_blank" v-bind:href='$t("footer.link.tme")'>
                         <i class=" iconfont icon-telegram"></i>
                     </a>
 
