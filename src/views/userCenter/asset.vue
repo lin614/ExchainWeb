@@ -184,11 +184,13 @@ export default {
         },
         {
           title: 'account_available',
-          key: 'account_available'
+          key: 'account_available',
+          minWidth: 80
         },
         {
           title: 'exchange_available',
-          key: 'exchange_available'
+          key: 'exchange_available',
+          minWidth: 50
         },
         {
           title: 'exchange_freeze',
@@ -288,7 +290,16 @@ export default {
                     display: params.row.trade ? 'inline' : 'none'
                   },
                   on: {
-                    click: () => {}
+                    click: () => {
+                      var token = params.row.token
+                      var pair = ''
+                      if (token === 'USDT') {
+                        pair = 'btc_usdt'
+                      } else {
+                        pair = token.toLowerCase() + '_usdt'
+                      }
+                      this.toTrade(pair)
+                    }
                   }
                 },
                 this.$t('userCenter.asset.transfer.trade')

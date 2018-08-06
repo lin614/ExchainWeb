@@ -199,7 +199,7 @@ module.exports = {
         balance: 'Balance',
         cancel: 'cancel',
         confirm: 'Transfer Now',
-        account_available: 'Main Account',
+        account_available: 'Deposit&withdraw Account',
         exchange_available: 'Exchange Account',
         deposit: 'Deposit',
         withdraw: 'Withdraw',
