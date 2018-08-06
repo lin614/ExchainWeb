@@ -159,9 +159,6 @@ import cookie from 'js-cookie'
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
-console.log(cookie.get('PN', {
-  domain: config.url.domain
-}))
 export default {
   name: 'usercenter',
   components: {
@@ -304,7 +301,7 @@ export default {
               sessionStorage.setItem('bindPhone', 'bind')
               vu.userNum =
                 '+ ' +
-                res.data.result.phone.code +
+                res.data.result.phone.country +
                 ' ' +
                 res.data.result.phone.number
             } else {

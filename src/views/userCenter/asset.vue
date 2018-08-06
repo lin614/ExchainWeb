@@ -683,7 +683,7 @@ export default {
     this.getUsdt()
     clearInterval(this.timer)
     this.timer = setInterval(() => {
-      console.log('----------------------心跳-------------------')
+      console.log('---------------------- try -------------------')
       this.getMyAsset1()
     }, 5000)
     var vu = this

@@ -67,7 +67,8 @@ export default {
       },
       getCashRules: {
         destAddr: [
-          { required: true, message: this.$t('errorMsg.ADDR_BLANK'), trigger: 'blur' }
+          { required: true, message: this.$t('errorMsg.ADDR_BLANK'), trigger: 'blur' },
+          { max: 100, message: this.$t('errorMsg.ADDR_LIMIT'), trigger: 'change, blur' }
         ],
         amount: [
           { required: true, message: this.$t('errorMsg.AMOUNT_BLANK'), trigger: 'blur' },
