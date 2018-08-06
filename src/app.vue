@@ -4,6 +4,8 @@
   </div>
 </template>
 <script>
+import './views/style/main.css'
+
 export default {
   data() {
     return {}

@@ -41,7 +41,7 @@ export default {
       setting: {
         value: 0,
         autoplay: true,
-        autoplaySpeed: 5000,
+        autoplaySpeed: 500000,
         loop: true,
         dots: 'inside',
         radiusDot: false,
