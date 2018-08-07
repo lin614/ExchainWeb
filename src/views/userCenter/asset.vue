@@ -692,11 +692,11 @@ export default {
     this.getTokenObj()
     this.getMyAsset()
     this.getUsdt()
-    clearInterval(this.timer)
-    this.timer = setInterval(() => {
-      console.log('---------------------- try -------------------')
-      this.getMyAsset1()
-    }, 5000)
+    // clearInterval(this.timer)
+    // this.timer = setInterval(() => {
+    //   console.log('---------------------- try -------------------')
+    //   this.getMyAsset1()
+    // }, 5000)
     var vu = this
     util.toggleTableHeaderLang(
       vu.assetListTable,

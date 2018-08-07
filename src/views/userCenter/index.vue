@@ -185,8 +185,10 @@ export default {
   },
   watch: {
     recentUserInfo() {
-      this.mtime = this.recentUserInfo[0].time
-      this.userIP = this.recentUserInfo[0].ip
+      if (this.recentUserInfo[0]) {
+        this.mtime = this.recentUserInfo[0].time
+        this.userIP = this.recentUserInfo[0].ip
+      }
     },
     showChangePwd () {
       if (!this.showChangePwd) {

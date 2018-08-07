@@ -209,7 +209,7 @@ export default {
         .post(config.url.user + '/api/account/delWithdrawAddress', {
           type: type,
           outerAddress: addr
-        })
+        }, getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             vu.addrListData.splice(index, 1)

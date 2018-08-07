@@ -14,7 +14,7 @@
           <Poptip content="content" placement="bottom">
             <span class="show-addr-qr">{{ $t('userCenter.depositBox.qrCode') }}</span>
             <div class="qr-box" slot="content">
-              <img :src="qrCode" alt="">
+              <img :src="'data:image/png;base64,' + qrCode" alt="">
             </div>
           </Poptip>
         </div>

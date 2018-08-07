@@ -31,9 +31,9 @@
                   :show-upload-list="false">
                   <div style="padding: 20px 0;">
                       <img src="../../static/imgs/kyc-idcard-upload.png" alt="">
-                      <p class="tip">{{$t('userCenter.kyc.tip')}}</p>
+                      <p class="tip" v-if="!files.front">{{$t('userCenter.kyc.tip')}}</p>
                       <p class="after-tip" v-if="files.front">{{$t('userCenter.kyc.btnText')}}</p>
-                      <img class="uploaded-img" v-if="files.front" :src="'//' + formField.frontImg" alt="">
+                      <img class="uploaded-img" v-if="files.front" :src="'//' + formField.frontImg + '?t=' + Math.random()" alt="">
                   </div>
                 </Upload>
                 
@@ -58,9 +58,9 @@
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
                       <img src="../../static/imgs/kyc-idcard-upload.png" alt="">
-                      <p class="tip">{{$t('userCenter.kyc.tip')}}</p>
+                      <p class="tip" v-if="!files.back">{{$t('userCenter.kyc.tip')}}</p>
                       <p class="after-tip" v-if="files.back">{{$t('userCenter.kyc.btnText')}}</p>
-                      <img class="uploaded-img" v-if="files.back" :src="'//' + formField.backImg" alt="">                      
+                      <img class="uploaded-img" v-if="files.back" :src="'//' + formField.backImg + '?t=' + Math.random()" alt="">                      
                   </div>
                 </Upload>
 
@@ -85,7 +85,7 @@
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
                       <img src="../../static/imgs/kyc-idcard-upload.png" alt="">
-                      <p class="tip">{{$t('userCenter.kyc.tip')}}</p>
+                      <p class="tip" v-if="!files.hold">{{$t('userCenter.kyc.tip')}}</p>
                       <p class="after-tip" v-if="files.hold">{{$t('userCenter.kyc.btnText')}}</p>
                        <img class="uploaded-img" v-if="files.hold" :src="'//' + formField.holdImg" alt="">
                   </div>
@@ -185,6 +185,9 @@ export default {
       var vu = this
       this.$refs[form].validate(valid => {
         if (valid) {
+          // console.log('vu.files.front : ' + vu.files.front)
+          // console.log('vu.files.back : ' + vu.files.back)
+          // console.log('vu.files.hold : ' + vu.files.hold)
           ax.post(config.url.user+'/api/user/userKycRequest', {
             type: 'pid',
             name: vu.formField.familyName + vu.formField.firstName,
@@ -196,7 +199,6 @@ export default {
           .then((res) => {
             if (res.status === 200 && res.data.errorCode === 0) {
               vu.$router.push('/usercenter')
-              //修改kyc状态为待审核
               vu.$Message.success(vu.$t('errorMsg.KYC_SUBMIT'))
             } else {
               vu.$Message.error(vu.$t('errorMsg.FAIL'))
@@ -212,9 +214,13 @@ export default {
      * 证件正面上传成功处理
      */
     handleFrontSuccess (res, file, fileList) {
-      this.files.front = file.name
-      this.formField.frontImg = res.result
-      console.log(res)
+      var result = res.result.split('/')
+      var result_ = result[result.length - 1]
+      this.files.front = result_
+      // console.log(file)
+      this.formField.frontImg = res.result + '?t=' + Math.random()
+      // this.$set(this.formField, 'frontImg', res.result)
+      // console.log(this.formField.frontImg)
     },
     /**
      * 正面上传文件失败，指服务器拒绝之类的问题
@@ -226,8 +232,11 @@ export default {
      * 证件反面上传成功处理
      */
     handleBackSuccess (res, file, fileList) {
-      this.files.back = file.name
-      this.formField.backImg = res.result
+      var result = res.result.split('/')
+      var result_ = result[result.length - 1]
+      this.files.back = result_
+      this.formField.backImg = res.result + '?t=' + Math.random()
+      // this.$set(this.formField, 'backImg', res.result)
     },
     /**
      * 反面上传失败
@@ -239,8 +248,11 @@ export default {
      * 手持证件照片上传成功处理
      */
     handleHoldSuccess (res, file, fileList) {
-      this.files.hold = file.name
-      this.formField.holdImg = res.result
+      var result = res.result.split('/')
+      var result_ = result[result.length - 1]
+      this.files.hold = result_
+      this.formField.holdImg = res.result + '?t=' + Math.random()
+      // this.$set(this.formField, 'holdImg', res.result)
     },
     /**
      * 手持上传失败
