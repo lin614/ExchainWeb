@@ -23,10 +23,10 @@ module.exports = {
       listingApplication: 'Apply to list'
     },
     clauseInstruction: {
-      clauseInstruction: 'Clause Instruction',
-      privacyPolicy: 'Privacy Policy',
-      serAgreement: 'User Agreement',
-      fees: 'Fees'
+        clauseInstruction: 'Clause Instruction',
+        privacyPolicy: 'Privacy Policy',
+        serAgreement: 'Terms of Use',
+        fees: 'Fees'
     },
     aboutUs: {
       aboutUs: 'About Us',
@@ -116,7 +116,7 @@ module.exports = {
   },
   partnerPage: {
     title: 'Exchain starts The Super Partner Project, create a new era of win-win.',
-    p1: 'Exchain, a digital asset trading platform, is about to be launched in late July. Exchain adopts “trans-fee mining” mode, for users to get ET reward based on transaction volume. From now on, Exchain starts the "Super Partner" project.',
+    p1: 'Exchain, a digital asset trading platform, will launch soon. Exchain adopts “trans-fee mining” mode, for users to get ET reward based on transaction volume. From now on, Exchain starts the "Super Partner" project.',
     p2: 'The user who recommends one or more successful transactions can become our "general  partner" and permanently share the 20% return of the transaction fee of recommended . ',
     p3: 'The "general partner" will be upgraded to the "super partner" when the number of recommended transaction users reaches more than 50, witch will permanently share the 50% return of the transaction fee of recommended. Both the "general partner" and "super partner" can have Exchain Token(ET) as reward at the same time. ',
     p4: 'If you are interested in the Super Partner Project, please send email to',
