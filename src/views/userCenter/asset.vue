@@ -206,17 +206,16 @@ export default {
                 'span',
                 {
                   style: {
-                    color: this.assetListData[params.index].showCharge
-                      ? '#419cf6'
-                      : '',
-                    cursor: 'pointer',
-                    marginRight: '30px',
-                    display: params.row.recharge ? 'inline' : 'none'
+                    color: params.row.recharge ? (this.assetListData[params.index].showCharge ? '#419cf6' : '') : '#999',
+                    cursor: params.row.recharge ? 'pointer' : 'not-allowed',
+                    marginRight: '30px'
                   },
                   on: {
                     click: () => {
-                      this.showColor = 'encharge'
-                      this.handleOpera(params.index, params.row, 'encharge')
+                      if (params.row.recharge) {
+                        this.showColor = 'encharge'
+                        this.handleOpera(params.index, params.row, 'encharge')
+                      }
                     }
                   }
                 },
@@ -236,17 +235,16 @@ export default {
                 'span',
                 {
                   style: {
-                    cursor: 'pointer',
-                    marginRight: '30px',
-                    color: this.assetListData[params.index].showCash
-                      ? '#419cf6'
-                      : '',
-                    display: params.row.withdraw ? 'inline' : 'none'
+                    color: params.row.withdraw ? (this.assetListData[params.index].showCharge ? '#419cf6' : '') : '#999',
+                    cursor: params.row.withdraw ? 'pointer' : 'not-allowed',
+                    marginRight: '30px'
                   },
                   on: {
                     click: () => {
-                      this.showColor = 'getCash'
-                      this.handleOpera(params.index, params.row, 'getCash')
+                      if (params.row.withdraw) {
+                        this.showColor = 'getCash'
+                        this.handleOpera(params.index, params.row, 'getCash')
+                      }
                     }
                   }
                 },
@@ -286,7 +284,6 @@ export default {
                 {
                   style: {
                     cursor: 'pointer',
-                    marginRight: '30px',
                     display: params.row.trade ? 'inline' : 'none'
                   },
                   on: {
