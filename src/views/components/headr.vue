@@ -61,9 +61,7 @@
               <span class="lan-item">{{ $t("header.partner") }}</span>
             </DropdownItem>
             <DropdownItem>
-              <a @click="logout()">
-                <span class="lan-item">{{ $t("header.logout") }}</span>
-              </a>
+              <span class="lan-item">{{ $t("header.logout") }}</span>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -126,7 +124,11 @@ export default {
   },
   methods: {
     toLink(rout) {
-      
+      if (rout) {
+        this.$router.push(rout)
+      } else {
+        this.logout()
+      }
     },
     login() {
       this.showLogin = true
