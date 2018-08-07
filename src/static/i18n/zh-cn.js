@@ -194,6 +194,7 @@ module.exports = {
     asset: {
       title: '我的资产',
       estimatedValue: '当前估值',
+      legalTender: '￥',
       withdrawAddress: '提现地址管理',
       transfer: {
         title: '划转',

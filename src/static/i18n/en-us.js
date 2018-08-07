@@ -196,6 +196,7 @@ module.exports = {
       title: 'My Asset',
       estimatedValue: 'Estimated Value',
       withdrawAddress: 'Withdraw',
+      legalTender: '$',
       transfer: {
         title: 'Transfer',
         token: 'Coin',

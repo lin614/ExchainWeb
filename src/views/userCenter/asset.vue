@@ -9,7 +9,7 @@
               <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span>
               <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
               <!-- {{ $t('userCenter.asset.transfer.volumeUnit') }} -->
-              <span class="total-amount">{{BTCBalance}}BTC / ￥{{balanceTotal}}</span>
+              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.legalTender') }}{{balanceTotal}}</span>
             </div>
             <div class="opera-box clearfix">
               <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
@@ -384,7 +384,19 @@ export default {
       tokenObj: {}
     }
   },
+  computed: {
+    getActiveLang() {
+      return this.$store.state.activeLang
+    }
+  },
   watch: {
+    getActiveLang(val) {
+      if (val === 'cn') {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+      } else {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
+      }
+    },
     tokenObj() {
       for (var key in this.tokenObj) {
         for (var i = 0; i < this.assetListData.length; i++) {
@@ -399,6 +411,9 @@ export default {
         }
       }
     },
+    $store () {
+      console.log(1111);
+    },
     btcPrice () {
       if (isNaN(this.btcPrice)) {
         return
@@ -406,7 +421,16 @@ export default {
       console.log('this.BTCBalance = ' + this.BTCBalance)
       console.log('this.btcPrice = ' + this.btcPrice)
       console.log('this.usdtPrice =' + this.usdtPrice)
-      this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+
+      console.log(this.$store.state.activeLang);
+
+      // 根据中英文计算
+      if (this.$store.state.activeLang === 'cn') {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+      } else {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
+      }
+
       console.log(this.balanceTotal)
       this.balanceTotal = NP.round(this.balanceTotal, 2)
       if (isNaN(this.balanceTotal)) {
