@@ -78,7 +78,7 @@ export default {
       },
       rules: {
         country: [
-          { required: true },
+          { required: true, message: this.$t('errorMsg.COUNTRY_BLANK'), trigger: 'change'},
           {
             validator: (rule, value, callback) => {
                console.log(value)

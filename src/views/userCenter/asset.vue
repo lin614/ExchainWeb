@@ -9,7 +9,7 @@
               <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span>
               <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
               <!-- {{ $t('userCenter.asset.transfer.volumeUnit') }} -->
-              <span class="total-amount">{{BTCBalance}}BTC / ￥{{balanceTotal}}</span>
+              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.legalTender') }}{{balanceTotal}}</span>
             </div>
             <div class="opera-box clearfix">
               <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
@@ -102,12 +102,12 @@ export default {
       pageHeight: 0,
       showExType: '',
       enchargeToken: '',
-      balanceTotal: null,
+      balanceTotal: '--',
       timer: null,
       tokenFee: '',
       master: '',
       trade: '',
-      BTCBalance: 0,
+      BTCBalance: '--',
       showTransferModal: false,
       transferLoading: false,
       showCharge: false,
@@ -206,17 +206,16 @@ export default {
                 'span',
                 {
                   style: {
-                    color: this.assetListData[params.index].showCharge
-                      ? '#419cf6'
-                      : '',
-                    cursor: 'pointer',
-                    marginRight: '30px',
-                    display: params.row.recharge ? 'inline' : 'none'
+                    color: params.row.recharge ? (this.assetListData[params.index].showCharge ? '#419cf6' : '') : '#999',
+                    cursor: params.row.recharge ? 'pointer' : 'not-allowed',
+                    marginRight: '30px'
                   },
                   on: {
                     click: () => {
-                      this.showColor = 'encharge'
-                      this.handleOpera(params.index, params.row, 'encharge')
+                      if (params.row.recharge) {
+                        this.showColor = 'encharge'
+                        this.handleOpera(params.index, params.row, 'encharge')
+                      }
                     }
                   }
                 },
@@ -236,17 +235,16 @@ export default {
                 'span',
                 {
                   style: {
-                    cursor: 'pointer',
-                    marginRight: '30px',
-                    color: this.assetListData[params.index].showCash
-                      ? '#419cf6'
-                      : '',
-                    display: params.row.withdraw ? 'inline' : 'none'
+                    color: params.row.withdraw ? (this.assetListData[params.index].showCharge ? '#419cf6' : '') : '#999',
+                    cursor: params.row.withdraw ? 'pointer' : 'not-allowed',
+                    marginRight: '30px'
                   },
                   on: {
                     click: () => {
-                      this.showColor = 'getCash'
-                      this.handleOpera(params.index, params.row, 'getCash')
+                      if (params.row.withdraw) {
+                        this.showColor = 'getCash'
+                        this.handleOpera(params.index, params.row, 'getCash')
+                      }
                     }
                   }
                 },
@@ -286,7 +284,6 @@ export default {
                 {
                   style: {
                     cursor: 'pointer',
-                    marginRight: '30px',
                     display: params.row.trade ? 'inline' : 'none'
                   },
                   on: {
@@ -384,7 +381,19 @@ export default {
       tokenObj: {}
     }
   },
+  computed: {
+    getActiveLang() {
+      return this.$store.state.activeLang
+    }
+  },
   watch: {
+    getActiveLang(val) {
+      if (val === 'cn') {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+      } else {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
+      }
+    },
     tokenObj() {
       for (var key in this.tokenObj) {
         for (var i = 0; i < this.assetListData.length; i++) {
@@ -399,6 +408,9 @@ export default {
         }
       }
     },
+    $store () {
+      console.log(1111);
+    },
     btcPrice () {
       if (isNaN(this.btcPrice)) {
         return
@@ -406,7 +418,16 @@ export default {
       console.log('this.BTCBalance = ' + this.BTCBalance)
       console.log('this.btcPrice = ' + this.btcPrice)
       console.log('this.usdtPrice =' + this.usdtPrice)
-      this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+
+      console.log(this.$store.state.activeLang);
+
+      // 根据中英文计算
+      if (this.$store.state.activeLang === 'cn') {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+      } else {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
+      }
+
       console.log(this.balanceTotal)
       this.balanceTotal = NP.round(this.balanceTotal, 2)
       if (isNaN(this.balanceTotal)) {
@@ -441,12 +462,12 @@ export default {
     getMyAsset() {
       var vu = this
       this.assetListData = []
-      this.BTCBalance = 0
       ax
         .get(config.url.user + '/api/account/assetsList', getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var obj = {}
+            let btcBalance = 0;
             var result = res.data.result
             for (var key in result) {
               obj.token = key
@@ -462,22 +483,24 @@ export default {
               obj.recharge_min = vu.tokenObj[key].recharge_min
               obj.withdraw_min = vu.tokenObj[key].withdraw_min
               vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
-              vu.BTCBalance = NP.plus(parseFloat(vu.BTCBalance), parseFloat(result[key].btc))
-              if (isNaN(vu.BTCBalance)) {
-                vu.BTCBalance = ''
-              }
+              btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
+            }
+            if (isNaN(btcBalance)) {
+              vu.BTCBalance = ''
+            } else {
+              vu.BTCBalance = btcBalance
             }
           }
         })
     },
      getMyAsset1() {
       var vu = this
-      this.BTCBalance = 0
       ax
         .get(config.url.user + '/api/account/assetsList', getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var obj = {}
+            let btcBalance = 0;
             var result = res.data.result
             for (var key in result) {
               for (var i = 0; i < vu.assetListData.length; i++) {
@@ -488,12 +511,13 @@ export default {
                   vu.assetListData[i].exchange_freeze = result[key].exchange_freeze
                   vu.$set(vu.assetListData, i, vu.assetListData[i])
                 }
-               
               }
-              vu.BTCBalance = NP.plus(parseFloat(vu.BTCBalance), parseFloat(result[key].btc))
-              if (isNaN(vu.BTCBalance)) {
-                vu.BTCBalance = ''
-              }
+              btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
+            }
+            if (isNaN(btcBalance)) {
+              vu.BTCBalance = ''
+            } else {
+              vu.BTCBalance = btcBalance
             }
           }
         })
