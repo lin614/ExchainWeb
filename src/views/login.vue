@@ -196,6 +196,10 @@ export default {
   },
   mounted() {
     this.initGeetest()
+    var vu = this
+    bus.$on('langChange', () => {
+      vu.$refs.loginInfo.resetFields()
+    })
   }
 }
 </script>

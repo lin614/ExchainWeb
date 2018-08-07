@@ -159,9 +159,6 @@ import cookie from 'js-cookie'
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
-console.log(cookie.get('PN', {
-  domain: config.url.domain
-}))
 export default {
   name: 'usercenter',
   components: {
@@ -175,14 +172,14 @@ export default {
       } else if (sessionStorage.getItem('email')) {
         return sessionStorage.getItem('email')
       } else {
-        return '***@***.***'
+        return ' '
       }
     },
     userMtime() {
       if (this.$store.state.mtime) {
         return this.$store.state.mtime
       } else {
-        return new Date().toLocaleDateString()
+        return ' '
       }
     }
   },
@@ -244,7 +241,7 @@ export default {
       changePwdModal: {},
       showChangePwd: false,
       changeLoading: false,
-      userIP: '192.168.1.1',
+      userIP: '',
       rules: {
         currentPwd: [
           {
@@ -304,7 +301,7 @@ export default {
               sessionStorage.setItem('bindPhone', 'bind')
               vu.userNum =
                 '+ ' +
-                res.data.result.phone.code +
+                res.data.result.phone.country +
                 ' ' +
                 res.data.result.phone.number
             } else {

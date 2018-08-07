@@ -8,7 +8,8 @@
             <div class="asset-amount">
               <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span>
               <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
-              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.transfer.volumeUnit') }}{{balanceTotal}}</span>
+              <!-- {{ $t('userCenter.asset.transfer.volumeUnit') }} -->
+              <span class="total-amount">{{BTCBalance}}BTC / ￥{{balanceTotal}}</span>
             </div>
             <div class="opera-box clearfix">
               <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
@@ -81,18 +82,12 @@ import getCash from './getCash'
 import manageAddr from './manageAddr'
 import cookie from 'js-cookie'
 import NP from 'number-precision'
-// ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
-//   domain: config.url.domain
-// })
-// ax.defaults.headers.common['X-EXCHAIN-PN'] = cookie.get('PN', {
-//   domain: config.url.domain
-// })
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
 
 import util from '../../libs/util.js'
-import { setInterval } from 'timers'
+import { setInterval, clearInterval } from 'timers'
 export default {
   name: 'asset',
   components: {
@@ -108,16 +103,17 @@ export default {
       showExType: '',
       enchargeToken: '',
       balanceTotal: null,
+      timer: null,
       tokenFee: '',
       master: '',
       trade: '',
-      BTCBalance: '',
+      BTCBalance: 0,
       showTransferModal: false,
       transferLoading: false,
       showCharge: false,
       showColor: '',
-      usdtPrice: null,
-      btcPrice: null,
+      usdtPrice: 0,
+      btcPrice: 0,
       trabsferModal: {
         token: '',
         from: '',
@@ -188,11 +184,13 @@ export default {
         },
         {
           title: 'account_available',
-          key: 'account_available'
+          key: 'account_available',
+          minWidth: 80
         },
         {
           title: 'exchange_available',
-          key: 'exchange_available'
+          key: 'exchange_available',
+          minWidth: 50
         },
         {
           title: 'exchange_freeze',
@@ -292,7 +290,16 @@ export default {
                     display: params.row.trade ? 'inline' : 'none'
                   },
                   on: {
-                    click: () => {}
+                    click: () => {
+                      var token = params.row.token
+                      var pair = ''
+                      if (token === 'USDT') {
+                        pair = 'btc_usdt'
+                      } else {
+                        pair = token.toLowerCase() + '_usdt'
+                      }
+                      this.toTrade(pair)
+                    }
                   }
                 },
                 this.$t('userCenter.asset.transfer.trade')
@@ -392,14 +399,19 @@ export default {
         }
       }
     },
-    btcPrice() {
-      console.log(this.btcPrice)
-      this.balanceTotal = NP.times(
-        this.BTCBalance,
-        this.btcPrice,
-        this.usdtPrice
-      )
+    btcPrice () {
+      if (isNaN(this.btcPrice)) {
+        return
+      }
+      console.log('this.BTCBalance = ' + this.BTCBalance)
+      console.log('this.btcPrice = ' + this.btcPrice)
+      console.log('this.usdtPrice =' + this.usdtPrice)
+      this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
       console.log(this.balanceTotal)
+      this.balanceTotal = NP.round(this.balanceTotal, 2)
+      if (isNaN(this.balanceTotal)) {
+        this.balanceTotal = ''
+      }
     }
   },
   methods: {
@@ -429,6 +441,7 @@ export default {
     getMyAsset() {
       var vu = this
       this.assetListData = []
+      this.BTCBalance = 0
       ax
         .get(config.url.user + '/api/account/assetsList', getHeader)
         .then(res => {
@@ -449,6 +462,38 @@ export default {
               obj.recharge_min = vu.tokenObj[key].recharge_min
               obj.withdraw_min = vu.tokenObj[key].withdraw_min
               vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
+              vu.BTCBalance = NP.plus(parseFloat(vu.BTCBalance), parseFloat(result[key].btc))
+              if (isNaN(vu.BTCBalance)) {
+                vu.BTCBalance = ''
+              }
+            }
+          }
+        })
+    },
+     getMyAsset1() {
+      var vu = this
+      this.BTCBalance = 0
+      ax
+        .get(config.url.user + '/api/account/assetsList', getHeader)
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            var obj = {}
+            var result = res.data.result
+            for (var key in result) {
+              for (var i = 0; i < vu.assetListData.length; i++) {
+                if (vu.assetListData[i].token === key) {
+                  vu.assetListData[i].account_available = result[key].account_available
+                  vu.assetListData[i].withdraw_fee = result[key].withdraw_fee
+                  vu.assetListData[i].exchange_available = result[key].exchange_available
+                  vu.assetListData[i].exchange_freeze = result[key].exchange_freeze
+                  vu.$set(vu.assetListData, i, vu.assetListData[i])
+                }
+               
+              }
+              vu.BTCBalance = NP.plus(parseFloat(vu.BTCBalance), parseFloat(result[key].btc))
+              if (isNaN(vu.BTCBalance)) {
+                vu.BTCBalance = ''
+              }
             }
           }
         })
@@ -616,38 +661,42 @@ export default {
       if (this.trabsferModal.to === 'trade') {
         this.trabsferModal.from = 'master'
       }
+    },
+    getUsdt () {
+      var vu = this
+      ax.get(config.url.user+'/api/quotation/getUSDCNY').then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          vu.usdtPrice = res.data.result
+          window.localStorage.setItem('exchange-usdt', vu.usdtPrice)
+          console.log('usdt 汇率:' + vu.usdtPrice)
+        }
+      })
+      // this.usdtPrice = parseFloat(this.usdtPrice)
     }
   },
   mounted() {
-    this.usdtPrice = window.localStorage.getItem('exchange-usdt')
     var vu = this
-    if (isNaN(this.usdtPrice)) {
-      ax.get(config.url.user + '/api/quotation/getUSDCNY').then(res => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          vu.usdt = res.data.result
-          window.localStorage.setItem('exchange-usdt', vu.usdt)
-          console.log('usdt 汇率:' + vu.usdt)
-        }
-      })
-    }
-    this.usdtPrice = parseFloat(this.usdtPrice)
     ws.postData({
       event: 'sub',
       channel: 'huobi.market.btcusdt.kline.1min'
     })
     bus.$on('wsUpdate', data => {
-      console.log('data --- ')
-      console.log(data)
       if (data.data) {
         vu.btcPrice = data.data[0][1]
+        console.log(typeof vu.btcPrice)
       }
-      console.log('vu.btcPrice --- ' + vu.btcPrice)
     })
   },
   created() {
+    // this.getBalance()
     this.getTokenObj()
-    this.getBalance()
     this.getMyAsset()
+    this.getUsdt()
+    clearInterval(this.timer)
+    this.timer = setInterval(() => {
+      console.log('---------------------- try -------------------')
+      this.getMyAsset1()
+    }, 5000)
     var vu = this
     util.toggleTableHeaderLang(
       vu.assetListTable,
@@ -656,14 +705,13 @@ export default {
       vu
     )
     bus.$on('langChange', () => {
-      // vu.activeLang = e.value.lang
-      // console.log(e)
       util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
     })
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
   destroyed() {
+    clearInterval(this.timer)
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }

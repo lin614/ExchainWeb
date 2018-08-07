@@ -262,7 +262,7 @@ export default {
               sessionStorage.setItem('bindPhone', 'bind')
               vu.bindStatus = 'bind'
               vu.type = 'release'
-              vu.userNum = '+ ' + res.data.result.phone.code + ' '  + res.data.result.phone.number
+              vu.userNum = '+ ' + res.data.result.phone.country + ' '  + res.data.result.phone.number
             } else {
               vu.bind = false
               vu.bindStatus = 'unbind'
