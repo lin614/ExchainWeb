@@ -374,6 +374,7 @@ module.exports = {
     ADDR_LIMIT: '地址不能超过 100 字符',
     NOTE_LIMIT: '备注不能超过 255 字符',
     // 绑定/解绑手机号
+    COUNTRY_BLANK: '请选择国家',
     COUNTRY_UNSELECT: '请选择国家',
     PHONE_BLANK: '请输入您的手机号',
     PHONE_NOT_NUM: '手机号为数字',

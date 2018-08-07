@@ -102,12 +102,12 @@ export default {
       pageHeight: 0,
       showExType: '',
       enchargeToken: '',
-      balanceTotal: null,
+      balanceTotal: '--',
       timer: null,
       tokenFee: '',
       master: '',
       trade: '',
-      BTCBalance: 0,
+      BTCBalance: '--',
       showTransferModal: false,
       transferLoading: false,
       showCharge: false,
@@ -462,12 +462,12 @@ export default {
     getMyAsset() {
       var vu = this
       this.assetListData = []
-      this.BTCBalance = 0
       ax
         .get(config.url.user + '/api/account/assetsList', getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var obj = {}
+            let btcBalance = 0;
             var result = res.data.result
             for (var key in result) {
               obj.token = key
@@ -483,22 +483,24 @@ export default {
               obj.recharge_min = vu.tokenObj[key].recharge_min
               obj.withdraw_min = vu.tokenObj[key].withdraw_min
               vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
-              vu.BTCBalance = NP.plus(parseFloat(vu.BTCBalance), parseFloat(result[key].btc))
-              if (isNaN(vu.BTCBalance)) {
-                vu.BTCBalance = ''
-              }
+              btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
+            }
+            if (isNaN(btcBalance)) {
+              vu.BTCBalance = ''
+            } else {
+              vu.BTCBalance = btcBalance
             }
           }
         })
     },
      getMyAsset1() {
       var vu = this
-      this.BTCBalance = 0
       ax
         .get(config.url.user + '/api/account/assetsList', getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var obj = {}
+            let btcBalance = 0;
             var result = res.data.result
             for (var key in result) {
               for (var i = 0; i < vu.assetListData.length; i++) {
@@ -509,12 +511,13 @@ export default {
                   vu.assetListData[i].exchange_freeze = result[key].exchange_freeze
                   vu.$set(vu.assetListData, i, vu.assetListData[i])
                 }
-               
               }
-              vu.BTCBalance = NP.plus(parseFloat(vu.BTCBalance), parseFloat(result[key].btc))
-              if (isNaN(vu.BTCBalance)) {
-                vu.BTCBalance = ''
-              }
+              btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
+            }
+            if (isNaN(btcBalance)) {
+              vu.BTCBalance = ''
+            } else {
+              vu.BTCBalance = btcBalance
             }
           }
         })

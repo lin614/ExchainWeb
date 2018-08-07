@@ -374,6 +374,7 @@ module.exports = {
     ADDR_LIMIT: '100 characters or shorter',
     NOTE_LIMIT: '255 characters or shorter',
     // 绑定/解绑手机号
+    COUNTRY_BLANK: 'Country',
     COUNTRY_UNSELECT: 'Country',
     PHONE_BLANK: 'Telehone',
     PHONE_NOT_NUM: 'Telephone must be digits',
