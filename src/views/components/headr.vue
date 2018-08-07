@@ -43,12 +43,16 @@
         <router-link to="/usercenter/asset" v-if="isLogin">
           <Button type="text">{{ $t("header.myAsset") }}</Button>
         </router-link>
-        <Dropdown class="lan" v-if="isLogin" @on-click="toLink">
 
+        <Dropdown @on-visible-change="handleUserShowChange"
+                  class="lan"
+                  v-if="isLogin"
+                  @on-click="toLink">
           <Button type="text">
             <Icon type="person"></Icon>
             {{email}}
-            <Icon type="arrow-down-b"></Icon>
+            <Icon v-show="!showUserCenter" type="arrow-down-b"></Icon>
+            <Icon v-show="showUserCenter" type="arrow-up-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
             <DropdownItem name="/usercenter">
@@ -66,11 +70,12 @@
           </DropdownMenu>
         </Dropdown>
 
-        <Dropdown class="lan" @on-click="handleLangChange">
+        <Dropdown @on-visible-change="handleLangShowChange" class="lan" @on-click="handleLangChange">
           <a href="javascript:void(0)">
             <Icon type="earth"></Icon>
             <span>{{activeLang === 'cn' ? '简体中文' : 'English'}}</span>
-            <Icon type="arrow-down-b"></Icon>
+            <Icon v-show="!showLanguage" type="arrow-down-b"></Icon>
+            <Icon v-show="showLanguage" type="arrow-up-b"></Icon>
           </a>
           <DropdownMenu slot="list">
             <DropdownItem name="cn">
@@ -93,7 +98,6 @@ import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
 import md5 from 'crypto-md5'
-// import bus from '../../bus.js'
 export default {
   name: 'headr',
   components: { block, crd },
@@ -103,7 +107,15 @@ export default {
     },
     email() {
       var info = sessionStorage.getItem('email')
-      return info ? (info.length > 5 ? info.slice(0, 5) + '...' : info) : ''
+      if (!info) {
+        this.isLogin = false
+        return ''
+      }
+      var emailArr = info.split('@')
+      if (emailArr[0].length > 4) {
+        emailArr[0] = emailArr[0].slice(0, 4) + '...'
+      }
+      return emailArr[0] + '@' + emailArr[1]
     },
     activeLang: {
       get: function() {
@@ -119,7 +131,9 @@ export default {
   data() {
     return {
       showLogin: false,
-      loginLoading: false
+      loginLoading: false,
+      showUserCenter: false,
+      showLanguage: false
     }
   },
   methods: {
@@ -158,15 +172,15 @@ export default {
       localStorage.setItem('language', name)
       this.$store.commit('setActiveLang', name)
       bus.$emit('langChange')
+    },
+    handleUserShowChange (visible) {
+      this.showUserCenter = visible
+    },
+    handleLangShowChange (visible) {
+      this.showLanguage = visible
     }
   },
   mounted() {
-    // console.log(this.isLogin)
-    // let vu = this
-    // bus.$on('login', function() {
-    //   console.log('login happen')
-    //   vu.isLogin = true
-    // })
   }
 }
 </script>

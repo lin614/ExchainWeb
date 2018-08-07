@@ -392,6 +392,7 @@ module.exports = {
     FIRSTNAME_BLANK: '请输入名字',
     FAMILYNAME_BLANK: '请输入姓',
     CARD_BLANK: '请输入身份证号码',
+    CARD_ERROR: '格式错误',
     FRONT_BLANK: '请上传身份证正面照',
     BACK_BLANK: '请上传身份证背面照',
     HOLD_BLANK: '请上传手持身份证照',
@@ -416,6 +417,7 @@ module.exports = {
     // 行为验证相关
     GEET_LOAD_ERR_TIP: '验证码加载失败，请重试',
     GEET_INIT_ERR: '验证码初始化异常，请尝试刷新页面来进行验证码初始化',
-    CHECK_FAIL: '验证失败'
+    CHECK_FAIL: '验证失败',
+    IPT_LENGTH_LIMIT_255: '不能超过 255 字符'
   }
 }

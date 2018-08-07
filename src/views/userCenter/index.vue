@@ -358,16 +358,11 @@ export default {
     },
     getRecentActivity() {
       var vu = this
-      console.log(cookie.get('PN', {
-        domain: config.url.domain
-      }))
       ax
         .get(config.url.user + '/api/user/getRecentActivity', getHeader)
         .then(res => {
-          console.log(typeof res.status)
           if (res.status === 200 && res.data.errorCode === 0) {
             vu.recentUserInfo = res.data.result.data
-            console.log(vu.recentUserInfo)
           }
         })
         .catch(err => {
@@ -376,7 +371,6 @@ export default {
     },
     handleCloseChangePwd(form) {
       this.changeLoading = false
-      console.log(this.$refs[form])
       this.$refs[form].resetFields()
       this.showChangePwd = false
     },

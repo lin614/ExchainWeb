@@ -65,7 +65,7 @@
                 </Upload>
 
                 <div class="sample">
-                  <div class="sample-img-wrap" style="padding-top:10px;">
+                  <div class="sample-img-wrap" style="padding-top:14px;padding-left: 23px;">
                     <img src="../../static/imgs/kyc-idcard2.png" alt="">
                   </div>
                   <p class="sample-txt">{{$t('userCenter.kyc.notice')}}</p>
@@ -92,7 +92,7 @@
                 </Upload>
 
                 <div class="sample">
-                  <div class="sample-img-wrap" style="padding-top:5px;">
+                  <div class="sample-img-wrap" style="padding-top:5px;padding-left: 62px;">
                     <img src="../../static/imgs/kyc-idcard3.png" alt="">
                   </div>
                   <p class="sample-txt sample-txt3">
@@ -147,7 +147,22 @@ export default {
           { required: true, message: this.$t('errorMsg.FAMILYNAME_BLANK'), trigger: 'blur' }
         ],
         idcardNo: [
-          { required: true, message: this.$t('errorMsg.CARD_BLANK'), trigger: 'blur' }
+          { required: true, message: this.$t('errorMsg.CARD_BLANK'), trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+            //  var reg = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
+              var reg = /^[A-Za-z0-9]+$/
+              if (!reg.test(value)) {
+                callback(this.$t('errorMsg.CARD_ERROR'))
+              } else if (value.length > 255) {
+                callback(this.$t('errorMsg.IPT_LENGTH_LIMIT_255'))
+              } else {
+                callback()
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
         ]
       },
     }

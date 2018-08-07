@@ -227,6 +227,11 @@ export default {
         .catch(() => {
           console.log('network error')
         })
+    },
+    onEnter (e) {
+      if (e.keyCode === 13) {
+        this.resSetPwd('resetInfo')
+      }
     }
   },
   created() {
@@ -236,7 +241,10 @@ export default {
     bus.$on('langChange', () => {
       vu.$refs.resetInfo.resetFields()
     })
-    // console.log(this.$route.params)
+    window.addEventListener('keyup', this.onEnter)
+  },
+  destroyed () {
+    window.removeEventListener('keyup', this.onEnter)
   }
 }
 </script>

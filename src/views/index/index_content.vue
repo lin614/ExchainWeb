@@ -222,7 +222,6 @@ export default {
         // p => 'huobi.market.' + p.parm + '.trade.detail' == data.channel
         p => 'huobi.market.' + p.parm + '.kline.1min' == data.channel
       )[0]
-      console.log(info)
       if (info) {
         info.price = data.data[0][1]
 

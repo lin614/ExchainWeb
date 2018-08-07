@@ -260,6 +260,11 @@ export default {
         .catch(() => {
           console.log('network error')
         })
+    },
+    onEnter (e) {
+      if (e.keyCode === 13) {
+        this.regUser('regInfo')
+      }
     }
   },
   created() {
@@ -269,8 +274,10 @@ export default {
     bus.$on('langChange', () => {
       vu.$refs.regInfo.resetFields()
     })
-    // console.log(this.$initGeetest)
-    // this.initGeetest()
+    window.addEventListener('keyup', this.onEnter)
+  },
+  destroyed () {
+    window.removeEventListener('keyup', this.onEnter)
   }
 }
 </script>

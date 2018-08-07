@@ -392,6 +392,7 @@ module.exports = {
     FIRSTNAME_BLANK: '请输入名字',
     FAMILYNAME_BLANK: '请输入姓',
     CARD_BLANK: '请输入身份证号码',
+    CARD_ERROR: '格式错误',
     FRONT_BLANK: '请上传身份证正面照',
     BACK_BLANK: '请上传身份证背面照',
     HOLD_BLANK: '请上传手持身份证照',
@@ -416,6 +417,7 @@ module.exports = {
     // 行为验证相关
     GEET_LOAD_ERR_TIP: 'Auth code load fail,please try again',
     GEET_INIT_ERR: 'Auth code load error,please refresh',
-    CHECK_FAIL: 'authentication failed'
+    CHECK_FAIL: 'authentication failed',
+    IPT_LENGTH_LIMIT_255: '255 characters or shorter'
   }
 }
