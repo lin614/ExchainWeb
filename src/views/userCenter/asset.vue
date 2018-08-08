@@ -221,7 +221,7 @@ export default {
                   h('i', this.$t('userCenter.asset.transfer.deposit')),
                   h('Icon', {
                     props: {
-                      type: 'arrow-down-b' 
+                      type: params.row.showCharge ? 'arrow-up-b' : 'arrow-down-b'
                     },
                     style: {
                       marginLeft: '4px'
@@ -250,7 +250,7 @@ export default {
                   h('i', this.$t('userCenter.asset.transfer.withdraw')),
                   h('Icon', {
                     props: {
-                      type: 'arrow-down-b'
+                      type: params.row.showCash ? 'arrow-up-b' : 'arrow-down-b'
                     },
                     style: {
                       marginLeft: '4px'
