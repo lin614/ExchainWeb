@@ -129,7 +129,7 @@
             </Row>
 
           </div>
-          <router-link v-if="showMore" class="to-more" to="/invite">{{$t('bonus.toMore')}}</router-link>
+          <router-link v-if="showMore" target="_blank" class="to-more" to="/invite">{{$t('bonus.toMore')}}</router-link>
         </crd>
 
       </div>
@@ -169,8 +169,6 @@ export default {
     // this.$Loading.start()
     var obj = this
     var uid = cookie.get('uid', { domain: config.url.domain })
-    console.log('c_pn', cookie.get('PN'))
-    console.log('uid', uid)
     ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
       domain: config.url.domain
     })

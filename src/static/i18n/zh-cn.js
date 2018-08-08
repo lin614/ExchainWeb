@@ -319,7 +319,7 @@ module.exports = {
     // 邀请记录
     invite: {
       title: '邀请记录',
-      invitee: '被邀请人账号',
+      invite: '被邀请人账号',
       time: '时间',
       status: '状态',
       traded: '已交易',
@@ -410,7 +410,7 @@ module.exports = {
     EMAIL_ERR: '邮箱格式不正确',
     EMAIL_CODE_BLANK: '邮箱验证码不能为空',
     PWD_BLANK: '密码不能为空',
-    PWD_LIMIT: '密码长度必须大于6位',
+    PWD_LIMIT: '密码为8-20个字符且至少包含数字、字母和符号中的两种',
     PWD2_BLANK: '确认密码不能为空',
     REGISTER_SUCC: '注册成功',
     REGISTER_IPT_ERR: '信息填写有误，请检查您的输入',

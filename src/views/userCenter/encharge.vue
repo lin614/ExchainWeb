@@ -11,7 +11,7 @@
 
           <a class="copy-addr" id="btnLink" :data-clipboard-text="addr" @click="handleCopy">{{ $t('userCenter.depositBox.copy') }}</a>
           
-          <Poptip content="content" placement="bottom">
+          <Poptip content="content" placement="bottom" :transfer="true">
             <span class="show-addr-qr">{{ $t('userCenter.depositBox.qrCode') }}</span>
             <div class="qr-box" slot="content">
               <img :src="'data:image/png;base64,' + qrCode" alt="">
@@ -125,14 +125,7 @@ export default {
       .show-addr-qr {
         cursor: pointer;
       }
-      .qr-box {
-        width: 140px;
-        height: 140px;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
+      
     }
     .friendly-notice {
       .friendly-notice-title {
@@ -149,5 +142,8 @@ export default {
     font-weight: 600;
     text-align: center;
     line-height: 1.5;
+  }
+  .ivu-poptip-popper .ivu-poptip-body-content .qr-box img {
+    width: 100%;
   }
 </style>

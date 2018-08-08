@@ -23,7 +23,7 @@
                 <FormItem>
                   <Button type="primary" @click="login()">{{ $t('userCenter.login.login') }}</Button>
                   {{ $t('userCenter.login.forgotPassword') }}?
-                  <router-link to="/reset">{{ $t('userCenter.login.resetPassword') }}</router-link>
+                  <router-link to="/reset" v-html="$t('userCenter.login.resetPassword')"></router-link>
                   </router-link>
                 </FormItem>
               </Form>

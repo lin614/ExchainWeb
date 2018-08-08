@@ -71,8 +71,8 @@ if (localLang === 'zh-CN') {
 } else if (localLang === 'en-US') {
     localLang = 'en'
 }
-const lang = window.localStorage.getItem('language') || localLang || 'cn';
-// window.localStorage.setItem('exchain_language', lang);
+const lang = window.localStorage.getItem('exchain_language') || localLang || 'cn';
+window.localStorage.setItem('exchain_language', lang);
 
 Vue.config.lang = lang;
 console.log('lang = ' + lang)

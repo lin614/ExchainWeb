@@ -1,6 +1,7 @@
 <template>
     <page>
-        <div class="partner">
+			<!--  :class="{'partner': isChina}" -->
+        <div class="partner" :class="{'partner-en': !activeLang}">
             <block>
                 <Card icon="compose" slot="inner">
                     <div class="hd">
@@ -35,7 +36,35 @@ import page from './components/page'
 import block from './components/block'
 export default {
   name: 'partner',
-  components: { page, block }
+  components: { page, block },
+  data () {
+		return {
+			activeLang: ''
+		}
+	},
+	methods: {
+		isChina () {
+			var lang = window.localStorage.getItem('exchain_language')
+			console.log(lang)
+			if (!lang) {
+				lang = this.$store.state.activeLang
+			}
+			console.log(lang)
+			if (!lang) {
+				lang = 'cn'
+			}
+			console.log(lang)
+			return (lang === 'cn')
+    }
+	},
+	created () {
+		this.activeLang = this.isChina()
+		var vu = this
+    bus.$on('langChange', () => {
+      vu.activeLang = vu.isChina()
+		})
+		console.log(this.activeLang)
+	}
 }
 </script>
 
@@ -77,6 +106,12 @@ export default {
       padding-bottom: @font-text*2;
     }
   }
+}
+.partner-en {
+	background: url(../static/imgs/pbg-en.jpg);
+	background-position: top -50px center;
+	// background-size: 100%;
+	background-repeat: no-repeat;
 }
 </style>
 
