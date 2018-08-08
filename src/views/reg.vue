@@ -10,17 +10,17 @@
             <hr/>
             <div class="reg_form">
               <Form ref="regInfo" label-position="top" :model="regInfo" :rules="rules">
-                <FormItem prop="email" :label="$t('register.email')">
+                <FormItem prop="email" :label="$t('register.email')" class="ivu-form-item-required">
                   <Input v-model="regInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
                 </FormItem>
-                <FormItem prop="emailcode" :label="$t('register.emailcode')">
+                <FormItem prop="emailcode" :label="$t('register.emailcode')" class="ivu-form-item-required">
                   <Input v-model="regInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')"></Input>
                 </FormItem>
-                <FormItem prop="pwd" :label="$t('register.pwd')">
+                <FormItem prop="pwd" :label="$t('register.pwd')" class="ivu-form-item-required">
                   <Input v-model="regInfo.pwd" type="password" :placeholder="$t('register.pleaseIptPwd')">
                   </Input>
                 </FormItem>
-                <FormItem prop="pwd2" :label="$t('register.pwd2')">
+                <FormItem prop="pwd2" :label="$t('register.pwd2')" class="ivu-form-item-required">
                   <Input v-model="regInfo.pwd2" type="password" :placeholder="$t('register.pleaseInputPwd2')">
                   </Input>
                 </FormItem>
@@ -62,14 +62,6 @@ export default {
   name: 'reg',
   components: { page, block, crd },
   data() {
-    var vu = this
-    var vali = function(rule, value, callback) {
-      if (value != vu.regInfo.pwd) {
-        callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
-      } else {
-        callback()
-      }
-    }
     return {
       regtoken: '',
       gtserver: '',
@@ -86,31 +78,46 @@ export default {
       rules: {
         email: [
           {
-            required: true,
-            message: this.$t('errorMsg.EMAIL_BLANK'),
-            trigger: 'blur'
-          },
-          {
-            type: 'email',
-            message: this.$t('errorMsg.EMAIL_ERR'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.EMAIL_BLANK'))
+              }
+              if (value.length > 100) {
+                callback(this.$t('errorMsg.EMAIL_LIMIT_LENGTH'))
+              }
+              if (util.checkEmail(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.EMAIL_ERR'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         emailcode: [
           {
-            required: true,
-            message: this.$t('errorMsg.EMAIL_CODE_BLANK'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.EMAIL_CODE_BLANK'))
+              }
+              if (value.length > 20) {
+                callback(this.$t('errorMsg.EMAIL_CODE_LIMIT_LENGTH'))
+              }
+              if (util.checkCode(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.SYMBOL_ERR'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         pwd: [
           {
-            required: true,
-            message: this.$t('errorMsg.PWD_BLANK'),
-            trigger: 'blur'
-          },
-          {
             validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.PWD_BLANK'))
+              }
               if (util.checkPwd(value)) {
                 callback()
               } else {
@@ -122,12 +129,13 @@ export default {
         ],
         pwd2: [
           {
-            required: true,
-            message: this.$t('errorMsg.PWD2_BLANK'),
-            trigger: 'blur'
-          },
-          {
             validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.PWD2_BLANK'))
+              }
+              if (!util.checkPwd(value)) {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
               if (value != this.regInfo.pwd) {
                 callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
               } else {

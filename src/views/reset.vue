@@ -10,17 +10,17 @@
             <hr/>
             <div class="reset_form">
               <Form ref="resetInfo" label-position="top" :model="resetInfo" :rules="rules">
-                <FormItem prop="email" :label="$t('register.email')">
+                <FormItem prop="email" :label="$t('register.email')" class="ivu-form-item-required">
                   <Input v-model="resetInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
                 </FormItem>
-                <FormItem prop="emailcode" :label="$t('register.emailcode')">
+                <FormItem prop="emailcode" :label="$t('register.emailcode')" class="ivu-form-item-required">
                   <Input v-model="resetInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')"></Input>
                 </FormItem>
-                <FormItem prop="pwd" :label="$t('register.pwd')">
+                <FormItem prop="pwd" :label="$t('register.pwd')" class="ivu-form-item-required">
                   <Input v-model="resetInfo.pwd" type="password" :placeholder="$t('register.pleaseIptPwd')">
                   </Input>
                 </FormItem>
-                <FormItem prop="pwd2" :label="$t('register.pwd2')">
+                <FormItem prop="pwd2" :label="$t('register.pwd2')" class="ivu-form-item-required">
                   <Input v-model="resetInfo.pwd2" type="password" :placeholder="$t('register.pleaseInputPwd2')">
                   </Input>
                 </FormItem>
@@ -54,6 +54,7 @@ import crd from './components/crd'
 import ax from 'axios'
 import config from '../config/config.js'
 import md5 from 'crypto-md5'
+import util from '../libs/util.js'
 export default {
   name: 'reg',
   components: { page, block, crd },
@@ -72,44 +73,64 @@ export default {
       rules: {
         email: [
           {
-            required: true,
-            message: this.$t('errorMsg.EMAIL_BLANK'),
-            trigger: 'blur'
-          },
-          {
-            type: 'email',
-            message: this.$t('errorMsg.EMAIL_ERR'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.EMAIL_BLANK'))
+              }
+              if (value.length > 100) {
+                callback(this.$t('errorMsg.EMAIL_LIMIT_LENGTH'))
+              }
+              if (util.checkEmail(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.EMAIL_ERR'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         emailcode: [
           {
-            required: true,
-            message: this.$t('errorMsg.EMAIL_CODE_BLANK'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.EMAIL_CODE_BLANK'))
+              }
+              if (value.length > 20) {
+                callback(this.$t('errorMsg.EMAIL_CODE_LIMIT_LENGTH'))
+              }
+              if (util.checkCode(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.SYMBOL_ERR'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         pwd: [
           {
-            required: true,
-            message: this.$t('errorMsg.PWD_BLANK'),
-            trigger: 'blur'
-          },
-          {
-            type: 'string',
-            min: 6,
-            message: this.$t('errorMsg.PWD_LIMIT'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.PWD_BLANK'))
+              }
+              if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         pwd2: [
           {
-            required: true,
-            message: this.$t('errorMsg.PWD2_BLANK'),
-            trigger: 'blur'
-          },
-          {
             validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.PWD2_BLANK'))
+              }
+              if (!util.checkPwd(value)) {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
               if (value != this.resetInfo.pwd) {
                 callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
               } else {

@@ -59,15 +59,15 @@
               <span slot="title">{{ $t('userCenter.index.changePwd.title') }}</span>
               <div class="form-box">
                 <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
-                  <FormItem :label="$t('userCenter.index.changePwd.curPwd')" prop="currentPwd">
+                  <FormItem :label="$t('userCenter.index.changePwd.curPwd')" prop="currentPwd" class="ivu-form-item-required">
                     <Input type="password" v-model="changePwdModal.currentPwd"></Input>
                   </FormItem>
-                  <FormItem prop="password">
+                  <FormItem prop="password" class="ivu-form-item-required">
                     <span slot="label">{{ $t('userCenter.index.changePwd.newPwd') }}
                     </span>
                     <Input type="password" v-model="changePwdModal.password"></Input>
                   </FormItem>
-                  <FormItem :label="$t('userCenter.index.changePwd.confirmPwd')" prop="confirmPwd">
+                  <FormItem :label="$t('userCenter.index.changePwd.confirmPwd')" prop="confirmPwd" class="ivu-form-item-required">
                     <Input type="password" v-model="changePwdModal.confirmPwd"></Input>
                     <!-- <div class="pwd-rule">
                        密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +
@@ -247,30 +247,47 @@ export default {
       rules: {
         currentPwd: [
           {
-            required: true,
-            message: this.$t('errorMsg.CURRENT_PASSWORD_BLANK'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.CURRENT_PASSWORD_BLANK'))
+              }
+              if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         password: [
           {
-            required: true,
-            message: this.$t('errorMsg.NEW_PASSWORD_BLANK'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.NEW_PASSWORD_BLANK'))
+              }
+              if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         confirmPwd: [
           {
-            required: true,
-            message: this.$t('errorMsg.CONFIRM_PASSWORD_BLANK'),
-            trigger: 'blur'
-          },
-          {
             validator: (rule, value, callback) => {
-              if ( this.changePwdModal.password === this.changePwdModal.confirmPwd ) {
-                callback()
-              } else {
+              if (!value) {
+                callback(this.$t('errorMsg.CONFIRM_PASSWORD_BLANK'))
+              }
+              if (!util.checkPwd(value)) {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+              if (value != this.changePwdModal.password) {
                 callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
+              } else {
+                callback()
               }
               callback()
             },

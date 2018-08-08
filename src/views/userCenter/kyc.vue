@@ -141,16 +141,31 @@ export default {
       },
       rules: {
         firstName: [
-          { required: true, message: this.$t('errorMsg.FIRSTNAME_BLANK'), trigger: 'blur' }
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.FIRSTNAME_BLANK'))
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
         ],
         familyName: [
-          { required: true, message: this.$t('errorMsg.FAMILYNAME_BLANK'), trigger: 'blur' }
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.FAMILYNAME_BLANK'))
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
         ],
         idcardNo: [
           { required: true, message: this.$t('errorMsg.CARD_BLANK'), trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
-            //  var reg = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
               var reg = /^[A-Za-z0-9]+$/
               if (!reg.test(value)) {
                 callback(this.$t('errorMsg.CARD_ERROR'))

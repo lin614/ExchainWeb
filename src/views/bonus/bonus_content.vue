@@ -198,7 +198,7 @@ export default {
             obj.code = res1.data.data.code
             obj.link = 'http://www.exchain.com/reg/' + obj.code
 
-            if (res2.data.data.inviteList.length > 10) {
+            if (res2.data.data.totalPages > 1) {
               obj.showMore = true
             } else {
               obj.showMore = false
