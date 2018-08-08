@@ -4,16 +4,15 @@
       <div slot="inner">
         <crd :hideTitle="true">
           <!-- <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span> -->
-          <div :class="'lv'+level">
+          <div :class="'lv'+level"></div>
 
-          </div>
           <div class="lv-name">
             <h2>{{$t('bonus.currentLevel')}}
               <span>{{levelName}} </span>
             </h2>
           </div>
           <div class="content">
-            <div class="lv-fee">
+            <!-- <div class="lv-fee">
               <Row type="flex" :gutter="16">
                 <Col span="8">
                 <p class="earn">{{$t('bonus.yesterdayFeeRet')}}
@@ -28,28 +27,29 @@
                   <Icon type="social-bitcoin"></Icon> {{et2}}</p>
                 </Col>
               </Row>
-            </div>
+            </div> -->
             <div class="lv-text">
-              <h3>{{$t('bonus.superPartner')}}
-              </h3>
-              <p>{{$t('bonus.notice1')}}
-              </p>
-              <h3>{{$t('bonus.partner')}}
-              </h3>
-              <p>{{$t('bonus.notice2')}}
-              </p>
-              <h3>{{$t('bonus.tradeUser')}}
-              </h3>
-              <p>{{$t('bonus.notice3')}}
-              </p>
-              <h3>{{$t('bonus.normalUser')}}
-              </h3>
-              <p>{{$t('bonus.notice4')}}
-              </p>
+              <h3>{{$t('bonus.superPartner')}}: </h3>
+              <p>{{$t('bonus.notice1')}}</p>
+
+              <h3>{{$t('bonus.generalPartner')}}: </h3>
+              <p>{{$t('bonus.notice2')}}</p>
+
+              <h3>{{$t('bonus.tradePartner')}}: </h3>
+              <p>{{$t('bonus.notice3')}}</p>
+
+              <h3>{{$t('bonus.userPartner')}}: </h3>
+              <p>{{$t('bonus.notice4')}}</p>
+            </div>
+
+            <div class="lv-contact">
+              <span>{{$t('bonus.wechat')}}: Exchain5</span>
+              <span class="telegram">{{$t('bonus.telegram')}}: https://t.me/Exchain_cn</span>
             </div>
           </div>
         </crd>
-        <crd>
+
+        <crd potColor="#50b08c">
           <span slot="title">
             {{$t('bonus.inviteType')}}
           </span>
@@ -66,13 +66,14 @@
                 </div>
               </div>
               </Col>
+
               <Col span="16">
               <div class="invistyle">
                 <p>{{$t('bonus.inviteLink')}}</p>
                 <div>
                   <input id="foo2" :value="link">
                   <!-- <span> {{link}} </span> -->
-                  <a type="text" id="btnLink" data-clipboard-target="#foo2">{{$t('bonus.copyInviteCode')}}</a>
+                  <a type="text" id="btnLink" data-clipboard-target="#foo2">{{$t('bonus.copyInviteLink')}}</a>
 
                 </div>
               </div>
@@ -80,16 +81,16 @@
             </Row>
           </div>
         </crd>
-        <crd>
+        <!-- <crd>
           <span slot="title">
             {{$t('bonus.inviteRecord')}}
 
-          </span>
+          </span> -->
           <!-- <router-link target="_blank" to="/invite" slot="extra">
 
             更多>>
           </router-link> -->
-          <div class="content ">
+          <!-- <div class="content ">
 
             <div class="lv-text">
               {{$t('bonus.invited')}}{{n_all}}{{$t('bonus.inviteUnit')}} {{$t('bonus.traded')}}{{n_act}}{{$t('bonus.inviteUnit')}}
@@ -130,7 +131,7 @@
 
           </div>
           <router-link v-if="showMore" target="_blank" class="to-more" to="/invite">{{$t('bonus.toMore')}}</router-link>
-        </crd>
+        </crd> -->
 
       </div>
     </block>
@@ -149,8 +150,8 @@ export default {
   components: { block, crd },
   data() {
     return {
-      level: 0,
-      levelName: '交易伙伴',
+      level: '',
+      levelName: '',
       showMore: false, //是否显示更多邀请记录，小于 10 条不显示按钮
       code: '', //邀请码
       link: '', //邀请链接
@@ -172,59 +173,96 @@ export default {
     ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
       domain: config.url.domain
     })
-    ax
-      .all([
-        ax.post(config.url.invite + '/api/invite/getInvitedCode', {
-          userId: uid
-        }),
-        ax.post(config.url.invite + '/api/invite/invitedList', {
-          userId: uid
-        }),
-        ax.post(config.url.fee + '/api/exet/stats/userBouns', {
-          userId: uid
-        })
-      ])
-      .then(
-        ax.spread(function(res1, res2, res3) {
-          //   this.$Loading.finish()
-          if (
-            res1.status == '200' &&
-            res1.data.meta.code == '0' &&
-            res2.status == '200' &&
-            res2.data.meta.code == '0' &&
-            res3.status == '200' &&
-            res3.data.meta.code == '0'
-          ) {
-            obj.code = res1.data.data.code
-            obj.link = 'http://www.exchain.com/reg/' + obj.code
-
-            if (res2.data.data.inviteList.length > 10) {
-              obj.showMore = true
-            } else {
-              obj.showMore = false
-            }
-            obj.list = res2.data.data.inviteList.slice(0, 10)
-            var num = res2.data.data.activeCount
-            obj.level = num == 0 ? '0' : num > 50 ? '2' : '1'
-            obj.levelName =
-              num == 0 ? '交易伙伴' : num > 50 ? '超级合作伙伴' : '普通合作伙伴'
-            obj.n_all = res2.data.data.inviteList.length
-            obj.n_act = res2.data.data.inviteList.filter(function(p) {
-              return p.isActive
-            }).length
-            console.log('邀请人数:', num)
-
-            obj.fee1 = res3.data.data.inviteesBonus
-            obj.fee2 = res3.data.data.totalInviteesBonus
-            obj.et1 = res3.data.data.holderBonus
-            obj.et2 = res3.data.data.totalHolderBonus
-          }
-        })
-      )
+    this.getUserLevel();
+    this.getInvitedCode();
   },
   mounted() {
     new ClipboardJS('#btnCode')
     new ClipboardJS('#btnLink')
+  },
+
+  methods: {
+    /**
+     * 获取用户等级
+     */
+    getUserLevel () {
+      let uid = cookie.get('uid', { domain: config.url.domain })
+       ax
+        .post(config.url.invite + '/api/invite/userLevel', {userId: uid})
+        .then(res => {
+          if (res.status === 200 && res.data.meta.code === 0) {
+            this.level = res.data.data.level
+            let level = this.level < 2 ? (this.level === 0 ? 'user' : 'trade') : (this.level === 2 ? 'general' : 'super');
+            this.levelName = this.$t('bonus.' + level + 'Partner')
+          }
+        })
+        .catch(error => {
+          this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+        });
+    },
+
+    /**
+     * 获取邀请码
+     */
+    getInvitedCode () {
+      let uid = cookie.get('uid', { domain: config.url.domain })
+      ax
+        .post(config.url.invite + '/api/invite/getInvitedCode', {userId: uid})
+        .then(res => {
+          if (res.status === 200 && res.data.meta.code === 0) {
+            this.code = res.data.data.code
+            this.link = 'http://www.exchain.com/reg/' + this.code
+          }
+        })
+        .catch(error => {
+          this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+        });
+    },
+
+    /**
+     * 获取邀请记录
+     */
+    getInvitedList () {
+      ax
+        .post(config.url.invite + '/api/invite/invitedList', {userId: uid})
+        .then(res => {
+          if (res.status === 200 && res.data.meta.code === 0) {
+            if (res.data.data.inviteList.length > 10) {
+              this.showMore = true
+            } else {
+              this.showMore = false
+            }
+            this.list = res.data.data.inviteList.slice(0, 10)
+           
+            this.n_all = res.data.data.inviteList.length
+            this.n_act = res.data.data.inviteList.filter(function(p) {
+              return p.isActive
+            }).length
+          }
+        })
+        .catch(error => {
+          this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+        });
+    },
+
+    /**
+     * 获取用户奖励：昨日被邀请人手续费返还、被邀请人手续费累积返还、昨日获得ET返还量、累积ET返还量
+     */
+    getUserBouns () {
+      ax
+        .post(config.url.fee + '/api/exet/stats/userBouns', {userId: uid})
+        .then(res => {
+          if (res.status === 200 && res.data.meta.code === 0) {
+            this.fee1 = res.data.data.inviteesBonus
+            this.fee2 = res.data.data.totalInviteesBonus
+            this.et1 = res.data.data.holderBonus
+            this.et2 = res.data.data.totalHolderBonus
+          }
+        })
+        .catch(error => {
+          this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+        });
+    }
   }
 }
 </script>
@@ -259,6 +297,7 @@ export default {
     justify-content: center;
     margin-bottom: 10px;
     h2 {
+      font-size: 18px;
       span {
         color: gold;
       }
@@ -269,7 +308,7 @@ export default {
   }
   .lv-text {
     padding: 8px 16px;
-
+    border-radius: 4px;
     background: @text-bg-color;
     h3 {
       font-size: 14px;
@@ -277,6 +316,12 @@ export default {
     }
     p {
       font-size: 12px;
+    }
+  }
+  .lv-contact {
+    padding: 25px 16px 0px;
+    .telegram {
+      margin-left: 300px;
     }
   }
   .content {
@@ -294,6 +339,8 @@ export default {
         background: @text-bg-color;
         // width: 90%;
         height: 50px;
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
         span {
           line-height: 50px;
           padding-left: 16px;
