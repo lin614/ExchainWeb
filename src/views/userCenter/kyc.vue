@@ -6,6 +6,12 @@
           <span slot="title">KYC</span>
           <div class="kyc-main">
             <Form class="form-box" ref="formField" :model="formField" :rules="rules" label-position="top">
+              <FormItem  class="form-item" :label="$t('userCenter.kyc.country')" prop="code">
+                <Select v-model="formField.code" style="width:100%;height: 50px;">
+                  <Option v-for="(item, index) in countryList" :value="index" :key="index">{{ item }}</Option>
+                </Select>
+              </FormItem>
+
               <FormItem class="form-item fl" :label="$t('userCenter.kyc.firstName')" prop="firstName">
                 <Input v-model="formField.firstName" :placeholder="$t('userCenter.kyc.firstName')"></Input>
               </FormItem>
@@ -14,11 +20,11 @@
                 <Input v-model="formField.familyName" :placeholder="$t('userCenter.kyc.familyName')"></Input>
               </FormItem>
 
-              <FormItem class="form-item" :label="$t('userCenter.kyc.idcardNo')" prop="idcardNo">
-                <Input v-model="formField.idcardNo" :placeholder="$t('userCenter.kyc.idcardNo')"></Input>
+              <FormItem class="form-item" :label="formField.code === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')" prop="idcardNo" v-if="formField.code !== ''">
+                <Input v-model="formField.idcardNo" :placeholder="formField.code === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')"></Input>
               </FormItem>
 
-              <FormItem class="form-item" :label="$t('userCenter.kyc.front')" prop="frontImg">
+              <FormItem :class="{'form-item form-item-front': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')" prop="frontImg" v-if="formField.code !== ''">
                 <Upload
                   :on-success="handleFrontSuccess"
                   :on-format-error="handleFormatErr"
@@ -30,8 +36,9 @@
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0;">
-                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="">
-                      <p class="tip" v-if="!files.front">{{$t('userCenter.kyc.tip')}}</p>
+                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.code === 'CN'">
+                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.code !== 'CN'">
+                      <p class="tip" v-if="!files.front">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.code === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')}}</p>
                       <p class="after-tip" v-if="files.front">{{$t('userCenter.kyc.btnText')}}</p>
                       <img class="uploaded-img" v-if="files.front" :src="'//' + formField.frontImg + '?t=' + Math.random()" alt="">
                   </div>
@@ -39,13 +46,14 @@
                 
                 <div class="sample">
                   <div class="sample-img-wrap">
-                    <img src="../../static/imgs/kyc-idcard1.png" alt="">
+                    <img src="../../static/imgs/kyc-id-front.png" alt="kyc-id-front" v-if="formField.code === 'CN'">
+                    <img src="../../static/imgs/kyc-passport-front.png" alt="kyc-passport-front" v-if="formField.code !== 'CN'">
                   </div>
                   <p class="sample-txt">{{$t('userCenter.kyc.notice')}}</p>
                 </div>
               </FormItem>
 
-              <FormItem class="form-item" :label="$t('userCenter.kyc.back')" prop="backImg">
+              <FormItem :class="{'form-item form-item-back': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')" prop="backImg" v-if="formField.code !== ''">
                 <Upload
                   :on-success="handleBackSuccess"
                   :on-format-error="handleFormatErr"
@@ -57,22 +65,24 @@
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
-                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="">
-                      <p class="tip" v-if="!files.back">{{$t('userCenter.kyc.tip')}}</p>
+                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.code === 'CN'">
+                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.code !== 'CN'">
+                      <p class="tip" v-if="!files.back">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.code === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')}}</p>
                       <p class="after-tip" v-if="files.back">{{$t('userCenter.kyc.btnText')}}</p>
                       <img class="uploaded-img" v-if="files.back" :src="'//' + formField.backImg + '?t=' + Math.random()" alt="">                      
                   </div>
                 </Upload>
 
                 <div class="sample">
-                  <div class="sample-img-wrap" style="padding-top:14px;padding-left: 23px;">
-                    <img src="../../static/imgs/kyc-idcard2.png" alt="">
+                  <div class="sample-img-wrap">
+                    <img src="../../static/imgs/kyc-id-back.png" alt="kyc-id-back" v-if="formField.code === 'CN'">
+                    <img src="../../static/imgs/kyc-passport-back.png" alt="kyc-passport-back" v-if="formField.code !== 'CN'">
                   </div>
                   <p class="sample-txt">{{$t('userCenter.kyc.notice')}}</p>
                 </div>
               </FormItem>
 
-              <FormItem class="form-item" :label="$t('userCenter.kyc.hold')" prop="holdImg">
+              <FormItem :class="{'form-item form-item-hold': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')" prop="holdImg" v-if="formField.code !== ''">
                 <Upload
                   :on-success="handleHoldSuccess"
                   :on-format-error="handleFormatErr"
@@ -84,16 +94,18 @@
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
-                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="">
-                      <p class="tip" v-if="!files.hold">{{$t('userCenter.kyc.tip')}}</p>
+                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.code === 'CN'">
+                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.code !== 'CN'">
+                      <p class="tip" v-if="!files.hold">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.code === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')}}</p>
                       <p class="after-tip" v-if="files.hold">{{$t('userCenter.kyc.btnText')}}</p>
                        <img class="uploaded-img" v-if="files.hold" :src="'//' + formField.holdImg" alt="">
                   </div>
                 </Upload>
 
                 <div class="sample">
-                  <div class="sample-img-wrap" style="padding-top:5px;padding-left: 62px;">
-                    <img src="../../static/imgs/kyc-idcard3.png" alt="">
+                  <div class="sample-img-wrap">
+                    <img src="../../static/imgs/kyc-id-hold.png" alt="kyc-id-hold" v-if="formField.code === 'CN'">
+                    <img src="../../static/imgs/kyc-passport-hold.png" alt="kyc-passport-hold" v-if="formField.code !== 'CN'">
                   </div>
                   <p class="sample-txt sample-txt3">
                     {{$t('userCenter.kyc.standard.title')}}</br>
@@ -105,7 +117,7 @@
                 </div>
               </FormItem>
 
-              <Button class="submit" type="primary" @click="handleSubmit('formField')">{{$t('userCenter.kyc.submit')}}</Button>
+              <Button class="submit" size="large" type="primary" @click="handleSubmit('formField')">{{$t('userCenter.kyc.submit')}}</Button>
             </Form>
           </div>
         </crd>
@@ -126,7 +138,11 @@ export default {
     return {
       pageHeight: 0,
       uploadPost:'',
+      countryCNName: [],
+      countryENName: [],
+      countryList: [],
       formField: {
+        code: '',
         firstName: '',
         familyName: '',
         idcardNo: '',
@@ -192,9 +208,55 @@ export default {
       return {
         'X-EXCHAIN-PN': cookie.get('PN', { domain: config.url.domain })
       }
+    },
+    getActiveLang() {
+      return this.$store.state.activeLang
+    }
+  },
+  watch: {
+    getActiveLang(val) {
+      this.countryList = val === 'cn' ? this.countryCNName : this.countryENName;
     }
   },
   methods: {
+    getCountryByCN () {
+      var vu = this
+      ax.post(config.url.user + '/api/user/getCountryList', {
+        code: 'zh_CN'
+      })
+      .then((res) => {
+        if (res.status === 200 && res.data.errorCode === 0) {
+          this.countryCNName = res.data.result
+          if (this.$store.state.activeLang === 'cn') {
+            this.countryList = this.countryCNName;
+          }
+        } else {
+          vu.$Message.error(vu.$t('errorMsg.FAIL'))
+        }
+      })
+      .catch((err) => {
+        vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+      });
+    },
+    getCountryByEN () {
+      var vu = this
+      ax.post(config.url.user + '/api/user/getCountryList', {
+        code: 'en_US'
+      })
+      .then((res) => {
+        if (res.status === 200 && res.data.errorCode === 0) {
+          this.countryENName = res.data.result;
+          if (this.$store.state.activeLang === 'en') {
+            this.countryList = this.countryENName;
+          }
+        } else {
+          vu.$Message.error(vu.$t('errorMsg.FAIL'))
+        }
+      })
+      .catch((err) => {
+        vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+      });
+    },
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
     },
@@ -220,12 +282,13 @@ export default {
           // console.log('vu.files.hold : ' + vu.files.hold)
           ax.post(config.url.user+'/api/user/userKycRequest', {
             type: 'pid',
+            countryCode: vu.formField.country,
             name: vu.formField.familyName + vu.formField.firstName,
             idCardNumber: vu.formField.idcardNo,
             idCardFrontUrl: vu.files.front,
             idCardBackUrl: vu.files.back,
             idCardHoldUrl: vu.files.hold
-          }, getHeaders)
+          }, getHeader)
           .then((res) => {
             if (res.status === 200 && res.data.errorCode === 0) {
               vu.$router.push('/usercenter')
@@ -240,6 +303,7 @@ export default {
         }
       });
     },
+
     /**
      * 证件正面上传成功处理
      */
@@ -298,9 +362,15 @@ export default {
     }
   },
   created () {
+    this.getCountryByCN();
+    this.getCountryByEN();
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
-    this.uploadPost = config.url.user + '/api/user/userUploadIdentity'
+    this.uploadPost = config.url.user + '/api/user/userUploadIdentity';
+    var vu = this
+    bus.$on('langChange', () => {
+      vu.$refs.formField.resetFields()
+    })
   },
   destroyed () {
     window.removeEventListener('resize', this.handleWindowResize)
@@ -341,10 +411,12 @@ export default {
         background: rgba(245,248,253,1);
         border-radius: 8px;
         text-align: center;
+        cursor: pointer;
         img {
           display: inline-block;
         }
       }
+      
       .uploaded-img{
         position: absolute;
         left: 0;
@@ -355,7 +427,6 @@ export default {
       }
       .ivu-upload .tip {
         font-size: 16px;
-        color: rgba(89,153,229,1);
       }
       .ivu-upload .after-tip {
         position: relative;
@@ -364,7 +435,7 @@ export default {
         font-weight: 600;
         color: rgba(89,153,229,1);
         cursor: pointer;
-      }
+      } 
       .sample {
         position: absolute;
         top: 0px;
@@ -377,6 +448,9 @@ export default {
           text-align: center;
           background: rgba(245,248,253,1);
           border-radius: 8px;
+          img {
+            display: inline;
+          }
         }
         .sample-txt {
           float: left;
@@ -389,8 +463,43 @@ export default {
           margin-top: 10px;
         }
       }
+      .passport .sample .sample-img-wrap{
+        background: #faf0f0;
+      }
       .submit {
         width: 280px;
+      }
+      .passport {
+        .ivu-upload-select {
+          background: #faf0f0;
+        }
+        .after-tip {
+          color: #faf0f0;
+        }
+      }
+      .form-item-front {
+        .sample .sample-img-wrap img {
+          margin-top: 1px;
+        }
+        &.passport .sample .sample-img-wrap img {
+          margin-top: 19px;
+        }
+      }
+      .form-item-back {
+        .sample .sample-img-wrap img {
+          margin-top: 14px;
+        }
+        &.passport .sample .sample-img-wrap img {
+          margin-top: 19px;
+        }
+      }
+      .form-item-hold {
+        .sample .sample-img-wrap img {
+          margin-top: 7px;
+        }
+        &.passport .sample .sample-img-wrap img {
+          margin-top: 7px;
+        }
       }
     }
   }

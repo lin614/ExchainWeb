@@ -18,9 +18,7 @@
           </div>
 
           <!-- 资金划转模态框 -->
-          <Modal v-model="showTransferModal"
-                 class-name="change-pwd-model"
-                 :closable="false">
+          <Modal v-model="showTransferModal" class-name="change-pwd-model" :closable="false" @on-cancel="handleCloseTransfer('formCustom')">
             <crd potColor="#4399e9">
               <span slot="title">{{ $t('userCenter.asset.transfer.title') }}</span>
               <div class="form-box">
@@ -223,7 +221,7 @@ export default {
                   h('i', this.$t('userCenter.asset.transfer.deposit')),
                   h('Icon', {
                     props: {
-                      type: 'arrow-down-b'
+                      type: params.row.showCharge ? 'arrow-up-b' : 'arrow-down-b'
                     },
                     style: {
                       marginLeft: '4px'
@@ -235,7 +233,7 @@ export default {
                 'span',
                 {
                   style: {
-                    color: params.row.withdraw ? (this.assetListData[params.index].showCharge ? '#419cf6' : '') : '#999',
+                    color: params.row.withdraw ? (this.assetListData[params.index].showCash ? '#419cf6' : '') : '#999',
                     cursor: params.row.withdraw ? 'pointer' : 'not-allowed',
                     marginRight: '30px'
                   },
@@ -252,7 +250,7 @@ export default {
                   h('i', this.$t('userCenter.asset.transfer.withdraw')),
                   h('Icon', {
                     props: {
-                      type: 'arrow-down-b'
+                      type: params.row.showCash ? 'arrow-up-b' : 'arrow-down-b'
                     },
                     style: {
                       marginLeft: '4px'
@@ -283,19 +281,22 @@ export default {
                 'span',
                 {
                   style: {
+                    color: params.row.trade ? '' : '#999',
                     cursor: 'pointer',
-                    display: params.row.trade ? 'inline' : 'none'
+                    cursor: params.row.trade ? 'pointer' : 'not-allowed'
                   },
                   on: {
                     click: () => {
-                      var token = params.row.token
-                      var pair = ''
-                      if (token === 'USDT') {
-                        pair = 'btc_usdt'
-                      } else {
-                        pair = token.toLowerCase() + '_usdt'
+                      if (params.row.trade) {
+                        var token = params.row.token
+                        var pair = ''
+                        if (token === 'USDT') {
+                          pair = 'btc_usdt'
+                        } else {
+                          pair = token.toLowerCase() + '_usdt'
+                        }
+                        this.toTrade(pair)
                       }
-                      this.toTrade(pair)
                     }
                   }
                 },
@@ -550,6 +551,19 @@ export default {
      * 充值和提现点击操作
      */
     handleOpera(index, params, exType) {
+      // 点击同一 token 两次关闭
+      for (var i = 0; i < this.assetListData.length; i++) {
+        if (this.assetListData[i]._expanded && this.assetListData[i].token === params.token) {
+          if ((exType === 'encharge' && this.assetListData[i].showCharge) || (exType === 'getCash' && this.assetListData[i].showCash)) {
+            this.assetListData[i]._expanded = false;
+            this.assetListData[i].showCharge = false
+            this.assetListData[i].showCash = false
+            this.$set(this.assetListData, index, this.assetListData[index]);
+            return;
+          }
+        }
+      }
+
       this.assetListData.forEach((value, index) => {
         value._expanded = false
         value.showCharge = false

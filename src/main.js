@@ -28,6 +28,7 @@ global.bus = bus
 
 
 import './static/icons/iconfont.css'
+import './views/style/main.css'
 import './libs/gt'
 
 Vue.use(VueRouter);
