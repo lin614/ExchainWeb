@@ -11,7 +11,7 @@
             <Row type="flex" :gutter="16">
               <Col span="8">
               <p class="earn">
-                <b>{{ $t('userCenter.invite.title') }}</b>
+                <b>{{ $t('userCenter.invite.invite') }}</b>
               </p>
               </Col>
               <Col span="8">
@@ -42,6 +42,7 @@
               </Col>
             </Row>
             <Row v-if="noData" class="no-data" type="flex" :gutter="16">{{$t('errorMsg.NO_DATA')}}</Row>
+            <Page :total="total"></Page>
           </div>
         </crd>
       </block>
@@ -66,24 +67,29 @@ export default {
   data() {
     return {
       list: [], //邀请记录
-      noData: false
+      noData: false,
+      page: 1,
+      size: 10,
+      total: 0
     }
   },
   created() {
     var uid = cookie.get('uid', { domain: config.url.domain })
-    console.log('uid --- ' + uid)
+    var vu = this
     ax
       .post(config.url.invite + '/api/invite/invitedList', {
-        userId: uid
+        userId: uid,
+        page: vu.page,
+        size: vu.size
       })
       .then(res => {
         // console.log(res)
         if (res.status == '200' && res.data.meta.code == '0') {
-          this.list = res.data.data.inviteList
-          if (this.list.length === 0) {
-            this.noData = true
+          vu.list = res.data.data.inviteList
+          if (vu.list.length === 0) {
+            vu.noData = true
           } else {
-            this.noData = false
+            vu.noData = false
           }
         }
       })

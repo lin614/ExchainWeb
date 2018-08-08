@@ -210,7 +210,7 @@ export default {
             idCardFrontUrl: vu.files.front,
             idCardBackUrl: vu.files.back,
             idCardHoldUrl: vu.files.hold
-          })
+          }, getHeaders)
           .then((res) => {
             if (res.status === 200 && res.data.errorCode === 0) {
               vu.$router.push('/usercenter')

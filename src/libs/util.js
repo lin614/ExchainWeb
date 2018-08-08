@@ -62,4 +62,14 @@ util.toggleTableHeaderLang = (arr, count, langStr, vu) => {
     })
 }
 
+/**
+ * 
+ * 密码为8-20个字符且至少包含数字、字母和符号中的两种
+ * @param {String} pwd  密码
+ */
+util.checkPwd = (pwd) => {
+    var reg = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?![~!@#$%^&*()_+{}|:"<>?/*-.`\[';,/\]]+$)[~!@#$%^&*()_+{}|:"<>?/*-.`\[';,/\]0-9A-Za-z]{8,20}$/
+    return reg.test(pwd)
+}
+
 export default util;

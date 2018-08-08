@@ -57,6 +57,7 @@ import crd from './components/crd'
 import ax from 'axios'
 import config from '../config/config.js'
 import md5 from 'crypto-md5'
+import util from '../libs/util.js'
 export default {
   name: 'reg',
   components: { page, block, crd },
@@ -109,9 +110,13 @@ export default {
             trigger: 'blur'
           },
           {
-            type: 'string',
-            min: 6,
-            message: this.$t('errorMsg.PWD_LIMIT'),
+            validator: (rule, value, callback) => {
+              if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
             trigger: 'blur'
           }
         ],

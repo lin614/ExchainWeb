@@ -169,7 +169,7 @@ export default {
     handleLangChange(name) {
       this.activeLang = name
       this.$i18n.locale = name
-      localStorage.setItem('language', name)
+      localStorage.setItem('exchain_language', name)
       this.$store.commit('setActiveLang', name)
       bus.$emit('langChange')
     },

@@ -9,8 +9,8 @@ module.exports = {
     userCenter: 'Account',
     promiseManage: 'Order management',
     partner: 'Partner Project',
-    login: 'Sign in',
-    register: 'Sign up',
+    login: 'Log In',
+    register: 'Sign Up',
     logout: 'Logout'
   },
   footer: {
@@ -298,22 +298,22 @@ module.exports = {
       confirm: 'Confirm'
     },
     login: {
-      login: 'Log in',
+      login: 'Log In',
       email: 'Email',
       password: 'Password',
       pleaseInputEmail: '',
       pleaseInputPassword: '',
       welcomeLogin: 'Welcome to log in with Exchain account',
       forgotPassword: 'Forgot your password',
-      resetPassword: 'reset password',
+      resetPassword: '</br> Reset Password',
       isnotEXUser: 'Not registered yet',
       quickReg: 'Create on to trade on first global free shared digital assets trading platform',
-      signUp: 'Sign up'
+      signUp: 'Sign Up'
     },
     // 邀请记录
     invite: {
       title: 'Invite History',
-      invitee: 'Invited Account',
+      invite: 'Invited Account',
       time: 'Time',
       status: 'Status',
       traded: 'Traded',
@@ -334,7 +334,7 @@ module.exports = {
     pwd2: 'Confirm password',
     pleaseInputPwd2: '',
     code: 'Invitation code(Optional)',
-    registerBtn: 'Register',
+    registerBtn: 'Sign Up',
     toLogin: '',
     login: 'Login',
     sendCode: 'Get code',
@@ -406,7 +406,7 @@ module.exports = {
     EMAIL_ERR: 'Format error',
     EMAIL_CODE_BLANK: 'Code can not be null',
     PWD_BLANK: 'Password can not be null',
-    PWD_LIMIT: 'Password must at least 6 characters',
+    PWD_LIMIT: 'Password must be 8-20 characters and contain at least two types of characters (alphabetic, numeric or special character)',
     PWD2_BLANK: 'Please enter the password again',
     REGISTER_SUCC: 'register success',
     REGISTER_IPT_ERR: 'Input information error',

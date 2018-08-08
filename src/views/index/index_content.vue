@@ -2,13 +2,13 @@
   <block class="index_content">
     <div slot="inner">
 
-      <crd potColor="#683c40">
+      <crd potColor="#50b08c">
         <span slot="title">{{ $t('index.markets.mainBoard.title') }}</span>
 
         <Table size="large" :columns="col1" :data="data1"></Table>
       </crd>
 
-      <crd potColor="#419aea">
+      <crd potColor="#5999e5">
         <span slot="title">
           {{ $t('index.markets.innovationBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.innovationBoard.title')" content="content">
@@ -22,7 +22,7 @@
         <Table size="large" :columns="col1" :data="data2"></Table>
       </crd>
 
-      <crd potColor="#febd3d">
+      <crd potColor="#f4c058">
         <span slot="title">
           {{ $t('index.markets.ventureCapitalBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.ventureCapitalBoard.title')" content="content">
@@ -35,7 +35,7 @@
         </span>
         <Table size="large" :columns="col1" :data="data3"></Table>
       </crd>
-      <crd potColor="#13b387">
+      <crd potColor="#e13737">
         <span slot="title">
           {{ $t('index.markets.angelInvestmentBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.angelInvestmentBoard.title')" content="content">

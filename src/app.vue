@@ -95,4 +95,7 @@ i {
 .ivu-card {
   border-radius: 0px !important;
 }
+.ivu-form-item {
+  margin-bottom: 35px !important;
+}
 </style>
