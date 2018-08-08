@@ -217,13 +217,19 @@ module.exports = {
     },
     // kyc
     kyc: {
+      country: '国家',
       firstName: '名',
       familyName: '姓',
       idcardNo: '身份证号码',
+      passportNo: '护照号码',
       front: '证件正面',
       back: '证件背面',
       hold: '手持证件照片',
+      passportFront: '护照封面',
+      passportBack: '护照信息页',
+      passportHold: '手持护照信息页',
       tip: '上传身份证件信息',
+      pleaseUpload: '请上传',
       notice: '为方便审核，请上传清晰的照片',
       btnText: '点击更改',
       standard: {

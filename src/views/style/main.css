@@ -1,0 +1,15 @@
+/* 统一成50 */
+.ivu-input {
+    height: 50px;
+}
+.ivu-select-single .ivu-select-selection {
+    height: 50px;
+}
+.ivu-select-single .ivu-select-selection .ivu-select-placeholder,
+.ivu-select-single .ivu-select-selection .ivu-select-selected-value {
+    height: 50px;
+    line-height: 50px;
+}
+.ivu-btn-large {
+    height: 60px;
+}

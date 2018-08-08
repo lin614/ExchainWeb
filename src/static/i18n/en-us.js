@@ -217,23 +217,29 @@ module.exports = {
       }
     },
     kyc: {
-      firstName: '名',
-      familyName: '姓',
-      idcardNo: '身份证号码',
-      front: '证件正面',
-      back: '证件背面',
-      hold: '手持证件照片',
-      tip: '上传身份证件信息',
-      notice: '为方便审核，请上传清晰的照片',
-      btnText: '点击更改',
+      country: 'Nationality',
+      firstName: 'First Name',
+      familyName: 'Family Name',
+      idcardNo: 'ID NO.',
+      passportNo: 'Passport NO.',
+      front: 'ID Front',
+      back: 'ID Back',
+      hold: 'Hold ID',
+      passportFront: 'Passport Cover',
+      passportBack: 'Passport Data Page',
+      passportHold: 'Hold Passport Data Page',
+      tip: 'Please upload ID information',
+      pleaseUpload: 'Please Upload ',
+      notice: 'For the convenience of the audit, please upload a clear picture',
+      btnText: 'Change',
       standard: {
-        title: '手持证件照通过标准：',
-        text1: '人物头像清晰；',
-        text2: '身份证件信息清晰；',
-        text3: '证件照旁展示一张写有：EXCHAIN+申请日期的纸张信息；',
-        text4: '完整的展示您的手臂持证。'
+        title: 'Handheld photo standard',
+        text1: 'the head is clear;',
+        text2: 'Clear documents;',
+        text3: 'Contain EXCHAIN words + application date;',
+        text4: 'Completely display your arm holding the document;'
       },
-      submit: '申请提交'
+      submit: 'Submit'
     },
     // 提现地址管理
     withdrawAddress: {
