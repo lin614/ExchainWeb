@@ -6,25 +6,25 @@
           <span slot="title">KYC</span>
           <div class="kyc-main">
             <Form class="form-box" ref="formField" :model="formField" :rules="rules" label-position="top">
-              <FormItem  class="form-item" :label="$t('userCenter.kyc.country')" prop="code">
+              <FormItem  class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.country')" prop="code">
                 <Select v-model="formField.code" style="width:100%;height: 50px;">
                   <Option v-for="(item, index) in countryList" :value="index" :key="index">{{ item }}</Option>
                 </Select>
               </FormItem>
 
-              <FormItem class="form-item fl" :label="$t('userCenter.kyc.firstName')" prop="firstName">
+              <FormItem class="form-item fl ivu-form-item-required" :label="$t('userCenter.kyc.firstName')" prop="firstName">
                 <Input v-model="formField.firstName" :placeholder="$t('userCenter.kyc.firstName')"></Input>
               </FormItem>
 
-              <FormItem class="form-item fl family-name" :label="$t('userCenter.kyc.familyName')" prop="familyName">
+              <FormItem class="form-item fl family-name ivu-form-item-required" :label="$t('userCenter.kyc.familyName')" prop="familyName">
                 <Input v-model="formField.familyName" :placeholder="$t('userCenter.kyc.familyName')"></Input>
               </FormItem>
 
-              <FormItem class="form-item" :label="formField.code === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')" prop="idcardNo" v-if="formField.code !== ''">
+              <FormItem class="form-item ivu-form-item-required" :label="formField.code === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')" prop="idcardNo" v-if="formField.code !== ''">
                 <Input v-model="formField.idcardNo" :placeholder="formField.code === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')"></Input>
               </FormItem>
 
-              <FormItem :class="{'form-item form-item-front': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')" prop="frontImg" v-if="formField.code !== ''">
+              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-front': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')" prop="frontImg" v-if="formField.code !== ''">
                 <Upload
                   :on-success="handleFrontSuccess"
                   :on-format-error="handleFormatErr"
@@ -53,7 +53,7 @@
                 </div>
               </FormItem>
 
-              <FormItem :class="{'form-item form-item-back': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')" prop="backImg" v-if="formField.code !== ''">
+              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-back': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')" prop="backImg" v-if="formField.code !== ''">
                 <Upload
                   :on-success="handleBackSuccess"
                   :on-format-error="handleFormatErr"
@@ -82,7 +82,7 @@
                 </div>
               </FormItem>
 
-              <FormItem :class="{'form-item form-item-hold': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')" prop="holdImg" v-if="formField.code !== ''">
+              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-hold': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')" prop="holdImg" v-if="formField.code !== ''">
                 <Upload
                   :on-success="handleHoldSuccess"
                   :on-format-error="handleFormatErr"
@@ -162,6 +162,9 @@ export default {
               if (!value) {
                 callback(this.$t('errorMsg.FIRSTNAME_BLANK'))
               }
+              if (value.length > 100) {
+                callback(this.$t('errorMsg.EMAIL_LIMIT_LENGTH'))
+              }
               callback()
             },
             trigger: 'blur'
@@ -172,6 +175,9 @@ export default {
             validator: (rule, value, callback) => {
               if (!value) {
                 callback(this.$t('errorMsg.FAMILYNAME_BLANK'))
+              }
+              if (value.length > 100) {
+                callback(this.$t('errorMsg.EMAIL_LIMIT_LENGTH'))
               }
               callback()
             },
