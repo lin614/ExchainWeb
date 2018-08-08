@@ -235,7 +235,7 @@ export default {
                 'span',
                 {
                   style: {
-                    color: params.row.withdraw ? (this.assetListData[params.index].showCharge ? '#419cf6' : '') : '#999',
+                    color: params.row.withdraw ? (this.assetListData[params.index].showCash ? '#419cf6' : '') : '#999',
                     cursor: params.row.withdraw ? 'pointer' : 'not-allowed',
                     marginRight: '30px'
                   },

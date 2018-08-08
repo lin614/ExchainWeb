@@ -192,11 +192,6 @@ export default {
         .catch(() => {
           console.log('网络异常')
         })
-    },
-    onEnter (e) {
-      if (e.keyCode === 13) {
-        this.login()
-      }
     }
   },
   mounted() {
@@ -205,10 +200,6 @@ export default {
     bus.$on('langChange', () => {
       vu.$refs.loginInfo.resetFields()
     })
-    window.addEventListener('keyup', this.onEnter)
-  },
-  destroyed () {
-    window.removeEventListener('keyup', this.onEnter)
   }
 }
 </script>

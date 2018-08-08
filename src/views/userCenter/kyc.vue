@@ -6,6 +6,12 @@
           <span slot="title">KYC</span>
           <div class="kyc-main">
             <Form class="form-box" ref="formField" :model="formField" :rules="rules" label-position="top">
+              <FormItem  class="form-item" label="国家" prop="country">
+                <Select v-model="formField.country" style="width:100%;height: 50px;">
+                  <Option v-for="(item, index) in countryList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.' + item.label) + ' + ' + item.value }}</Option>
+                </Select>
+              </FormItem>
+
               <FormItem class="form-item fl" :label="$t('userCenter.kyc.firstName')" prop="firstName">
                 <Input v-model="formField.firstName" :placeholder="$t('userCenter.kyc.firstName')"></Input>
               </FormItem>
@@ -126,7 +132,9 @@ export default {
     return {
       pageHeight: 0,
       uploadPost:'',
+      countryList: [],
       formField: {
+        country: '',
         firstName: '',
         familyName: '',
         idcardNo: '',

@@ -374,7 +374,6 @@ module.exports = {
     ADDR_LIMIT: '地址不能超过 100 字符',
     NOTE_LIMIT: '备注不能超过 255 字符',
     // 绑定/解绑手机号
-    COUNTRY_BLANK: '请选择国家',
     COUNTRY_UNSELECT: '请选择国家',
     PHONE_BLANK: '请输入您的手机号',
     PHONE_NOT_NUM: '手机号为数字',
@@ -394,7 +393,6 @@ module.exports = {
     FIRSTNAME_BLANK: '请输入名字',
     FAMILYNAME_BLANK: '请输入姓',
     CARD_BLANK: '请输入身份证号码',
-    CARD_ERROR: '格式错误',
     FRONT_BLANK: '请上传身份证正面照',
     BACK_BLANK: '请上传身份证背面照',
     HOLD_BLANK: '请上传手持身份证照',
@@ -419,7 +417,6 @@ module.exports = {
     // 行为验证相关
     GEET_LOAD_ERR_TIP: '验证码加载失败，请重试',
     GEET_INIT_ERR: '验证码初始化异常，请尝试刷新页面来进行验证码初始化',
-    CHECK_FAIL: '验证失败',
-    IPT_LENGTH_LIMIT_255: '不能超过 255 字符'
+    CHECK_FAIL: '验证失败'
   }
 }
