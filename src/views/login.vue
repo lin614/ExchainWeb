@@ -21,7 +21,7 @@
                 </FormItem>
 
                 <FormItem>
-                  <Button type="primary" @click="login()">{{ $t('userCenter.login.login') }}</Button>
+                  <Button class="btn-large" type="primary" @click="login()">{{ $t('userCenter.login.login') }}</Button>
                   {{ $t('userCenter.login.forgotPassword') }}?
                   <router-link to="/reset" v-html="$t('userCenter.login.resetPassword')"></router-link>
                   </router-link>
@@ -230,7 +230,6 @@ export default {
   .ivu-btn {
     width: 200px;
     margin-right: 32px;
-    border-radius: 0;
   }
   .content {
     padding: 32px;
