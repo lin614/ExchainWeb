@@ -132,6 +132,7 @@ module.exports = {
     accumulateFeeRet: '被邀请人手续费累积返还',
     yesterdayETRet: '昨日获得ET返还量：',
     accumulateETRet: '累积ET返还量：',
+    Partner: '',
     superPartner: 'Super Partner',
     notice1: 'When the number of the invitee uses your referral reaches 50 or more, and they make trades (at least 1 trade) on our platform, you will be upgraded to the super partner, and earn a bonus of 50% of transaction fee on each invitee every trade performed. Exchain will give extra bonus to the super partners at the beginning of exchange launching, please contact us at partner@exchain.com for more details. Both the general partners and the super partners can receive the rewards of ET, please see the Whitepaper for more details.',
     generalPartner: 'General Partner',

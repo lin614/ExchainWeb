@@ -8,7 +8,7 @@
 
           <div class="lv-name">
             <h2>{{$t('bonus.currentLevel')}}
-              <span>{{levelName}} </span>
+              <span>{{$t('bonus.' + levelName + 'Partner')}} </span>
             </h2>
           </div>
           <div class="content">
@@ -195,9 +195,8 @@ export default {
         .post(config.url.invite + '/api/invite/userLevel', {userId: uid})
         .then(res => {
           if (res.status === 200 && res.data.meta.code === 0) {
-            this.level = res.data.data.level
-            let level = this.level < 2 ? (this.level === 0 ? 'user' : 'trade') : (this.level === 2 ? 'general' : 'super');
-            this.levelName = this.$t('bonus.' + level + 'Partner')
+            thislevel = res.data.data.level
+            this.levelName = this.level < 2 ? (this.level === 0 ? 'user' : 'trade') : (this.level === 2 ? 'general' : 'super');
           }
         })
         .catch(error => {

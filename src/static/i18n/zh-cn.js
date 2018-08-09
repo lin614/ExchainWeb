@@ -131,6 +131,7 @@ module.exports = {
     accumulateFeeRet: '被邀请人手续费累积返还',
     yesterdayETRet: '昨日获得ET返还量：',
     accumulateETRet: '累积ET返还量：',
+    Partner: '',
     superPartner: '超级合作伙伴',
     notice1: '邀请50人及以上注册且被邀请人中至少有50人产生交易（金额不限）即可成为超级合作伙伴。永久分享被推荐人相关交易费50%的回报，交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com 。普通和超级合作伙伴均可享受ET的奖励，具体详情请见白皮书。',
     generalPartner: '普通合作伙伴',

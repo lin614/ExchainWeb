@@ -68,6 +68,7 @@ export default {
       regInfo: {
         email: '',
         emailcode: '',
+        source: '',
         pwd: '',
         pwd2: '',
         code: ''
@@ -168,21 +169,25 @@ export default {
     regUserFn() {
       var vu = this
       var result = this.geettest.getValidate()
+      let params = {
+        email: vu.regInfo.email,
+        code: vu.regInfo.emailcode,
+        inviteCode: vu.regInfo.code,
+        channel: vu.regInfo.source,
+        token: vu.regtoken,
+        password: md5(vu.regInfo.pwd),
+        geetest_challenge: result.geetest_challenge,
+        geetest_validate: result.geetest_validate,
+        geetest_seccode: result.geetest_seccode,
+        gtserver: vu.gtserver
+      }
       ax
-        .post(config.url.user + '/api/user/verifyRegister', {
-          email: vu.regInfo.email,
-          code: vu.regInfo.emailcode,
-          inviteCode: vu.regInfo.code,
-          token: vu.regtoken,
-          password: md5(vu.regInfo.pwd),
-          geetest_challenge: result.geetest_challenge,
-          geetest_validate: result.geetest_validate,
-          geetest_seccode: result.geetest_seccode,
-          gtserver: vu.gtserver
-        })
+        .post(config.url.user + '/api/user/verifyRegister', params)
         .then(function(res) {
           console.log(res)
           if (res.status == '200' && res.data.errorCode == 0) {
+            sessionStorage.removeItem('regInviteCode');
+            sessionStorage.removeItem('regSource');
             vu.$Message.success(vu.$t('errorMsg.REGISTER_SUCC'))
             vu.$router.push('/login')
             // vu.$Modal.success({
@@ -283,6 +288,24 @@ export default {
   created() {
     this.initGeetest()
     this.regInfo.code = this.$route.params.code
+    this.regInfo.source = this.$route.query.source
+
+    // 邀请码
+    if (this.regInfo.code) {
+      sessionStorage.setItem('regInviteCode', this.regInfo.code);
+    } else {
+      let regInviteCode = sessionStorage.getItem('regInviteCode');
+      this.regInfo.code = regInviteCode ? regInviteCode : '';
+    }
+
+    // 来源
+    if (this.regInfo.source) {
+      sessionStorage.setItem('regSource', this.regInfo.source);
+    } else {
+      let source = sessionStorage.getItem('regSource');
+      this.regInfo.source = source ? source : '';
+    }
+    
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.regInfo.resetFields()
@@ -335,14 +358,14 @@ export default {
 
     .reg_sendemail {
       position: absolute;
-      top: 155px;
+      top: 165px;
       left: 450px;
     }
     .info {
       background: @text-bg-color;
       padding: 16px;
       position: absolute;
-      top: 150px;
+      top: 165px;
       left: 650px;
       line-height: 40px;
     }
