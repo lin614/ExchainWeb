@@ -85,8 +85,8 @@ export default {
       ax
         .post(config.url.invite + '/api/invite/invitedList', {
           userId: uid,
-          page: vu.page,
-          size: vu.size
+          pageNum: vu.page,
+          pageSize: vu.size
         })
         .then(res => {
           // console.log(res)
@@ -94,7 +94,7 @@ export default {
             var data = res.data.data
             vu.list = data.inviteList
             vu.total = data.inviteCount
-            vu.page = data.pageNum
+            vu.pageNum = data.pageNum
             if (parseInt(data.totalPages) > 1) {
               this.showPage = true
             } else {
