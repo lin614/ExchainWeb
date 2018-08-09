@@ -276,7 +276,7 @@ export default {
       border-bottom: 1px solid #eee;
       .add-btn {
         display: inline-block;
-        min-width: 240px;
+        min-width: 200px;
         height: 50px;
         line-height: 50px;
         font-size: 18px;

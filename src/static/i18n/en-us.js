@@ -200,7 +200,7 @@ module.exports = {
     asset: {
       title: 'My Asset',
       estimatedValue: 'Estimated Value',
-      withdrawAddress: 'Withdraw',
+      withdrawAddress: 'Withdraw Address',
       legalTender: '$',
       notice: 'current asset valuation doesn\'t include ET during the simulated trading period',
       transfer: {
@@ -317,7 +317,7 @@ module.exports = {
       pleaseInputPassword: '',
       welcomeLogin: 'Welcome to log in with Exchain account',
       forgotPassword: 'Forgot your password',
-      resetPassword: '</br> Reset Password',
+      resetPassword: 'Reset Password',
       isnotEXUser: 'Not registered yet',
       quickReg: 'Create on to trade on first global free shared digital assets trading platform',
       signUp: 'Sign Up'

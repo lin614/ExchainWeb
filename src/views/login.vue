@@ -246,7 +246,7 @@ export default {
       margin: 32px auto;
     }
     .login_form {
-      width: 400px;
+      width: 520px;
       label {
         font-size: @font-text;
       }
