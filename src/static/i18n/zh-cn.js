@@ -220,7 +220,7 @@ module.exports = {
     },
     // kyc
     kyc: {
-      country: '国家',
+      nationality: '国籍',
       firstName: '名',
       familyName: '姓',
       idcardNo: '身份证号码',
@@ -298,7 +298,7 @@ module.exports = {
       bindPhone: '绑定手机号',
       unBindPhone: '解绑手机号',
       china: '中国',
-      country: '国家',
+      nationality: '国籍',
       mbileNumber: '手机号',
       smsCode: '短信验证码',
       getCode: '发送验证码',
@@ -383,7 +383,7 @@ module.exports = {
     ADDR_LIMIT: '地址不能超过 100 字符',
     NOTE_LIMIT: '备注不能超过 100 字符',
     // 绑定/解绑手机号
-    COUNTRY_UNSELECT: '请选择国家',
+    NATIONALITY_UNSELECT: '请选择国籍',
     PHONE_BLANK: '请输入您的手机号',
     PHONE_NOT_NUM: '手机号为数字',
     CODE_BLANK: '请输入手机号验证码',
@@ -399,6 +399,8 @@ module.exports = {
     FEE_BLANK: '交易费不能为空',
     WITHDRAW_REQ_SUBMIT: '提币请求已提交',
     // kyc
+    NATIONALITY_BLANK: '请选择国籍',
+    NATIONALITY_LIMIT_LENGTH: '不能超过 100 字符',
     FIRSTNAME_BLANK: '请输入名字',
     FAMILYNAME_BLANK: '请输入姓',
     CARD_BLANK: '请输入身份证号码',

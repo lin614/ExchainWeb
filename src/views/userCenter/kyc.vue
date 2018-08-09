@@ -6,9 +6,9 @@
           <span slot="title">KYC</span>
           <div class="kyc-main">
             <Form class="form-box" ref="formField" :model="formField" :rules="rules" label-position="top">
-              <FormItem  class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.country')" prop="code">
+              <FormItem  class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.nationality')" prop="code">
                 <Select v-model="formField.code" style="width:100%;height: 50px;">
-                  <Option v-for="(item, index) in countryList" :value="index" :key="index">{{ item }}</Option>
+                  <Option v-for="(item, index) in nationalityList" :value="index" :key="index">{{ item }}</Option>
                 </Select>
               </FormItem>
 
@@ -138,9 +138,9 @@ export default {
     return {
       pageHeight: 0,
       uploadPost:'',
-      countryCNName: [],
-      countryENName: [],
-      countryList: [],
+      nationalityCNName: [],
+      nationalityENName: [],
+      nationalityList: [],
       formField: {
         code: '',
         firstName: '',
@@ -156,6 +156,20 @@ export default {
         hold: ''
       },
       rules: {
+        code: [
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.NATIONALITY_BLANK'))
+              }
+              if (value.length > 100) {
+                callback(this.$t('errorMsg.NATIONALITY_LIMIT_LENGTH'))
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
+        ],
         firstName: [
           {
             validator: (rule, value, callback) => {
@@ -221,20 +235,20 @@ export default {
   },
   watch: {
     getActiveLang(val) {
-      this.countryList = val === 'cn' ? this.countryCNName : this.countryENName;
+      this.nationalityList = val === 'cn' ? this.nationalityCNName : this.nationalityENName;
     }
   },
   methods: {
-    getCountryByCN () {
+    getNationalityByCN () {
       var vu = this
       ax.post(config.url.user + '/api/user/getCountryList', {
         code: 'zh_CN'
       })
       .then((res) => {
         if (res.status === 200 && res.data.errorCode === 0) {
-          this.countryCNName = res.data.result
+          this.nationalityCNName = res.data.result
           if (this.$store.state.activeLang === 'cn') {
-            this.countryList = this.countryCNName;
+            this.nationalityList = this.nationalityCNName;
           }
         } else {
           vu.$Message.error(vu.$t('errorMsg.FAIL'))
@@ -244,16 +258,16 @@ export default {
         vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
       });
     },
-    getCountryByEN () {
+    getNationalityByEN () {
       var vu = this
       ax.post(config.url.user + '/api/user/getCountryList', {
         code: 'en_US'
       })
       .then((res) => {
         if (res.status === 200 && res.data.errorCode === 0) {
-          this.countryENName = res.data.result;
+          this.nationalityENName = res.data.result;
           if (this.$store.state.activeLang === 'en') {
-            this.countryList = this.countryENName;
+            this.nationalityList = this.nationalityENName;
           }
         } else {
           vu.$Message.error(vu.$t('errorMsg.FAIL'))
@@ -270,25 +284,26 @@ export default {
      * 提交
      */
     handleSubmit (form) {
-      if (!this.files.front) {
-        this.$Message.error(this.$t('errorMsg.FRONT_BLANK'))
-        return
-      } else if (!this.files.back) {
-        this.$Message.error(this.$t('errorMsg.BACK_BLANK'))
-        return
-      } else if (!this.files.hold) {
-        this.$Message.error(this.$t('errorMsg.HOLD_BLANK'))
-        return
-      }
-      var vu = this
       this.$refs[form].validate(valid => {
         if (valid) {
+          if (!this.files.front) {
+            this.$Message.error(this.$t('errorMsg.FRONT_BLANK'))
+            return
+          } else if (!this.files.back) {
+            this.$Message.error(this.$t('errorMsg.BACK_BLANK'))
+            return
+          } else if (!this.files.hold) {
+            this.$Message.error(this.$t('errorMsg.HOLD_BLANK'))
+            return
+          }
+          var vu = this
+      
           // console.log('vu.files.front : ' + vu.files.front)
           // console.log('vu.files.back : ' + vu.files.back)
           // console.log('vu.files.hold : ' + vu.files.hold)
           ax.post(config.url.user+'/api/user/userKycRequest', {
             type: 'pid',
-            countryCode: vu.formField.country,
+            nationalityCode: vu.formField.nationality,
             name: vu.formField.familyName + vu.formField.firstName,
             idCardNumber: vu.formField.idcardNo,
             idCardFrontUrl: vu.files.front,
@@ -368,8 +383,8 @@ export default {
     }
   },
   created () {
-    this.getCountryByCN();
-    this.getCountryByEN();
+    this.getNationalityByCN();
+    this.getNationalityByEN();
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
     this.uploadPost = config.url.user + '/api/user/userUploadIdentity';
