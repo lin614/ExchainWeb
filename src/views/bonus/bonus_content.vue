@@ -62,7 +62,6 @@
                   <input id="foo" :value="code">
                   <!-- <span>{{code}}</span> -->
                   <a type="text" id="btnCode" data-clipboard-target="#foo">{{$t('bonus.copyInviteCode')}}</a>
-
                 </div>
               </div>
               </Col>
@@ -74,58 +73,38 @@
                   <input id="foo2" :value="link">
                   <!-- <span> {{link}} </span> -->
                   <a type="text" id="btnLink" data-clipboard-target="#foo2">{{$t('bonus.copyInviteLink')}}</a>
-
                 </div>
               </div>
               </Col>
             </Row>
           </div>
         </crd>
+
         <crd>
-          <span slot="title">
-            {{$t('bonus.inviteRecord')}}
-
-          </span>
+          <span slot="title">{{$t('bonus.inviteRecord')}}</span>
+          
           <div class="content ">
-
             <div class="lv-text">
-              {{$t('bonus.invited')}}{{n_all}}{{$t('bonus.inviteUnit')}} {{$t('bonus.traded')}}{{n_act}}{{$t('bonus.inviteUnit')}}
+              {{$t('bonus.invited')}} {{n_all}} {{$t('bonus.inviteUnit')}}, {{$t('bonus.madeTrades')}} {{n_act}} {{$t('bonus.inviteUnit')}}
             </div>
+
             <Row type="flex" :gutter="16">
-              <Col span="8">
-              <p class="earn">
-                <b>{{$t('bonus.account')}}</b>
-              </p>
-              </Col>
-              <Col span="8">
-              <p class="earn">
-                <b>{{$t('bonus.time')}}</b>
-              </p>
+              <Col span="8"><p class="earn"><b>{{$t('bonus.account')}}</b></p></Col>
 
-              </Col>
-              <Col span="8">
-              <p class="earn">
-                <b>{{$t('bonus.status')}}</b>
-              </p>
+              <Col span="8"><p class="earn"><b>{{$t('bonus.time')}}</b></p></Col>
 
-              </Col>
+              <Col span="8"><p class="earn"><b>{{$t('bonus.status')}}</b></p></Col>
             </Row>
+
             <Row type="flex" :gutter="16" v-for="(p, index) in list" :key="p.user">
-              <Col span="8">
-              <p class="earn">{{p.userId}}
-              </p>
-              </Col>
-              <Col span="8">
-              <p class="earn"> {{p.createTime}}</p>
+              <Col span="8"><p class="earn">{{p.userId}}</p></Col>
 
-              </Col>
-              <Col span="8">
-              <p class="earn"> {{p.isActive ? $t('bonus.traded') : $t('bonus.untrade')}}</p>
-
-              </Col>
+              <Col span="8"><p class="earn"> {{p.createTime}}</p></Col>
+              
+              <Col span="8"><p class="earn"> {{p.isActive ? $t('bonus.traded') : $t('bonus.untrade')}}</p></Col>
             </Row>
-
           </div>
+
           <router-link v-if="showMore" target="_blank" class="to-more" to="/invite">{{$t('bonus.toMore')}}</router-link>
         </crd>
 
@@ -191,7 +170,7 @@ export default {
         .post(config.url.invite + '/api/invite/userLevel', {userId: uid})
         .then(res => {
           if (res.status === 200 && res.data.meta.code === 0) {
-            thislevel = res.data.data.level
+            this.level = res.data.data.level
             this.levelName = this.level < 2 ? (this.level === 0 ? 'user' : 'trade') : (this.level === 2 ? 'general' : 'super');
           }
         })

@@ -432,7 +432,7 @@ export default {
       console.log(this.balanceTotal)
       this.balanceTotal = NP.round(this.balanceTotal, 2)
       if (isNaN(this.balanceTotal)) {
-        this.balanceTotal = ''
+        this.balanceTotal = '--'
       }
     }
   },
@@ -487,7 +487,7 @@ export default {
               btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
             }
             if (isNaN(btcBalance)) {
-              vu.BTCBalance = ''
+              vu.BTCBalance = '--'
             } else {
               vu.BTCBalance = btcBalance
             }
@@ -516,7 +516,7 @@ export default {
               btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
             }
             if (isNaN(btcBalance)) {
-              vu.BTCBalance = ''
+              vu.BTCBalance = '--'
             } else {
               vu.BTCBalance = btcBalance
             }

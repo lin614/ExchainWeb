@@ -149,14 +149,15 @@ module.exports = {
     inviteLink: 'My unique referral link:',
     copyInviteLink: 'Copy',
     inviteRecord: 'Invite History',
-    invited: '已邀请',
-    untrade: '未交易',
-    traded: '已完成交易',
-    inviteUnit: '人',
+    invited: 'Invited',
+    madeTrades: 'Made trades:',
+    untrade: 'Transaction Uncompleted',
+    traded: 'Transaction Completed',
+    inviteUnit: 'person',
     account: 'Invited Account',
     time: 'Time',
-    status: '状态',
-    toMore: '点击查看更多'
+    status: 'Status',
+    toMore: 'View More'
   },
   userCenter: {
     index: {
