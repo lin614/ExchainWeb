@@ -101,6 +101,11 @@ export default {
       }
     }
   },
+  computed: {
+    activeLang() {
+      return this.$store.state.activeLang
+    }
+  },
   methods: {
     login() {
       var vu = this
@@ -186,7 +191,8 @@ export default {
               challenge: data.challenge,
               offline: !data.success,
               new_captcha: true,
-              product: 'bind'
+              product: 'bind',
+              lang: this.activeLang ? (this.activeLang === 'cn') ? 'zh-cn' : this.activeLang : 'zh-cn'
             },
             function(captchaObj) {
               vu.geettest = captchaObj
@@ -214,6 +220,7 @@ export default {
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.loginInfo.resetFields()
+      this.initGeetest()
     })
   }
 }
