@@ -94,7 +94,7 @@ export default {
             var data = res.data.data
             vu.list = data.inviteList
             vu.total = data.inviteCount
-            vu.pageNum = data.pageNum
+            vu.page = data.pageNum
             if (parseInt(data.totalPages) > 1) {
               this.showPage = true
             } else {

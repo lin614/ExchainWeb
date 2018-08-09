@@ -145,6 +145,9 @@ import ClipboardJS from 'clipboard'
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
+ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
+  domain: config.url.domain
+})
 export default {
   name: 'bonus_content',
   components: { block, crd },
@@ -224,11 +227,12 @@ export default {
      * 获取邀请记录
      */
     getInvitedList () {
+      let uid = cookie.get('uid', { domain: config.url.domain })
       ax
         .post(config.url.invite + '/api/invite/invitedList', {userId: uid})
         .then(res => {
           if (res.status === 200 && res.data.meta.code === 0) {
-            if (res.data.data.inviteList.length > 10) {
+            if (res.data.data.totalPages > 1) {
               this.showMore = true
             } else {
               this.showMore = false
