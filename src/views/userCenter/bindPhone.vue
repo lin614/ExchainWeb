@@ -12,7 +12,7 @@
             <div class="form-box">
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
                 <FormItem :label="$t('userCenter.bindPhone.nationality')" prop="nationality" class="ivu-form-item-required">
-                  <Select v-model="bindForm.nationality" style="width:100%;height: 50px;">
+                  <Select :label-in-value="true" v-model="bindForm.nationality" style="width:100%;height: 50px;">
                     <Option v-for="(item, index) in nationalityList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.' + item.label) + ' + ' + item.value }}</Option>
                   </Select>
                 </FormItem>

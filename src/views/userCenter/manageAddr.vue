@@ -9,7 +9,10 @@
               <Form class="clearfix" ref="magAddrForm" :rules="magAddrRules" :model="magAddrForm" label-position="top" inline>
                 <FormItem :label="$t('userCenter.withdrawAddress.type')" prop="tokenType" style="width: 180px;">
                   <Select v-model="magAddrForm.tokenType">
-                    <Option v-for="(item, index) in tokenList" :value="item.value" :key="index">{{ item.label }}</Option>
+                    <Option v-for="(item, index) in tokenList"
+                            :value="item.value"
+                            :key="index"
+                            :disabled="item.value === 'ET'">{{ item.label }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem :label="$t('userCenter.withdrawAddress.outer_address')" prop="addr" style="width: 420px;">
@@ -163,6 +166,7 @@ export default {
               vu.tokenList.push(JSON.parse(JSON.stringify(obj)))
               vu.addrListTable[0].filters.push(JSON.parse(JSON.stringify(obj)))
             }
+            console.log(vu.tokenList)
           }
         })
         .catch(err => {})
