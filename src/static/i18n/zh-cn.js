@@ -381,7 +381,7 @@ module.exports = {
     ADDR_BLANK: '请输入提币地址',
     NOTE_BLANK: '请输入备注',
     ADDR_LIMIT: '地址不能超过 100 字符',
-    NOTE_LIMIT: '备注不能超过 255 字符',
+    NOTE_LIMIT: '备注不能超过 100 字符',
     // 绑定/解绑手机号
     COUNTRY_UNSELECT: '请选择国家',
     PHONE_BLANK: '请输入您的手机号',
@@ -411,7 +411,10 @@ module.exports = {
     // DIFFERENT_PASSWORD_IPT
     EMAIL_BLANK: '邮箱不能为空',
     EMAIL_ERR: '邮箱格式不正确',
+    EMAIL_LIMIT_LENGTH: '不能超过 100 字符',
     EMAIL_CODE_BLANK: '邮箱验证码不能为空',
+    EMAIL_CODE_LIMIT_LENGTH: '不能超过 20 字符',
+    SYMBOL_ERR: '格式错误',
     PWD_BLANK: '密码不能为空',
     PWD_LIMIT: '密码为8-20个字符且至少包含数字、字母和符号中的两种',
     PWD2_BLANK: '确认密码不能为空',

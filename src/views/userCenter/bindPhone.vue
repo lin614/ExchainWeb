@@ -11,17 +11,17 @@
             </div>
             <div class="form-box">
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
-                <FormItem :label="$t('userCenter.bindPhone.country')" prop="country">
+                <FormItem :label="$t('userCenter.bindPhone.country')" prop="country" class="ivu-form-item-required">
                   <Select v-model="bindForm.country" style="width:100%;height: 50px;">
                     <Option v-for="(item, index) in countryList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.' + item.label) + ' + ' + item.value }}</Option>
                   </Select>
                 </FormItem>
 
-                <FormItem :label="$t('userCenter.bindPhone.mbileNumber')"  prop="phone">
+                <FormItem :label="$t('userCenter.bindPhone.mbileNumber')"  prop="phone" class="ivu-form-item-required">
                   <Input v-model="bindForm.phone"></Input>
                 </FormItem>
 
-                <FormItem :label="$t('userCenter.bindPhone.smsCode')"  prop="phoneCode" class="phone-form-item">
+                <FormItem :label="$t('userCenter.bindPhone.smsCode')"  prop="phoneCode" class="phone-form-item ivu-form-item-required">
                   <Input style="width: 360px" v-model="bindForm.phoneCode" class="fl"></Input>
                   <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
                   <div v-show="!codeDown" class="send-code-btn fr" @click="handleSendCode"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{ $t('userCenter.bindPhone.getCode') }}</span></div>
@@ -49,6 +49,7 @@ import crd from "../components/crd.vue"
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
+import util from '../../libs/util.js'
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
@@ -78,10 +79,8 @@ export default {
       },
       rules: {
         country: [
-          { required: true, message: this.$t('errorMsg.COUNTRY_BLANK'), trigger: 'change'},
           {
             validator: (rule, value, callback) => {
-               console.log(value)
                if (value) {
                  this.haveCountry = true
                  callback()
@@ -92,24 +91,29 @@ export default {
             }, trigger: 'change'}
         ],
         phone: [
-          { required: true, message: this.$t('errorMsg.PHONE_BLANK'), trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
-               var reg = /^\d+$/
-               if (reg.test(value)) {
-                 this.isPhone = true
-                 callback()
-               } else {
-                 this.isPhone = false
-                 callback(this.$t('errorMsg.PHONE_NOT_NUM'))
-               }
+              // 先判断是否选择国家
+              this.$refs.bindForm.validateField('country', () => {
+              })
+              if (!value) {
+                callback(this.$t('errorMsg.PHONE_BLANK'))
+              }
+              if (util.checkPhone(this.bindForm.country, value)) {
+                this.isPhone = true
+                callback()
+              } else {
+                this.isPhone = false
+                callback(this.$t('errorMsg.SYMBOL_ERR'))
+              }
             }, trigger: 'blur'}
         ],
         phoneCode: [
-          { required: true, message: this.$t('errorMsg.CODE_BLANK'), trigger: 'blur' },
           { validator: (rule, value, callback) => {
-            var reg = /^\d+$/
-            if (reg.test(value)) {
+            if (!value) {
+              callback(this.$t('errorMsg.CODE_BLANK'))
+            }
+            if (util.checkCode(value)) {
               callback()
             } else {
               callback(this.$t('errorMsg.CODE_NOT_NUM'))

@@ -42,7 +42,7 @@
               </Col>
             </Row>
             <Row v-if="noData" class="no-data" type="flex" :gutter="16">{{$t('errorMsg.NO_DATA')}}</Row>
-            <Page :total="total"></Page>
+            <Page @on-change="handlePageChange" v-if="showPage" :total="total"></Page>
           </div>
         </crd>
       </block>
@@ -68,31 +68,49 @@ export default {
     return {
       list: [], //邀请记录
       noData: false,
+      showPage: false,
       page: 1,
       size: 10,
       total: 0
     }
   },
-  created() {
-    var uid = cookie.get('uid', { domain: config.url.domain })
-    var vu = this
-    ax
-      .post(config.url.invite + '/api/invite/invitedList', {
-        userId: uid,
-        page: vu.page,
-        size: vu.size
-      })
-      .then(res => {
-        // console.log(res)
-        if (res.status == '200' && res.data.meta.code == '0') {
-          vu.list = res.data.data.inviteList
-          if (vu.list.length === 0) {
-            vu.noData = true
-          } else {
-            vu.noData = false
+  methods: {
+    handlePageChange (val) {
+      this.page = val
+      this.getData()
+    },
+    getData () {
+      var uid = cookie.get('uid', { domain: config.url.domain })
+      var vu = this
+      ax
+        .post(config.url.invite + '/api/invite/invitedList', {
+          userId: uid,
+          page: vu.page,
+          size: vu.size
+        })
+        .then(res => {
+          // console.log(res)
+          if (res.status == '200' && res.data.meta.code == '0') {
+            var data = res.data.data
+            vu.list = data.inviteList
+            vu.total = data.inviteCount
+            vu.page = data.pageNum
+            if (parseInt(data.totalPages) > 1) {
+              this.showPage = true
+            } else {
+              this.showPage = false
+            }
+            if (vu.list.length === 0) {
+              vu.noData = true
+            } else {
+              vu.noData = false
+            }
           }
-        }
-      })
+        })
+    }
+  },
+  created() {
+    this.getData()
   }
 }
 </script>
@@ -107,6 +125,9 @@ export default {
   }
   .no-data {
     justify-content: center;
+  }
+  .ivu-page {
+    text-align: center;
   }
 }
 </style>

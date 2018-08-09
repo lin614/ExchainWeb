@@ -381,7 +381,7 @@ module.exports = {
     ADDR_BLANK: 'Please input your address',
     NOTE_BLANK: 'Please input remark',
     ADDR_LIMIT: '100 characters or shorter',
-    NOTE_LIMIT: '255 characters or shorter',
+    NOTE_LIMIT: '100 characters or shorter',
     // 绑定/解绑手机号
     COUNTRY_BLANK: 'Country',
     COUNTRY_UNSELECT: 'Country',
@@ -413,7 +413,10 @@ module.exports = {
     // DIFFERENT_PASSWORD_IPT
     EMAIL_BLANK: 'E-mail address can not be null',
     EMAIL_ERR: 'Format error',
+    EMAIL_LIMIT_LENGTH: '100 characters or shorter',
     EMAIL_CODE_BLANK: 'Code can not be null',
+    EMAIL_CODE_LIMIT_LENGTH: '20 characters or shorter',
+    SYMBOL_ERR: 'Format error',
     PWD_BLANK: 'Password can not be null',
     PWD_LIMIT: 'Password must be 8-20 characters and contain at least two types of characters (alphabetic, numeric or special character)',
     PWD2_BLANK: 'Please enter the password again',

@@ -56,27 +56,40 @@ export default {
       tokenList: [],
       magAddrRules: {
         tokenType: [
-          {
-            required: true,
-            message: this.$t('errorMsg.TOKEN_UNSELECT'),
-            trigger: 'change'
-          }
+          { validator: (rule, value, callback) => {
+            if (!value) {
+              callback(this.$t('errorMsg.TOKEN_UNSELECT'))
+            }
+            callback()
+          },
+          trigger: 'change' }
         ],
         addr: [
-          {
-            required: true,
-            message: this.$t('errorMsg.ADDR_BLANK'),
-            trigger: 'blur'
+          { validator: (rule, value, callback) => {
+            if (!value) {
+              callback(this.$t('errorMsg.ADDR_BLANK'))
+            }
+            if (value.length > 100) {
+              callback(this.$t('errorMsg.ADDR_LIMIT'))
+            }
+            if (!util.checkAddr(value)) {
+              callback(this.$t('errorMsg.SYMBOL_ERR'))
+            }
+            callback()
           },
-          { max: 100, message: this.$t('errorMsg.ADDR_LIMIT'), trigger: 'change, blur' }
+          trigger: 'blur' }
         ],
         note: [
-          {
-            required: true,
-            message: this.$t('errorMsg.NOTE_BLANK'),
-            trigger: 'blur'
+          { validator: (rule, value, callback) => {
+            if (!value) {
+              callback(this.$t('errorMsg.NOTE_BLANK'))
+            }
+            if (value.length > 100) {
+              callback(this.$t('errorMsg.NOTE_LIMIT'))
+            }
+            callback()
           },
-          { max: 255, message: this.$t('errorMsg.NOTE_LIMIT'), trigger: 'change, blur' }
+          trigger: 'blur' }
         ]
       },
       addrListTable: [

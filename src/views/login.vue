@@ -11,11 +11,11 @@
 
             <div class="login_form">
               <Form ref="loginInfo" label-position="top" :model="loginInfo" :rules="rules">
-                <FormItem prop="email" :label="$t('userCenter.login.email')">
+                <FormItem prop="email" :label="$t('userCenter.login.email')" class="ivu-form-item-required">
                   <Input v-model="loginInfo.email" :placeholder="$t('userCenter.login.pleaseInputEmail')"></Input>
                 </FormItem>
 
-                <FormItem prop="pwd" :label="$t('userCenter.login.password')">
+                <FormItem prop="pwd" :label="$t('userCenter.login.password')" class="ivu-form-item-required">
                   <Input v-model="loginInfo.pwd" type="password" :placeholder="$t('userCenter.login.pleaseInputPassword')">
                   </Input>
                 </FormItem>
@@ -50,6 +50,7 @@ import ax from 'axios'
 import config from '../config/config.js'
 import cookie from 'js-cookie'
 import md5 from 'crypto-md5'
+import util from '../libs/util.js'
 // import bus from '../bus.js'
 
 export default {
@@ -66,20 +67,34 @@ export default {
       rules: {
         email: [
           {
-            required: true,
-            message: this.$t('errorMsg.EMAIL_BLANK'),
-            trigger: 'blur'
-          },
-          {
-            type: 'email',
-            message: this.$t('errorMsg.EMAIL_ERR'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.EMAIL_BLANK'))
+              }
+              if (value.length > 100) {
+                callback(this.$t('errorMsg.EMAIL_LIMIT_LENGTH'))
+              }
+              if (util.checkEmail(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.EMAIL_ERR'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         pwd: [
           {
-            required: true,
-            message: this.$t('errorMsg.PWD_BLANK'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.PWD_BLANK'))
+              }
+              if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
             trigger: 'blur'
           }
         ]
