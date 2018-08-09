@@ -4,7 +4,7 @@
       <div slot="inner">
         <crd :hideTitle="true">
           <!-- <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span> -->
-          <div :class="'lv'+level"></div>
+          <div :class="'lv' + level"></div>
 
           <div class="lv-name">
             <h2>{{$t('bonus.currentLevel')}}
@@ -288,8 +288,12 @@ export default {
     background: url(../../static/imgs/l1.png);
     .lv;
   }
-  .lv3 {
+  .lv2 {
     background: url(../../static/imgs/l2.png);
+    .lv;
+  }
+  .lv3 {
+    background: url(../../static/imgs/l3.png);
     .lv;
   }
   .lv-name {
