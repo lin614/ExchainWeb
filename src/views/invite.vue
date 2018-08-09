@@ -37,7 +37,7 @@
 
               </Col>
               <Col span="8">
-              <p class="earn"> {{p.isActive ? $t('userCenter.invite.traded') : $t('userCenter.invite.untraded')}}</p>
+              <p class="earn"> {{p.isActive ? $t('bonus.traded') : $t('bonus.untrade')}}</p>
 
               </Col>
             </Row>
