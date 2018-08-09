@@ -6,8 +6,8 @@
           <span slot="title">KYC</span>
           <div class="kyc-main">
             <Form class="form-box" ref="formField" :model="formField" :rules="rules" label-position="top">
-              <FormItem  class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.nationality')" prop="code">
-                <Select v-model="formField.code" style="width:100%;height: 50px;">
+              <FormItem  class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.nationality')" prop="nationality">
+                <Select v-model="formField.nationality" style="width:100%;height: 50px;">
                   <Option v-for="(item, index) in nationalityList" :value="index" :key="index">{{ item }}</Option>
                 </Select>
               </FormItem>
@@ -20,11 +20,11 @@
                 <Input v-model="formField.familyName" :placeholder="$t('userCenter.kyc.familyName')"></Input>
               </FormItem>
 
-              <FormItem class="form-item ivu-form-item-required" :label="formField.code === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')" prop="idcardNo" v-if="formField.code !== ''">
-                <Input v-model="formField.idcardNo" :placeholder="formField.code === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')"></Input>
+              <FormItem class="form-item ivu-form-item-required" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')" prop="idcardNo" v-if="formField.nationality !== ''">
+                <Input v-model="formField.idcardNo" :placeholder="formField.nationality === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')"></Input>
               </FormItem>
 
-              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-front': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')" prop="frontImg" v-if="formField.code !== ''">
+              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-front': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')" prop="frontImg" v-if="formField.nationality !== ''">
                 <Upload
                   :on-success="handleFrontSuccess"
                   :on-format-error="handleFormatErr"
@@ -36,9 +36,9 @@
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0;">
-                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.code === 'CN'">
-                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.code !== 'CN'">
-                      <p class="tip" v-if="!files.front">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.code === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')}}</p>
+                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
+                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
+                      <p class="tip" v-if="!files.front">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')}}</p>
                       <p class="after-tip" v-if="files.front">{{$t('userCenter.kyc.btnText')}}</p>
                       <img class="uploaded-img" v-if="files.front" :src="'//' + formField.frontImg + '?t=' + Math.random()" alt="">
                   </div>
@@ -46,14 +46,14 @@
                 
                 <div class="sample">
                   <div class="sample-img-wrap">
-                    <img src="../../static/imgs/kyc-id-front.png" alt="kyc-id-front" v-if="formField.code === 'CN'">
-                    <img src="../../static/imgs/kyc-passport-front.png" alt="kyc-passport-front" v-if="formField.code !== 'CN'">
+                    <img src="../../static/imgs/kyc-id-front.png" alt="kyc-id-front" v-if="formField.nationality === 'CN'">
+                    <img src="../../static/imgs/kyc-passport-front.png" alt="kyc-passport-front" v-if="formField.nationality !== 'CN'">
                   </div>
                   <p class="sample-txt">{{$t('userCenter.kyc.notice')}}</p>
                 </div>
               </FormItem>
 
-              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-back': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')" prop="backImg" v-if="formField.code !== ''">
+              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-back': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')" prop="backImg" v-if="formField.nationality !== ''">
                 <Upload
                   :on-success="handleBackSuccess"
                   :on-format-error="handleFormatErr"
@@ -65,9 +65,9 @@
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
-                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.code === 'CN'">
-                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.code !== 'CN'">
-                      <p class="tip" v-if="!files.back">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.code === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')}}</p>
+                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
+                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
+                      <p class="tip" v-if="!files.back">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')}}</p>
                       <p class="after-tip" v-if="files.back">{{$t('userCenter.kyc.btnText')}}</p>
                       <img class="uploaded-img" v-if="files.back" :src="'//' + formField.backImg + '?t=' + Math.random()" alt="">                      
                   </div>
@@ -75,14 +75,14 @@
 
                 <div class="sample">
                   <div class="sample-img-wrap">
-                    <img src="../../static/imgs/kyc-id-back.png" alt="kyc-id-back" v-if="formField.code === 'CN'">
-                    <img src="../../static/imgs/kyc-passport-back.png" alt="kyc-passport-back" v-if="formField.code !== 'CN'">
+                    <img src="../../static/imgs/kyc-id-back.png" alt="kyc-id-back" v-if="formField.nationality === 'CN'">
+                    <img src="../../static/imgs/kyc-passport-back.png" alt="kyc-passport-back" v-if="formField.nationality !== 'CN'">
                   </div>
                   <p class="sample-txt">{{$t('userCenter.kyc.notice')}}</p>
                 </div>
               </FormItem>
 
-              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-hold': true, 'passport': formField.code !== 'CN'}" :label="formField.code === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')" prop="holdImg" v-if="formField.code !== ''">
+              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-hold': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')" prop="holdImg" v-if="formField.nationality !== ''">
                 <Upload
                   :on-success="handleHoldSuccess"
                   :on-format-error="handleFormatErr"
@@ -94,9 +94,9 @@
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
-                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.code === 'CN'">
-                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.code !== 'CN'">
-                      <p class="tip" v-if="!files.hold">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.code === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')}}</p>
+                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
+                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
+                      <p class="tip" v-if="!files.hold">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')}}</p>
                       <p class="after-tip" v-if="files.hold">{{$t('userCenter.kyc.btnText')}}</p>
                        <img class="uploaded-img" v-if="files.hold" :src="'//' + formField.holdImg" alt="">
                   </div>
@@ -104,8 +104,8 @@
 
                 <div class="sample">
                   <div class="sample-img-wrap">
-                    <img src="../../static/imgs/kyc-id-hold.png" alt="kyc-id-hold" v-if="formField.code === 'CN'">
-                    <img src="../../static/imgs/kyc-passport-hold.png" alt="kyc-passport-hold" v-if="formField.code !== 'CN'">
+                    <img src="../../static/imgs/kyc-id-hold.png" alt="kyc-id-hold" v-if="formField.nationality === 'CN'">
+                    <img src="../../static/imgs/kyc-passport-hold.png" alt="kyc-passport-hold" v-if="formField.nationality !== 'CN'">
                   </div>
                   <p class="sample-txt sample-txt3">
                     {{$t('userCenter.kyc.standard.title')}}</br>
@@ -138,11 +138,12 @@ export default {
     return {
       pageHeight: 0,
       uploadPost:'',
+      curLanguage: '',
       nationalityCNName: [],
       nationalityENName: [],
       nationalityList: [],
       formField: {
-        code: '',
+        nationality: '',
         firstName: '',
         familyName: '',
         idcardNo: '',
@@ -156,13 +157,12 @@ export default {
         hold: ''
       },
       rules: {
-        code: [
+        nationality: [
           {
             validator: (rule, value, callback) => {
               if (!value) {
                 callback(this.$t('errorMsg.NATIONALITY_BLANK'))
-              }
-              if (value.length > 100) {
+              } else if (value.length > 100) {
                 callback(this.$t('errorMsg.NATIONALITY_LIMIT_LENGTH'))
               }
               callback()
@@ -199,18 +199,23 @@ export default {
           }
         ],
         idcardNo: [
-          { required: true, message: this.$t('errorMsg.CARD_BLANK'), trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
               var reg = /^[A-Za-z0-9]+$/
+              if (!value) {
+                if (this.formField.nationality === 'CN') {
+                  callback(this.$t('errorMsg.IDCARD_BLANK'))
+                } else {
+                  callback(this.$t('errorMsg.PASSPORT_BLANK'))
+                }
+              }
               if (!reg.test(value)) {
-                callback(this.$t('errorMsg.CARD_ERROR'))
+                callback(this.$t('errorMsg.IDCARD_ERROR'))
               } else if (value.length > 255) {
                 callback(this.$t('errorMsg.IPT_LENGTH_LIMIT_255'))
               } else {
                 callback()
               }
-              callback()
             },
             trigger: 'blur'
           }
@@ -235,6 +240,7 @@ export default {
   },
   watch: {
     getActiveLang(val) {
+      this.curLanguage = val;
       this.nationalityList = val === 'cn' ? this.nationalityCNName : this.nationalityENName;
     }
   },
@@ -287,13 +293,25 @@ export default {
       this.$refs[form].validate(valid => {
         if (valid) {
           if (!this.files.front) {
-            this.$Message.error(this.$t('errorMsg.FRONT_BLANK'))
+            if (this.formField.nationality === 'CN') {
+              this.$Message.error(this.$t('errorMsg.FRONT_BLANK'))
+            } else {
+              this.$Message.error(this.$t('errorMsg.PASSPORT_FRONT_BLANK'))
+            }
             return
           } else if (!this.files.back) {
-            this.$Message.error(this.$t('errorMsg.BACK_BLANK'))
+            if (this.formField.nationality === 'CN') {
+              this.$Message.error(this.$t('errorMsg.BACK_BLANK'))
+            } else {
+              this.$Message.error(this.$t('errorMsg.PASSPORT_BACK_BLANK'))
+            }
             return
           } else if (!this.files.hold) {
-            this.$Message.error(this.$t('errorMsg.HOLD_BLANK'))
+            if (this.formField.nationality === 'CN') {
+              this.$Message.error(this.$t('errorMsg.HOLD_BLANK'))
+            } else {
+              this.$Message.error(this.$t('errorMsg.PASSPORT_HOLD_BLANK'))
+            }
             return
           }
           var vu = this
@@ -303,7 +321,7 @@ export default {
           // console.log('vu.files.hold : ' + vu.files.hold)
           ax.post(config.url.user+'/api/user/userKycRequest', {
             type: 'pid',
-            nationalityCode: vu.formField.nationality,
+            countryCode: vu.formField.nationality,
             name: vu.formField.familyName + vu.formField.firstName,
             idCardNumber: vu.formField.idcardNo,
             idCardFrontUrl: vu.files.front,
@@ -383,6 +401,7 @@ export default {
     }
   },
   created () {
+    this.curLanguage = this.$store.state.activeLang;
     this.getNationalityByCN();
     this.getNationalityByEN();
     this.pageHeight = window.innerHeight - 360
