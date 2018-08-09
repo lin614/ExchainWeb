@@ -117,7 +117,7 @@
                 </div>
               </FormItem>
 
-              <Button class="submit" size="large" type="primary" @click="handleSubmit('formField')">{{$t('userCenter.kyc.submit')}}</Button>
+              <Button class="submit btn-large" type="primary" @click="handleSubmit('formField')">{{$t('userCenter.kyc.submit')}}</Button>
             </Form>
           </div>
         </crd>

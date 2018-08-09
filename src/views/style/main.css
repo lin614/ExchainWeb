@@ -1,4 +1,17 @@
 /* 统一成50 */
+.ivu-btn {
+    font-size: 16px;
+}
+/* 表单文字 */
+.ivu-form-item-content {
+    font-size: 14px;
+}
+.ivu-form .ivu-form-item-label {
+    font-size: 14px;
+}
+.ivu-select-item{
+    font-size: 14px;
+}
 .ivu-input {
     height: 50px;
 }
