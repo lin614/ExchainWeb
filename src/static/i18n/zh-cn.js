@@ -199,6 +199,7 @@ module.exports = {
       estimatedValue: '当前估值',
       legalTender: '￥',
       withdrawAddress: '提现地址管理',
+      notice: '种子测试期间当前估值不包含 ET ',
       transfer: {
         title: '划转',
         token: '币种',

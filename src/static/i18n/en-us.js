@@ -200,6 +200,7 @@ module.exports = {
       estimatedValue: 'Estimated Value',
       withdrawAddress: 'Withdraw',
       legalTender: '$',
+      notice: 'current asset valuation doesn\'t include ET during the simulated trading period',
       transfer: {
         title: 'Transfer',
         token: 'Coin',

@@ -10,6 +10,7 @@
               <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
               <!-- {{ $t('userCenter.asset.transfer.volumeUnit') }} -->
               <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.legalTender') }}{{balanceTotal}}</span>
+              <div class="asset-notice">{{$t('userCenter.asset.notice')}}</div>
             </div>
             <div class="opera-box clearfix">
               <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
@@ -111,7 +112,7 @@ export default {
       showCharge: false,
       showColor: '',
       usdtPrice: 0,
-      btcPrice: 0,
+      btcPrice: 1,
       trabsferModal: {
         token: '',
         from: '',
@@ -391,6 +392,7 @@ export default {
     getActiveLang(val) {
       if (val === 'cn') {
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+        this.balanceTotal = NP.round(this.balanceTotal, 2)
       } else {
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
       }
@@ -720,20 +722,22 @@ export default {
     })
     bus.$on('wsUpdate', data => {
       if (data.data) {
+        console.log(data.data)
         vu.btcPrice = data.data[0][1]
-        console.log(typeof vu.btcPrice)
       }
     })
   },
   created() {
     // this.getBalance()
     this.getTokenObj()
-    this.getMyAsset()
     this.getUsdt()
+    // setTimeout(() => {}, 5000)
+    this.getMyAsset()
     clearInterval(this.timer)
+    var vu = this
     this.timer = setInterval(() => {
       console.log('---------------------- try -------------------')
-      this.getMyAsset1()
+      vu.getMyAsset1()
     }, 5000)
     var vu = this
     util.toggleTableHeaderLang(
@@ -771,6 +775,7 @@ export default {
     .card-main {
       padding: 55px 60px 0;
       .asset-amount {
+        position: relative;
         padding-bottom: 45px;
         line-height: 1.5;
         border-bottom: 1px solid #e9eaec;
@@ -781,6 +786,12 @@ export default {
           font-size: 24px;
           line-height: 24px;
           color: #4b96e6;
+        }
+        .asset-notice {
+          position: absolute;
+          bottom: 10px;
+          left: 0px;
+          color: #999;
         }
       }
       .opera-box {
