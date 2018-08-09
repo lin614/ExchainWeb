@@ -397,20 +397,20 @@ export default {
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
       }
     },
-    tokenObj() {
-      for (var key in this.tokenObj) {
-        for (var i = 0; i < this.assetListData.length; i++) {
-          if (this.assetListData[i].token === key) {
-            this.assetListData[i].trade = key.trade
-            this.assetListData[i].recharge = key.recharge
-            this.assetListData[i].withdraw = key.withdraw
-            this.assetListData[i].decimal = key.decimal
-            this.$set(this.assetListData, i, this.assetListData[i])
-            break
-          }
-        }
-      }
-    },
+    // tokenObj() {
+    //   for (var key in this.tokenObj) {
+    //     for (var i = 0; i < this.assetListData.length; i++) {
+    //       if (this.assetListData[i].token === key) {
+    //         this.assetListData[i].trade = key.trade
+    //         this.assetListData[i].recharge = key.recharge
+    //         this.assetListData[i].withdraw = key.withdraw
+    //         this.assetListData[i].decimal = key.decimal
+    //         this.$set(this.assetListData, i, this.assetListData[i])
+    //         break
+    //       }
+    //     }
+    //   }
+    // },
     $store () {
       console.log(1111);
     },
@@ -702,6 +702,9 @@ export default {
         this.trabsferModal.from = 'master'
       }
     },
+    /**
+     * 获取 USDT 汇率
+     */
     getUsdt () {
       var vu = this
       ax.get(config.url.user+'/api/quotation/getUSDCNY').then(res => {
@@ -712,6 +715,54 @@ export default {
         }
       })
       // this.usdtPrice = parseFloat(this.usdtPrice)
+    },
+    initAsset () {
+      var vu = this
+      ax
+        .all([
+          ax.get(config.url.user + '/api/quotation/getSymbolLists', getHeader),
+          ax.post(config.url.user + '/api/account/assetsList', getHeader)])
+        .then(ax.spread((tokenListRes, assetListRes)=>{
+          // console.log(res1)
+          // console.log(res2)
+          if (tokenListRes.status == '200' &&
+              tokenListRes.data.errorCode == 0 &&
+              assetListRes.status == '200' &&
+              assetListRes.data.errorCode == 0) {
+            var obj = {}
+            let btcBalance = 0;
+            var result = assetListRes.data.result
+            var tokenObj = tokenListRes.data.result
+            vu.tokenObj = JSON.parse(JSON.stringify(tokenObj))
+            console.log(vu.tokenObj)
+            for (var key in result) {
+              obj.token = key
+              obj.account_available = result[key].account_available
+              obj.withdraw_fee = result[key].withdraw_fee
+              obj.exchange_available = result[key].exchange_available
+              obj.exchange_freeze = result[key].exchange_freeze
+              obj._expanded = false
+              obj.trade = tokenObj[key].trade
+              obj.recharge = tokenObj[key].recharge
+              obj.withdraw = tokenObj[key].withdraw
+              obj.decimal = tokenObj[key].decimal
+              obj.recharge_min = tokenObj[key].recharge_min
+              obj.withdraw_min = tokenObj[key].withdraw_min
+              vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
+              btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
+            }
+            if (isNaN(btcBalance)) {
+              vu.BTCBalance = '--'
+            } else {
+              vu.BTCBalance = btcBalance
+            }
+          } else {
+            vu.$Message.error('errorMsg.NETWORK_ERROR')
+          }
+        }))
+        .catch(() => {
+          vu.$Message.error('errorMsg.NETWORK_ERROR')
+        })
     }
   },
   mounted() {
@@ -729,11 +780,10 @@ export default {
     })
   },
   created() {
-    // this.getBalance()
-    this.getTokenObj()
+    // this.getTokenObj()
+    // this.getMyAsset()
     this.getUsdt()
-    // setTimeout(() => {}, 5000)
-    this.getMyAsset()
+    this.initAsset()
     clearInterval(this.timer)
     var vu = this
     this.timer = setInterval(() => {
