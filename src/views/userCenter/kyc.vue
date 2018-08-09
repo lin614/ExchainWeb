@@ -7,7 +7,7 @@
           <div class="kyc-main">
             <Form class="form-box" ref="formField" :model="formField" :rules="rules" label-position="top">
               <FormItem  class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.nationality')" prop="code">
-                <Select v-model="formField.code" style="width:100%;height: 50px;">
+                <Select :label-in-value="true" v-model="formField.code" style="width:100%;height: 50px;">
                   <Option v-for="(item, index) in nationalityList" :value="index" :key="index">{{ item }}</Option>
                 </Select>
               </FormItem>

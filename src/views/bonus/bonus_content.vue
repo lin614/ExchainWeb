@@ -86,10 +86,6 @@
             {{$t('bonus.inviteRecord')}}
 
           </span>
-          <!-- <router-link target="_blank" to="/invite" slot="extra">
-
-            更多>>
-          </router-link> -->
           <div class="content ">
 
             <div class="lv-text">
@@ -239,10 +235,11 @@ export default {
             }
             this.list = res.data.data.inviteList.slice(0, 10)
            
-            this.n_all = res.data.data.inviteList.length
-            this.n_act = res.data.data.inviteList.filter(function(p) {
-              return p.isActive
-            }).length
+            this.n_all = res.data.data.inviteCount
+            this.n_act = res.data.data.activeCount
+            // this.n_act = res.data.data.inviteList.filter(function(p) {
+            //   return p.isActive
+            // }).length
           }
         })
         .catch(error => {
