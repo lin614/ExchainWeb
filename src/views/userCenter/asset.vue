@@ -147,7 +147,6 @@ export default {
               }
               // 判断精度
               var decimal = this.tokenObj[this.trabsferModal.token].decimal
-              console.log('decimal' + decimal)
               var reg = RegExp('^[0-9]{0,8}(.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
                 callback(
@@ -412,7 +411,7 @@ export default {
     //   }
     // },
     $store () {
-      console.log(1111);
+      // console.log(1111);
     },
     btcPrice () {
       if (isNaN(this.btcPrice)) {
@@ -716,6 +715,9 @@ export default {
       })
       // this.usdtPrice = parseFloat(this.usdtPrice)
     },
+    /**
+     * 初始化资产列表
+     */
     initAsset () {
       var vu = this
       ax
@@ -723,8 +725,6 @@ export default {
           ax.get(config.url.user + '/api/quotation/getSymbolLists', getHeader),
           ax.post(config.url.user + '/api/account/assetsList', getHeader)])
         .then(ax.spread((tokenListRes, assetListRes)=>{
-          // console.log(res1)
-          // console.log(res2)
           if (tokenListRes.status == '200' &&
               tokenListRes.data.errorCode == 0 &&
               assetListRes.status == '200' &&
@@ -734,7 +734,6 @@ export default {
             var result = assetListRes.data.result
             var tokenObj = tokenListRes.data.result
             vu.tokenObj = JSON.parse(JSON.stringify(tokenObj))
-            console.log(vu.tokenObj)
             for (var key in result) {
               obj.token = key
               obj.account_available = result[key].account_available
@@ -771,7 +770,15 @@ export default {
       event: 'sub',
       channel: 'huobi.market.btcusdt.kline.1min'
     })
+    // ws.postData({
+    //   endpoint:'req_trades',
+    //   params: {
+    //     symbolA: 'ltc',
+    //     symbolB: 'btc'
+    //   }
+    // })
     bus.$on('wsUpdate', data => {
+      console.log(data)
       if (data.data) {
         if (data.channel === 'huobi.market.btcusdt.kline.1min') {
           vu.btcPrice = data.data[0][1]
