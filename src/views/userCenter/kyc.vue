@@ -6,8 +6,8 @@
           <span slot="title">KYC</span>
           <div class="kyc-main">
             <Form class="form-box" ref="formField" :model="formField" :rules="rules" label-position="top">
-              <FormItem  class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.nationality')" prop="code">
-                <Select :label-in-value="true" v-model="formField.nationality" style="width:100%;height: 50px;">
+              <FormItem  class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.nationality')" prop="nationality">
+                <Select :label-in-value="true" v-model="formField.nationality" style="width:100%;height: 50px;" @on-change="changeNationality">
                   <Option v-for="(item, index) in nationalityList" :value="index" :key="index">{{ item }}</Option>
                 </Select>
               </FormItem>
@@ -142,6 +142,7 @@ export default {
       nationalityCNName: [],
       nationalityENName: [],
       nationalityList: [],
+      oldNationlity: '',
       formField: {
         nationality: '',
         firstName: '',
@@ -245,6 +246,19 @@ export default {
     }
   },
   methods: {
+    changeNationality(e) {
+      if (this.oldNationlity !== '' && this.oldNationlity !== e.value && (this.oldNationlity === 'CN' || e.value === 'CN')) {
+        this.files.front = '';
+        this.files.back = '';
+        this.files.hold = '';
+        
+        this.oldNationlity = this.formField.nationality;
+        
+        this.$refs.formField.resetFields();
+        this.formField.nationality = this.oldNationlity;
+      }
+      this.oldNationlity = this.formField.nationality;
+    },
     getNationalityByCN () {
       var vu = this
       ax.post(config.url.user + '/api/user/getCountryList', {

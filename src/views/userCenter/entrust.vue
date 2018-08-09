@@ -10,7 +10,7 @@
           </div>
           <Table v-if="currentTab === 'current'" :columns="columns1" :data="curData"></Table>
           <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleCurPageChange" :total="curTotal"></Page>
-          <Table v-if="currentTab === 'history'" :columns="columns1" :data="hisData"></Table>
+          <Table v-if="currentTab === 'history'" :columns="columns2" :data="hisData"></Table>
           <Page v-if="(currentTab === 'history') && showHisPage" @on-change="handleHisPageChange" :total="hisTotal"></Page>
         </crd>
       </div>
@@ -110,7 +110,84 @@ export default {
                       }
                     }
                   },
-                  params.row.opera
+                  this.$t('userCenter.entrust.cancelOrder')
+                )
+              ]
+            )
+          }
+        }
+      ],
+      columns2: [
+        {
+          title: this.$t('userCenter.entrust.ctime'),
+          key: 'ctime',
+          width: 200
+        },
+        {
+          title: this.$t('userCenter.entrust.market'),
+          key: 'market'
+        },
+        {
+          title: this.$t('userCenter.entrust.side'),
+          key: 'side',
+          width: 100,
+          render: function(h, params) {
+            // var vu = this
+            console.log(vu)
+            return h(
+              'div',
+              {
+                style: {
+                  color: ((params.row.side + '') === '1') ? 'green' : 'red'
+                }
+              },
+              ((params.row.side + '') === '1')
+                ? vu.$t('userCenter.entrust.buy')
+                : vu.$t('userCenter.entrust.sell')
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.price'),
+          key: 'price'
+        },
+        {
+          title: this.$t('userCenter.entrust.amount'),
+          key: 'amount'
+        },
+        {
+          title: this.$t('userCenter.entrust.closeRate') + '%',
+          key: 'closeRate'
+        },
+        {
+          title: this.$t('userCenter.entrust.averPrice'),
+          key: 'averPrice'
+        },
+        {
+          title: this.$t('userCenter.entrust.opera'),
+          key: 'opera',
+          render: (h, params) => {
+            return h(
+              'span',
+              {
+                style: {
+                  cursor: 'pointer'
+                }
+              },
+              [
+                h(
+                  'strong',
+                  {
+                    style: {
+                      color: '#419cf6'
+                    },
+                    on: {
+                      click: () => {
+                        this.cancelOrder(params.row)
+                      }
+                    }
+                  },
+                  ''
                 )
               ]
             )
@@ -157,7 +234,6 @@ export default {
               let amount = parseFloat(data[i].amount)
               let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
               data[i].closeRate = rate.toFixed(2)
-              data[i].opera = vu.$t('userCenter.entrust.cancelOrder')
               vu.curData = data
             }
             vu.curTotal = res.data.result.total * 1
@@ -197,7 +273,6 @@ export default {
               let amount = parseFloat(data[i].amount)
               let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
               data[i].closeRate = rate.toFixed(2)
-              data[i].opera = ''
               vu.hisData = data
             }
             vu.hisTotal = res.data.result.total * 1
