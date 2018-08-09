@@ -112,7 +112,7 @@ export default {
       showCharge: false,
       showColor: '',
       usdtPrice: 0,
-      btcPrice: 1,
+      btcPrice: null,
       trabsferModal: {
         token: '',
         from: '',
@@ -722,8 +722,9 @@ export default {
     })
     bus.$on('wsUpdate', data => {
       if (data.data) {
-        console.log(data.data)
-        vu.btcPrice = data.data[0][1]
+        if (data.channel === 'huobi.market.btcusdt.kline.1min') {
+          vu.btcPrice = data.data[0][1]
+        }
       }
     })
   },
