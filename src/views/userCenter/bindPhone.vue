@@ -11,9 +11,9 @@
             </div>
             <div class="form-box">
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
-                <FormItem :label="$t('userCenter.bindPhone.country')" prop="country" class="ivu-form-item-required">
-                  <Select v-model="bindForm.country" style="width:100%;height: 50px;">
-                    <Option v-for="(item, index) in countryList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.' + item.label) + ' + ' + item.value }}</Option>
+                <FormItem :label="$t('userCenter.bindPhone.nationality')" prop="nationality" class="ivu-form-item-required">
+                  <Select v-model="bindForm.nationality" style="width:100%;height: 50px;">
+                    <Option v-for="(item, index) in nationalityList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.' + item.label) + ' + ' + item.value }}</Option>
                   </Select>
                 </FormItem>
 
@@ -58,7 +58,7 @@ export default {
   data () {
     return {
       pageHeight: 0,
-      haveCountry: false,
+      haveNationality: false,
       isPhone: false,
       sendCodeLoading: false,
       confirmLoading: false,
@@ -70,36 +70,36 @@ export default {
       userNum: '',
       bindStatus: '',
       type: '',
-      countryList: [],
+      nationalityList: [],
       bindForm: {
-        country: '',
+        nationality: '',
         phone: '',
         phoneCode: '',
         googleCode: ''
       },
       rules: {
-        country: [
+        nationality: [
           {
             validator: (rule, value, callback) => {
                if (value) {
-                 this.haveCountry = true
+                 this.haveNationality = true
                  callback()
                } else {
-                 this.haveCountry = false
-                 callback(this.$t('errorMsg.COUNTRY_UNSELECT'))
+                 this.haveNationality = false
+                 callback(this.$t('errorMsg.NATIONALITY_UNSELECT'))
                }
             }, trigger: 'change'}
         ],
         phone: [
           {
             validator: (rule, value, callback) => {
-              // 先判断是否选择国家
-              this.$refs.bindForm.validateField('country', () => {
+              // 先判断是否选择国籍
+              this.$refs.bindForm.validateField('nationality', () => {
               })
               if (!value) {
                 callback(this.$t('errorMsg.PHONE_BLANK'))
               }
-              if (util.checkPhone(this.bindForm.country, value)) {
+              if (util.checkPhone(this.bindForm.nationality, value)) {
                 this.isPhone = true
                 callback()
               } else {
@@ -140,14 +140,14 @@ export default {
         return
       }
       this.sendCodeLoading = true
-      if (this.isPhone && this.haveCountry) {
+      if (this.isPhone && this.haveNationality) {
         var vu = this
         ax({
           url: config.url.user+'/api/user/bindPhone',
           method: 'post',
           data: {
             phone: vu.bindForm.phone,
-            country: vu.bindForm.country,
+            country: vu.bindForm.nationality,
             pn: cookie.get('PN'),
             type: vu.type,
           },
@@ -183,7 +183,7 @@ export default {
       } else {
         this.$refs.bindForm.validateField('phone', () => {
         })
-        this.$refs.bindForm.validateField('country', () => {
+        this.$refs.bindForm.validateField('nationality', () => {
         })
         this.sendCodeLoading = false
       }
@@ -219,7 +219,7 @@ export default {
             method: 'post',
             data: {
               phone: vu.bindForm.phone,
-              country: vu.bindForm.country,
+              country: vu.bindForm.nationality,
               code: vu.bindForm.phoneCode,
               pn: cookie.get('PN'),
               type: vu.type,
@@ -283,7 +283,7 @@ export default {
         })
     },
     /**
-     * 获取支持的国家码
+     * 获取支持的国籍码
      */
     getPhoneSupportList () {
       var vu = this
@@ -304,7 +304,7 @@ export default {
             for (var key in result) {
               obj.label = key
               obj.value = result[key]
-              vu.countryList.push(obj)
+              vu.nationalityList.push(obj)
             }
           }
         })
@@ -377,11 +377,6 @@ export default {
     .form-box {
       width: 520px;
       padding-top: 40px;
-      .ivu-select-single .ivu-select-selection {
-        height: 100%;
-        padding-top: 10px;
-        padding-left: 15px;
-      }
       .ivu-form-item {
         margin-bottom: 30px;
       }

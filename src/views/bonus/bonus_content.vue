@@ -81,16 +81,16 @@
             </Row>
           </div>
         </crd>
-        <!-- <crd>
+        <crd>
           <span slot="title">
             {{$t('bonus.inviteRecord')}}
 
-          </span> -->
+          </span>
           <!-- <router-link target="_blank" to="/invite" slot="extra">
 
             更多>>
           </router-link> -->
-          <!-- <div class="content ">
+          <div class="content ">
 
             <div class="lv-text">
               {{$t('bonus.invited')}}{{n_all}}{{$t('bonus.inviteUnit')}} {{$t('bonus.traded')}}{{n_act}}{{$t('bonus.inviteUnit')}}
@@ -131,7 +131,7 @@
 
           </div>
           <router-link v-if="showMore" target="_blank" class="to-more" to="/invite">{{$t('bonus.toMore')}}</router-link>
-        </crd> -->
+        </crd>
 
       </div>
     </block>
@@ -175,6 +175,7 @@ export default {
     })
     this.getUserLevel();
     this.getInvitedCode();
+    this.getInvitedList();
   },
   mounted() {
     new ClipboardJS('#btnCode')

@@ -220,7 +220,7 @@ module.exports = {
       }
     },
     kyc: {
-      country: 'Nationality',
+      nationality: 'Nationality',
       firstName: 'First Name',
       familyName: 'Family Name',
       idcardNo: 'ID NO.',
@@ -298,7 +298,7 @@ module.exports = {
       bindPhone: 'Bind Mobile Number',
       unBindPhone: 'UnBind Mobile Number',
       china: 'china',
-      country: 'Country',
+      nationality: 'Nationality',
       mbileNumber: 'mobile Number',
       smsCode: 'SMS code',
       getCode: 'Get code',
@@ -383,8 +383,8 @@ module.exports = {
     ADDR_LIMIT: '100 characters or shorter',
     NOTE_LIMIT: '100 characters or shorter',
     // 绑定/解绑手机号
-    COUNTRY_BLANK: 'Country',
-    COUNTRY_UNSELECT: 'Country',
+    NATIONALITY_BLANK: 'nationality',
+    NATIONALITY_UNSELECT: 'nationality',
     PHONE_BLANK: 'Telehone',
     PHONE_NOT_NUM: 'Telephone must be digits',
     CODE_BLANK: 'Please input code',
@@ -400,6 +400,8 @@ module.exports = {
     FEE_BLANK: '',
     WITHDRAW_REQ_SUBMIT: 'Withdraw submit success',
     // kyc
+    NATIONALITY_BLANK: 'Please select nationality',
+    NATIONALITY_LIMIT_LENGTH: '100 characters or shorter',
     FIRSTNAME_BLANK: '请输入名字',
     FAMILYNAME_BLANK: '请输入姓',
     CARD_BLANK: '请输入身份证号码',

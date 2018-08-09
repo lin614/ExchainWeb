@@ -75,11 +75,11 @@ util.checkPwd = (pwd) => {
 /**
  * 
  * 根据国家码不同采用不同的校验正则
- * @param {Number} country 国家码
+ * @param {Number} nationality 国家码
  * @param {String} phone 手机号
  */
-util.checkPhone = (country, phone) => {
-    switch (country) {
+util.checkPhone = (nationality, phone) => {
+    switch (nationality) {
         case 86: {
             var reg = /^1[3-9]\d{9}$/
             return reg.test(phone)
