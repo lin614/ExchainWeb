@@ -292,7 +292,7 @@ module.exports = {
       side: '类型',
       price: '价格',
       amount: '数量',
-      closeRate: '成交率',
+      closeRate: '成交率(%)',
       averPrice: '成交均价',
       opera: '操作',
       detail: '详情',

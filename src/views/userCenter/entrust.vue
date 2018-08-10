@@ -79,7 +79,7 @@ export default {
           key: 'amount'
         },
         {
-          title: this.$t('userCenter.entrust.closeRate') + '%',
+          title: this.$t('userCenter.entrust.closeRate'),
           key: 'closeRate'
         },
         {
@@ -156,7 +156,7 @@ export default {
           key: 'amount'
         },
         {
-          title: this.$t('userCenter.entrust.closeRate') + '%',
+          title: this.$t('userCenter.entrust.closeRate'),
           key: 'closeRate'
         },
         {
@@ -373,8 +373,10 @@ export default {
   mounted() {
     var vu = this
     util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
+    util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
     bus.$on('langChange', () => {
       util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
+      util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
     })
     console.log(getHeader)
   },
