@@ -17,9 +17,9 @@
           <div class="banner_2">
             <block>
               <div slot="inner">
-                <h2>Exchain内测即将开启，强拳重推合作伙伴计划</h2>
+                <h2>{{ $t('banner.title2') }}</h2>
                 <hr/>
-                <p>Exchain全球首家共享型交易平台Exchain全新上线，并即将开启内测。<br/>先启动“合作伙伴计划”招募<br/>成为合作伙伴，享受交易费20%-50%回报+平台币(ET)奖励<br/>交易即挖矿，ET升值+平台收入奖励，收益+++<br/>限时全免，等你来！</p>
+                <p class="banner-descript2" v-html="$t('banner.descript2')"></p>
               </div>
             </block>
           </div>
@@ -73,6 +73,7 @@ export default {
     background-repeat: no-repeat;
     background-position: center center;
     h2 {
+      width: 850px;
       padding-top: 50px;
       font-size: @banner-font-title;
       color: white;
@@ -93,6 +94,10 @@ export default {
     }
     .banner-descript {
       width: 850px;
+    }
+    .banner-descript2 {
+      // width: 900px;
+      line-height: 30px;
     }
   }
   .banner_1 {

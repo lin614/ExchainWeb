@@ -446,15 +446,15 @@ export default {
       if (isNaN(this.btcPrice) || this.btcPrice === null) {
         return
       }
-      if (isNaN(this.BTCBalance)) {
+      if (isNaN(this.BTCBalance) || this.BTCBalance === null) {
         return
       }
 
       if (this.$store.state.activeLang === 'cn') {
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
       } else {
-        console.log('BTCBalance' + this.BTCBalance)
-        console.log('btcPrice' + this.btcPrice)
+        console.log('BTCBalance : ' + this.BTCBalance)
+        console.log('btcPrice : ' + this.btcPrice)
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
       }
 

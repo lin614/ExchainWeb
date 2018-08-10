@@ -43,8 +43,10 @@ module.exports = {
 
   },
   banner: {
-    title: 'Share the income with partners. Share the profit with users.',
-    descript: 'Exchain, the first global shared digital assets trading platform, not only sharing the trans-fee with partners which the general partner can get 20%, while the super partner can get 50% but also Exchain will distribute 100% of daily profit to the holders of Exchain Token (ET). Free transaction with limited time is beginning now.'
+    title: 'Share the income with partners. Share the profit with users',
+    descript: 'Exchain, the first global shared digital assets trading platform, not only sharing the trans-fee with partners which the general partner can get 20%, while the super partner can get 50% but also Exchain will distribute 100% of daily profit to the holders of Exchain Token (ET). Free transaction with limited time is beginning now.',
+    title2: 'Exchain External Special Users Testing is Opening Soon, strongly promoting the "Partner Project"',
+    descript2: 'Exchain, the first global shared digital assets trading platform will be launched,<br/>and the external special users testing is coming soon.<br/>Now we are recruiting our precious Partners!<br/>As the initial partner, you will build the platform together with us, and share the profits:<br/>Enjoying 20%-50% of platform profits + Exchain Token (ET) + infinite USDT rewards Various gifts, more benefits<br/>Free transaction in limited time, only for you to join!'
   },
 
   index: {
