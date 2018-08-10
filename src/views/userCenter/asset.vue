@@ -14,7 +14,7 @@
                 <div class="asset-notice">{{$t('userCenter.asset.notice')}}</div>
               </div>
               <div class="opera-box clearfix">
-                <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
+                <!-- <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link> -->
               </div>
             </div>
             <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>

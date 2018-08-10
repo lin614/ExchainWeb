@@ -241,12 +241,15 @@ export default {
         return
       }
       var vu = this
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
+      console.log('lang = ' + lang)
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
           vu.sendCodeLoading = true
           ax
             .post(config.url.user + '/api/user/register', {
-              email: vu.regInfo.email
+              email: vu.regInfo.email,
+              language: lang
             })
             .then(function(res) {
               vu.sendCodeLoading = false

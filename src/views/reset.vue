@@ -236,12 +236,14 @@ export default {
       }
 
       var vu = this
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
       this.$refs['resetInfo'].validateField('email', function(error) {
         if (!error) {
           vu.sendCodeLoading = true
           ax
             .post(config.url.user + '/api/user/resetPassword', {
-              email: vu.resetInfo.email
+              email: vu.resetInfo.email,
+              language: lang
             })
             .then(function(res) {
               vu.sendCodeLoading = false

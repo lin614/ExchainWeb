@@ -128,6 +128,11 @@ export default {
     crd,
     page
   },
+  computed: {
+    activeLang() {
+      return this.$store.state.activeLang
+    }
+  },
   methods: {
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
@@ -139,6 +144,7 @@ export default {
       if (this.sendCodeLoading) {
         return
       }
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
       this.sendCodeLoading = true
       if (this.isPhone && this.haveNationality) {
         var vu = this
@@ -150,6 +156,7 @@ export default {
             country: vu.bindForm.nationality,
             pn: cookie.get('PN'),
             type: vu.type,
+            language: lang
           },
           transformRequest: [function (data) {
             // Do whatever you want to transform the data
