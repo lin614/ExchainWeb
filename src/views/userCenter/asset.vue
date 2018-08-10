@@ -103,6 +103,7 @@ export default {
       enchargeToken: '',
       balanceTotal: '--',
       timer: null,
+      initBTCPriceTimer: null,
       tokenFee: '',
       master: '',
       trade: '',
@@ -414,7 +415,10 @@ export default {
       // console.log(1111);
     },
     btcPrice () {
-      if (isNaN(this.btcPrice)) {
+      if (isNaN(this.btcPrice) || this.btcPrice === null) {
+        return
+      }
+      if (isNaN(this.BTCBalance)) {
         return
       }
       console.log('this.BTCBalance = ' + this.BTCBalance)
@@ -427,6 +431,28 @@ export default {
       if (this.$store.state.activeLang === 'cn') {
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
       } else {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
+      }
+
+      console.log(this.balanceTotal)
+      this.balanceTotal = NP.round(this.balanceTotal, 2)
+      if (isNaN(this.balanceTotal)) {
+        this.balanceTotal = '--'
+      }
+    },
+    BTCBalance () {
+      if (isNaN(this.btcPrice) || this.btcPrice === null) {
+        return
+      }
+      if (isNaN(this.BTCBalance)) {
+        return
+      }
+
+      if (this.$store.state.activeLang === 'cn') {
+        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+      } else {
+        console.log('BTCBalance' + this.BTCBalance)
+        console.log('btcPrice' + this.btcPrice)
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
       }
 
@@ -495,7 +521,7 @@ export default {
           }
         })
     },
-     getMyAsset1() {
+    getMyAsset1() {
       var vu = this
       ax
         .get(config.url.user + '/api/account/assetsList', getHeader)
@@ -762,6 +788,23 @@ export default {
         .catch(() => {
           vu.$Message.error('errorMsg.NETWORK_ERROR')
         })
+    },
+    /**
+     * 初始化BTC价格， 每分钟查询一次，订阅数据到达后清除
+     */
+    initBTCPrice () {
+      var vu = this
+      ax.get(config.url.user + '/api/v1-b/market/trade_history?market=huobi&symbol=btcusdt&limit=1', getHeader)
+        .then((res) => {
+          if (res.status == 200 && res.data.code === 0) {
+            var data = res.data.data
+            vu.btcPrice = data[0][1]
+            console.log('btcPrice : ' + vu.btcPrice)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   mounted() {
@@ -770,17 +813,14 @@ export default {
       event: 'sub',
       channel: 'huobi.market.btcusdt.kline.1min'
     })
-    // ws.postData({
-    //   endpoint:'req_trades',
-    //   params: {
-    //     symbolA: 'ltc',
-    //     symbolB: 'btc'
-    //   }
-    // })
+    this.initBTCPrice()
+    clearInterval(this.initBTCPriceTimer)
+    this.initBTCPriceTimer = setInterval(vu.initBTCPrice, 60 * 1000)
     bus.$on('wsUpdate', data => {
       console.log(data)
       if (data.data) {
         if (data.channel === 'huobi.market.btcusdt.kline.1min') {
+          clearInterval(vu.initBTCPriceTimer)
           vu.btcPrice = data.data[0][1]
         }
       }
@@ -812,6 +852,7 @@ export default {
   },
   destroyed() {
     clearInterval(this.timer)
+    clearInterval(this.initBTCPriceTimer)
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }
