@@ -293,7 +293,7 @@ module.exports = {
       side: 'Type',
       price: 'Price',
       amount: 'Amount',
-      closeRate: 'Filled',
+      closeRate: 'Filled(%)',
       averPrice: 'Average price',
       detail: 'Detail',
       limitPrice: 'Limit price',
