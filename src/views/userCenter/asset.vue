@@ -112,7 +112,7 @@ export default {
       transferLoading: false,
       showCharge: false,
       showColor: '',
-      usdtPrice: 0,
+      usdtPrice: null,
       btcPrice: null,
       trabsferModal: {
         token: '',
@@ -415,7 +415,7 @@ export default {
       // console.log(1111);
     },
     btcPrice () {
-      if (isNaN(this.btcPrice) || this.btcPrice === null) {
+      if (isNaN(this.btcPrice) || this.btcPrice === null || this.usdtPrice === null || isNaN(this.usdtPrice)) {
         return
       }
       if (isNaN(this.BTCBalance)) {
@@ -516,7 +516,7 @@ export default {
             if (isNaN(btcBalance)) {
               vu.BTCBalance = '--'
             } else {
-              vu.BTCBalance = btcBalance
+              vu.BTCBalance = NP.round(btcBalance, 8)
             }
           }
         })
@@ -545,7 +545,7 @@ export default {
             if (isNaN(btcBalance)) {
               vu.BTCBalance = '--'
             } else {
-              vu.BTCBalance = btcBalance
+              vu.BTCBalance = NP.round(btcBalance, 8)
             }
           }
         })
@@ -779,7 +779,7 @@ export default {
             if (isNaN(btcBalance)) {
               vu.BTCBalance = '--'
             } else {
-              vu.BTCBalance = btcBalance
+              vu.BTCBalance = NP.round(btcBalance, 8)
             }
           } else {
             vu.$Message.error('errorMsg.NETWORK_ERROR')
