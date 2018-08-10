@@ -106,7 +106,7 @@ export default {
       return cookie.get('PN', config.url.domain)
     },
     email() {
-      var info = sessionStorage.getItem('email')
+      var info = cookie.get('email', config.url.domain)
       if (!info) {
         this.isLogin = false
         return ''
