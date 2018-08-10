@@ -1,4 +1,7 @@
 module.exports = {
+  common: {
+    imgLang: 'en'
+  },
   header: {
     exchange: 'Exchange',
     et: 'ET',
@@ -63,15 +66,15 @@ module.exports = {
       },
       innovationBoard: {
         title: 'Innovation Board',
-        tip: '创新区数字资产属于新型投资产品，有一定投资风险。在投资前，我们希望您能充分了解目标数字资产，合理判断您自己的投资能力，并认真做出投资决策。'
+        tip: 'Digital assets in Innovation Board are new types of investment product,  have some certain risks. Before decising to invest, we wish you could understand the digital asset. Investors must carefully evaluate their own risk tolerance and investment ability and invest prudently.'
       },
       ventureCapitalBoard: {
-        title: 'Venture Capital Board',
-        tip: '相对于创新区的区块链项目，创投区的项目通常处于早期阶段，存在极高的不确定性风险，请投资者务必审慎评估自身风险承受能力以及投资能力，谨慎投资。'
+        title: 'GEM Board',
+        tip: 'Compared with Innovation Board project, GEM Board project at an early stage, have  high risks of uncertainty,Investors must carefully evaluate their own risk tolerance and investment ability and invest prudently.'
       },
       angelInvestmentBoard: {
-        title: 'Angel Investment Board',
-        tip: '风险投资区的数字资产通常处于项目的天使阶段，有极高的不确定性风险。请投资者根据自身承担风险能力慎重投资。'
+        title: 'Venture Capital Board',
+        tip: 'Venture Capital Board project at at angel stage, have extremely high risks of uncertainty. Investors must carefully evaluate their own risk tolerance and investment ability and invest prudently.'
       },
       rowName: {
         pair: 'Pair',

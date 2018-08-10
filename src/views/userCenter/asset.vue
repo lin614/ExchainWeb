@@ -5,15 +5,17 @@
         <crd potColor="#4399e9">
           <span slot="title">{{ $t('userCenter.asset.title') }}</span>
           <div class="card-main clearfix">
-            <div class="asset-amount">
-              <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span>
-              <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
-              <!-- {{ $t('userCenter.asset.transfer.volumeUnit') }} -->
-              <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.legalTender') }}{{balanceTotal}}</span>
-              <div class="asset-notice">{{$t('userCenter.asset.notice')}}</div>
-            </div>
-            <div class="opera-box clearfix">
-              <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
+            <div class="card-main-hd">
+              <div class="asset-amount fl">
+                <!-- <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span> -->
+                <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
+                <!-- {{ $t('userCenter.asset.transfer.volumeUnit') }} -->
+                <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.legalTender') }}{{balanceTotal}}</span>
+                <div class="asset-notice">{{$t('userCenter.asset.notice')}}</div>
+              </div>
+              <div class="opera-box clearfix">
+                <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
+              </div>
             </div>
             <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>
           </div>
@@ -56,9 +58,9 @@
               </div>
             </crd>
             <div slot="footer">
-              <div class="change-model-footer clearfix">
+              <div class="model-btn-wrap clearfix">
                 <span class="model-btn fr" @click="handleCloseTransfer('formCustom')">{{$t('userCenter.asset.transfer.cancel')}}</span>
-                <div class="model-btn model-btn-active fl" @click="handleTransfer('formCustom')">
+                <div class="model-btn primary fl" @click="handleTransfer('formCustom')">
                   <span>{{ $t('userCenter.asset.transfer.confirm') }}</span>
                   <Spin v-if="transferLoading" size="small" fix></Spin>
                 </div>
@@ -824,12 +826,14 @@ export default {
       }
     }
     .card-main {
-      padding: 55px 60px 0;
+      padding: 45px 60px 0;
+      .card-main-hd {
+        border-bottom: 1px solid #e9eaec;
+      }
       .asset-amount {
         position: relative;
         padding-bottom: 45px;
         line-height: 1.5;
-        border-bottom: 1px solid #e9eaec;
         .asset-amount-title {
           padding-right: 120px;
         }
@@ -839,23 +843,23 @@ export default {
           color: #4b96e6;
         }
         .asset-notice {
-          position: absolute;
-          bottom: 10px;
-          left: 0px;
+          // position: absolute;
+          // bottom: 10px;
+          // left: 0px;
           color: #999;
         }
       }
       .opera-box {
-        width: 100%;
-        margin-top: 16px;
         .opera-box-btn {
           display: inline-block;
           min-width: 160px;
-          height: 40px;
-          line-height: 40px;
-          padding: 0 10px;
+          height: 50px;
+          line-height: 30px;
+          padding: 10px 16px;
           text-align: center;
           color: #fff;
+          font-size: 16px;
+          border-radius: 4px;
           background-color: @font-color-blue;
           cursor: pointer;
         }
@@ -867,7 +871,7 @@ export default {
   }
   .ivu-table-wrapper {
     border: none;
-    padding-top: 55px;
+    padding-top: 45px;
     padding-bottom: 25px;
     .ivu-table::after {
       width: 0;

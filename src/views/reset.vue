@@ -13,27 +13,31 @@
                 <FormItem prop="email" :label="$t('register.email')" class="ivu-form-item-required">
                   <Input v-model="resetInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
                 </FormItem>
+
                 <FormItem prop="emailcode" :label="$t('register.emailcode')" class="ivu-form-item-required">
-                  <Input v-model="resetInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')"></Input>
+                  <Input v-model="resetInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')" style="width: 360px"></Input>
+
+                  <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
+                  <div v-show="!codeDown" class="send-code-btn fr" @click="sendemail"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
                 </FormItem>
+
                 <FormItem prop="pwd" :label="$t('register.pwd')" class="ivu-form-item-required">
                   <Input v-model="resetInfo.pwd" type="password" :placeholder="$t('register.pleaseIptPwd')">
                   </Input>
                 </FormItem>
+
                 <FormItem prop="pwd2" :label="$t('register.pwd2')" class="ivu-form-item-required">
                   <Input v-model="resetInfo.pwd2" type="password" :placeholder="$t('register.pleaseInputPwd2')">
                   </Input>
                 </FormItem>
 
                 <FormItem>
-                  <Button type="primary" @click="resSetPwd('resetInfo')">{{$t('reset.resetBtn')}}</Button>{{$t('reset.toLogin')}}
+                  <Button class="btn-large" type="primary" @click="resSetPwd('resetInfo')">{{$t('reset.resetBtn')}}</Button>{{$t('reset.toLogin')}}
                   <router-link to="/login">{{$t('reset.login')}}</router-link>
                 </FormItem>
               </Form>
             </div>
-            <div class="reg_sendemail">
-              <a @click="sendemail">{{$t('register.sendCode')}}</a>
-            </div>
+
             <!-- <div class="info">
               <p>
                 {{$t('register.info1')}}<br/> {{$t('register.info2')}}<br/> {{$t('register.info3')}}
@@ -69,6 +73,11 @@ export default {
         pwd2: '',
         code: ''
       },
+
+      codeDown: false,
+      codeDownText: '',
+      timer: null,
+      sendCodeLoading: false,
 
       rules: {
         email: [
@@ -205,18 +214,53 @@ export default {
           vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
     },
+    /**
+     * 倒计时
+     */
+    handleCodeDown () {
+      var time = 60
+      this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+      clearInterval(this.timer)
+      this.timer = setInterval(() => {
+        time -= 1
+        if (time <= 0) {
+          this.codeDown = false
+          clearInterval(this.timer)
+        }
+        this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+      }, 1000)
+    },
     sendemail() {
+      if (this.sendCodeLoading) {
+        return
+      }
+
       var vu = this
       this.$refs['resetInfo'].validateField('email', function(error) {
         if (!error) {
+          vu.sendCodeLoading = true
           ax
             .post(config.url.user + '/api/user/resetPassword', {
               email: vu.resetInfo.email
             })
             .then(function(res) {
-              console.log(res)
-              vu.resettoken = res.data.result.token
-              vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
+              vu.sendCodeLoading = false
+              if (res.status == '200' && res.data.errorCode == 0) {
+                vu.resettoken = res.data.result.token
+                vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
+                vu.codeDown = true;
+                vu.handleCodeDown();
+              } else if (res.data.errorCode == 200) {
+                vu.$Message.error(vu.$t('errorMsg.USER_EXISTED'))
+              } else if (res.data.errorCode == 707) {
+                vu.$Message.error(vu.$t('errorMsg.REQ_LIMIT'))
+              } else {
+                vu.$Message.error(vu.$t('errorMsg.FAIL'))
+              }
+            })
+            .catch(() => {
+              vu.sendCodeLoading = false
+              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
             })
         } else {
           vu.$Message.error(error)
@@ -282,13 +326,11 @@ export default {
 .reset {
   padding-top: 16px;
   .ivu-input {
-    border-radius: 0;
     font-size: @font-text;
   }
   .ivu-btn {
     width: 200px;
     margin-right: 32px;
-    border-radius: 0;
   }
   .content {
     padding: 32px;
@@ -306,19 +348,13 @@ export default {
       margin: 32px auto;
     }
     .reset_form {
-      width: 400px;
+      width: 520px;
       label {
         font-size: @font-text;
       }
       input {
         font-size: @font-text;
       }
-    }
-
-    .reg_sendemail {
-      position: absolute;
-      top: 155px;
-      left: 450px;
     }
     .info {
       background: @text-bg-color;
@@ -327,6 +363,37 @@ export default {
       top: 150px;
       left: 650px;
       line-height: 40px;
+    }
+  }
+  .send-code-down {
+    box-sizing: border-box;
+    min-width: 140px;
+    height: 50px;
+    line-height: 48px;
+    padding: 0 10px;
+    border: 1px solid #999;
+    color: #fff;
+    background-color: #999;
+    text-align: center;
+    border-radius: 4px;
+  }
+  .send-code-btn {
+    position: relative;
+    // display: inline-block;
+    box-sizing: border-box;
+    min-width: 140px;
+    height: 50px;
+    line-height: 48px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: 1px solid #419aec;
+    color: #419aec;
+    background-color: #fff;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #419aec;
+      color: #fff;
     }
   }
 }

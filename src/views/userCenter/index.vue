@@ -78,9 +78,10 @@
             </crd>
 
             <div slot="footer">
-              <div class="change-model-footer clearfix">
-                <span class="model-btn model-btn-active fl" @click="handleChangePwd('formCustom')">
-                  <Spin v-if="changeLoading" fix size="small"></Spin>{{ $t('userCenter.index.changePwd.change') }}</span>
+              <div class="model-btn-wrap clearfix">
+                <span class="model-btn primary fl" @click="handleChangePwd('formCustom')">
+                  <Spin v-if="changeLoading" fix size="small"></Spin>{{ $t('userCenter.index.changePwd.change') }}
+                </span>
                 <span class="model-btn fr" @click="handleCloseChangePwd('formCustom')">{{ $t('userCenter.index.changePwd.cancel') }}</span>
               </div>
             </div>
@@ -542,26 +543,7 @@ export default {
     .pwd-rule {
       padding-top: 40px;
     }
-    .model-btn {
-      position: relative;
-      // display: inline-block;
-      width: 160px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      border: 1px solid #5999e5;
-      color: #5999e5;
-      background-color: #fff;
-      cursor: pointer;
-      // &:hover {
-      //   color: #fff;
-      //   background-color: #5999E5;
-      // }
-    }
-    .model-btn-active {
-      color: #fff;
-      background-color: #5999e5;
-    }
+    
   }
 }
 .ga-step {

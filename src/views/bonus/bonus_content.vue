@@ -4,7 +4,7 @@
       <div slot="inner">
         <crd :hideTitle="true">
           <!-- <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span> -->
-          <div :class="'lv' + level"></div>
+          <div :class="'lv' + level + '-' + $t('common.imgLang')"></div>
 
           <div class="lv-name">
             <h2>{{$t('bonus.currentLevel')}}
@@ -260,20 +260,36 @@ export default {
     background-repeat: no-repeat;
     font-size: @font-title;
   }
-  .lv0 {
-    background: url(../../static/imgs/l0.png);
+  .lv0-cn {
+    background: url(../../static/imgs/l0-cn.png);
     .lv;
   }
-  .lv1 {
-    background: url(../../static/imgs/l1.png);
+  .lv1-cn {
+    background: url(../../static/imgs/l1-cn.png);
     .lv;
   }
-  .lv2 {
-    background: url(../../static/imgs/l2.png);
+  .lv2-cn {
+    background: url(../../static/imgs/l2-cn.png);
     .lv;
   }
-  .lv3 {
-    background: url(../../static/imgs/l3.png);
+  .lv3-cn {
+    background: url(../../static/imgs/l3-cn.png);
+    .lv;
+  }
+  .lv0-en {
+    background: url(../../static/imgs/l0-en.png);
+    .lv;
+  }
+  .lv1-en {
+    background: url(../../static/imgs/l1-en.png);
+    .lv;
+  }
+  .lv2-en {
+    background: url(../../static/imgs/l2-en.png);
+    .lv;
+  }
+  .lv3-en {
+    background: url(../../static/imgs/l3-en.png);
     .lv;
   }
   .lv-name {

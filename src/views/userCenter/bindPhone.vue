@@ -389,6 +389,7 @@ export default {
         line-height: 48px;
         padding: 0 10px;
         border: 1px solid #5999E5;
+        border-radius: 4px;
         color: #5999E5;
         background-color: #fff;
         text-align: center;

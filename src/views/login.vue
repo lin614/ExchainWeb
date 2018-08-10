@@ -231,7 +231,6 @@ export default {
 .login {
   padding-top: 16px;
   .ivu-input {
-    border-radius: 0;
     font-size: @font-text;
   }
   .ivu-btn {

@@ -11,13 +11,14 @@
             <div class="reg_form">
               <Form ref="regInfo" label-position="top" :model="regInfo" :rules="rules">
                 <FormItem prop="email" :label="$t('register.email')" class="ivu-form-item-required">
-                  <Input style="width: 360px" v-model="regInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
-                  <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
-                  <div v-show="!codeDown" class="send-code-btn fr" @click="sendemail"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
+                  <Input v-model="regInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
                 </FormItem>
 
                 <FormItem prop="emailcode" :label="$t('register.emailcode')" class="ivu-form-item-required">
-                  <Input v-model="regInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')"></Input>
+                  <Input v-model="regInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')" style="width: 360px"></Input>
+
+                  <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
+                  <div v-show="!codeDown" class="send-code-btn fr" @click="sendemail"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
                 </FormItem>
 
                 <FormItem prop="pwd" :label="$t('register.pwd')" class="ivu-form-item-required">
@@ -266,6 +267,8 @@ export default {
               vu.sendCodeLoading = false
               vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
             })
+        } else {
+          vu.$Message.error(error)
         }
       })
     },
@@ -350,11 +353,7 @@ export default {
 @import url(./style/config.less);
 .reg {
   padding-top: 16px;
-  .login {
-    font-size: 16px;
-  }
   .ivu-input {
-    border-radius: 0;
     font-size: @font-text;
   }
   .ivu-btn {
@@ -404,6 +403,7 @@ export default {
     color: #fff;
     background-color: #999;
     text-align: center;
+    border-radius: 4px;
   }
   .send-code-btn {
     position: relative;
@@ -412,14 +412,15 @@ export default {
     min-width: 140px;
     height: 50px;
     line-height: 48px;
+    border-radius: 4px;
     padding: 0 10px;
-    border: 1px solid #5999E5;
-    color: #5999E5;
+    border: 1px solid #419aec;
+    color: #419aec;
     background-color: #fff;
     text-align: center;
     cursor: pointer;
     &:hover {
-      background-color: #5999E5;
+      background-color: #419aec;
       color: #fff;
     }
   }

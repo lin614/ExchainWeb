@@ -24,7 +24,7 @@
             <li class="friendly-notice-item">{{ $t('userCenter.withdrawBox.tipP1') }} : {{params.withdraw_min}} {{token}}</li>
           </div>
           <div class="get-btn-box fr">
-            <Button type="primary" @click="handleGetCash('getCashForm')">
+            <Button class="btn-large" type="primary" @click="handleGetCash('getCashForm')">
               <span>{{ $t('userCenter.withdrawBox.withdraw') }}</span>
               <Spin size="large" fix v-if="spinShow"></Spin>
             </Button>
@@ -178,9 +178,6 @@ export default {
         .ivu-btn {
           position: relative;
           width: 200px;
-          height: 50px;
-          font-size: 20px;
-          border-radius: 0;
         }
       }
     }

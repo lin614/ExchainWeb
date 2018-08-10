@@ -1,3 +1,36 @@
+body {
+    font-size: 14px;
+}
+
+.model-btn-wrap {
+    font-size: 16px;
+}
+.model-btn-wrap .model-btn {
+    position: relative;
+    width: 160px;
+    height: 50px;
+    padding: 10px 16px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #419aec;
+    color: #419aec;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.model-btn-wrap .model-btn:hover {
+    color: #fff;
+    background-color: #419aec;
+}
+
+.model-btn-wrap .primary {
+    color: #fff;
+    background-color: #419aec;
+  }
+
+
+
+
 /* 统一成50 */
 .ivu-btn {
     font-size: 16px;

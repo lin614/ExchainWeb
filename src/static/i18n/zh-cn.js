@@ -1,4 +1,7 @@
 module.exports = {
+  common: {
+    imgLang: 'cn'
+  },
   header: {
     exchange: '交易',
     et: 'ET',
