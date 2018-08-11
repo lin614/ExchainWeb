@@ -305,6 +305,12 @@ module.exports = {
       bindPhone: 'Bind Mobile Number',
       unBindPhone: 'UnBind Mobile Number',
       china: 'china',
+      nationalityList: {
+        china: 'China',
+        france: 'France',
+        uk: 'United Kiongdom',
+        us: 'America',
+      },
       nationality: 'Nationality',
       mbileNumber: 'mobile Number',
       smsCode: 'SMS code',
@@ -367,9 +373,9 @@ module.exports = {
   },
   errorMsg: {
     // 通用错误
-    SUCCESS: 'successful',
-    FAIL: 'fail',
-    NETWORK_ERROR: 'network error',
+    SUCCESS: 'Successful',
+    FAIL: 'Fail',
+    NETWORK_ERROR: 'Network Error',
     NO_DATA: 'No Data',
     // 修改密码
     CURRENT_PASSWORD_BLANK: 'Please input current password',

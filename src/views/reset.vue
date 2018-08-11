@@ -166,7 +166,7 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           if (vu.geetOnReady) {
-            vu.geettest.verify()
+            vu.resSetPwdFn()
           } else {
             vu.resetLoading = false
             vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
@@ -184,11 +184,7 @@ export default {
           email: vu.resetInfo.email,
           code: vu.resetInfo.emailcode,
           token: vu.resettoken,
-          password: md5(vu.resetInfo.pwd),
-          geetest_challenge: result.geetest_challenge,
-          geetest_validate: result.geetest_validate,
-          geetest_seccode: result.geetest_seccode,
-          gtserver: vu.gtserver
+          password: md5(vu.resetInfo.pwd)
         })
         .then(function(res) {
           console.log(res)
@@ -238,38 +234,14 @@ export default {
       if (this.sendCodeLoading) {
         return
       }
-
+      this.sendCodeLoading = true
       var vu = this
-      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
       this.$refs['resetInfo'].validateField('email', function(error) {
         if (!error) {
-          vu.sendCodeLoading = true
-          ax
-            .post(config.url.user + '/api/user/resetPassword', {
-              email: vu.resetInfo.email,
-              language: lang
-            })
-            .then(function(res) {
-              vu.sendCodeLoading = false
-              if (res.status == '200' && res.data.errorCode == 0) {
-                vu.resettoken = res.data.result.token
-                vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
-                vu.codeDown = true;
-                vu.handleCodeDown();
-              } else if (res.data.errorCode == 200) {
-                vu.$Message.error(vu.$t('errorMsg.USER_EXISTED'))
-              } else if (res.data.errorCode == 707) {
-                vu.$Message.error(vu.$t('errorMsg.REQ_LIMIT'))
-              } else {
-                vu.$Message.error(vu.$t('errorMsg.FAIL'))
-              }
-            })
-            .catch(() => {
-              vu.sendCodeLoading = false
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
-            })
+          vu.geettest.verify()
         } else {
-          vu.$Message.error(error)
+          // vu.$Message.error(error)
+          vu.sendCodeLoading = false
         }
       })
     },
@@ -293,13 +265,13 @@ export default {
               console.log('onready')
               vu.geetOnReady = true
             }).onSuccess(function(){
-                vu.resSetPwdFn()
+                vu.sendemailFn()
             }).onError(function(){
               vu.geetOnReady = false
               vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
             })
             .onClose(function () {
-              vu.resetLoading = false
+              vu.sendCodeLoading = false
             })
 
           })
@@ -312,6 +284,39 @@ export default {
       if (e.keyCode === 13) {
         this.resSetPwd('resetInfo')
       }
+    },
+    sendemailFn () {
+      var vu = this
+      var result = this.geettest.getValidate()
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
+      ax
+        .post(config.url.user + '/api/user/resetPassword', {
+          email: vu.resetInfo.email,
+          language: lang,
+          geetest_challenge: result.geetest_challenge,
+          geetest_validate: result.geetest_validate,
+          geetest_seccode: result.geetest_seccode,
+          gtserver: vu.gtserver
+        })
+        .then(function(res) {
+          vu.sendCodeLoading = false
+          if (res.status == '200' && res.data.errorCode == 0) {
+            vu.resettoken = res.data.result.token
+            vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
+            vu.codeDown = true;
+            vu.handleCodeDown();
+          } else if (res.data.errorCode == 200) {
+            vu.$Message.error(vu.$t('errorMsg.USER_EXISTED'))
+          } else if (res.data.errorCode == 707) {
+            vu.$Message.error(vu.$t('errorMsg.REQ_LIMIT'))
+          } else {
+            vu.$Message.error(vu.$t('errorMsg.FAIL'))
+          }
+        })
+        .catch(() => {
+          vu.sendCodeLoading = false
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+        })
     }
   },
   created() {

@@ -168,7 +168,7 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           if (vu.geetOnReady) {
-            vu.geettest.verify()
+            vu.regUserFn()
           } else {
             vu.regLoading = false
             vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
@@ -187,11 +187,7 @@ export default {
         inviteCode: vu.regInfo.code,
         channel: vu.regInfo.source,
         token: vu.regtoken,
-        password: md5(vu.regInfo.pwd),
-        geetest_challenge: result.geetest_challenge,
-        geetest_validate: result.geetest_validate,
-        geetest_seccode: result.geetest_seccode,
-        gtserver: vu.gtserver
+        password: md5(vu.regInfo.pwd)
       }
       ax
         .post(config.url.user + '/api/user/verifyRegister', params)
@@ -251,34 +247,44 @@ export default {
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
           vu.sendCodeLoading = true
-          ax
-            .post(config.url.user + '/api/user/register', {
-              email: vu.regInfo.email,
-              language: lang
-            })
-            .then(function(res) {
-              vu.sendCodeLoading = false
-              if (res.status == '200' && res.data.errorCode == 0) {
-                vu.regtoken = res.data.result.token
-                vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
-                vu.codeDown = true;
-                vu.handleCodeDown();
-              } else if (res.data.errorCode == 200) {
-                vu.$Message.error(vu.$t('errorMsg.USER_EXISTED'))
-              } else if (res.data.errorCode == 707) {
-                vu.$Message.error(vu.$t('errorMsg.REQ_LIMIT'))
-              } else {
-                vu.$Message.error(vu.$t('errorMsg.FAIL'))
-              }
-            })
-            .catch(() => {
-              vu.sendCodeLoading = false
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
-            })
+          vu.geettest.verify()
         } else {
           vu.$Message.error(error)
         }
       })
+    },
+    sendemailFn () {
+      var vu = this
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
+      var result = this.geettest.getValidate()
+      ax
+        .post(config.url.user + '/api/user/register', {
+          email: vu.regInfo.email,
+          language: lang,
+          geetest_challenge: result.geetest_challenge,
+          geetest_validate: result.geetest_validate,
+          geetest_seccode: result.geetest_seccode,
+          gtserver: vu.gtserver
+        })
+        .then(function(res) {
+          vu.sendCodeLoading = false
+          if (res.status == '200' && res.data.errorCode == 0) {
+            vu.regtoken = res.data.result.token
+            vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
+            vu.codeDown = true;
+            vu.handleCodeDown();
+          } else if (res.data.errorCode == 200) {
+            vu.$Message.error(vu.$t('errorMsg.USER_EXISTED'))
+          } else if (res.data.errorCode == 707) {
+            vu.$Message.error(vu.$t('errorMsg.REQ_LIMIT'))
+          } else {
+            vu.$Message.error(vu.$t('errorMsg.FAIL'))
+          }
+        })
+        .catch(() => {
+          vu.sendCodeLoading = false
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+        })
     },
     initGeetest() {
       var vu = this
@@ -304,14 +310,14 @@ export default {
                   vu.geetOnReady = true
                 })
                 .onSuccess(function() {
-                  vu.regUserFn()
+                  vu.sendemailFn()
                 })
                 .onError(function() {
                   vu.geetOnReady = false
                   vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
                 })
                 .onClose(function () {
-                  vu.regLoading = false
+                  vu.sendCodeLoading = false
                 })
             }
           )

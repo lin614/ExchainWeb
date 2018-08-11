@@ -13,7 +13,7 @@
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
                 <FormItem :label="$t('userCenter.bindPhone.nationality')" prop="nationality" class="ivu-form-item-required">
                   <Select :label-in-value="true" v-model="bindForm.nationality" style="width:100%;height: 50px;">
-                    <Option v-for="(item, index) in nationalityList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.' + item.label) + ' + ' + item.value }}</Option>
+                    <Option v-for="(item, index) in nationalityList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.nationalityList.' + item.label) + ' + ' + item.value }}</Option>
                   </Select>
                 </FormItem>
 
@@ -307,12 +307,13 @@ export default {
             console.log(123123123)
             console.log(res.data.result)
             var result = res.data.result
-            var obj = {}
             for (var key in result) {
+              var obj = {}
               obj.label = key
               obj.value = result[key]
               vu.nationalityList.push(obj)
             }
+            console.log(vu.nationalityList)
           }
         })
         .catch((err) => {
