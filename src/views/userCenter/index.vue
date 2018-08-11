@@ -85,7 +85,7 @@
           </Modal>
 
           <!-- 谷歌验证框 -->
-          <Modal v-model="showGAModel" class-name="change-pwd-model" :closable="false">
+          <!-- <Modal v-model="showGAModel" class-name="change-pwd-model" :closable="false">
             <crd potColor="#4399e9">
               <span slot="title">身份验证</span>
               <div class="form-box">
@@ -133,7 +133,7 @@
                   <Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
               </div>
             </div>
-          </Modal>
+          </Modal> -->
         </crd>
         <crd potColor="#fe7263">
           <span slot="title">{{ $t('userCenter.index.loginLog.title') }}</span>
