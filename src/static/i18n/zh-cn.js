@@ -306,6 +306,12 @@ module.exports = {
       bindPhone: '绑定手机号',
       unBindPhone: '解绑手机号',
       china: '中国',
+      nationalityList: {
+        china: '中国',
+        france: '法国',
+        us: '美国',
+        uk: '英国',
+      },
       nationality: '国籍',
       mbileNumber: '手机号',
       smsCode: '短信验证码',
