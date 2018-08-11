@@ -84,6 +84,9 @@ util.checkPhone = (nationality, phone) => {
             var reg = /^1[3-9]\d{9}$/
             return reg.test(phone)
         } break
+        default: {
+            return true
+        }
     }
 }
 

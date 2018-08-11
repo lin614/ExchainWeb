@@ -21,7 +21,7 @@
                 </FormItem>
 
                 <FormItem>
-                  <Button class="btn-large" type="primary" @click="login()">{{ $t('userCenter.login.login') }}</Button>
+                  <Button class="btn-large" type="primary" @click="login()">{{ $t('userCenter.login.login') }}<Spin v-show="loginLoading" :fix="true"></Spin></Button>
                   {{ $t('userCenter.login.forgotPassword') }}?
                   <router-link to="/reset" v-html="$t('userCenter.login.resetPassword')"></router-link>
                   </router-link>
@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       geetOnReady: false,
+      loginLoading: false,
       gtserver: '',
       loginInfo: {
         email: '',
@@ -108,18 +109,22 @@ export default {
   },
   methods: {
     login() {
+      if (this.loginLoading) {
+        return
+      }
+      this.loginLoading = true
       var vu = this
       this.$refs['loginInfo'].validate(valid => {
         if (valid) {
           if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
+            vu.loginLoading = false
             vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
+        } else {
+          vu.loginLoading = false
         }
-        //  else {
-        //   vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
-        // }
       })
     },
     loginFn() {
@@ -166,14 +171,17 @@ export default {
 
             vu.$router.push('/userCenter')
           } else if (res.data.errorCode == 202) {
+            vu.loginLoading = false
             vu.geettest.reset()
             vu.$Message.error(vu.$t('errorMsg.USERNAME_OR_PWD_ERR'))
           } else {
+            vu.loginLoading = false
             vu.geettest.reset()
             vu.$Message.error(vu.$t('errorMsg.FAIL'))
           }
         })
         .catch(function(error) {
+          vu.loginLoading = false
           vu.geettest.reset()
           vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
@@ -206,6 +214,9 @@ export default {
                 .onError(function() {
                   vu.geetOnReady = false
                   vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
+                })
+                .onClose(function () {
+                    vu.loginLoading = false
                 })
             }
           )
@@ -277,6 +288,9 @@ export default {
       left: 650px;
       line-height: 40px;
     }
+  }
+  .btn-large {
+    position: relative;
   }
 }
 </style>

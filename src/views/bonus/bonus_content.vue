@@ -59,9 +59,11 @@
               <div class="invistyle">
                 <p>{{$t('bonus.inviteCode')}}</p>
                 <div>
-                  <input id="foo" :value="code">
+                  <input id="foo" :value="code" disabled>
                   <!-- <span>{{code}}</span> -->
-                  <a type="text" id="btnCode" data-clipboard-target="#foo">{{$t('bonus.copyInviteCode')}}</a>
+                  <a type="text" id="btnCode"
+                     :data-clipboard-text="code"
+                     @click="handleCopy('#btnCode')">{{$t('bonus.copyInviteCode')}}</a>
                 </div>
               </div>
               </Col>
@@ -70,9 +72,11 @@
               <div class="invistyle">
                 <p>{{$t('bonus.inviteLink')}}</p>
                 <div>
-                  <input id="foo2" :value="link">
+                  <input id="foo2" :value="link" disabled>
                   <!-- <span> {{link}} </span> -->
-                  <a type="text" id="btnLink" data-clipboard-target="#foo2">{{$t('bonus.copyInviteLink')}}</a>
+                  <a type="text" id="btnLink"
+                     :data-clipboard-text="link"
+                     @click="handleCopy('#btnLink')">{{$t('bonus.copyInviteLink')}}</a>
                 </div>
               </div>
               </Col>
@@ -242,6 +246,22 @@ export default {
         .catch(error => {
           this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
         });
+    },
+    
+    /**
+     * 复制按钮
+     */
+    handleCopy (ele) {
+      var vu = this
+      var clipboard = new ClipboardJS(ele)
+      clipboard.on('success', e => {
+        vu.$Message.success(vu.$t('errorMsg.COPY_SUCCESS'))
+        clipboard.destroy()
+      })
+      clipboard.on('error', e => {
+        vu.$Message.error(vu.$t('errorMsg.BROWSER_COPY_LIMIT'))
+        clipboard.destroy()
+      })
     }
   }
 }

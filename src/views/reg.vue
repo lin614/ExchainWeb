@@ -34,7 +34,7 @@
                 </FormItem>
 
                 <FormItem>
-                  <Button class="btn-large" type="primary" @click="regUser('regInfo')">{{$t('register.registerBtn')}}</Button> {{$t('register.toLogin')}}
+                  <Button class="btn-large" type="primary" @click="regUser('regInfo')"><Spin v-show="regLoading" :fix="true"></Spin>{{$t('register.registerBtn')}}</Button> {{$t('register.toLogin')}}
                   <router-link class="login" to="/login">{{$t('register.login')}}</router-link>
                 </FormItem>
               </Form>
@@ -76,6 +76,7 @@ export default {
         code: ''
       },
       codeDown: false,
+      regLoading: false,
       codeDownText: '',
       timer: null,
       geettest: null,
@@ -163,17 +164,18 @@ export default {
   methods: {
     regUser(name) {
       var vu = this
+      this.regLoading = true
       this.$refs[name].validate(valid => {
         if (valid) {
           if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
+            vu.regLoading = false
             vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
+        } else {
+          vu.regLoading = false
         }
-        //  else {
-        //   vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
-        // }
       })
     },
     regUserFn() {
@@ -207,14 +209,17 @@ export default {
             //   }
             // })
           } else if (res.data.errorCode == 2) {
+            vu.regLoading = false
             vu.geettest.reset()
             vu.$Message.error(vu.$t('errorMsg.REGISTER_IPT_ERR'))
           } else {
+            vu.regLoading = false
             vu.geettest.reset()
             vu.$Message.error(vu.$t('errorMsg.FAIL'))
           }
         })
         .catch(() => {
+          vu.regLoading = false
           vu.geettest.reset()
           vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
@@ -304,6 +309,9 @@ export default {
                 .onError(function() {
                   vu.geetOnReady = false
                   vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
+                })
+                .onClose(function () {
+                  vu.regLoading = false
                 })
             }
           )
@@ -426,6 +434,9 @@ export default {
       background-color: #419aec;
       color: #fff;
     }
+  }
+  .btn-large {
+    position: relative;
   }
 }
 </style>

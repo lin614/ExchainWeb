@@ -400,6 +400,7 @@ module.exports = {
     // 充值
     COPY_SUCCESS: 'Copy success',
     BROWSER_COPY_LIMIT: 'Your browser do not support copy',
+    NO_AVAILABLE_ENCHARGE_ADDR: 'No available deposit address for now',
     // 提现
     ADDR_BLANK: 'Address can not be null',
     AMOUNT_BLANK: 'Please input amount',
