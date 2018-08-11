@@ -188,13 +188,15 @@ export default {
   },
   created() {
     var vu = this
-    ax.get(config.url.user+'/api/quotation/getUSDCNY',getHeader).then(res => {
-      if (res.status == '200' && res.data.errorCode == 0) {
-        vu.usdt = res.data.result
-        window.localStorage.setItem('exchange-usdt', vu.usdt)
-        console.log('usdt 汇率:' + vu.usdt)
-      }
-    })
+    ax
+      .get(config.url.user + '/api/quotation/getUSDCNY', getHeader)
+      .then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          vu.usdt = res.data.result
+          window.localStorage.setItem('exchange-usdt', vu.usdt)
+          console.log('usdt 汇率:' + vu.usdt)
+        }
+      })
   },
   mounted() {
     var subQuo = pair =>
@@ -225,10 +227,10 @@ export default {
       if (info) {
         info.price = data.data[0][1]
 
-        info.h24 = data.data[0][2]
-        info.l24 = data.data[0][3]
-        info.p24 = 0 //(data.data[0][4] - data.data[0][1]) / data.data[0][1]
-        info.v24 = data.data[0][5]
+        info.h24 = data.data[0][2] ? data.data[0][2] : '-'
+        info.l24 = data.data[0][3] ? data.data[0][3] : '-'
+        info.p24 = '-' //(data.data[0][4] - data.data[0][1]) / data.data[0][1]
+        info.v24 = data.data[0][5] ? data.data[0][5] : '-'
 
         var infoCur = list.filter(
           c => info.cur.toLowerCase() + 'usdt' == c.parm
@@ -240,7 +242,10 @@ export default {
         }
         info.money = (money * vu.usdt).toFixed(2)
 
-        info.priceshow = info.price + '/≈' + info.money + '元'
+        // info.priceshow = info.price + '/≈' + info.money + '元'
+        info.priceshow = info.price
+          ? info.price + '/≈' + info.money + '元'
+          : '-'
       }
     })
 

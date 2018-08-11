@@ -51,10 +51,7 @@
           </div>
 
           <!-- 修改密码框 -->
-          <Modal v-model="showChangePwd"
-                 class-name="change-pwd-model"
-                 :closable="false"
-                 :on-cancel="handleCloseChangePwd">
+          <Modal v-model="showChangePwd" class-name="change-pwd-model" :closable="false" :on-cancel="handleCloseChangePwd">
             <crd potColor="#4399e9">
               <span slot="title">{{ $t('userCenter.index.changePwd.title') }}</span>
               <div class="form-box">
@@ -191,7 +188,7 @@ export default {
         this.userIP = this.recentUserInfo[0].ip
       }
     },
-    showChangePwd () {
+    showChangePwd() {
       if (!this.showChangePwd) {
         this.$refs.formCustom.resetFields()
       }
@@ -401,13 +398,13 @@ export default {
   },
   mounted() {
     global.getHeader = (() => {
-        return {
-            headers: {
-                'X-EXCHAIN-PN': cookie.get('PN', {
-                    domain: config.url.domain
-                })
-            }
+      return {
+        headers: {
+          'X-EXCHAIN-PN': cookie.get('PN', {
+            domain: config.url.domain
+          })
         }
+      }
     })()
     ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
       domain: config.url.domain
@@ -543,7 +540,6 @@ export default {
     .pwd-rule {
       padding-top: 40px;
     }
-    
   }
 }
 .ga-step {
