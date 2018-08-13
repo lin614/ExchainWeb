@@ -71,8 +71,14 @@ if (localLang === 'zh-CN') {
 } else if (localLang === 'en-US') {
     localLang = 'en'
 }
-const lang = window.localStorage.getItem('exchain_language') || localLang || 'cn';
-window.localStorage.setItem('exchain_language', lang);
+// const lang = window.localStorage.getItem('exchain_language') || localLang || 'cn';
+// window.localStorage.setItem('exchain_language', lang);
+
+const lang = cookie.get('exchain_language', { domain: config.url.domain }) || localLang || 'cn';
+cookie.set('exchain_language', lang, {
+  domain: config.url.domain
+})
+
 
 Vue.config.lang = lang;
 console.log('lang = ' + lang)
@@ -92,6 +98,8 @@ const i18n = new VueI18n({
     locale: lang,
     messages
 })
+
+console.log('i18n', i18n);
 
 // 路由配置
 const RouterConfig = {

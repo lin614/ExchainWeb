@@ -77,10 +77,10 @@
             <Icon v-show="!showLanguage" type="arrow-down-b"></Icon>
             <Icon v-show="showLanguage" type="arrow-up-b"></Icon>
           </a>
+
           <DropdownMenu slot="list">
-            <DropdownItem name="cn">
-              <span class="lan-item">简体中文</span>
-            </DropdownItem>
+            <DropdownItem name="cn"><span class="lan-item">简体中文</span></DropdownItem>
+
             <DropdownItem name="en">English</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -169,7 +169,12 @@ export default {
     handleLangChange(name) {
       this.activeLang = name
       this.$i18n.locale = name
-      localStorage.setItem('exchain_language', name)
+      // localStorage.setItem('exchain_language', name)
+
+      cookie.set('exchain_language', name, {
+        domain: config.url.domain
+      })
+
       this.$store.commit('setActiveLang', name)
       bus.$emit('langChange')
     },
