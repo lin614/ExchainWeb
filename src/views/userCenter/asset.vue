@@ -14,7 +14,7 @@
                 <div class="asset-notice">{{$t('userCenter.asset.notice')}}</div>
               </div>
               <div class="opera-box clearfix">
-                <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link>
+                <!-- <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link> -->
               </div>
             </div>
             <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>
@@ -420,7 +420,7 @@ export default {
       if (isNaN(this.btcPrice) || this.btcPrice === null || this.usdtPrice === null || isNaN(this.usdtPrice)) {
         return
       }
-      if (isNaN(this.BTCBalance)) {
+      if (isNaN(this.BTCBalance) || this.BTCBalance === null) {
         return
       }
       console.log('this.BTCBalance = ' + this.BTCBalance)
@@ -447,6 +447,9 @@ export default {
         return
       }
       if (isNaN(this.BTCBalance) || this.BTCBalance === null) {
+        return
+      }
+      if (isNaN(this.usdtPrice) || this.usdtPrice === null) {
         return
       }
 

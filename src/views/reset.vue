@@ -32,7 +32,7 @@
                 </FormItem>
 
                 <FormItem>
-                  <Button class="btn-large" type="primary" @click="resSetPwd('resetInfo')">{{$t('reset.resetBtn')}}</Button>{{$t('reset.toLogin')}}
+                  <Button class="btn-large" type="primary" @click="resSetPwd('resetInfo')"><Spin v-show="resetLoading" :fix="true"></Spin>{{$t('reset.resetBtn')}}</Button>{{$t('reset.toLogin')}}
                   <router-link to="/login">{{$t('reset.login')}}</router-link>
                 </FormItem>
               </Form>
@@ -66,6 +66,7 @@ export default {
     return {
       resettoken: '',
       gtserver: '',
+      resetLoading: false,
       resetInfo: {
         email: '',
         emailcode: '',
@@ -161,18 +162,18 @@ export default {
   methods: {
     resSetPwd(name) {
       var vu = this
-
+      this.resetLoading = true
       this.$refs[name].validate(valid => {
         if (valid) {
           if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
+            vu.resetLoading = false
             vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
-        } 
-        // else {
-        //   vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
-        // }
+        } else {
+          vu.resetLoading = false
+        }
       })
     },
     resSetPwdFn() {
@@ -201,15 +202,18 @@ export default {
             vu.$Message.success(vu.$t('errorMsg.RESET_SUCC'))
             vu.$router.push('/login')
           } else if (res.data.errorCode == 2) {
+            vu.resetLoading = false
             vu.geettest.reset()
             vu.$Message.error(vu.$t('errorMsg.REGISTER_IPT_ERR'))
           } else {
+            vu.resetLoading = false
             vu.geettest.reset()
             vu.$Message.error(vu.$t('errorMsg.FAIL'))
             // vu.$Modal.error('重置密码失败:' + res.data.errorMsg)
           }
         })
         .catch(() => {
+          vu.resetLoading = false
           vu.geettest.reset()
           vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
@@ -236,12 +240,14 @@ export default {
       }
 
       var vu = this
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
       this.$refs['resetInfo'].validateField('email', function(error) {
         if (!error) {
           vu.sendCodeLoading = true
           ax
             .post(config.url.user + '/api/user/resetPassword', {
-              email: vu.resetInfo.email
+              email: vu.resetInfo.email,
+              language: lang
             })
             .then(function(res) {
               vu.sendCodeLoading = false
@@ -292,6 +298,9 @@ export default {
               vu.geetOnReady = false
               vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
             })
+            .onClose(function () {
+              vu.resetLoading = false
+            })
 
           })
         })
@@ -325,6 +334,9 @@ export default {
 @import url(./style/config.less);
 .reset {
   padding-top: 16px;
+  .btn-large {
+    position: relative;
+  }
   .ivu-input {
     font-size: @font-text;
   }

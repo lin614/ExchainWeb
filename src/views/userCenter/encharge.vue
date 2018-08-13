@@ -24,7 +24,7 @@
         <li class="friendly-notice-item">{{ $t('userCenter.depositBox.tipP1') }} {{token}} {{ $t('userCenter.depositBox.tipP2') }}</li>
       </div>
     </div>
-    <div v-else class="no-encharge">暂无可用充值地址</div>
+    <div v-else class="no-encharge">{{$t('errorMsg.NO_AVAILABLE_ENCHARGE_ADDR')}}</div>
     <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
@@ -87,7 +87,7 @@ export default {
         clipboard.destroy()
       })
       clipboard.on('error', e => {
-        vu.$Message.error(vu.$t('errorMsg.该浏览器不支持自动复制'))
+        vu.$Message.error(vu.$t('errorMsg.BROWSER_COPY_LIMIT'))
         clipboard.destroy()
       })
     }

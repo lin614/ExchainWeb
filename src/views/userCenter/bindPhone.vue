@@ -13,7 +13,7 @@
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
                 <FormItem :label="$t('userCenter.bindPhone.nationality')" prop="nationality" class="ivu-form-item-required">
                   <Select :label-in-value="true" v-model="bindForm.nationality" style="width:100%;height: 50px;">
-                    <Option v-for="(item, index) in nationalityList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.' + item.label) + ' + ' + item.value }}</Option>
+                    <Option v-for="(item, index) in nationalityList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.nationalityList.' + item.label) + ' + ' + item.value }}</Option>
                   </Select>
                 </FormItem>
 
@@ -128,6 +128,11 @@ export default {
     crd,
     page
   },
+  computed: {
+    activeLang() {
+      return this.$store.state.activeLang
+    }
+  },
   methods: {
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
@@ -139,6 +144,7 @@ export default {
       if (this.sendCodeLoading) {
         return
       }
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
       this.sendCodeLoading = true
       if (this.isPhone && this.haveNationality) {
         var vu = this
@@ -150,6 +156,7 @@ export default {
             country: vu.bindForm.nationality,
             pn: cookie.get('PN'),
             type: vu.type,
+            language: lang
           },
           transformRequest: [function (data) {
             // Do whatever you want to transform the data
@@ -169,16 +176,19 @@ export default {
             vu.codeDown = true
             vu.token = res.data.result.token
             vu.handleCodeDown()
+            vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
           } else if (res.data.errorCode == 710) {
             vu.$Message.error(vu.$t('errorMsg.PHONE_BIND_EXIST'))
           } else {
-            vu.codeDown = true
-            vu.handleCodeDown()
+            // vu.codeDown = true
+            // vu.handleCodeDown()
+            vu.$Message.error(vu.$t('errorMsg.FAIL'))
           }
         })
         .catch((err) => {
-          vu.codeDown = true
+          // vu.codeDown = true
           vu.sendCodeLoading = false
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
       } else {
         this.$refs.bindForm.validateField('phone', () => {
@@ -300,8 +310,8 @@ export default {
             console.log(123123123)
             console.log(res.data.result)
             var result = res.data.result
-            var obj = {}
             for (var key in result) {
+              var obj = {}
               obj.label = key
               obj.value = result[key]
               vu.nationalityList.push(obj)

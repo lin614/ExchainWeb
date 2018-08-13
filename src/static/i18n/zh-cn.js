@@ -45,8 +45,8 @@ module.exports = {
   banner: {
     title: '收入与合作伙伴共享，收益与交易伙伴共享',
     descript: 'Exchain是全球首家共享型交易平台，不仅将合作交易费的20%支付给合作伙伴，<br/>50%支付给超级合伙伙伴，还将交易平台100%的收入每日分配给Exchain Token（ET）持有者，<br/>全免费交易计时开始。',
-    title2: 'Exchain内测即将开启，强拳重推合作伙伴计划',
-    descript2: 'Exchain全球首家共享型交易平台Exchain全新上线，并即将开启内测。<br/>先启动“合作伙伴计划”招募<br/>成为合作伙伴，享受交易费20%-50%回报+平台币(ET)奖励<br/>交易即挖矿，ET升值+平台收入奖励，收益+++<br/>限时全免，等你来！'
+    title2: 'Exchain种子测试即将开启，强拳重推合作伙伴计划',
+    descript2: 'Exchain——全球首家共享型交易平台全新上线，即将开启种子测试。<br/>现启动“合作伙伴计划”招募<br/>成为Exchain首期合作伙伴，与我们共建平台，共享收益：<br/>享受平台收益20%-50%分红+平台币(ET)奖励+无上限USDT奖励<br/>多重好礼，收益+++<br/>交易限时免费，只为等你来共建！'
   },
   index: {
     announcement: {
@@ -306,6 +306,12 @@ module.exports = {
       bindPhone: '绑定手机号',
       unBindPhone: '解绑手机号',
       china: '中国',
+      nationalityList: {
+        china: '中国',
+        france: '法国',
+        us: '美国',
+        uk: '英国',
+      },
       nationality: '国籍',
       mbileNumber: '手机号',
       smsCode: '短信验证码',
@@ -400,6 +406,7 @@ module.exports = {
     // 充值
     COPY_SUCCESS: '复制成功',
     BROWSER_COPY_LIMIT: '该浏览器不支持自动复制',
+    NO_AVAILABLE_ENCHARGE_ADDR: '暂无可用充值地址',
     // 提现
     ADDR_BLANK: '地址不能为空',
     AMOUNT_BLANK: '请输入提现数量',

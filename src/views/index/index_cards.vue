@@ -12,7 +12,7 @@
             </Col>
 
             <Col span="8">
-            <crd2 potColor="#13b385">
+            <!-- <crd2 potColor="#13b385">
                 <p slot="p1">{{ $t('index.txSumary.etMarketValue') }}</p>
                 <p slot="p2">
                     <Icon type="social-bitcoin"></Icon>&nbsp {{etvalue}}
@@ -23,6 +23,13 @@
 
                     </span>
                 </p>
+            </crd2> -->
+            <crd2 potColor="#13b385">
+                <p slot="p1">{{ $t('index.txSumary.etCirculation') }}</p>
+                <p slot="p2">
+                    &nbsp; {{etnum}}
+                </p>
+                <p slot="p3">&nbsp;</p>
             </crd2>
             </Col>
             <Col span="8">

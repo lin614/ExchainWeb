@@ -238,10 +238,12 @@ export default {
             }
             vu.curTotal = res.data.result.total * 1
             if (Math.ceil(vu.curTotal / vu.curSize) > 1) {
-              console.log(1)
               this.showCurPage = true
             } else {
               this.showCurPage = false
+            }
+            if (data.length === 0) {
+              vu.curData = []
             }
           } else {
             vu.$Message.error({ content: res.data.errorMsg })

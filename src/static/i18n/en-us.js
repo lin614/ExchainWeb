@@ -48,7 +48,6 @@ module.exports = {
     title2: 'Exchain External Special Users Testing is Opening Soon, strongly promoting the "Partner Project"',
     descript2: 'Exchain, first global shared digital assets trading platform will launch and start the special user testing soon.<br/>Now we are recruiting our precious Partners!<br/>As the initial partner, you will build the platform together with us, and share the profits:<br/>Enjoying 20%-50% of platform profits + Exchain Token (ET) + infinite USDT rewards Various gifts, more benefits<br/>Free transaction in limited time, only for you to join!'
   },
-
   index: {
     announcement: {
       title: 'Announcement',
@@ -306,6 +305,12 @@ module.exports = {
       bindPhone: 'Bind Mobile Number',
       unBindPhone: 'UnBind Mobile Number',
       china: 'china',
+      nationalityList: {
+        china: 'China',
+        france: 'France',
+        us: 'United States of America',
+        uk: 'United Kiongdom',
+      },
       nationality: 'Nationality',
       mbileNumber: 'mobile Number',
       smsCode: 'SMS code',
@@ -368,9 +373,9 @@ module.exports = {
   },
   errorMsg: {
     // 通用错误
-    SUCCESS: 'successful',
-    FAIL: 'fail',
-    NETWORK_ERROR: 'network error',
+    SUCCESS: 'Successful',
+    FAIL: 'Fail',
+    NETWORK_ERROR: 'Network Error',
     NO_DATA: 'No Data',
     // 修改密码
     CURRENT_PASSWORD_BLANK: 'Please input current password',
@@ -401,6 +406,7 @@ module.exports = {
     // 充值
     COPY_SUCCESS: 'Copy success',
     BROWSER_COPY_LIMIT: 'Your browser do not support copy',
+    NO_AVAILABLE_ENCHARGE_ADDR: 'No available deposit address for now',
     // 提现
     ADDR_BLANK: 'Address can not be null',
     AMOUNT_BLANK: 'Please input amount',
