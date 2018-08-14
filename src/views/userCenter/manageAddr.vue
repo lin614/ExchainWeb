@@ -167,9 +167,13 @@ export default {
               vu.addrListTable[0].filters.push(JSON.parse(JSON.stringify(obj)))
             }
             console.log(vu.tokenList)
+          } else {
+            apiError(vu, res);
           }
         })
-        .catch(err => {})
+        .catch(err => {
+          apiReqError(vu, err);
+        })
     },
     /**
      * 查询地址列表
@@ -183,9 +187,13 @@ export default {
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             vu.addrListData = [...res.data.result.data]
+          } else {
+            apiError(vu, res);
           }
         })
-        .catch(() => {})
+        .catch((err) => {
+          apiReqError(vu, err);
+        })
     },
     /**
      * 添加地址
@@ -205,14 +213,12 @@ export default {
                 vu.getWithdrawAddress()
                 vu.$refs.magAddrForm.resetFields()
                 vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
-              } else if (res.data.errorCode == 2) {
-                vu.$Message.error(vu.$t('errorMsg.REGISTER_IPT_ERR'))
               } else {
-                vu.$Message.error(vu.$t('errorMsg.FAIL'))
+                apiError(vu, res);
               }
             })
             .catch(err => {
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+              apiReqError(vu, err);
             })
         }
       })
@@ -233,11 +239,11 @@ export default {
             vu.getWithdrawAddress()
             vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
           } else {
-            vu.$Message.error(vu.$t('errorMsg.FAIL'))
+            apiError(vu, res);
           }
         })
         .catch(err => {
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+          apiReqError(vu, err);
         })
     }
   },

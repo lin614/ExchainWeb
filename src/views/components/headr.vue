@@ -154,7 +154,11 @@ export default {
     },
     logout() {
       ax.get(config.url.user + '/api/user/logout', getHeader).then(res => {
-        console.log('登出')
+        if (res.status === 200 && res.data.meta.code === 0) {
+          console.log('登出')
+        } else {
+          apiError(this, res);
+        }
       })
       sessionStorage.clear()
       cookie.remove('PN')

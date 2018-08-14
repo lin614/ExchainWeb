@@ -454,5 +454,102 @@ module.exports = {
     GEET_INIT_ERR: 'Auth code load error,please refresh',
     CHECK_FAIL: 'authentication failed',
     IPT_LENGTH_LIMIT_255: '255 characters or shorter'
+  },
+  ApiError: {
+    '-1': 'Unknown error',
+    // API相关
+    '0': 'Success', // 成功
+    '1': 'Fail', //失败
+    '2': 'Parameter error', // 参数错误
+    '3': 'Signature error', // 签名错误
+    '4': 'Repeat request', // 重复请求
+    '5': 'Invalid request', // 非法请求
+
+    // 用户相关
+    '200': 'User already exists', // 用户已存在 
+    '201': 'User does not exist', // 用户不存在 
+    '202': 'Username or password is incorrect', // 密码错误|用户名或密码错误 
+    '203': 'Failed to set password', // 设置密码失败 
+    '204': 'Failed to set user', // 新建用户失败 
+    '205': 'User logged out', // 用户未登录 
+    '206': 'User KYC failed', // 用户实名认证失败 
+    '207': 'Invitation failed', // 邀请失败 
+    '208': 'Google authentication failed', // google二次验证失败 
+    '209': 'Phone link failed', // 手机绑定失败 
+    '210': 'Phone unlink failed', // 手机解绑失败 
+    '211': 'Already KYC', // 已经实名验证 
+    '212': 'ID card upload failed', // 用户身份证件上传失败 
+    '213': 'ID card type is invalid', // 用户身份证件类型无效 
+    '214': 'code verification failed', // 验证码验证失败 --- 行为验证码  
+    '215': 'SMS verification code verification failed', // 短信验证码验证失败 
+    '216': 'code verification failed', // 邮箱验证码验证失败 
+
+    // 账户相关
+    '300': 'Insufficient balance', // 余额不足 
+    '301': 'Transfer amount to exchange failed', // 转移金额到交易所失败 
+    '302': 'Account creation error', // 账户创建出错 
+    '303': 'Withdrawal failed', // 提现创建失败 
+    '304': 'Transfer to withdraw&Deposit account failed', // 转移金额到主账户失败 
+    '305': 'Withdrawal limit', // 该货币提现限制  
+    '306': 'Deposit limit', // 该货币充值限制 
+    '307': 'No withdrawal record found', // 未找到提现记录 
+    '308': 'Already processed', // 已经处理过 
+    '309': 'Withdraw processing failed', // 提现处理失败 
+    '310': 'Withdraw status error', // 提现锁定状态错误 
+    '311': 'Withdraw processing failed', // 提现处理失败 
+    '320': 'Deposit failed', // 充值失败 
+    '321': 'Fail to add address', // 添加提币地址失败 
+    '322': 'Fail to delete address', // 删除提币地址失败 
+
+    // 钱包相关
+    '401': 'Wallet Created Failed', // 钱包创建失败			
+    '402': 'Wallet Format Incorrect', // 钱包格式不正确		
+    '403': 'Unknown Token Name', // 未知tokenName		
+    '404': 'Amount must be greater than 0', // amount必须大于0		
+    '405': 'Wallet Uncolocated', // 钱包未托管			
+    '406': 'Wallet Password Incorrect', // 钱包密码不正确		
+    '407': 'Transfer Failed', // 转账失败				
+    '408': 'Wallet Created Error', // 钱包创建出错			
+    '409': 'Wallet Protocol Incorrect', // 钱包协议不正确		
+    // '410 ：
+    '411': 'Parse Wallet Address Failed', // 获取钱包地址失败		
+
+    // 行情相关
+    '600': 'Add Favorites Failed', // 添加收藏失败			
+    '601': 'Favorites Existed', // 收藏已经存在			
+    '602': 'Favorites Not Exist ', // 收藏不存在			
+    '603': 'Delete Favorites Failed', // 删除收藏失败			
+    '604': 'Wallet Archive Failed', // 获取收藏失败			
+
+    // 限制相关
+    '701': 'Verification code entered incorrectly too many times, please try later.', // 验证码输入错误次数过多，请稍候再试
+    '702': 'Verification Code Invalid', // 验证码已经失效					
+    '703': 'Token Invalid, please try later', //  TOKEN失效，请稍候再试
+    '704': 'Token Incorrect, please try later', // TOKEN有误，请稍候再试
+    '705': 'Verification Code Incorrect', // 验证码输入有误
+    '706': 'Message received too many times, please try later', // 短信获取次数过多，请稍候再试
+    '707': 'Message sent too many times, please try later', // 短信发送频率过快，请稍候再试
+    '708': 'Currency Pairs Name Incorrect', // 市场名称有误					
+    '709': 'Mobile No. Incorrect', // 手机号码有误					
+    '710': 'Mobile no. has been linked, please remove it first.', // 手机号码已经绑定，请先解绑	
+    '711': 'Mobile no. hasn’t been linked yet, please link it first.', // 手机号码还没绑定，请先绑定	
+
+    // 订单相关
+    '801': 'Price is not limited multiples', // 价格不是限定倍数
+    '802': 'Amount is not limited multiples', // 数量不是限定倍数
+    '803': 'Total amount is too small', // 总额过小
+    '804': 'Unfounded Currency Pairs', // 未找到币对
+    '805': 'Freezing Order Failed', // 冻结失败
+    '806': 'Making Order Failed', // 下单失败
+    '807': 'Order Cancelling Fail', // 撤单失败
+    '808': 'Unfounded Order', // 订单未找到
+    '809': 'Uncleared Transactions In Account', // 有未结算的成交单
+    '810': 'Price is too small', // 价格太小
+    '811': 'Pending order amount is 0', // 挂单金额为0
+    '812': 'Order price must not over market price', // 价格不能超过市价10%
+
+    // 管理员后台管理页面相关(财务系统后台)
+    '901': 'Admin Not Exist', // 管理员不存在
+    '902': 'Admin Login Failed' // 管理员登录失败
   }
 }

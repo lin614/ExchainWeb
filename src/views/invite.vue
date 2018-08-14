@@ -105,6 +105,8 @@ export default {
             } else {
               vu.noData = false
             }
+          } else {
+            apiError(vu, res);
           }
         })
     }

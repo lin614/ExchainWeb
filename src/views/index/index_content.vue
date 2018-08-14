@@ -195,6 +195,8 @@ export default {
           vu.usdt = res.data.result
           window.localStorage.setItem('exchange-usdt', vu.usdt)
           console.log('usdt 汇率:' + vu.usdt)
+        } else {
+          apiError(vu, res);
         }
       })
   },

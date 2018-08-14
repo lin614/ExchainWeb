@@ -191,7 +191,6 @@ export default {
           gtserver: vu.gtserver
         })
         .then(function(res) {
-          console.log(res)
           if (res.status == 200 && res.data.errorCode == 0) {
             // vu.$Modal.success({
             //   content: '重置密码成功！',
@@ -201,21 +200,16 @@ export default {
             // })
             vu.$Message.success(vu.$t('errorMsg.RESET_SUCC'))
             vu.$router.push('/login')
-          } else if (res.data.errorCode == 2) {
-            vu.resetLoading = false
-            vu.geettest.reset()
-            vu.$Message.error(vu.$t('errorMsg.REGISTER_IPT_ERR'))
           } else {
             vu.resetLoading = false
             vu.geettest.reset()
-            vu.$Message.error(vu.$t('errorMsg.FAIL'))
-            // vu.$Modal.error('重置密码失败:' + res.data.errorMsg)
+            apiError(vu, res);
           }
         })
-        .catch(() => {
+        .catch((err) => {
           vu.resetLoading = false
           vu.geettest.reset()
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+          apiReqError(vu, err);
         })
     },
     /**
@@ -256,17 +250,13 @@ export default {
                 vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
                 vu.codeDown = true;
                 vu.handleCodeDown();
-              } else if (res.data.errorCode == 200) {
-                vu.$Message.error(vu.$t('errorMsg.USER_EXISTED'))
-              } else if (res.data.errorCode == 707) {
-                vu.$Message.error(vu.$t('errorMsg.REQ_LIMIT'))
               } else {
-                vu.$Message.error(vu.$t('errorMsg.FAIL'))
+                apiError(vu, res);
               }
             })
-            .catch(() => {
+            .catch((err) => {
               vu.sendCodeLoading = false
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+              apiReqError(vu, err);
             })
         } else {
           vu.$Message.error(error)
@@ -305,7 +295,7 @@ export default {
           })
         })
         .catch(() => {
-          console.log('network error')
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
         })
     },
     onEnter (e) {

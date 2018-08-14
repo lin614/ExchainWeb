@@ -137,13 +137,12 @@ export default {
               vu.$Message.success(vu.$t('errorMsg.WITHDRAW_REQ_SUBMIT'))
             } else {
               vu.spinShow = false
-              vu.$Message.error(vu.$t('errorMsg.FAIL'))
+              apiError(vu, res);
             }
           })
           .catch((err) => {
             vu.spinShow = false
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
-            console.log(err)
+            apiReqError(vu, err);
           })
         }
       })

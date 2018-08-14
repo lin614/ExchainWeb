@@ -479,9 +479,13 @@ export default {
           if (res.status == '200' && res.data.errorCode == 0) {
             this.BTCBalance = res.data.result.BTC.available
             this.CNYBalance = res.data.result.CNY.available
+          } else {
+            apiError(this, res);
           }
         })
-        .catch(err => {})
+        .catch(err => {
+          apiReqError(this, err);
+        })
     },
     /**
      * 屏幕
@@ -523,6 +527,8 @@ export default {
             } else {
               vu.BTCBalance = NP.round(btcBalance, 8)
             }
+          } else {
+            apiError(vu, res);
           }
         })
     },
@@ -552,6 +558,8 @@ export default {
             } else {
               vu.BTCBalance = NP.round(btcBalance, 8)
             }
+          } else {
+            apiError(vu, res);
           }
         })
     },
@@ -573,10 +581,12 @@ export default {
               value.withdraw || (value.withdraw = false)
               vu.$set(vu.assetListData, index, vu.assetListData[index])
             })
+          } else {
+            apiError(vu, res);
           }
         })
         .catch(err => {
-          //
+          apiReqError(vu, err);
         })
     },
     /**
@@ -671,12 +681,12 @@ export default {
                   vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
                 } else {
                   vu.transferLoading = false
-                  vu.$Message.error(vu.$t('errorMsg.FAIL'))
+                  apiError(vu, res);
                 }
               })
               .catch(err => {
-                vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
                 vu.transferLoading = false
+                apiReqError(vu, err);
               })
           } else if (vu.trabsferModal.to === 'master') {
             // 转到主账户
@@ -697,13 +707,13 @@ export default {
                   vu.transferLoading = false
                   vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
                 } else {
-                  vu.$Message.error(vu.$t('errorMsg.FAIL'))
                   vu.transferLoading = false
+                  apiError(vu, res);
                 }
               })
               .catch(err => {
-                vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
                 vu.transferLoading = false
+                apiReqError(vu, err);
               })
           }
         } else {
@@ -742,6 +752,8 @@ export default {
           vu.usdtPrice = res.data.result
           window.localStorage.setItem('exchange-usdt', vu.usdtPrice)
           console.log('usdt 汇率:' + vu.usdtPrice)
+        } else {
+          apiError(vu, res);
         }
       })
       // this.usdtPrice = parseFloat(this.usdtPrice)
@@ -787,11 +799,15 @@ export default {
               vu.BTCBalance = NP.round(btcBalance, 8)
             }
           } else {
-            vu.$Message.error('errorMsg.NETWORK_ERROR')
+            if (tokenListRes.data.errorCode !== 0) {
+              apiError(vu, tokenListRes);
+            } else if (assetListRes.data.errorCode !== 0) {
+              apiError(vu, assetListRes);
+            }
           }
         }))
         .catch(() => {
-          vu.$Message.error('errorMsg.NETWORK_ERROR')
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
         })
     },
     /**
@@ -805,10 +821,12 @@ export default {
             var data = res.data.data
             vu.btcPrice = data[0][1]
             console.log('btcPrice : ' + vu.btcPrice)
+          } else {
+            apiError(vu, res);
           }
         })
         .catch((err) => {
-          console.log(err)
+          apiReqError(vu, err);
         })
     }
   },

@@ -66,6 +66,8 @@ export default {
       if (res.status == 200 && res.data.meta.code == '0') {
         // console.log(res)
         this.valume = res.data.data.dengesAmount
+      } else {
+        apiError(this, res);
       }
     })
     //ET总市值
@@ -73,6 +75,8 @@ export default {
       if (res.status == 200 && res.data.meta.code == '0') {
         // console.log(res)
         this.etvalue = res.data.data.etCirculate
+      } else {
+        apiError(this, res);
       }
     })
     //et总流通量
@@ -80,6 +84,8 @@ export default {
       if (res.status == 200 && res.data.meta.code == '0') {
         // console.log(res)
         this.etnum = res.data.data.etCirculate
+      } else {
+        apiError(this, res);
       }
     })
   }

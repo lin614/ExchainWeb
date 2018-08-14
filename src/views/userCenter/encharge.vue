@@ -69,11 +69,13 @@ export default {
           } else {
             vu.spinShow = false
             vu.no_encharge = true
+            apiError(vu, res);
           }
         })
         .catch((err) => {
           vu.spinShow = false
           vu.no_encharge = true
+          apiReqError(vu, err);
         })
     },
     /**

@@ -246,7 +246,7 @@ export default {
               vu.curData = []
             }
           } else {
-            vu.$Message.error({ content: res.data.errorMsg })
+            apiError(vu, res);
           }
         })
     },
@@ -284,7 +284,7 @@ export default {
               this.showHisPage = false
             }
           } else {
-            vu.$Message.error({ content: res.data.errorMsg })
+            apiError(vu, res);
           }
         })
     },
@@ -351,7 +351,7 @@ export default {
             vu.getCurData()
             vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
           } else {
-            vu.$Message.error({ content: res.data.errorMsg })
+            apiError(vu, res);
           }
         })
     },

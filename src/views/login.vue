@@ -170,20 +170,16 @@ export default {
             }
 
             vu.$router.push('/userCenter')
-          } else if (res.data.errorCode == 202) {
-            vu.loginLoading = false
-            vu.geettest.reset()
-            vu.$Message.error(vu.$t('errorMsg.USERNAME_OR_PWD_ERR'))
           } else {
             vu.loginLoading = false
             vu.geettest.reset()
-            vu.$Message.error(vu.$t('errorMsg.FAIL'))
+            apiError(vu, res);
           }
         })
-        .catch(function(error) {
+        .catch(function(err) {
           vu.loginLoading = false
           vu.geettest.reset()
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+          apiReqError(vu, err);
         })
     },
     initGeetest() {
@@ -222,7 +218,7 @@ export default {
           )
         })
         .catch(() => {
-          console.log('网络异常')
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
         })
     },
     onEnter (e) {

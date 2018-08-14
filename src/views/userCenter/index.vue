@@ -329,11 +329,11 @@ export default {
             sessionStorage.setItem('email', res.data.result.email)
             sessionStorage.setItem('userNum', vu.userNum)
           } else {
-            console.log('网络异常！')
+            apiError(vu, res);
           }
         })
         .catch(err => {
-          console.log('网络异常！')
+          apiReqError(vu, err);
         })
     },
     handleShowChangePwdModel() {
@@ -358,12 +358,12 @@ export default {
                 vu.showChangePwd = false
               } else {
                 vu.changeLoading = false
-                vu.$Message.error(vu.$t('errorMsg.FAIL'))
+                apiError(vu, res);
               }
             })
             .catch(err => {
               vu.changeLoading = false
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+              apiReqError(vu, err);
             })
         } else {
           console.log(4)
@@ -378,10 +378,12 @@ export default {
         .then(res => {
           if (res.status === 200 && res.data.errorCode === 0) {
             vu.recentUserInfo = res.data.result.data
+          } else {
+            apiError(vu, res);
           }
         })
         .catch(err => {
-          //
+          apiReqError(vu, err);
         })
     },
     handleCloseChangePwd(form) {

@@ -176,10 +176,12 @@ export default {
           if (res.status === 200 && res.data.meta.code === 0) {
             this.level = res.data.data.level
             this.levelName = this.level < 2 ? (this.level === 0 ? 'user' : 'trade') : (this.level === 2 ? 'general' : 'super');
+          } else {
+            apiError(this, res);
           }
         })
-        .catch(error => {
-          this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+        .catch(err => {
+          apiReqError(this, err);
         });
     },
 
@@ -196,8 +198,8 @@ export default {
             this.link = 'http://www.exchain.com/reg/' + this.code
           }
         })
-        .catch(error => {
-          this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+        .catch(err => {
+          apiReqError(this, err);
         });
     },
 
@@ -224,8 +226,8 @@ export default {
             // }).length
           }
         })
-        .catch(error => {
-          this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+        .catch(err => {
+          apiReqError(this, err);
         });
     },
 
@@ -244,7 +246,7 @@ export default {
           }
         })
         .catch(error => {
-          this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
+          apiReqError(this, err);
         });
     },
     

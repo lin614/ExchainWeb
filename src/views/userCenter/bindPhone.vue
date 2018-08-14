@@ -177,18 +177,14 @@ export default {
             vu.token = res.data.result.token
             vu.handleCodeDown()
             vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
-          } else if (res.data.errorCode == 710) {
-            vu.$Message.error(vu.$t('errorMsg.PHONE_BIND_EXIST'))
           } else {
-            // vu.codeDown = true
-            // vu.handleCodeDown()
-            vu.$Message.error(vu.$t('errorMsg.FAIL'))
+            apiError(vu, res);
           }
         })
         .catch((err) => {
           // vu.codeDown = true
           vu.sendCodeLoading = false
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+          apiReqError(vu, err);
         })
       } else {
         this.$refs.bindForm.validateField('phone', () => {
@@ -252,12 +248,11 @@ export default {
               vu.$refs.bindForm.resetFields()
               vu.$router.push('/usercenter')
             } else {
-              vu.$Message.error(vu.$t('errorMsg.FAIL'))
+              apiError(vu, res);
             }
           })
           .catch((err) => {
-            vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
-            console.log(err)
+            apiReqError(vu, err);
           })
         }
       })
@@ -285,11 +280,11 @@ export default {
             sessionStorage.setItem('email', res.data.result.email)
             console.log(res.data.result)
           } else {
-            console.log('网络异常！')
+            apiError(vu, res);
           }
         })
         .catch((err) => {
-          console.log('网络异常！')
+          apiReqError(vu, err);
         })
     },
     /**
@@ -316,10 +311,12 @@ export default {
               obj.value = result[key]
               vu.nationalityList.push(obj)
             }
+          } else {
+            apiError(vu, res);
           }
         })
         .catch((err) => {
-          console.log(err)
+          apiReqError(vu, err);
         })
     }
   },

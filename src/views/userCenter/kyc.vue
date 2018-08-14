@@ -271,11 +271,11 @@ export default {
             this.nationalityList = this.nationalityCNName;
           }
         } else {
-          vu.$Message.error(vu.$t('errorMsg.FAIL'))
+          apiError(vu, res);
         }
       })
       .catch((err) => {
-        vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+        apiReqError(vu, err);
       });
     },
     getNationalityByEN () {
@@ -290,11 +290,11 @@ export default {
             this.nationalityList = this.nationalityENName;
           }
         } else {
-          vu.$Message.error(vu.$t('errorMsg.FAIL'))
+          apiError(vu, res);
         }
       })
       .catch((err) => {
-        vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+        apiReqError(vu, err);
       });
     },
     handleWindowResize () {
@@ -347,11 +347,11 @@ export default {
               vu.$router.push('/usercenter')
               vu.$Message.success(vu.$t('errorMsg.KYC_SUBMIT'))
             } else {
-              vu.$Message.error(vu.$t('errorMsg.FAIL'))
+              apiError(vu, res);
             }
           })
           .catch((err) => {
-            vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+            apiReqError(vu, err);
           })
         }
       });
