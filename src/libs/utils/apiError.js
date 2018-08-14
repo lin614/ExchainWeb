@@ -6,7 +6,11 @@ import { debug } from "util";
  */
 
 export function apiError (vu, res) {
-    vu.$Message.error(vu.$t(`ApiError.${res.data.errorCode}`));
+    if (res.data.errorCode) {
+        vu.$Message.error(vu.$t(`ApiError.${res.data.errorCode}`));
+    } else {
+        vu.$Message.error(vu.$t(`ApiError.-1`));
+    }
 }
 
 export function apiReqError (vu, err) {

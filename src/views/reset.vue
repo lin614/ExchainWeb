@@ -18,7 +18,7 @@
                   <Input v-model="resetInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')" style="width: 360px"></Input>
 
                   <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
-                  <div v-show="!codeDown" class="send-code-btn fr" @click="sendemail"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
+                  <div v-show="!codeDown" class="send-code-btn fr" @click="sendemailBefore"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
                 </FormItem>
 
                 <FormItem prop="pwd" :label="$t('register.pwd')" class="ivu-form-item-required">
@@ -74,6 +74,8 @@ export default {
         pwd2: '',
         code: ''
       },
+
+      geettestFlag: '',
 
       codeDown: false,
       codeDownText: '',
@@ -166,6 +168,7 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           if (vu.geetOnReady) {
+            vu.geettestFlag = 'SUBMIT_DATA';
             vu.geettest.verify()
           } else {
             vu.resetLoading = false
@@ -176,6 +179,59 @@ export default {
         }
       })
     },
+
+    sendemailBefore() {
+      if (this.sendCodeLoading) {
+        return
+      }
+      var vu = this
+      this.$refs['resetInfo'].validateField('email', function(error) {
+        if (!error) {
+          if (vu.geetOnReady) {
+            vu.geettestFlag = 'SEND_EMAIL_CODEA';
+            vu.geettest.verify()
+          } else {
+            vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
+          }
+        }
+      })
+    },
+
+    sendEmail () {
+      var vu = this
+      var result = this.geettest.getValidate()
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : '';
+      vu.sendCodeLoading = true
+
+      ax
+        .post(config.url.user + '/api/user/resetPassword', {
+          email: vu.resetInfo.email,
+          language: lang,
+          geetest_challenge: result.geetest_challenge,
+          geetest_validate: result.geetest_validate,
+          geetest_seccode: result.geetest_seccode,
+          gtserver: vu.gtserver
+        })
+        .then(function(res) {
+          vu.sendCodeLoading = false
+          if (res.status == '200' && res.data.errorCode == 0) {
+            vu.resettoken = res.data.result.token
+            vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
+            vu.codeDown = true;
+            vu.handleCodeDown();
+            vu.geettest.reset();
+          } else {
+            vu.geettest.reset();
+            apiError(vu, res);
+          }
+        })
+        .catch((err) => {
+          vu.geettest.reset();
+          vu.sendCodeLoading = false
+          apiReqError(vu, err);
+        });
+    },
+
     resSetPwdFn() {
       var vu = this
       var result = this.geettest.getValidate()
@@ -199,7 +255,8 @@ export default {
             //   }
             // })
             vu.$Message.success(vu.$t('errorMsg.RESET_SUCC'))
-            vu.$router.push('/login')
+            vu.$router.push('/login');
+            vu.geettest.reset();
           } else {
             vu.resetLoading = false
             vu.geettest.reset()
@@ -228,41 +285,7 @@ export default {
         this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
       }, 1000)
     },
-    sendemail() {
-      if (this.sendCodeLoading) {
-        return
-      }
-
-      var vu = this
-      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
-      this.$refs['resetInfo'].validateField('email', function(error) {
-        if (!error) {
-          vu.sendCodeLoading = true
-          ax
-            .post(config.url.user + '/api/user/resetPassword', {
-              email: vu.resetInfo.email,
-              language: lang
-            })
-            .then(function(res) {
-              vu.sendCodeLoading = false
-              if (res.status == '200' && res.data.errorCode == 0) {
-                vu.resettoken = res.data.result.token
-                vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
-                vu.codeDown = true;
-                vu.handleCodeDown();
-              } else {
-                apiError(vu, res);
-              }
-            })
-            .catch((err) => {
-              vu.sendCodeLoading = false
-              apiReqError(vu, err);
-            })
-        } else {
-          vu.$Message.error(error)
-        }
-      })
-    },
+    
     initGeetest() {
       var vu = this
       ax
@@ -283,7 +306,11 @@ export default {
               console.log('onready')
               vu.geetOnReady = true
             }).onSuccess(function(){
-                vu.resSetPwdFn()
+              if (vu.geettestFlag === 'SUBMIT_DATA') {
+                vu.resSetPwdFn();
+              } else {
+                vu.sendEmail();
+              }
             }).onError(function(){
               vu.geetOnReady = false
               vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
