@@ -114,11 +114,13 @@ export default {
   .banner_2_en {
     .block {
       background: url(../../static/imgs/ban-bg2-en.png);
+      background-position: center;
     }
   }
   .banner_2_cn {
     .block {
       background: url(../../static/imgs/ban-bg2-cn.png);
+      background-position: center;
     }
   }
   .notice {
