@@ -21,7 +21,7 @@
               </router-link>
             </div>
             <div class="basic-btm">
-              <span class="recent-time">{{ $t('userCenter.index.baseInfo.recentLoginTime') }} : {{mtime ? mtime : userMtime}}</span>
+              <span class="recent-time">{{ $t('userCenter.index.baseInfo.recentLoginTime') }} : {{mtime ? mtime : userMtime}}（GMT+8）</span>
               <span>IP: {{userIP}}</span>
             </div>
           </div>

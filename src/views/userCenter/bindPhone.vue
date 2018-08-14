@@ -9,6 +9,7 @@
               {{bindStatus === 'bind' ? $t('userCenter.bindPhone.unBindPhone') : $t('userCenter.bindPhone.bindPhone')}}
               <span v-if="!bind" class="user-num">{{userNum}}</span>
             </div>
+            
             <div class="form-box">
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
                 <FormItem :label="$t('userCenter.bindPhone.nationality')" prop="nationality" class="ivu-form-item-required">
