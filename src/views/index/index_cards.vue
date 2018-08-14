@@ -67,7 +67,7 @@ export default {
         // console.log(res)
         this.valume = res.data.data.dengesAmount
       } else {
-        apiError(this, res);
+        javaApiReqError(this, res);
       }
     })
     //ET总市值
@@ -76,7 +76,7 @@ export default {
         // console.log(res)
         this.etvalue = res.data.data.etCirculate
       } else {
-        apiError(this, res);
+        javaApiReqError(this, res);
       }
     })
     //et总流通量
@@ -85,7 +85,7 @@ export default {
         // console.log(res)
         this.etnum = res.data.data.etCirculate
       } else {
-        apiError(this, res);
+        javaApiReqError(this, res);
       }
     })
   }

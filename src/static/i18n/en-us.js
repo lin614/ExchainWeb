@@ -455,6 +455,13 @@ module.exports = {
     CHECK_FAIL: 'authentication failed',
     IPT_LENGTH_LIMIT_255: '255 characters or shorter'
   },
+  javaApiError: {
+    '1': 'System error',
+    '2': 'Parameters missed',
+    '3': 'Parameter format or type incorrect',
+    '108001': "Parameter userId can't be empty",
+    '108002': "Parameter page can’t be empty",
+  },
   ApiError: {
     '-1': 'Unknown error',
     // API相关

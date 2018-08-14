@@ -15,7 +15,7 @@ import ax from 'axios'
 import LangZhCn from './static/i18n/zh-cn.js'
 import LangEnUs from './static/i18n/en-us.js'
 import bus from './views/js/eventBus.js'
-import {apiError, apiReqError} from './libs/utils/apiError.js'
+import {apiError, javaApiReqError, apiReqError} from './libs/utils/apiError.js'
 
 import {
     sub,
@@ -26,6 +26,7 @@ global.ws = ws()
 global.bus = bus
 global.apiError = apiError;
 global.apiReqError = apiReqError;
+global.javaApiReqError = javaApiReqError;
 
 import './static/icons/iconfont.css'
 import './views/style/main.css'

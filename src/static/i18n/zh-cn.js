@@ -454,6 +454,13 @@ module.exports = {
     CHECK_FAIL: '验证失败',
     IPT_LENGTH_LIMIT_255: '不能超过 255 字符'
   },
+  javaApiError: {
+    '1': '系统错误',
+    '2': '缺少参数',
+    '3': '参数格式或类型有误',
+    '108001': '参数 userId 不能为空',
+    '108002': '参数 page 不能为空'
+  },
   ApiError: {
     '-1': '未知错误',
     // API相关
