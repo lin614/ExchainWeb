@@ -173,6 +173,7 @@ export default {
         {
           pair: 'BTC/USDT',
           price: 0,
+          priceshow: '-',
           p24: '-',
           h24: '-',
           l24: '-',
@@ -182,6 +183,7 @@ export default {
         {
           pair: 'ETH/USDT',
           price: 0,
+          priceshow: '-',
           p24: '-',
           h24: '-',
           l24: '-',
@@ -191,6 +193,7 @@ export default {
         {
           pair: 'BCH/USDT',
           price: 0,
+          priceshow: '-',
           p24: '-',
           h24: '-',
           l24: '-',
@@ -200,6 +203,7 @@ export default {
         {
           pair: 'ETH/BTC',
           price: 0,
+          priceshow: '-',
           p24: '-',
           h24: '-',
           l24: '-',
@@ -209,6 +213,7 @@ export default {
         {
           pair: 'BCH/BTC',
           price: 0,
+          priceshow: '-',
           p24: '-',
           h24: '-',
           l24: '-',
