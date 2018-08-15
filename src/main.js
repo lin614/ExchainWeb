@@ -152,7 +152,8 @@ const store = new Vuex.Store({
         email: '',
         mtime: '',
         kycphoneStatus: '0',
-        idCardStatus: '0'
+        idCardStatus: '0',
+        marketPrecision: '',
     },
     mutations: {
         setActiveLang(s, data) {
@@ -162,7 +163,9 @@ const store = new Vuex.Store({
             s.email = data.email
             s.mtime = data.mtime
         },
-
+        setMarketPrecision(s, data) {
+            s.marketPrecision = data
+        }
     },
     getters: {
         // islogin: function () {

@@ -1,6 +1,8 @@
 module.exports = {
   common: {
-    imgLang: 'en'
+    lang: 'en',
+    imgLang: 'en',
+    legalMoney: '$'
   },
   header: {
     exchange: 'Exchange',
