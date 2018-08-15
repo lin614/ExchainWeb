@@ -8,10 +8,10 @@
           <div class=" content">
             <h1>{{$t('register.dec')}}</h1>
             <hr/>
-            <h1 style="text-align:center;">即将开放注册，敬请期待！</h1>
+            <!-- <h1 style="text-align:center;">即将开放注册，敬请期待！</h1> -->
             <div class="reg_form">
               
-              <!-- <Form ref="regInfo" label-position="top" :model="regInfo" :rules="rules">
+              <Form ref="regInfo" label-position="top" :model="regInfo" :rules="rules">
                 <FormItem prop="email" :label="$t('register.email')" class="ivu-form-item-required">
                   <Input v-model="regInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
                 </FormItem>
@@ -39,7 +39,7 @@
                   <Button class="btn-large" type="primary" @click="regUser('regInfo')"><Spin v-show="regLoading" :fix="true"></Spin>{{$t('register.registerBtn')}}</Button> {{$t('register.toLogin')}}
                   <router-link class="login" to="/login">{{$t('register.login')}}</router-link>
                 </FormItem>
-              </Form> -->
+              </Form>
             </div>
             <!-- <div class="info">
               <p>

@@ -8,7 +8,7 @@
         <Table size="large" :columns="col1" :data="data1"></Table>
       </crd>
 
-      <crd potColor="#5999e5">
+      <!-- <crd potColor="#5999e5">
         <span slot="title">
           {{ $t('index.markets.innovationBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.innovationBoard.title')" content="content">
@@ -20,9 +20,9 @@
         </span>
 
         <Table size="large" :columns="col1" :data="data2"></Table>
-      </crd>
+      </crd> -->
 
-      <crd potColor="#f4c058">
+      <!-- <crd potColor="#f4c058">
         <span slot="title">
           {{ $t('index.markets.ventureCapitalBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.ventureCapitalBoard.title')" content="content">
@@ -34,8 +34,8 @@
           </Poptip>
         </span>
         <Table size="large" :columns="col1" :data="data3"></Table>
-      </crd>
-      <crd potColor="#e13737">
+      </crd> -->
+      <!-- <crd potColor="#e13737">
         <span slot="title">
           {{ $t('index.markets.angelInvestmentBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.angelInvestmentBoard.title')" content="content">
@@ -46,7 +46,7 @@
           </Poptip>
         </span>
         <Table size="large" :columns="col1" :data="data4"></Table>
-      </crd>
+      </crd> -->
     </div>
   </block>
 </template>
@@ -58,6 +58,11 @@ import io from 'socket.io-client'
 import config from '../../config/config.js'
 import ax from 'axios'
 import util from '../../libs/util.js'
+import { Decimal } from 'decimal.js'
+import { formatMarketPrecision } from '../../libs/utils/format.js';
+
+let instance = null;
+
 export default {
   name: 'index_content',
   components: { block, crd },
@@ -81,15 +86,24 @@ export default {
         },
         {
           title: this.$t('index.markets.rowName.h24'),
-          key: 'h24'
+          key: 'h24',
+          render: function(h, arg) {
+            return h('span', {}, formatMarketPrecision(arg.row.h24, arg.row.pair, 'price', instance) || '-')
+          }
         },
         {
           title: this.$t('index.markets.rowName.l24'),
-          key: 'l24'
+          key: 'l24',
+          render: function(h, arg) {
+            return h('span', {}, formatMarketPrecision(arg.row.l24, arg.row.pair, 'price', instance) || '-')
+          }
         },
         {
           title: this.$t('index.markets.rowName.v24'),
-          key: 'v24'
+          key: 'v24',
+          render: function(h, arg) {
+            return h('span', {}, formatMarketPrecision(arg.row.v24, arg.row.pair, 'amount', instance) || '-')
+          }
         },
         {
           title: this.$t('index.markets.rowName.action'),
@@ -159,34 +173,65 @@ export default {
         {
           pair: 'BTC/USDT',
           price: 0,
+          priceshow: '-',
           p24: '-',
           h24: '-',
           l24: '-',
-          v24: '-'
+          v24: '-',
+          parm_: 'btc_usdt'
         },
         {
           pair: 'ETH/USDT',
           price: 0,
+          priceshow: '-',
           p24: '-',
           h24: '-',
           l24: '-',
-          v24: '-'
+          v24: '-',
+          parm_: 'eth_usdt'
         },
         {
           pair: 'BCH/USDT',
           price: 0,
+          priceshow: '-',
           p24: '-',
           h24: '-',
           l24: '-',
-          v24: '-'
+          v24: '-',
+          parm_: 'bch_usdt'
+        },
+        {
+          pair: 'ETH/BTC',
+          price: 0,
+          priceshow: '-',
+          p24: '-',
+          h24: '-',
+          l24: '-',
+          v24: '-',
+          parm_: 'eth_btc'
+        },
+        {
+          pair: 'BCH/BTC',
+          price: 0,
+          priceshow: '-',
+          p24: '-',
+          h24: '-',
+          l24: '-',
+          v24: '-',
+          parm_: 'bch_btc'
         }
       ],
       data2: [],
       data3: [],
-      data4: []
+      data4: [],
+      wsData: [],
+      amountPrecision: '',
     }
   },
+  computed: {
+  },
   created() {
+    instance = this;
     var vu = this
     ax
       .get(config.url.user + '/api/quotation/getUSDCNY', getHeader)
@@ -205,9 +250,14 @@ export default {
       ws.postData({
         event: 'sub',
         // channel: 'huobi.market.' + pair + '.trade.detail'
-        channel: 'huobi.market.' + pair + '.kline.1min'
+        channel: 'huobi.market.' + pair + '.kline.1day'
         // channel: 'test'
       })
+      
+    for (let i = 0; i < this.data1.length; i++) {
+      var arr = this.data1[i].pair.split('/')
+      this.data1[i].parm_ = arr.join('_').toLowerCase()
+    }
     var list = [...this.data1, ...this.data2, ...this.data3, ...this.data4]
     console.log(list)
     for (var i in list) {
@@ -217,44 +267,73 @@ export default {
       console.log(list[i].parm)
       list[i].cur = list[i].pair.split('/')[1]
       //订阅
-      console.log('huobi.market.' + list[i].parm + '.kline.1min')
+      console.log('huobi.market.' + list[i].parm + '.kline.1day')
       subQuo(list[i].parm)
     }
     let vu = this
     bus.$on('wsUpdate', data => {
-      var info = list.filter(
-        // p => 'huobi.market.' + p.parm + '.trade.detail' == data.channel
-        p => 'huobi.market.' + p.parm + '.kline.1min' == data.channel
-      )[0]
+      let info = [...this.data1, ...this.data2, ...this.data3, ...this.data4].filter(
+        p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel
+      )[0];
+
       if (info) {
-        info.price = data.data[0][1]
-
-        info.h24 = data.data[0][2] ? data.data[0][2] : '-'
-        info.l24 = data.data[0][3] ? data.data[0][3] : '-'
-        info.p24 = '-' //(data.data[0][4] - data.data[0][1]) / data.data[0][1]
-        info.v24 = data.data[0][5] ? data.data[0][5] : '-'
-
-        var infoCur = list.filter(
-          c => info.cur.toLowerCase() + 'usdt' == c.parm
-        )[0]
-        // console.log(infoCur)
-        var money = info.price
-        if (info.cur != 'USDT') {
-          money *= infoCur ? infoCur.price : 0
-        }
-        info.money = (money * vu.usdt).toFixed(2)
-
-        // info.priceshow = info.price + '/≈' + info.money + '元'
-        info.priceshow = info.price
-          ? info.price + '/≈' + info.money + '元'
-          : '-'
+        this.wsData.push(data);
+        this.calculate(this.wsData);
       }
     })
 
     util.toggleTableHeaderLang(vu.col1, 6, 'index.markets.rowName.', vu)
     bus.$on('langChange', () => {
+      this.calculate(this.wsData);
       util.toggleTableHeaderLang(vu.col1, 6, 'index.markets.rowName.', vu)
     })
+  },
+  methods: {
+    // 重新计算各交易对价格信息
+    calculate (dataArr) {
+      let vu = this;
+      let info = null;
+      let data = null;
+      let list = [...this.data1, ...this.data2, ...this.data3, ...this.data4];
+
+      for (var i = 0; i < dataArr.length; i++) {
+        data = dataArr[i];
+        info = list.filter(
+          // p => 'huobi.market.' + p.parm + '.trade.detail' == data.channel
+          p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel
+        )[0]
+
+        if (info) {
+          info.l24 = data.data[0][4]
+          info.h24 = data.data[0][2] ? data.data[0][2] : '-'
+          info.price = data.data[0][4] ? data.data[0][4] : '-'
+
+          let sub = new Decimal(info.h24).sub(new Decimal(info.l24));
+          let wave = new Decimal(sub).div(new Decimal(info.l24)).toNumber();
+          info.p24 = wave ? ((wave * 100).toFixed(2) + '%') : '-' ;
+          info.v24 = data.data[0][5] ? data.data[0][5] : '-' // 成交量
+
+          var infoCur = list.filter(
+            c => info.cur.toLowerCase() + 'usdt' == c.parm
+          )[0]
+
+          // 非 */USDT 的交易对，价格需转换成美元价格
+          let legalMoney = info.price
+          if (info.cur != 'USDT') {
+            legalMoney *= infoCur ? infoCur.price : 1
+          }
+
+          // 中英文模式价格显示
+          if (this.$t('common.lang') === 'cn') {
+            legalMoney = parseFloat(legalMoney * vu.usdt).toFixed(2)
+          } else {
+            legalMoney = parseFloat(legalMoney).toFixed(2)
+          }
+
+          info.priceshow = info.price ? (formatMarketPrecision(info.price, info.pair, 'price', vu) + ' ≈ ' + this.$t('common.legalMoney') + legalMoney) : '-';
+        }
+      }
+    }
   }
 }
 </script>
