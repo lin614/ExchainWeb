@@ -195,7 +195,7 @@ export default {
         .then(res => {
           if (res.status === 200 && res.data.meta.code === 0) {
             this.code = res.data.data.code
-            this.link = 'http://www.exchain.com/reg/' + this.code
+            this.link = location.protocol + '//www.exchain.com/reg/' + this.code
           }
         })
         .catch(err => {
