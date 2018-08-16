@@ -130,12 +130,21 @@ export default {
     loginFn() {
       var vu = this
       var result = this.geettest.getValidate()
+      
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'login'
+      } else {
+        captcha_type = 'login-en'
+      }
+
       ax
         .post(
           config.url.user + '/api/user/login',
           {
             email: vu.loginInfo.email,
             password: md5(vu.loginInfo.pwd),
+            captcha_type: captcha_type,
             geetest_challenge: result.geetest_challenge,
             geetest_validate: result.geetest_validate,
             geetest_seccode: result.geetest_seccode,
@@ -184,8 +193,15 @@ export default {
     },
     initGeetest() {
       var vu = this
+      let params = null;
+
+      if (this.$t('common.lang') === 'cn') {
+        params = {type: 'login'}
+      } else {
+        params = {type: 'login-en'}
+      }
       ax
-        .post(config.url.user + '/api/user/initCaptcha')
+        .post(config.url.user + '/api/user/initCaptcha', params)
         .then(res => {
           var data = res.data
           vu.gtserver = data.gtserver

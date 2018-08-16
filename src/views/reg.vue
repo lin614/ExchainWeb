@@ -187,6 +187,14 @@ export default {
     regUserFn() {
       var vu = this
       var result = this.geettest.getValidate()
+
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'register'
+      } else {
+        captcha_type = 'register-en'
+      }
+
       let params = {
         email: vu.regInfo.email,
         code: vu.regInfo.emailcode,
@@ -194,6 +202,7 @@ export default {
         channel: vu.regInfo.source,
         token: vu.regtoken,
         password: md5(vu.regInfo.pwd),
+        captcha_type: captcha_type,
         geetest_challenge: result.geetest_challenge,
         geetest_validate: result.geetest_validate,
         geetest_seccode: result.geetest_seccode,
@@ -268,10 +277,18 @@ export default {
       var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
       vu.sendCodeLoading = true
 
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'register'
+      } else {
+        captcha_type = 'register-en'
+      }
+
       ax
         .post(config.url.user + '/api/user/register', {
           email: vu.regInfo.email,
           language: lang,
+          captcha_type: captcha_type,
           geetest_challenge: result.geetest_challenge,
           geetest_validate: result.geetest_validate,
           geetest_seccode: result.geetest_seccode,
@@ -299,8 +316,15 @@ export default {
 
     initGeetest() {
       var vu = this
+      let params = null;
+
+      if (this.$t('common.lang') === 'cn') {
+        params = {type: 'register'}
+      } else {
+        params = {type: 'register-en'}
+      }
       ax
-        .post(config.url.user + '/api/user/initCaptcha')
+        .post(config.url.user + '/api/user/initCaptcha', params)
         .then(res => {
           var data = res.data
           vu.gtserver = data.gtserver
