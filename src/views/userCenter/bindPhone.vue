@@ -14,7 +14,7 @@
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
                 <FormItem :label="$t('userCenter.bindPhone.nationality')" prop="nationality" class="ivu-form-item-required">
                   <Select :label-in-value="true" v-model="bindForm.nationality" style="width:100%;height: 50px;">
-                    <Option v-for="(item, index) in nationalityList" :value="item.value" :key="index">{{item.label + ' + ' + item.value }}</Option>
+                    <Option v-for="(item, index) in phoneCodes" :value="item.area_code" :key="index">{{item['name_'+activeLang] + ' + ' + item.area_code }}</Option>
                   </Select>
                 </FormItem>
 
@@ -54,6 +54,8 @@ import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
 import util from '../../libs/util.js'
+import phoneCodes from '../../static/i18n/code.json'
+
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
@@ -61,6 +63,7 @@ export default {
   name: 'bindphone',
   data() {
     return {
+      phoneCodes: phoneCodes,
       pageHeight: 0,
       haveNationality: false,
       isPhone: false,
@@ -76,7 +79,7 @@ export default {
       type: '',
       nationalityList: [],
       bindForm: {
-        nationality: '',
+        nationality: '0086',
         phone: '',
         phoneCode: '',
         googleCode: ''
@@ -316,50 +319,8 @@ export default {
           apiReqError(vu, err)
         })
     },
-    /**
-     * 获取支持的国籍码
-     */
-    getPhoneSupportList() {
-      // var vu = this
-      // var x_pn = cookie.get('PN', { domain: config.url.domain })
-      // ax.post(config.url.user+'/api/user/getPhoneSupportList', {
-      //   headers: {
-      //     'X-EXCHAIN-PN': x_pn || ''
-      //   }
-      // })
-      //   .then((res) => {
-      //     res.status && (res.status += '')
-      //     console.log(res)
-      //     if (res.status === '200' && res.data.errorCode === 0) {
-      //       console.log(123123123)
-      //       console.log(res.data.result)
-      //       var result = res.data.result
-      //       for (var key in result) {
-      //         var obj = {}
-      //         obj.label = key
-      //         obj.value = result[key]
-      //         vu.nationalityList.push(obj)
-      //       }
-      //     } else {
-      //       apiError(vu, res);
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     apiReqError(vu, err);
-      //   })
-      var source = this.$t('userCenter.bindPhone.source')
-      var vu = this
-      debugger
-      source.split(',').forEach(function(p) {
-        vu.nationalityList.push({
-          label: p.split(':')[0],
-          value: p.split(':')[1]
-        })
-      })
-    }
   },
   mounted() {
-    this.getPhoneSupportList()
     var bindStatus = sessionStorage.getItem('bindPhone')
     var userNum = sessionStorage.getItem('userNum')
     if (bindStatus) {

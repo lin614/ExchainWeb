@@ -59,9 +59,9 @@ import config from '../../config/config.js'
 import ax from 'axios'
 import util from '../../libs/util.js'
 import { Decimal } from 'decimal.js'
-import { formatMarketPrecision } from '../../libs/utils/format.js';
+import { formatMarketPrecision } from '../../libs/utils/format.js'
 
-let instance = null;
+let instance = null
 
 export default {
   name: 'index_content',
@@ -82,12 +82,17 @@ export default {
           render: (h, arg) => {
             return h('div', [
               h('span', {}, arg.row.price),
-              h('span', {
-                style: {
-                  fontSize: '12px'
+              h(
+                'span',
+                {
+                  style: {
+                    fontSize: '12px'
+                  }
                 },
-              }, arg.row.priceshow)
-          ])}
+                arg.row.priceshow
+              )
+            ])
+          }
         },
         {
           title: this.$t('index.markets.rowName.p24'),
@@ -97,21 +102,48 @@ export default {
           title: this.$t('index.markets.rowName.h24'),
           key: 'h24',
           render: function(h, arg) {
-            return h('span', {}, formatMarketPrecision(arg.row.h24, arg.row.pair, 'price', instance) || '-')
+            return h(
+              'span',
+              {},
+              formatMarketPrecision(
+                arg.row.h24,
+                arg.row.pair,
+                'price',
+                instance
+              ) || '-'
+            )
           }
         },
         {
           title: this.$t('index.markets.rowName.l24'),
           key: 'l24',
           render: function(h, arg) {
-            return h('span', {}, formatMarketPrecision(arg.row.l24, arg.row.pair, 'price', instance) || '-')
+            return h(
+              'span',
+              {},
+              formatMarketPrecision(
+                arg.row.l24,
+                arg.row.pair,
+                'price',
+                instance
+              ) || '-'
+            )
           }
         },
         {
           title: this.$t('index.markets.rowName.v24'),
           key: 'v24',
           render: function(h, arg) {
-            return h('span', {}, formatMarketPrecision(arg.row.v24, arg.row.pair, 'amount', instance) || '-')
+            return h(
+              'span',
+              {},
+              formatMarketPrecision(
+                arg.row.v24,
+                arg.row.pair,
+                'amount',
+                instance
+              ) || '-'
+            )
           }
         },
         {
@@ -234,13 +266,12 @@ export default {
       data3: [],
       data4: [],
       wsData: [],
-      amountPrecision: '',
+      amountPrecision: ''
     }
   },
-  computed: {
-  },
+  computed: {},
   created() {
-    instance = this;
+    instance = this
     var vu = this
     ax
       .get(config.url.user + '/api/quotation/getUSDCNY', getHeader)
@@ -250,7 +281,7 @@ export default {
           window.localStorage.setItem('exchange-usdt', vu.usdt)
           console.log('usdt 汇率:' + vu.usdt)
         } else {
-          apiError(vu, res);
+          apiError(vu, res)
         }
       })
   },
@@ -262,7 +293,7 @@ export default {
         channel: 'huobi.market.' + pair + '.kline.1day'
         // channel: 'test'
       })
-      
+
     for (let i = 0; i < this.data1.length; i++) {
       var arr = this.data1[i].pair.split('/')
       this.data1[i].parm_ = arr.join('_').toLowerCase()
@@ -281,32 +312,35 @@ export default {
     }
     let vu = this
     bus.$on('wsUpdate', data => {
-      let info = [...this.data1, ...this.data2, ...this.data3, ...this.data4].filter(
-        p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel
-      )[0];
+      let info = [
+        ...this.data1,
+        ...this.data2,
+        ...this.data3,
+        ...this.data4
+      ].filter(p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel)[0]
 
       if (info) {
-        this.wsData.push(data);
-        this.calculate(this.wsData);
+        this.wsData.push(data)
+        this.calculate(this.wsData)
       }
     })
 
     util.toggleTableHeaderLang(vu.col1, 6, 'index.markets.rowName.', vu)
     bus.$on('langChange', () => {
-      this.calculate(this.wsData);
+      this.calculate(this.wsData)
       util.toggleTableHeaderLang(vu.col1, 6, 'index.markets.rowName.', vu)
     })
   },
   methods: {
     // 重新计算各交易对价格信息
-    calculate (dataArr) {
-      let vu = this;
-      let info = null;
-      let data = null;
-      let list = [...this.data1, ...this.data2, ...this.data3, ...this.data4];
+    calculate(dataArr) {
+      let vu = this
+      let info = null
+      let data = null
+      let list = [...this.data1, ...this.data2, ...this.data3, ...this.data4]
 
       for (var i = 0; i < dataArr.length; i++) {
-        data = dataArr[i];
+        data = dataArr[i]
         info = list.filter(
           // p => 'huobi.market.' + p.parm + '.trade.detail' == data.channel
           p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel
@@ -317,9 +351,9 @@ export default {
           info.h24 = data.data[0][2] ? data.data[0][2] : '-'
           info.price = data.data[0][4] ? data.data[0][4] : '-'
 
-          let sub = new Decimal(info.h24).sub(new Decimal(info.l24));
-          let wave = new Decimal(sub).div(new Decimal(info.l24)).toNumber();
-          info.p24 = wave ? ((wave * 100).toFixed(2) + '%') : '-' ;
+          let sub = new Decimal(info.h24).sub(new Decimal(info.l24))
+          let wave = new Decimal(sub).div(new Decimal(info.l24)).toNumber()
+          info.p24 = wave ? (wave * 100).toFixed(2) + '%' : '-'
           info.v24 = data.data[0][5] ? data.data[0][5] : '-' // 成交量
 
           var infoCur = list.filter(
@@ -339,8 +373,10 @@ export default {
             legalMoney = parseFloat(legalMoney).toFixed(2)
           }
 
-          info.price = formatMarketPrecision(info.price, info.pair, 'price', vu);
-          info.priceshow = ' ≈ ' + this.$t('common.legalMoney') + legalMoney;
+          info.price = formatMarketPrecision(info.price, info.pair, 'price', vu)
+          info.priceshow = legalMoney
+            ? ' ≈ ' + this.$t('common.legalMoney') + legalMoney
+            : ''
         }
       }
     }

@@ -30,6 +30,7 @@
     "rasterizehtml": "^1.2.4",
     "socket.io-client": "^2.1.1",
     "vue": "^2.5.2",
+    "vue-meta-info": "^0.1.7",
     "vue-pdf": "^3.3.1",
     "vue-pdfjs": "^1.1.1",
     "vue-resource": "^1.5.1",
