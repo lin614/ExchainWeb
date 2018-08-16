@@ -203,10 +203,18 @@ export default {
       var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : '';
       vu.sendCodeLoading = true
 
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'reset'
+      } else {
+        captcha_type = 'reset-en'
+      }
+
       ax
         .post(config.url.user + '/api/user/resetPassword', {
           email: vu.resetInfo.email,
           language: lang,
+          captcha_type: captcha_type,
           geetest_challenge: result.geetest_challenge,
           geetest_validate: result.geetest_validate,
           geetest_seccode: result.geetest_seccode,
@@ -235,12 +243,21 @@ export default {
     resSetPwdFn() {
       var vu = this
       var result = this.geettest.getValidate()
+
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'reset'
+      } else {
+        captcha_type = 'reset-en'
+      }
+
       ax
         .post(config.url.user + '/api/user/verifyResetPassword', {
           email: vu.resetInfo.email,
           code: vu.resetInfo.emailcode,
           token: vu.resettoken,
           password: md5(vu.resetInfo.pwd),
+          captcha_type: captcha_type,
           geetest_challenge: result.geetest_challenge,
           geetest_validate: result.geetest_validate,
           geetest_seccode: result.geetest_seccode,
@@ -288,8 +305,14 @@ export default {
     
     initGeetest() {
       var vu = this
+      let params = null;
+      if (this.$t('common.lang') === 'cn') {
+        params = {type: 'reset'}
+      } else {
+        params = {type: 'reset-en'}
+      }
       ax
-        .post(config.url.user + '/api/user/initCaptcha')
+        .post(config.url.user + '/api/user/initCaptcha', params)
         .then(res => {
           var data = res.data
           vu.gtserver = data.gtserver

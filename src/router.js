@@ -67,7 +67,8 @@ const routers = [{
     }, {
         path: '/reset',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/reset.vue'], resolve)
     },

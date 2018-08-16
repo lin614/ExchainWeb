@@ -78,7 +78,16 @@ export default {
         {
           title: this.$t('index.markets.rowName.priceshow'),
           key: 'priceshow',
-          width: 250
+          width: 250,
+          render: (h, arg) => {
+            return h('div', [
+              h('span', {}, arg.row.price),
+              h('span', {
+                style: {
+                  fontSize: '12px'
+                },
+              }, arg.row.priceshow)
+          ])}
         },
         {
           title: this.$t('index.markets.rowName.p24'),
@@ -172,8 +181,8 @@ export default {
         // },
         {
           pair: 'BTC/USDT',
-          price: 0,
-          priceshow: '-',
+          price: '-',
+          priceshow: '',
           p24: '-',
           h24: '-',
           l24: '-',
@@ -182,8 +191,8 @@ export default {
         },
         {
           pair: 'ETH/USDT',
-          price: 0,
-          priceshow: '-',
+          price: '-',
+          priceshow: '',
           p24: '-',
           h24: '-',
           l24: '-',
@@ -192,8 +201,8 @@ export default {
         },
         {
           pair: 'BCH/USDT',
-          price: 0,
-          priceshow: '-',
+          price: '-',
+          priceshow: '',
           p24: '-',
           h24: '-',
           l24: '-',
@@ -202,8 +211,8 @@ export default {
         },
         {
           pair: 'ETH/BTC',
-          price: 0,
-          priceshow: '-',
+          price: '-',
+          priceshow: '',
           p24: '-',
           h24: '-',
           l24: '-',
@@ -212,8 +221,8 @@ export default {
         },
         {
           pair: 'BCH/BTC',
-          price: 0,
-          priceshow: '-',
+          price: '-',
+          priceshow: '',
           p24: '-',
           h24: '-',
           l24: '-',
@@ -330,7 +339,8 @@ export default {
             legalMoney = parseFloat(legalMoney).toFixed(2)
           }
 
-          info.priceshow = info.price ? (formatMarketPrecision(info.price, info.pair, 'price', vu) + ' ≈ ' + this.$t('common.legalMoney') + legalMoney) : '-';
+          info.price = formatMarketPrecision(info.price, info.pair, 'price', vu);
+          info.priceshow = ' ≈ ' + this.$t('common.legalMoney') + legalMoney;
         }
       }
     }
