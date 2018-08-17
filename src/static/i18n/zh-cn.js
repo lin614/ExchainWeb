@@ -81,11 +81,11 @@ module.exports = {
       },
       rowName: {
         pair: '交易对',
-        priceshow: '最新价格',
-        p24: '24h波动',
-        h24: '24h高点',
-        l24: '24h低点',
-        v24: '24h交易量',
+        close: '最新价格',
+        priceChange: '24h波动',
+        high: '24h高点',
+        low: '24h低点',
+        volume: '24h交易量',
         action: '去交易'
       }
     }

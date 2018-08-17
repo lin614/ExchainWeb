@@ -81,11 +81,11 @@ module.exports = {
       },
       rowName: {
         pair: 'Pair',
-        priceshow: 'Last Price',
-        p24: '24h Change',
-        h24: '24h High',
-        l24: '24h Low',
-        v24: '24h Volume',
+        close: 'Last Price',
+        priceChange: '24h Change',
+        high: '24h High',
+        low: '24h Low',
+        volume: '24h Volume',
         action: 'Action'
       }
     }

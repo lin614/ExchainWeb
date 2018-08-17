@@ -5,7 +5,7 @@
       <crd potColor="#50b08c">
         <span slot="title">{{ $t('index.markets.mainBoard.title') }}</span>
 
-        <Table size="large" :columns="col1" :data="data1"></Table>
+        <Table size="large" :columns="col1" :data="mainMarketPrice"></Table>
       </crd>
 
       <!-- <crd potColor="#5999e5">
@@ -72,16 +72,16 @@ export default {
       usdt: 0, //usdt汇率
       col1: [
         {
-          title: this.$t('index.markets.rowName.pair'),
-          key: 'pair'
+          title: this.$t('index.markets.rowName.name'),
+          key: 'name'
         },
         {
-          title: this.$t('index.markets.rowName.priceshow'),
-          key: 'priceshow',
+          title: this.$t('index.markets.rowName.close'),
+          key: 'closeshow',
           width: 250,
           render: (h, arg) => {
             return h('div', [
-              h('span', {}, arg.row.price),
+              h('span', {}, arg.row.close),
               h(
                 'span',
                 {
@@ -89,57 +89,47 @@ export default {
                     fontSize: '12px'
                   }
                 },
-                arg.row.priceshow
+                arg.row.closeshow
               )
             ])
           }
         },
         {
-          title: this.$t('index.markets.rowName.p24'),
-          key: 'p24'
+          title: this.$t('index.markets.rowName.priceChange'),
+          key: 'priceChange'
         },
         {
-          title: this.$t('index.markets.rowName.h24'),
-          key: 'h24',
+          title: this.$t('index.markets.rowName.high'),
+          key: 'high',
           render: function(h, arg) {
             return h(
               'span',
               {},
-              formatMarketPrecision(
-                arg.row.h24,
-                arg.row.pair,
-                'price',
-                instance
-              ) || '-'
+              formatMarketPrecision(arg.row.high, arg.row.name, 'price', instance) || '-'
             )
           }
         },
         {
-          title: this.$t('index.markets.rowName.l24'),
-          key: 'l24',
+          title: this.$t('index.markets.rowName.low'),
+          key: 'low',
           render: function(h, arg) {
             return h(
               'span',
               {},
-              formatMarketPrecision(
-                arg.row.l24,
-                arg.row.pair,
-                'price',
-                instance
-              ) || '-'
+              formatMarketPrecision(arg.row.low, arg.row.name, 'price', instance ) || '-'
             )
           }
         },
         {
-          title: this.$t('index.markets.rowName.v24'),
-          key: 'v24',
+          title: this.$t('index.markets.rowName.volume'),
+          key: 'volume',
           render: function(h, arg) {
             return h(
               'span',
               {},
               formatMarketPrecision(
-                arg.row.v24,
-                arg.row.pair,
+                arg.row.volume,
+                arg.row.name,
                 'amount',
                 instance
               ) || '-'
@@ -168,8 +158,8 @@ export default {
                 on: {
                   click: () => {
                     console.log(params)
-                    if (params.row.parm_) {
-                      vu.toTrade(params.row.parm_)
+                    if (params.row.nameLowerCase) {
+                      vu.toTrade(params.row.nameLowerCase)
                     }
                   }
                 }
@@ -178,88 +168,62 @@ export default {
           }
         }
       ],
-      data1: [
-        // {
-        //   pair: 'ET/USDT',
-        //   price: '0.386837/￥2.56',
-        //   p24: '-2.82%',
-        //   h24: '0.415474',
-        //   l24: '0.380150',
-        //   v24: '70836959.04'
-        // },
-        // {
-        //   pair: 'ET/USDT',
-        //   price: 0,
-        //   p24: '-',
-        //   h24: '-',
-        //   l24: '-',
-        //   v24: '-'
-        // },
-        // {
-        //   pair: 'ET/ETH',
-        //   price: 0,
-        //   p24: '-',
-        //   h24: '-',
-        //   l24: '-',
-        //   v24: '-'
-        // },
-        // {
-        //   pair: 'ET/BTC',
-        //   price: 0,
-        //   p24: '-',
-        //   h24: '-',
-        //   l24: '-',
-        //   v24: '-'
-        // },
+      initMainMarketPrice: [],
+      mainMarketPrice: [
         {
-          pair: 'BTC/USDT',
-          price: '-',
-          priceshow: '',
-          p24: '-',
-          h24: '-',
-          l24: '-',
-          v24: '-',
-          parm_: 'btc_usdt'
+          name: 'BTC/USDT', // 交易对
+          nameLowerCase: 'btc_usdt', // 交易对
+          close: '-', // 最新价
+          closeshow: '', // 最新价
+          priceChange: '-', // 24小时波动
+          high: '-', // 最高价
+          low: '-', // 最低价
+          volume: '-', // 交易量
+          LastDayPrice: '' // 昨天收盘价
         },
         {
-          pair: 'ETH/USDT',
-          price: '-',
-          priceshow: '',
-          p24: '-',
-          h24: '-',
-          l24: '-',
-          v24: '-',
-          parm_: 'eth_usdt'
+          name: 'ETH/USDT', // 交易对
+          nameLowerCase: 'eth_usdt', // 交易对
+          close: '-', // 最新价
+          closeshow: '', // 最新价
+          priceChange: '-', // 24小时波动
+          high: '-', // 最高价
+          low: '-', // 最低价
+          volume: '-', // 交易量
+          LastDayPrice: '' // 昨天收盘价
         },
         {
-          pair: 'BCH/USDT',
-          price: '-',
-          priceshow: '',
-          p24: '-',
-          h24: '-',
-          l24: '-',
-          v24: '-',
-          parm_: 'bch_usdt'
+          name: 'BCH/USDT', // 交易对
+          nameLowerCase: 'bch_usdt', // 交易对
+          close: '-', // 最新价
+          closeshow: '', // 最新价
+          priceChange: '-', // 24小时波动
+          high: '-', // 最高价
+          low: '-', // 最低价
+          volume: '-', // 交易量
+          LastDayPrice: '' // 昨天收盘价
         },
         {
-          pair: 'ETH/BTC',
-          price: '-',
-          priceshow: '',
-          p24: '-',
-          h24: '-',
-          l24: '-',
-          v24: '-',
-          parm_: 'eth_btc'
+          name: 'ETH/BTC', // 交易对
+          nameLowerCase: 'eth_btc', // 交易对
+          close: '-', // 最新价
+          closeshow: '', // 最新价
+          priceChange: '-', // 24小时波动
+          high: '-', // 最高价
+          low: '-', // 最低价
+          volume: '-', // 交易量
+          LastDayPrice: '' // 昨天收盘价
         },
         {
-          pair: 'BCH/BTC',
-          price: '-',
-          priceshow: '',
-          p24: '-',
-          h24: '-',
-          l24: '-',
-          v24: '-',
-          parm_: 'bch_btc'
+          name: 'BCH/BTC', // 交易对
+          nameLowerCase: 'bch_btc', // 交易对
+          close: '-', // 最新价
+          closeshow: '', // 最新价
+          priceChange: '-', // 24小时波动
+          high: '-', // 最高价
+          low: '-', // 最低价
+          volume: '-', // 交易量
+          LastDayPrice: '' // 昨天收盘价
         }
       ],
       data2: [],
@@ -284,6 +248,8 @@ export default {
           apiError(vu, res)
         }
       })
+
+    
   },
   mounted() {
     var subQuo = pair =>
@@ -294,18 +260,18 @@ export default {
         // channel: 'test'
       })
 
-    for (let i = 0; i < this.data1.length; i++) {
-      var arr = this.data1[i].pair.split('/')
-      this.data1[i].parm_ = arr.join('_').toLowerCase()
+    for (let i = 0; i < this.mainMarketPrice.length; i++) {
+      var arr = this.mainMarketPrice[i].name.split('/')
+      this.mainMarketPrice[i].nameLowerCase = arr.join('_').toLowerCase()
     }
-    var list = [...this.data1, ...this.data2, ...this.data3, ...this.data4]
+    var list = [...this.mainMarketPrice, ...this.data2, ...this.data3, ...this.data4]
     console.log(list)
     for (var i in list) {
-      var arr = list[i].pair.split('/')
+      var arr = list[i].name.split('/')
       list[i].parm = arr.join('').toLowerCase()
-      list[i].parm_ = arr.join('_').toLowerCase()
+      list[i].nameLowerCase = arr.join('_').toLowerCase()
       console.log(list[i].parm)
-      list[i].cur = list[i].pair.split('/')[1]
+      list[i].cur = list[i].name.split('/')[1]
       //订阅
       console.log('huobi.market.' + list[i].parm + '.kline.1day')
       subQuo(list[i].parm)
@@ -313,7 +279,7 @@ export default {
     let vu = this
     bus.$on('wsUpdate', data => {
       let info = [
-        ...this.data1,
+        ...this.mainMarketPrice,
         ...this.data2,
         ...this.data3,
         ...this.data4
@@ -332,12 +298,66 @@ export default {
     })
   },
   methods: {
+    /**
+     * 获取主区交易价格
+     */
+    getMainMarketPrice () {
+      ax
+        .get(config.url.user + '/api/v1-b/market/price_change?markets=BTC/USDT,ETH/USDT,BCH/USDT,ETH/BTC,BCH/BTC', getHeader)
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            this.initMainMarketPrice = res.data.result;
+            let mainMarketPrice = res.data.result;
+
+            // */USDT 交易对的价格
+            let usdtArr = [];
+            for (var i = 0; i < mainMarketPrice.length; i++) {
+              if (mainMarketPrice[i].name.index('/USDT') !== -1) {
+                usdtArr[mainMarketPrice[i].name] = mainMarketPrice[i].close;
+              }
+            }
+
+            // 法币价格
+            for (i = 0; i < mainMarketPrice.length; i++) {
+              let legalMoney = info.close
+              if (mainMarketPrice[i].name.index('/USDT') === -1) {
+                legalMoney = legalMoney * usdtArr[mainMarketPrice[i].name]
+              }
+              let sub = new Decimal(mainMarketPrice[i].close).sub(new Decimal(mainMarketPrice[i].LastDayPrice))
+              let wave = new Decimal(sub).div(new Decimal(mainMarketPrice[i].LastDayPrice)).toNumber();
+              info.priceChange = wave ? (wave * 100).toFixed(2) + '%' : '-'
+            }
+
+            // 非 */USDT 的交易对，价格需转换成美元价格
+          
+          if (info.cur != 'USDT') {
+            legalMoney *= infoCur ? infoCur.price : 1 // 此处的price？
+          }
+
+          // 中英文模式价格显示
+          // if (this.$t('common.lang') === 'cn') {
+          //   legalMoney = parseFloat(legalMoney * vu.usdt).toFixed(2)
+          // } else {
+          //   legalMoney = parseFloat(legalMoney).toFixed(2)
+          // }
+
+          // info.close = formatMarketPrecision(info.close, info.name, 'price', vu)
+          // info.closeshow = legalMoney
+          //   ? ' ≈ ' + this.$t('common.legalMoney') + legalMoney
+          //   : ''
+          //   }
+          //   // this.mainMarketPrice = ;
+          // } else {
+          //   apiError(vu, res)
+          // }
+        });
+    },
     // 重新计算各交易对价格信息
     calculate(dataArr) {
       let vu = this
       let info = null
       let data = null
-      let list = [...this.data1, ...this.data2, ...this.data3, ...this.data4]
+      let list = [...this.mainMarketPrice, ...this.data2, ...this.data3, ...this.data4]
 
       for (var i = 0; i < dataArr.length; i++) {
         data = dataArr[i]
@@ -347,25 +367,25 @@ export default {
         )[0]
 
         if (info) {
-          info.h24 = data.data[0][2] ? data.data[0][2] : '-'; // 高
-          info.l24 = data.data[0][3]; //低
-          info.price = data.data[0][4] ? data.data[0][4] : '-' // 最新价
+          info.high = data.data[0][2] ? data.data[0][2] : '-'; // 高
+          info.low = data.data[0][3]; //低
+          info.close = data.data[0][4] ? data.data[0][4] : '-' // 最新价
 
           let openPrice = data.data[0][1]; // 开盘价
 
-          let sub = new Decimal(info.price).sub(new Decimal(openPrice))
+          let sub = new Decimal(info.close).sub(new Decimal(openPrice))
           let wave = new Decimal(sub).div(new Decimal(openPrice)).toNumber()
-          info.p24 = wave ? (wave * 100).toFixed(2) + '%' : '-'
-          info.v24 = data.data[0][5] ? data.data[0][5] : '-' // 成交量
+          info.priceChange = wave ? (wave * 100).toFixed(2) + '%' : '-'
+          info.volume = data.data[0][5] ? data.data[0][5] : '-' // 成交量
 
           var infoCur = list.filter(
             c => info.cur.toLowerCase() + 'usdt' == c.parm
           )[0]
 
           // 非 */USDT 的交易对，价格需转换成美元价格
-          let legalMoney = info.price
+          let legalMoney = info.close
           if (info.cur != 'USDT') {
-            legalMoney *= infoCur ? infoCur.price : 1
+            legalMoney *= infoCur ? infoCur.price : 1 // 此处的price？
           }
 
           // 中英文模式价格显示
@@ -375,8 +395,8 @@ export default {
             legalMoney = parseFloat(legalMoney).toFixed(2)
           }
 
-          info.price = formatMarketPrecision(info.price, info.pair, 'price', vu)
-          info.priceshow = legalMoney
+          info.close = formatMarketPrecision(info.close, info.name, 'price', vu)
+          info.closeshow = legalMoney
             ? ' ≈ ' + this.$t('common.legalMoney') + legalMoney
             : ''
         }
