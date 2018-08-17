@@ -9,26 +9,29 @@
               {{bindStatus === 'bind' ? $t('userCenter.bindPhone.unBindPhone') : $t('userCenter.bindPhone.bindPhone')}}
               <span v-if="!bind" class="user-num">{{userNum}}</span>
             </div>
-            
+
             <div class="form-box">
               <Form ref="bindForm" :model="bindForm" label-position="top" :rules="rules">
                 <FormItem :label="$t('userCenter.bindPhone.nationality')" prop="nationality" class="ivu-form-item-required">
                   <Select :label-in-value="true" v-model="bindForm.nationality" style="width:100%;height: 50px;">
-                    <Option v-for="(item, index) in nationalityList" :value="item.value" :key="index">{{ $t('userCenter.bindPhone.nationalityList.' + item.label) + ' + ' + item.value }}</Option>
+                    <Option v-for="(item, index) in phoneCodes" :value="item.area_code" :key="index">{{item['name_'+activeLang] + ' + ' + item.area_code }}</Option>
                   </Select>
                 </FormItem>
 
-                <FormItem :label="$t('userCenter.bindPhone.mbileNumber')"  prop="phone" class="ivu-form-item-required">
+                <FormItem :label="$t('userCenter.bindPhone.mbileNumber')" prop="phone" class="ivu-form-item-required">
                   <Input v-model="bindForm.phone"></Input>
                 </FormItem>
 
-                <FormItem :label="$t('userCenter.bindPhone.smsCode')"  prop="phoneCode" class="phone-form-item ivu-form-item-required">
+                <FormItem :label="$t('userCenter.bindPhone.smsCode')" prop="phoneCode" class="phone-form-item ivu-form-item-required">
                   <Input style="width: 360px" v-model="bindForm.phoneCode" class="fl"></Input>
                   <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
-                  <div v-show="!codeDown" class="send-code-btn fr" @click="handleSendCode"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{ $t('userCenter.bindPhone.getCode') }}</span></div>
+                  <div v-show="!codeDown" class="send-code-btn fr" @click="handleSendCode">
+                    <Spin v-show="sendCodeLoading" size="small" fix></Spin>
+                    <span>{{ $t('userCenter.bindPhone.getCode') }}</span>
+                  </div>
                 </FormItem>
 
-                <FormItem :label="$t('userCenter.bindPhone.ga')"  prop="googleCode">
+                <FormItem :label="$t('userCenter.bindPhone.ga')" prop="googleCode">
                   <Input v-model="bindForm.googleCode"></Input>
                 </FormItem>
 
@@ -45,19 +48,22 @@
 </template>
 
 <script>
-import page from "../components/page"
-import crd from "../components/crd.vue"
+import page from '../components/page'
+import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
 import util from '../../libs/util.js'
+import phoneCodes from '../../static/i18n/code.json'
+
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
 export default {
   name: 'bindphone',
-  data () {
+  data() {
     return {
+      phoneCodes: phoneCodes,
       pageHeight: 0,
       haveNationality: false,
       isPhone: false,
@@ -73,7 +79,7 @@ export default {
       type: '',
       nationalityList: [],
       bindForm: {
-        nationality: '',
+        nationality: '0086',
         phone: '',
         phoneCode: '',
         googleCode: ''
@@ -82,21 +88,22 @@ export default {
         nationality: [
           {
             validator: (rule, value, callback) => {
-               if (value) {
-                 this.haveNationality = true
-                 callback()
-               } else {
-                 this.haveNationality = false
-                 callback(this.$t('errorMsg.NATIONALITY_UNSELECT'))
-               }
-            }, trigger: 'change'}
+              if (value) {
+                this.haveNationality = true
+                callback()
+              } else {
+                this.haveNationality = false
+                callback(this.$t('errorMsg.NATIONALITY_UNSELECT'))
+              }
+            },
+            trigger: 'change'
+          }
         ],
         phone: [
           {
             validator: (rule, value, callback) => {
               // 先判断是否选择国籍
-              this.$refs.bindForm.validateField('nationality', () => {
-              })
+              this.$refs.bindForm.validateField('nationality', () => {})
               if (!value) {
                 callback(this.$t('errorMsg.PHONE_BLANK'))
               }
@@ -107,21 +114,25 @@ export default {
                 this.isPhone = false
                 callback(this.$t('errorMsg.SYMBOL_ERR'))
               }
-            }, trigger: 'blur'}
+            },
+            trigger: 'blur'
+          }
         ],
         phoneCode: [
-          { validator: (rule, value, callback) => {
-            if (!value) {
-              callback(this.$t('errorMsg.CODE_BLANK'))
-            }
-            if (util.checkCode(value)) {
-              callback()
-            } else {
-              callback(this.$t('errorMsg.CODE_NOT_NUM'))
-            }
-          },
-          trigger: 'blur' }
-        ],
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.CODE_BLANK'))
+              }
+              if (util.checkCode(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.CODE_NOT_NUM'))
+              }
+            },
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -135,22 +146,25 @@ export default {
     }
   },
   methods: {
-    handleWindowResize () {
+    handleWindowResize() {
       this.pageHeight = window.innerHeight - 360
     },
     /**
      * 发送验证码
      */
-    handleSendCode () {
+    handleSendCode() {
       if (this.sendCodeLoading) {
         return
       }
-      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
+      var lang =
+        this.activeLang === 'cn'
+          ? 'zh-cn'
+          : this.activeLang === 'en' ? 'en-us' : ''
       this.sendCodeLoading = true
       if (this.isPhone && this.haveNationality) {
         var vu = this
         ax({
-          url: config.url.user+'/api/user/bindPhone',
+          url: config.url.user + '/api/user/bindPhone',
           method: 'post',
           data: {
             phone: vu.bindForm.phone,
@@ -159,48 +173,53 @@ export default {
             type: vu.type,
             language: lang
           },
-          transformRequest: [function (data) {
-            // Do whatever you want to transform the data
-            let ret = ''
-            for (let it in data) {
-              ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+          transformRequest: [
+            function(data) {
+              // Do whatever you want to transform the data
+              let ret = ''
+              for (let it in data) {
+                ret +=
+                  encodeURIComponent(it) +
+                  '=' +
+                  encodeURIComponent(data[it]) +
+                  '&'
+              }
+              return ret.slice(0, ret.length - 1)
             }
-            return ret.slice(0, (ret.length - 1))
-          }],
+          ],
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         })
-        .then((res) => {
-          vu.sendCodeLoading = false
-          if (res.status == '200' && res.data.errorCode == 0) {
-            vu.codeDown = true
-            vu.token = res.data.result.token
-            vu.handleCodeDown()
-            vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
-          } else {
-            apiError(vu, res);
-          }
-        })
-        .catch((err) => {
-          // vu.codeDown = true
-          vu.sendCodeLoading = false
-          apiReqError(vu, err);
-        })
+          .then(res => {
+            vu.sendCodeLoading = false
+            if (res.status == '200' && res.data.errorCode == 0) {
+              vu.codeDown = true
+              vu.token = res.data.result.token
+              vu.handleCodeDown()
+              vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
+            } else {
+              apiError(vu, res)
+            }
+          })
+          .catch(err => {
+            // vu.codeDown = true
+            vu.sendCodeLoading = false
+            apiReqError(vu, err)
+          })
       } else {
-        this.$refs.bindForm.validateField('phone', () => {
-        })
-        this.$refs.bindForm.validateField('nationality', () => {
-        })
+        this.$refs.bindForm.validateField('phone', () => {})
+        this.$refs.bindForm.validateField('nationality', () => {})
         this.sendCodeLoading = false
       }
     },
     /**
      * 倒计时
      */
-    handleCodeDown () {
+    handleCodeDown() {
       var time = 120
-      this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+      this.codeDownText =
+        time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
       clearInterval(this.timer)
       this.timer = setInterval(() => {
         time -= 1
@@ -208,21 +227,22 @@ export default {
           this.codeDown = false
           clearInterval(this.timer)
         }
-        this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+        this.codeDownText =
+          time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
       }, 1000)
     },
     /**
      * 绑定 && 解绑
      */
-    handleConfirmClick (form) {
+    handleConfirmClick(form) {
       // this.confirmLoading = true
       var vu = this
-      this.$refs[form].validate((valid) => {
+      this.$refs[form].validate(valid => {
         console.log(2)
         if (valid) {
           console.log(3)
           ax({
-            url: config.url.user+'/api/user/verifyBindPhone',
+            url: config.url.user + '/api/user/verifyBindPhone',
             method: 'post',
             data: {
               phone: vu.bindForm.phone,
@@ -232,39 +252,46 @@ export default {
               type: vu.type,
               token: vu.token
             },
-            transformRequest: [function (data) {
-              let ret = ''
-              for (let it in data) {
-                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+            transformRequest: [
+              function(data) {
+                let ret = ''
+                for (let it in data) {
+                  ret +=
+                    encodeURIComponent(it) +
+                    '=' +
+                    encodeURIComponent(data[it]) +
+                    '&'
+                }
+                return ret.slice(0, ret.length - 1)
               }
-              return ret.slice(0, (ret.length - 1))
-            }],
+            ],
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             }
           })
-          .then((res) => {
-            if (res.status == '200' && res.data.errorCode == 0) {
-              vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
-              vu.$refs.bindForm.resetFields()
-              vu.$router.push('/usercenter')
-            } else {
-              apiError(vu, res);
-            }
-          })
-          .catch((err) => {
-            apiReqError(vu, err);
-          })
+            .then(res => {
+              if (res.status == '200' && res.data.errorCode == 0) {
+                vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
+                vu.$refs.bindForm.resetFields()
+                vu.$router.push('/usercenter')
+              } else {
+                apiError(vu, res)
+              }
+            })
+            .catch(err => {
+              apiReqError(vu, err)
+            })
         }
       })
     },
     /**
      * 获取用户信息
      */
-    getUserInfo () {
+    getUserInfo() {
       var vu = this
-      ax.post(config.url.user+'/api/user/getUserInfo')
-        .then((res) => {
+      ax
+        .post(config.url.user + '/api/user/getUserInfo')
+        .then(res => {
           if (res.status === 200 && res.data.errorCode === 0) {
             sessionStorage.setItem('idCardStatus', res.data.result.idCardStatus)
             if (res.data.result.phone.number) {
@@ -272,7 +299,11 @@ export default {
               sessionStorage.setItem('bindPhone', 'bind')
               vu.bindStatus = 'bind'
               vu.type = 'release'
-              vu.userNum = '+ ' + res.data.result.phone.country + ' '  + res.data.result.phone.number
+              vu.userNum =
+                '+ ' +
+                res.data.result.phone.country +
+                ' ' +
+                res.data.result.phone.number
             } else {
               vu.bind = false
               vu.bindStatus = 'unbind'
@@ -281,48 +312,15 @@ export default {
             sessionStorage.setItem('email', res.data.result.email)
             console.log(res.data.result)
           } else {
-            apiError(vu, res);
+            apiError(vu, res)
           }
         })
-        .catch((err) => {
-          apiReqError(vu, err);
+        .catch(err => {
+          apiReqError(vu, err)
         })
     },
-    /**
-     * 获取支持的国籍码
-     */
-    getPhoneSupportList () {
-      var vu = this
-      var x_pn = cookie.get('PN', { domain: config.url.domain })
-      ax.post(config.url.user+'/api/user/getPhoneSupportList', {
-        headers: {
-          'X-EXCHAIN-PN': x_pn || ''
-        }
-      })
-        .then((res) => {
-          res.status && (res.status += '')
-          console.log(res)
-          if (res.status === '200' && res.data.errorCode === 0) {
-            console.log(123123123)
-            console.log(res.data.result)
-            var result = res.data.result
-            for (var key in result) {
-              var obj = {}
-              obj.label = key
-              obj.value = result[key]
-              vu.nationalityList.push(obj)
-            }
-          } else {
-            apiError(vu, res);
-          }
-        })
-        .catch((err) => {
-          apiReqError(vu, err);
-        })
-    }
   },
-  mounted () {
-    this.getPhoneSupportList()
+  mounted() {
     var bindStatus = sessionStorage.getItem('bindPhone')
     var userNum = sessionStorage.getItem('userNum')
     if (bindStatus) {
@@ -342,102 +340,102 @@ export default {
       vu.$refs.bindForm.resetFields()
     })
   },
-  created () {
+  created() {
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
-  destroyed () {
+  destroyed() {
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }
 </script>
 
 <style lang="less">
-  .bindphone-cont {
+.bindphone-cont {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+  .crd {
+    margin-bottom: 0;
+    .ivu-card {
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    }
+  }
+  .ivu-spin {
+    display: inline-block;
+  }
+  .bind-main {
+    padding: 54px 60px;
+    .main-title {
+      font-size: 24px;
+      line-height: 24px;
+      color: #5999e5;
+      padding-bottom: 46px;
+      border-bottom: 1px solid #ebebeb;
+      .user-num {
+        font-size: 16px;
+      }
+    }
+  }
+  .form-box {
+    width: 520px;
     padding-top: 40px;
-    padding-bottom: 40px;
-    box-sizing: border-box;
-    .crd {
-      margin-bottom: 0;
-      .ivu-card {
-        &:hover {
-          transform: none;
-          box-shadow: none;
-        }
-      }
+    .ivu-form-item {
+      margin-bottom: 30px;
     }
-    .ivu-spin {
-      display: inline-block;
-    }
-    .bind-main {
-      padding: 54px 60px;
-      .main-title {
-        font-size: 24px;
-        line-height: 24px;
-        color: #5999E5;
-        padding-bottom: 46px;
-        border-bottom: 1px solid #EBEBEB;
-        .user-num {
-          font-size: 16px;
-        }
-      }
-    }
-    .form-box {
-      width: 520px;
-      padding-top: 40px;
-      .ivu-form-item {
-        margin-bottom: 30px;
-      }
-      .send-code-btn {
-        position: relative;
-        // display: inline-block;
-        box-sizing: border-box;
-        min-width: 140px;
-        height: 50px;
-        line-height: 48px;
-        padding: 0 10px;
-        border: 1px solid #5999E5;
-        border-radius: 4px;
-        color: #5999E5;
-        background-color: #fff;
-        text-align: center;
-        cursor: pointer;
-        &:hover {
-          background-color: #5999E5;
-          color: #fff;
-        }
-      }
-      .send-code-down {
-        box-sizing: border-box;
-        min-width: 140px;
-        height: 50px;
-        line-height: 48px;
-        padding: 0 10px;
-        border: 1px solid #999;
+    .send-code-btn {
+      position: relative;
+      // display: inline-block;
+      box-sizing: border-box;
+      min-width: 140px;
+      height: 50px;
+      line-height: 48px;
+      padding: 0 10px;
+      border: 1px solid #5999e5;
+      border-radius: 4px;
+      color: #5999e5;
+      background-color: #fff;
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        background-color: #5999e5;
         color: #fff;
-        background-color: #999;
-        text-align: center;
       }
-      .ivu-input {
-        box-sizing: border-box;
-        height: 50px;
-        padding: 10px 20px;
-      }
-      .ivu-btn-primary {
-        height: 60px;
-        font-size: 18px;
-      }
-      .phone-form-item {
-        & .ivu-form-item-content {
-          *zoom: 1;
-          &::after {
-            content: '';
-            display: block;
-            height: 0;
-            clear: both;
-          }
+    }
+    .send-code-down {
+      box-sizing: border-box;
+      min-width: 140px;
+      height: 50px;
+      line-height: 48px;
+      padding: 0 10px;
+      border: 1px solid #999;
+      color: #fff;
+      background-color: #999;
+      text-align: center;
+    }
+    .ivu-input {
+      box-sizing: border-box;
+      height: 50px;
+      padding: 10px 20px;
+    }
+    .ivu-btn-primary {
+      height: 60px;
+      font-size: 18px;
+    }
+    .phone-form-item {
+      & .ivu-form-item-content {
+        *zoom: 1;
+        &::after {
+          content: '';
+          display: block;
+          height: 0;
+          clear: both;
         }
       }
     }
   }
+}
 </style>

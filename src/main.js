@@ -15,7 +15,11 @@ import ax from 'axios'
 import LangZhCn from './static/i18n/zh-cn.js'
 import LangEnUs from './static/i18n/en-us.js'
 import bus from './views/js/eventBus.js'
-import {apiError, javaApiReqError, apiReqError} from './libs/utils/apiError.js'
+import {
+    apiError,
+    javaApiReqError,
+    apiReqError
+} from './libs/utils/apiError.js'
 
 import {
     sub,
@@ -79,9 +83,11 @@ if (localLang === 'zh-CN') {
 // const lang = window.localStorage.getItem('exchain_language') || localLang || 'cn';
 // window.localStorage.setItem('exchain_language', lang);
 
-const lang = cookie.get('exchain_language', { domain: config.url.domain }) || localLang || 'cn';
+const lang = cookie.get('exchain_language', {
+    domain: config.url.domain
+}) || localLang || 'cn';
 cookie.set('exchain_language', lang, {
-  domain: config.url.domain
+    domain: config.url.domain
 })
 
 
@@ -179,11 +185,27 @@ const store = new Vuex.Store({
 
 Vue.prototype.$initGeetest = window.initGeetest
 
+//关键词
+import MetaInfo from 'vue-meta-info'
+Vue.use(MetaInfo)
 new Vue({
     el: '#app',
     router: router,
     i18n,
     store: store,
     render: h => h(App),
-    mounted() {}
+    mounted() {
+
+    },
+    metaInfo: {
+        title: 'Exchain', // set a title
+        meta: [{ // set meta
+            name: 'keyWords',
+            content: 'Exchain、Exchain交易所、交易所、买币、比特币、ETH、BTC、以太坊、USDT、ET、交易即挖矿、合作伙伴'
+        }],
+        link: [{
+            rel: 'asstes',
+            href: 'https://www.exchain.com/'
+        }]
+    }
 });
