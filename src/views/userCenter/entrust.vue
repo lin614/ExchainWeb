@@ -263,7 +263,7 @@ export default {
       ax
         .get(
           config.url.user +
-            '/api/order/lists?status=2&method=history&t' +
+            '/api/order/lists?method=history&t' +
             new Date().getTime() + '&page=' + vu.hisPage + '&size=' + vu.hisSize,
           getHeader
         )
