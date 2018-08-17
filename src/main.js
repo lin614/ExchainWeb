@@ -94,9 +94,10 @@ cookie.set('exchain_language', lang, {
 Vue.config.lang = lang;
 console.log('lang = ' + lang)
 // 多语言配置
+import extend from 'extend'
 // const locales = Locales;
-const mergeZH = Object.assign(LangZhCn, zhLocale);
-const mergeEN = Object.assign(LangEnUs, enLocale);
+const mergeZH = extend(LangZhCn, zhLocale);
+const mergeEN = extend(LangEnUs, enLocale);
 
 const messages = {
     cn: mergeZH,
