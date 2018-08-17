@@ -347,12 +347,14 @@ export default {
         )[0]
 
         if (info) {
-          info.l24 = data.data[0][4]
-          info.h24 = data.data[0][2] ? data.data[0][2] : '-'
-          info.price = data.data[0][4] ? data.data[0][4] : '-'
+          info.h24 = data.data[0][2] ? data.data[0][2] : '-'; // 高
+          info.l24 = data.data[0][3]; //低
+          info.price = data.data[0][4] ? data.data[0][4] : '-' // 最新价
 
-          let sub = new Decimal(info.h24).sub(new Decimal(info.l24))
-          let wave = new Decimal(sub).div(new Decimal(info.l24)).toNumber()
+          let openPrice = data.data[0][1]; // 开盘价
+
+          let sub = new Decimal(info.price).sub(new Decimal(openPrice))
+          let wave = new Decimal(sub).div(new Decimal(openPrice)).toNumber()
           info.p24 = wave ? (wave * 100).toFixed(2) + '%' : '-'
           info.v24 = data.data[0][5] ? data.data[0][5] : '-' // 成交量
 

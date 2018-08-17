@@ -14,6 +14,7 @@ import enLocale from 'iview/dist/locale/en-US';
 import ax from 'axios'
 import LangZhCn from './static/i18n/zh-cn.js'
 import LangEnUs from './static/i18n/en-us.js'
+import assign from 'object-assign';
 import bus from './views/js/eventBus.js'
 import {
     apiError,
@@ -94,10 +95,9 @@ cookie.set('exchain_language', lang, {
 Vue.config.lang = lang;
 console.log('lang = ' + lang)
 // 多语言配置
-import extend from 'extend'
 // const locales = Locales;
-const mergeZH = extend(LangZhCn, zhLocale);
-const mergeEN = extend(LangEnUs, enLocale);
+const mergeZH = assign(LangZhCn, zhLocale);
+const mergeEN = assign(LangEnUs, enLocale);
 
 const messages = {
     cn: mergeZH,
