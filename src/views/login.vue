@@ -223,7 +223,8 @@ export default {
     initSenseAction (data) {
       let vu = this;
       vu.$initSense({
-        id: data.id,        
+        id: data.id,
+        lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',     
         onError:function(err){
             console.log('gt error', err)
         }
@@ -240,6 +241,8 @@ export default {
           vu.loginFn(params)
         }).onClose(function(){
           console.log('close')
+          vu.loginLoading = false
+          sense.reset();
         }).onError(function(err){
           console.log(err);
           if(err && err.code === '1001'){

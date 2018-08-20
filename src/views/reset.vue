@@ -294,6 +294,7 @@ export default {
       let vu = this;
       vu.$initSense({
         id: data.id,
+        lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',
         onError:function(err){
             console.log('gt error', err)
         }
@@ -320,6 +321,7 @@ export default {
           }
         }).onClose(function(){
           console.log('close')
+          vu.resetLoading = false
         }).onError(function(err){
           console.log(err);
           if(err && err.code === '1001'){

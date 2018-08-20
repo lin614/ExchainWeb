@@ -301,8 +301,10 @@ export default {
 
     initSenseAction (data) {
       let vu = this;
+      debugger
       vu.$initSense({
         id: data.id,
+        lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',
         onError:function(err){
             console.log('gt error', err)
         }
@@ -328,6 +330,8 @@ export default {
             vu.sendEmail(params)
           }
         }).onClose(function(){
+          sense.reset();
+          vu.regLoading = false
           console.log('close')
         }).onError(function(err){
           console.log(err);
