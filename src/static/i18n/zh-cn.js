@@ -80,7 +80,7 @@ module.exports = {
         tip: '风险投资区的数字资产通常处于项目的天使阶段，有极高的不确定性风险。请投资者根据自身承担风险能力慎重投资。'
       },
       rowName: {
-        pair: '交易对',
+        name: '交易对',
         close: '最新价格',
         priceChange: '24h波动',
         high: '24h高点',

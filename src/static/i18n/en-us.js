@@ -80,7 +80,7 @@ module.exports = {
         tip: 'Venture Capital Board project at at angel stage, have extremely high risks of uncertainty. Investors must carefully evaluate their own risk tolerance and investment ability and invest prudently.'
       },
       rowName: {
-        pair: 'Pair',
+        name: 'Pair',
         close: 'Last Price',
         priceChange: '24h Change',
         high: '24h High',
