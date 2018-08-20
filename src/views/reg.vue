@@ -20,7 +20,7 @@
                   <Input v-model="regInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')" style="width: 360px"></Input>
 
                   <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
-                  <div v-show="!codeDown" class="send-code-btn fr" @click="sendemailBefore"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
+                  <div v-show="!codeDown" class="send-code-btn fr" ref="sendEmail"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
                 </FormItem>
 
                 <FormItem prop="pwd" :label="$t('register.pwd')" class="ivu-form-item-required">
@@ -36,7 +36,7 @@
                 </FormItem>
 
                 <FormItem>
-                  <Button class="btn-large" type="primary" @click="regUser('regInfo')"><Spin v-show="regLoading" :fix="true"></Spin>{{$t('register.registerBtn')}}</Button> {{$t('register.toLogin')}}
+                  <Button class="btn-large" type="primary" ref="regUser"><Spin v-show="regLoading" :fix="true"></Spin>{{$t('register.registerBtn')}}</Button> {{$t('register.toLogin')}}
                   <router-link class="login" to="/login">{{$t('register.login')}}</router-link>
                 </FormItem>
               </Form>
@@ -166,48 +166,89 @@ export default {
     }
   },
   methods: {
-    regUser(name) {
+    sendemailBefore(sense) {
+      if (this.sendCodeLoading) {
+        return
+      }
+      var vu = this
+      this.$refs['regInfo'].validateField('email', function(error) {
+        if (!error) {
+          vu.geettestFlag = 'SEND_EMAIL_CODEA';
+          sense.sense();
+        }
+      })
+    },
+
+    sendEmail (params) {
+      var vu = this
+      
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
+      vu.sendCodeLoading = true
+
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'dk-register'
+      } else {
+        captcha_type = 'dk-register-en'
+      }
+
+      params.email = vu.regInfo.email;
+      params.language = lang;
+      params.captcha_type = captcha_type;
+
+      ax
+        .post(config.url.user + '/api/user/register', params)
+        .then(function(res) {
+          vu.sendCodeLoading = false
+          if (res.status == '200' && res.data.errorCode == 0) {
+            vu.regtoken = res.data.result.token
+            vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
+            vu.codeDown = true;
+            vu.handleCodeDown();
+            // vu.geettest.reset();
+          } else {
+            // vu.geettest.reset();
+            apiError(vu, res);
+          }
+        })
+        .catch((err) => {
+          // vu.geettest.reset();
+          vu.sendCodeLoading = false
+          apiReqError(vu, err);
+        })
+    },
+
+    regUser(sense) {
       var vu = this
       this.regLoading = true
-      this.$refs[name].validate(valid => {
+      this.$refs['regInfo'].validate(valid => {
         if (valid) {
-          if (vu.geetOnReady) {
-            vu.geettestFlag = 'SUBMIT_DATA';
-            vu.geettest.verify()
-          } else {
-            vu.regLoading = false
-            vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
-          }
+          vu.geettestFlag = 'SUBMIT_DATA';
+          sense.sense();
         } else {
           vu.regLoading = false
         }
       })
     },
 
-    regUserFn() {
+    regUserFn(params) {
       var vu = this
-      var result = this.geettest.getValidate()
 
       let captcha_type = '';
       if (this.$t('common.lang') === 'cn') {
-        captcha_type = 'register'
+        captcha_type = 'dk-register'
       } else {
-        captcha_type = 'register-en'
+        captcha_type = 'dk-register-en'
       }
 
-      let params = {
-        email: vu.regInfo.email,
-        code: vu.regInfo.emailcode,
-        inviteCode: vu.regInfo.code,
-        channel: vu.regInfo.source,
-        token: vu.regtoken,
-        password: md5(vu.regInfo.pwd),
-        captcha_type: captcha_type,
-        geetest_challenge: result.geetest_challenge,
-        geetest_validate: result.geetest_validate,
-        geetest_seccode: result.geetest_seccode,
-        gtserver: vu.gtserver
-      }
+      params.email = vu.regInfo.email;
+      params.code = vu.regInfo.emailcode;
+      params.channel = vu.regInfo.source;
+      params.inviteCode = vu.regInfo.code;
+      params.token = vu.regtoken;
+      params.password = md5(vu.regInfo.pwd);
+      params.captcha_type = captcha_type;
+
       ax
         .post(config.url.user + '/api/user/verifyRegister', params)
         .then(function(res) {
@@ -223,20 +264,128 @@ export default {
             //     vu.$router.push('/login')
             //   }
             // })
-            vu.geettest.reset();
+            // vu.geettest.reset();
           } else {
             vu.regLoading = false
-            vu.geettest.reset()
+            // vu.geettest.reset()
             apiError(vu, res)
           }
         })
         .catch((err) => {
           vu.regLoading = false
-          vu.geettest.reset()
+          // vu.geettest.reset()
           apiReqError(vu, err)
         })
     },
 
+    initGeetest() {
+      var vu = this
+      let params = null;
+
+      if (this.$t('common.lang') === 'cn') {
+        params = {type: 'dk-register'}
+      } else {
+        params = {type: 'dk-register-en'}
+      }
+
+      ax
+        .post(config.url.user + '/api/user/initCaptcha', params)
+        .then(res => {
+          var data = res.data
+          this.initSenseAction(data);
+        })
+        .catch(() => {
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
+        })
+    },
+
+    initSenseAction (data) {
+      let vu = this;
+      vu.$initSense({
+        id: data.id,
+        onError:function(err){
+            console.log('gt error', err)
+        }
+      }, sense => {
+        vu.$refs.sendEmail.addEventListener('click',() => {
+          return this.sendemailBefore(sense)
+        });
+        
+        vu.$refs.regUser.$el.addEventListener('click', () => {
+          return this.regUser(sense)
+        });
+
+        sense.setInfos(function () {
+          return {
+            interactive: 1  //用户场景
+          }
+        }).onSuccess(function (data) {
+          if (vu.geettestFlag === 'SUBMIT_DATA') {
+            let params = {geetest_challenge: data.challenge}
+            vu.regUserFn(params);
+          } else {
+            let params = {geetest_challenge: data.challenge}
+            vu.sendEmail(params)
+          }
+        }).onClose(function(){
+          console.log('close')
+        }).onError(function(err){
+          console.log(err);
+          if(err && err.code === '1001'){
+              submit({})
+          }
+        })
+      });
+    },
+
+    initGeetestAction (data) {
+      vu.gtserver = data.gtserver
+      var result = this.geettest.getValidate()
+      vu.$initGeetest(
+        {
+          gt: data.gt,
+          challenge: data.challenge,
+          offline: !data.success,
+          new_captcha: true,
+          product: 'bind',
+          lang: this.activeLang ? (this.activeLang === 'cn') ? 'zh-cn' : this.activeLang : 'zh-cn'
+        },
+        function(captchaObj) {
+          vu.geettest = captchaObj
+          captchaObj
+            .onReady(function() {
+              console.log('onready')
+              vu.geetOnReady = true
+            })
+            .onSuccess(function() {
+              if (vu.geettestFlag === 'SUBMIT_DATA') {
+                let params = {
+                  geetest_challenge: result.geetest_challenge,
+                  geetest_validate: result.geetest_validate,
+                  geetest_seccode: result.geetest_seccode,
+                  gtserver: vu.gtserver
+                };
+                vu.regUserFn();
+              } else {
+                let params = {
+                  geetest_challenge: result.geetest_challenge,
+                  geetest_validate: result.geetest_validate,
+                  geetest_seccode: result.geetest_seccode,
+                  gtserver: vu.gtserver
+                }
+                vu.sendEmail();
+              }
+            })
+            .onError(function() {
+              vu.geetOnReady = false
+              vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
+            })
+            .onClose(function () {
+              vu.regLoading = false
+            })
+        }
+      )
+    },
     /**
      * 倒计时
      */
@@ -254,7 +403,7 @@ export default {
       }, 1000)
     },
 
-    sendemailBefore() {
+    sendemailBefore0() {
       if (this.sendCodeLoading) {
         return
       }
@@ -271,100 +420,6 @@ export default {
       })
     },
 
-    sendEmail () {
-      var vu = this
-      var result = this.geettest.getValidate()
-      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
-      vu.sendCodeLoading = true
-
-      let captcha_type = '';
-      if (this.$t('common.lang') === 'cn') {
-        captcha_type = 'register'
-      } else {
-        captcha_type = 'register-en'
-      }
-
-      ax
-        .post(config.url.user + '/api/user/register', {
-          email: vu.regInfo.email,
-          language: lang,
-          captcha_type: captcha_type,
-          geetest_challenge: result.geetest_challenge,
-          geetest_validate: result.geetest_validate,
-          geetest_seccode: result.geetest_seccode,
-          gtserver: vu.gtserver
-        })
-        .then(function(res) {
-          vu.sendCodeLoading = false
-          if (res.status == '200' && res.data.errorCode == 0) {
-            vu.regtoken = res.data.result.token
-            vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
-            vu.codeDown = true;
-            vu.handleCodeDown();
-            vu.geettest.reset();
-          } else {
-            vu.geettest.reset();
-            apiError(vu, res);
-          }
-        })
-        .catch((err) => {
-          vu.geettest.reset();
-          vu.sendCodeLoading = false
-          apiReqError(vu, err);
-        })
-    },
-
-    initGeetest() {
-      var vu = this
-      let params = null;
-
-      if (this.$t('common.lang') === 'cn') {
-        params = {type: 'register'}
-      } else {
-        params = {type: 'register-en'}
-      }
-      ax
-        .post(config.url.user + '/api/user/initCaptcha', params)
-        .then(res => {
-          var data = res.data
-          vu.gtserver = data.gtserver
-          vu.$initGeetest(
-            {
-              gt: data.gt,
-              challenge: data.challenge,
-              offline: !data.success,
-              new_captcha: true,
-              product: 'bind',
-              lang: this.activeLang ? (this.activeLang === 'cn') ? 'zh-cn' : this.activeLang : 'zh-cn'
-            },
-            function(captchaObj) {
-              vu.geettest = captchaObj
-              captchaObj
-                .onReady(function() {
-                  console.log('onready')
-                  vu.geetOnReady = true
-                })
-                .onSuccess(function() {
-                  if (vu.geettestFlag === 'SUBMIT_DATA') {
-                    vu.regUserFn();
-                  } else {
-                    vu.sendEmail();
-                  }
-                })
-                .onError(function() {
-                  vu.geetOnReady = false
-                  vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
-                })
-                .onClose(function () {
-                  vu.regLoading = false
-                })
-            }
-          )
-        })
-        .catch(() => {
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
-        })
-    },
     onEnter (e) {
       if (e.keyCode === 13) {
         this.regUser('regInfo')

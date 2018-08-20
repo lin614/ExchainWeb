@@ -21,7 +21,7 @@
                 </FormItem>
 
                 <FormItem>
-                  <Button class="btn-large" type="primary" @click="login()">{{ $t('userCenter.login.login') }}<Spin v-show="loginLoading" :fix="true"></Spin></Button>
+                  <Button class="btn-large" type="primary" ref="loginBefore">{{ $t('userCenter.login.login') }}<Spin v-show="loginLoading" :fix="true"></Spin></Button>
                   {{ $t('userCenter.login.forgotPassword') }}?
                   <router-link to="/reset" v-html="$t('userCenter.login.resetPassword')"></router-link>
                   </router-link>
@@ -108,6 +108,19 @@ export default {
     }
   },
   methods: {
+    loginBefore(sense) {
+      if (this.loginLoading) {
+        return
+      }
+      this.loginLoading = true
+      this.$refs['loginInfo'].validate(valid => {
+        if (valid) {
+          sense.sense();
+        } else {
+          this.loginLoading = false
+        }
+      })
+    },
     login() {
       if (this.loginLoading) {
         return
@@ -127,29 +140,24 @@ export default {
         }
       })
     },
-    loginFn() {
+    loginFn(params) {
       var vu = this
-      var result = this.geettest.getValidate()
       
       let captcha_type = '';
       if (this.$t('common.lang') === 'cn') {
-        captcha_type = 'login'
+        captcha_type = 'dk-login'
       } else {
-        captcha_type = 'login-en'
+        captcha_type = 'dk-login-en'
       }
+
+      params.email = vu.loginInfo.email;
+      params.password = md5(vu.loginInfo.pwd)
+      params.captcha_type = captcha_type
 
       ax
         .post(
           config.url.user + '/api/user/login',
-          {
-            email: vu.loginInfo.email,
-            password: md5(vu.loginInfo.pwd),
-            captcha_type: captcha_type,
-            geetest_challenge: result.geetest_challenge,
-            geetest_validate: result.geetest_validate,
-            geetest_seccode: result.geetest_seccode,
-            gtserver: vu.gtserver
-          },
+          params,
           {
             withcredentials: true
           }
@@ -181,61 +189,101 @@ export default {
             vu.$router.push('/userCenter')
           } else {
             vu.loginLoading = false
-            vu.geettest.reset()
+            // vu.geettest.reset()
             apiError(vu, res);
           }
         })
         .catch(function(err) {
           vu.loginLoading = false
-          vu.geettest.reset()
+          // vu.geettest.reset()
           apiReqError(vu, err);
         })
     },
+    
     initGeetest() {
       var vu = this
       let params = null;
 
       if (this.$t('common.lang') === 'cn') {
-        params = {type: 'login'}
+        params = {type: 'dk-login'}
       } else {
-        params = {type: 'login-en'}
+        params = {type: 'dk-login-en'}
       }
       ax
         .post(config.url.user + '/api/user/initCaptcha', params)
         .then(res => {
           var data = res.data
-          vu.gtserver = data.gtserver
-          vu.$initGeetest(
-            {
-              gt: data.gt,
-              challenge: data.challenge,
-              offline: !data.success,
-              new_captcha: true,
-              product: 'bind',
-              lang: this.activeLang ? (this.activeLang === 'cn') ? 'zh-cn' : this.activeLang : 'zh-cn'
-            },
-            function(captchaObj) {
-              vu.geettest = captchaObj
-              captchaObj
-                .onReady(function() {
-                  vu.geetOnReady = true
-                })
-                .onSuccess(function() {
-                  vu.loginFn()
-                })
-                .onError(function() {
-                  vu.geetOnReady = false
-                  vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
-                })
-                .onClose(function () {
-                    vu.loginLoading = false
-                })
-            }
-          )
+          // this.initGeetestAction(data);
+          this.initSenseAction(data);
         })
         .catch(() => {
           vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
         })
+    },
+    initSenseAction (data) {
+      let vu = this;
+      vu.$initSense({
+        id: data.id,        
+        onError:function(err){
+            console.log('gt error', err)
+        }
+      }, sense => {
+        vu.$refs.loginBefore.$el.addEventListener('click',() => {
+          return this.loginBefore(sense)
+        });
+        sense.setInfos(function () {
+          return {
+            interactive: 2  //用户场景
+          }
+        }).onSuccess(function (data) {
+          let params = {geetest_challenge: data.challenge}
+          vu.loginFn(params)
+        }).onClose(function(){
+          console.log('close')
+        }).onError(function(err){
+          console.log(err);
+          if(err && err.code === '1001'){
+              submit({})
+          }
+        })
+      });
+    },
+    initGeetestAction (data) {
+      vu.gtserver = data.gtserver
+      vu.$initGeetest(
+        {
+          gt: data.gt,
+          challenge: data.challenge,
+          offline: !data.success,
+          new_captcha: true,
+          product: 'bind',
+          lang: this.activeLang ? (this.activeLang === 'cn') ? 'zh-cn' : this.activeLang : 'zh-cn'
+        },
+        function(captchaObj) {
+          vu.geettest = captchaObj
+          captchaObj
+            .onReady(function() {
+              vu.geetOnReady = true
+            })
+            .onSuccess(function() {
+              var result = this.geettest.getValidate()
+              let params = {
+                geetest_challenge: result.geetest_challenge,
+                geetest_validate: result.geetest_validate,
+                geetest_seccode: result.geetest_seccode,
+                gtserver: vu.gtserver
+              }
+              vu.loginFn(params)
+            })
+            .onError(function() {
+              vu.geetOnReady = false
+              vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
+            })
+            .onClose(function () {
+                vu.loginLoading = false
+            })
+        }
+      )
     },
     onEnter (e) {
       if (e.keyCode === 13) {
