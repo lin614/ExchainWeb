@@ -309,7 +309,7 @@ export default {
             this.initMainMarketPrice = res.data.result;
             let mainMarketPrice = res.data.result;
 
-            // */USDT 交易对的价格
+            // USDT 交易对的价格
             let usdtArr = [];
             for (var i = 0; i < mainMarketPrice.length; i++) {
               if (mainMarketPrice[i].name.index('/USDT') !== -1) {
@@ -329,10 +329,9 @@ export default {
             }
 
             // 非 */USDT 的交易对，价格需转换成美元价格
-          
-          if (info.cur != 'USDT') {
-            legalMoney *= infoCur ? infoCur.price : 1 // 此处的price？
-          }
+            if (info.cur != 'USDT') {
+              legalMoney *= infoCur ? infoCur.price : 1 // 此处的price？
+            }
 
           // 中英文模式价格显示
           // if (this.$t('common.lang') === 'cn') {
