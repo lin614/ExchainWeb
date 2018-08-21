@@ -162,7 +162,7 @@ export default {
     }
   },
   methods: {
-    sendemailBefore(sense) {
+    sendemailBefore() {
       if (this.sendCodeLoading) {
         return
       }
@@ -170,7 +170,7 @@ export default {
       this.$refs['resetInfo'].validateField('email', function(error) {
         if (!error) {
           vu.geettestFlag = 'SEND_EMAIL_CODEA';
-          sense.sense();
+          vu.sense.sense();
         }
       })
     },
@@ -214,13 +214,13 @@ export default {
         });
     },
 
-    resSetPwd(sense) {
+    resSetPwd() {
       var vu = this
       this.resetLoading = true
       this.$refs['resetInfo'].validate(valid => {
         if (valid) {
           vu.geettestFlag = 'SUBMIT_DATA';
-          sense.sense();
+          vu.sense.sense();
         } else {
           vu.resetLoading = false
         }
@@ -299,13 +299,9 @@ export default {
             console.log('gt error', err)
         }
       }, sense => {
-        vu.$refs.sendEmail.addEventListener('click',() => {
-          return this.sendemailBefore(sense)
-        });
-        
-        vu.$refs.reset.$el.addEventListener('click', () => {
-          return this.resSetPwd(sense)
-        });
+        vu.sense = sense;
+        vu.$refs.sendEmail.addEventListener('click', this.sendemailBefore);
+        vu.$refs.reset.$el.addEventListener('click', this.resSetPwd);
 
         sense.setInfos(function () {
           return {
@@ -438,6 +434,8 @@ export default {
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.resetInfo.resetFields()
+      vu.$refs.sendEmail.removeEventListener('click', this.sendemailBefore, false);
+      vu.$refs.reset.$el.removeEventListener('click', this.resSetPwd, false);
       this.initGeetest()
     })
     window.addEventListener('keyup', this.onEnter)

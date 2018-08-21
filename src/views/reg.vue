@@ -78,6 +78,7 @@ export default {
         pwd2: '',
         code: ''
       },
+      sense: null,
       geettestFlag: '',
       codeDown: false,
       regLoading: false,
@@ -166,7 +167,7 @@ export default {
     }
   },
   methods: {
-    sendemailBefore(sense) {
+    sendemailBefore() {
       if (this.sendCodeLoading) {
         return
       }
@@ -174,7 +175,7 @@ export default {
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
           vu.geettestFlag = 'SEND_EMAIL_CODEA';
-          sense.sense();
+          vu.sense.sense();
         }
       })
     },
@@ -218,13 +219,13 @@ export default {
         })
     },
 
-    regUser(sense) {
+    regUser() {
       var vu = this
       this.regLoading = true
       this.$refs['regInfo'].validate(valid => {
         if (valid) {
           vu.geettestFlag = 'SUBMIT_DATA';
-          sense.sense();
+          vu.sense.sense();
         } else {
           vu.regLoading = false
         }
@@ -301,7 +302,6 @@ export default {
 
     initSenseAction (data) {
       let vu = this;
-      debugger
       vu.$initSense({
         id: data.id,
         lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',
@@ -309,13 +309,9 @@ export default {
             console.log('gt error', err)
         }
       }, sense => {
-        vu.$refs.sendEmail.addEventListener('click',() => {
-          return this.sendemailBefore(sense)
-        });
-        
-        vu.$refs.regUser.$el.addEventListener('click', () => {
-          return this.regUser(sense)
-        });
+        vu.sense = sense;
+        vu.$refs.sendEmail.addEventListener('click', this.sendemailBefore);
+        vu.$refs.regUser.$el.addEventListener('click', this.regUser);
 
         sense.setInfos(function () {
           return {
@@ -330,7 +326,6 @@ export default {
             vu.sendEmail(params)
           }
         }).onClose(function(){
-          sense.reset();
           vu.regLoading = false
           console.log('close')
         }).onError(function(err){
@@ -453,8 +448,10 @@ export default {
     
     var vu = this
     bus.$on('langChange', () => {
-      vu.$refs.regInfo.resetFields()
-      this.initGeetest()
+      vu.$refs.regInfo.resetFields();
+      vu.$refs.sendEmail.removeEventListener('click', this.sendemailBefore, false);
+      vu.$refs.regUser.$el.removeEventListener('click', this.regUser, false);
+      this.initGeetest();
     })
     window.addEventListener('keyup', this.onEnter)
   },

@@ -1,4 +1,3 @@
-
 <template>
   <page>
     <div class="login">
@@ -61,6 +60,7 @@ export default {
       geetOnReady: false,
       loginLoading: false,
       gtserver: '',
+      sense: null,
       loginInfo: {
         email: '',
         pwd: ''
@@ -108,14 +108,14 @@ export default {
     }
   },
   methods: {
-    loginBefore(sense) {
+    loginBefore() {
       if (this.loginLoading) {
         return
       }
       this.loginLoading = true
       this.$refs['loginInfo'].validate(valid => {
         if (valid) {
-          sense.sense();
+          this.sense.sense();
         } else {
           this.loginLoading = false
         }
@@ -229,9 +229,8 @@ export default {
             console.log('gt error', err)
         }
       }, sense => {
-        vu.$refs.loginBefore.$el.addEventListener('click',() => {
-          return this.loginBefore(sense)
-        });
+        vu.sense = sense;
+        vu.$refs.loginBefore.$el.addEventListener('click', this.loginBefore);
         sense.setInfos(function () {
           return {
             interactive: 2  //用户场景
@@ -242,7 +241,6 @@ export default {
         }).onClose(function(){
           console.log('close')
           vu.loginLoading = false
-          sense.reset();
         }).onError(function(err){
           console.log(err);
           if(err && err.code === '1001'){
@@ -299,6 +297,7 @@ export default {
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.loginInfo.resetFields()
+      vu.$refs.loginBefore.$el.removeEventListener('click', this.loginBefore, false);
       this.initGeetest()
     })
     window.addEventListener('keyup', this.onEnter)
