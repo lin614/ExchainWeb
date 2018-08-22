@@ -43,10 +43,11 @@ export default (url = DEFAULT_URL) => {
     };
 
     WS.onmessage = (e) => {
-        let data = decode(e.data);
-        console.log(e)
+        // let data = decode(e.data);
+        // console.log(e)
         let msg = JSON.parse(data);
-        console.log('onmessage', msg)
+        console.log('onmessage', msg.channel)
+        console.log('onmessage', msg.data)
         if (msg.status === 0) {
             EventBus.$emit("wsUpdate", msg);
         }
