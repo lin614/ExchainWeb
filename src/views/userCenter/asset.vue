@@ -927,7 +927,7 @@ export default {
           text-align: center;
           color: #fff;
           font-size: 16px;
-          border-radius: 4px;
+          border-radius: 0px;
           background-color: @font-color-blue;
           cursor: pointer;
         }

@@ -462,7 +462,7 @@ export default {
         height: 180px;
         padding-top: 25px;
         background: rgba(245,248,253,1);
-        border-radius: 8px;
+        border-radius: 0px;
         text-align: center;
         cursor: pointer;
         img {
@@ -476,7 +476,7 @@ export default {
         top: 0;
         width: 280px;
         height: 180px;
-        border-radius: 8px;
+        border-radius: 0px;
       }
       .ivu-upload .tip {
         font-size: 16px;
@@ -500,7 +500,7 @@ export default {
           height: 180px;
           text-align: center;
           background: rgba(245,248,253,1);
-          border-radius: 8px;
+          border-radius: 0px;
           img {
             display: inline;
           }

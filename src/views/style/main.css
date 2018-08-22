@@ -2,7 +2,7 @@ body {
     font-size: 14px;
 }
 
-.page_content-padding .page_content{
+.page_content-padding .page_content {
     padding-top: 40px;
     padding-bottom: 24px;
 }
@@ -10,6 +10,7 @@ body {
 .model-btn-wrap {
     font-size: 16px;
 }
+
 .model-btn-wrap .model-btn {
     position: relative;
     width: 160px;
@@ -21,8 +22,9 @@ body {
     color: #419aec;
     background-color: #fff;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 0px;
 }
+
 .model-btn-wrap .model-btn:hover {
     color: #fff;
     background-color: #419aec;
@@ -31,37 +33,43 @@ body {
 .model-btn-wrap .primary {
     color: #fff;
     background-color: #419aec;
-  }
-
-
-
+}
 
 /* 统一成50 */
+
 .ivu-btn {
     font-size: 16px;
 }
+
 /* 表单文字 */
+
 .ivu-form-item-content {
     font-size: 14px;
 }
+
 .ivu-form .ivu-form-item-label {
     font-size: 14px;
 }
-.ivu-select-item{
+
+.ivu-select-item {
     font-size: 14px;
 }
+
 .ivu-input {
-    height: 50px;
+    height: 40px;
 }
+
 .ivu-select-single .ivu-select-selection {
-    height: 50px;
+    height: 40px;
 }
+
 .ivu-select-single .ivu-select-selection .ivu-select-placeholder,
 .ivu-select-single .ivu-select-selection .ivu-select-selected-value {
-    height: 50px;
+    height: 40px;
     line-height: 50px;
 }
+
 .btn-large {
-    height: 50px;
-    border-radius: 4px;
+    height: 40px;
+    border-radius: 0px;
 }

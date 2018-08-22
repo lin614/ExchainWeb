@@ -388,11 +388,11 @@ export default {
       // display: inline-block;
       box-sizing: border-box;
       min-width: 140px;
-      height: 50px;
-      line-height: 48px;
+      height: 40px;
+      line-height: 40px;
       padding: 0 10px;
       border: 1px solid #5999e5;
-      border-radius: 4px;
+      border-radius: 0px;
       color: #5999e5;
       background-color: #fff;
       text-align: center;

@@ -513,16 +513,16 @@ export default {
     color: #fff;
     background-color: #999;
     text-align: center;
-    border-radius: 4px;
+    border-radius: 0px;
   }
   .send-code-btn {
     position: relative;
     // display: inline-block;
     box-sizing: border-box;
     min-width: 140px;
-    height: 50px;
-    line-height: 48px;
-    border-radius: 4px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 0px;
     padding: 0 10px;
     border: 1px solid #419aec;
     color: #419aec;

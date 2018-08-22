@@ -71,7 +71,7 @@ export default {
       background: #00B67E;
       text-align: center;
       line-height: 40px;
-      border-radius: 5px;
+      border-radius: 0px;
       display: inline-block;
     }
   }
