@@ -95,7 +95,7 @@ cookie.set('exchain_language', lang, {
 
 
 Vue.config.lang = lang;
-console.log('lang = ' + lang)
+// console.log('lang = ' + lang)
 // 多语言配置
 // const locales = Locales;
 const mergeZH = assign(LangZhCn, zhLocale);
@@ -113,7 +113,7 @@ const i18n = new VueI18n({
     messages
 })
 
-console.log('i18n', i18n);
+// console.log('i18n', i18n);
 
 // 路由配置
 const RouterConfig = {
@@ -132,7 +132,7 @@ Vue.prototype.toTrade = function (pair) {
 }
 
 router.beforeEach((to, from, next) => {
-    console.log(to)
+    // console.log(to)
     if (!to.meta.noNeedLogin && cookie.get('PN', {
             domain: config.url.domain
         }) == null) {

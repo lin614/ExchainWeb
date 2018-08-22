@@ -350,9 +350,9 @@ export default {
               new_password: md5(vu.changePwdModal.password)
             })
             .then(res => {
-              console.log(res)
+              // console.log(res)
               if (res.status == '200' && res.data.errorCode == 0) {
-                console.log(res.data)
+                // console.log(res.data)
                 vu.changeLoading = false
                 vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
                 vu.showChangePwd = false
@@ -366,7 +366,7 @@ export default {
               apiReqError(vu, err);
             })
         } else {
-          console.log(4)
+          // console.log(4)
           vu.changeLoading = false
         }
       })

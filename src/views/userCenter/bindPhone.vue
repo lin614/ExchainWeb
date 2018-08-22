@@ -238,9 +238,9 @@ export default {
       // this.confirmLoading = true
       var vu = this
       this.$refs[form].validate(valid => {
-        console.log(2)
+        // console.log(2)
         if (valid) {
-          console.log(3)
+          // console.log(3)
           ax({
             url: config.url.user + '/api/user/verifyBindPhone',
             method: 'post',

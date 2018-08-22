@@ -148,14 +148,14 @@ export default {
       this.showLogin = true
     },
     handleCloseLoginModal() {
-      console.log(this.$refs['loginForm'])
+      // console.log(this.$refs['loginForm'])
       this.$refs['loginForm'].resetFields()
       this.showLogin = false
     },
     logout() {
       ax.get(config.url.user + '/api/user/logout', getHeader).then(res => {
         if (res.status === 200 && res.data.meta.code === 0) {
-          console.log('登出')
+          // console.log('登出')
         } else {
           apiError(this, res);
         }
@@ -164,7 +164,7 @@ export default {
       cookie.remove('PN')
       cookie.remove('PN', { domain: config.url.domain })
 
-      console.log(this.$router)
+      // console.log(this.$router)
       this.$router.go({
         path: '/',
         force: true

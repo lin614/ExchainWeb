@@ -99,7 +99,7 @@ export default {
     this.getAddress(this.token)
   },
   beforeDestroy () {
-    console.log(1111);
+    // console.log(1111);
   }
 }
 </script>

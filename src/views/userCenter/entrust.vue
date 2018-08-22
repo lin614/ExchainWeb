@@ -56,7 +56,7 @@ export default {
           width: 100,
           render: function(h, params) {
             // var vu = this
-            console.log(vu)
+            // console.log(vu)
             return h(
               'div',
               {
@@ -133,7 +133,7 @@ export default {
           width: 100,
           render: function(h, params) {
             // var vu = this
-            console.log(vu)
+            // console.log(vu)
             return h(
               'div',
               {
@@ -378,7 +378,7 @@ export default {
       util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
       util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
     })
-    console.log(getHeader)
+    // console.log(getHeader)
   },
   created() {
     global.getHeader = (() => {

@@ -167,7 +167,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    console.log(params)
+                    // console.log(params)
                     if (params.row.parm_) {
                       vu.toTrade(params.row.parm_)
                     }
@@ -299,12 +299,12 @@ export default {
       this.data1[i].parm_ = arr.join('_').toLowerCase()
     }
     var list = [...this.data1, ...this.data2, ...this.data3, ...this.data4]
-    console.log(list)
+    // console.log(list)
     for (var i in list) {
       var arr = list[i].pair.split('/')
       list[i].parm = arr.join('').toLowerCase()
       list[i].parm_ = arr.join('_').toLowerCase()
-      console.log(list[i].parm)
+      // console.log(list[i].parm)
       list[i].cur = list[i].pair.split('/')[1]
       //订阅
       console.log('huobi.market.' + list[i].parm + '.kline.1day')
