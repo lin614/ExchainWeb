@@ -209,6 +209,7 @@ export default {
     a {
       display: block;
       img {
+        width: 156px;
         height: 35px;
         vertical-align: middle;
       }
