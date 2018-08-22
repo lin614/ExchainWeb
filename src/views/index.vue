@@ -1,6 +1,6 @@
 <template>
-  <page :banner="true">
-    <index_cards :style="{marginTop:'16px'}"></index_cards>
+  <page :banner="true" class="page_content-padding">
+    <index_cards></index_cards>
     <index_content></index_content>
   </page>
 

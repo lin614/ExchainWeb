@@ -2,6 +2,11 @@ body {
     font-size: 14px;
 }
 
+.page_content-padding .page_content{
+    padding-top: 40px;
+    padding-bottom: 24px;
+}
+
 .model-btn-wrap {
     font-size: 16px;
 }

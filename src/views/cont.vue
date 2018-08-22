@@ -1,6 +1,6 @@
 
 <template>
-    <page>
+    <page class="page_content-padding">
         <div class="cont">
             <block>
                 <crd slot="inner">

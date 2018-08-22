@@ -28,7 +28,7 @@ export default {
   name: 'crd',
   props: {
     potColor: {
-      default: 'black'
+      default: '#2b85e4'
     },
     hideTitle: {
       default: false

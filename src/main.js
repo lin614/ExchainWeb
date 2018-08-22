@@ -36,6 +36,7 @@ global.javaApiReqError = javaApiReqError;
 import './static/icons/iconfont.css'
 import './views/style/main.css'
 import './libs/gt'
+import './libs/gt.sense'
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -185,6 +186,7 @@ const store = new Vuex.Store({
 });
 
 Vue.prototype.$initGeetest = window.initGeetest
+Vue.prototype.$initSense = window.initSense
 
 //关键词
 import MetaInfo from 'vue-meta-info'
