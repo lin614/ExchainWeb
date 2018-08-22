@@ -1,5 +1,5 @@
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="user-center-cont">
       <div class="content-body-main clearfix">
         <crd potColor="#11b588">
@@ -435,7 +435,6 @@ export default {
 <style lang="less">
 .user-center-cont {
   width: 100%;
-  padding-top: 40px;
   background-color: #f6f6f6;
   .card-box {
     padding: 0 60px;

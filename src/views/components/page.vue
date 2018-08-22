@@ -33,7 +33,7 @@ export default {
 <style>
 .page {
   &_content {
-    min-height: 800px;
+    /* min-height: 800px; */
   }
 }
 </style>

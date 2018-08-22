@@ -1,5 +1,5 @@
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="kyc-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main">
         <crd potColor="#429aeb">
@@ -434,7 +434,6 @@ export default {
 
 <style lang="less">
   .kyc-cont {
-    padding-top: 40px;
     font-size: 14px;
     .kyc-main {
       padding: 60px;
