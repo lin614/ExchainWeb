@@ -16,6 +16,7 @@ import LangZhCn from './static/i18n/zh-cn.js'
 import LangEnUs from './static/i18n/en-us.js'
 import assign from 'object-assign';
 import bus from './views/js/eventBus.js'
+import 'babel-polyfill'
 import {
     apiError,
     javaApiReqError,
