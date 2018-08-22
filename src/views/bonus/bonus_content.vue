@@ -272,9 +272,7 @@ export default {
 <style lang="less">
 @import url(../style/config.less);
 .bonus_content {
-  margin-top: 16px;
   line-height: 40px;
-  padding-top: 40px;
   //   .pa-c {
   .lv {
     height: 80px;

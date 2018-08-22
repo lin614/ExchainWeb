@@ -1,5 +1,5 @@
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="entrust-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main clearfix">
         <crd potColor="#4399e9">
@@ -410,7 +410,6 @@ export default {
   }
   box-sizing: border-box;
   width: 100%;
-  padding-top: 40px;
   background-color: #f6f6f6;
   .crd {
     margin-bottom: 0;

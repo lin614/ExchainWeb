@@ -1,6 +1,6 @@
 
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="reset">
       <block>
         <crd slot="inner">
@@ -452,7 +452,6 @@ export default {
 <style lang="less">
 @import url(./style/config.less);
 .reset {
-  padding-top: 16px;
   .btn-large {
     position: relative;
   }

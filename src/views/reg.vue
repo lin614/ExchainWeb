@@ -1,6 +1,5 @@
-
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="reg">
       <block>
         <crd slot="inner">
@@ -464,7 +463,6 @@ export default {
 <style lang="less">
 @import url(./style/config.less);
 .reg {
-  padding-top: 16px;
   .ivu-input {
     font-size: @font-text;
   }
