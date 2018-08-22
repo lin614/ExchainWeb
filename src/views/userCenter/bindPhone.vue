@@ -79,7 +79,7 @@ export default {
       type: '',
       nationalityList: [],
       bindForm: {
-        nationality: '0086',
+        nationality: '86',
         phone: '',
         phoneCode: '',
         googleCode: ''
@@ -318,7 +318,7 @@ export default {
         .catch(err => {
           apiReqError(vu, err)
         })
-    },
+    }
   },
   mounted() {
     var bindStatus = sessionStorage.getItem('bindPhone')
@@ -415,8 +415,11 @@ export default {
     }
     .ivu-input {
       box-sizing: border-box;
-      height: 50px;
-      padding: 10px 20px;
+      height: 40px;
+      // padding: 10px 20px;
+    }
+    .ivu-btn {
+      border-radius: 0px;
     }
     .ivu-btn-primary {
       height: 60px;
