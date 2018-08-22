@@ -43,7 +43,7 @@ export default (url = DEFAULT_URL) => {
     };
 
     WS.onmessage = (e) => {
-        // let data = decode(e.data);
+        let data = decode(e.data);
         // console.log(e)
         let msg = JSON.parse(data);
         console.log('onmessage', msg.channel)
