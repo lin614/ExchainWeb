@@ -14,7 +14,15 @@ import enLocale from 'iview/dist/locale/en-US';
 import ax from 'axios'
 import LangZhCn from './static/i18n/zh-cn.js'
 import LangEnUs from './static/i18n/en-us.js'
+import assign from 'object-assign';
 import bus from './views/js/eventBus.js'
+import 'babel-polyfill'
+import {
+    apiError,
+    javaApiReqError,
+    apiReqError
+} from './libs/utils/apiError.js'
+
 import {
     sub,
     unsub
@@ -22,13 +30,14 @@ import {
 import ws from './views/js/websocket.js'
 global.ws = ws()
 global.bus = bus
-
-
-
-
+global.apiError = apiError;
+global.apiReqError = apiReqError;
+global.javaApiReqError = javaApiReqError;
 
 import './static/icons/iconfont.css'
+import './views/style/main.css'
 import './libs/gt'
+import './libs/gt.sense'
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -40,6 +49,10 @@ import config from './config/config'
 import {
     isBoolean
 } from 'util';
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+Vue.http.options.emulateJSON = true;
+
 global.getHeader = (() => {
     return {
         headers: {
@@ -49,7 +62,16 @@ global.getHeader = (() => {
         }
     }
 })()
-console.log(getHeader)
+
+//生成参数字符串
+global.toParmStr = obj => {
+    // var list = obj.map(p => p.key + '=' + p.value)
+    var list = []
+    for (var k in obj) {
+        list.push(k + '=' + obj[k])
+    }
+    return list.join('&')
+}
 ax.defaults.headers.post['Content-Type'] = "application/json"
 // ax.defaults.headers.post['referer'] = config.url.domain
 // ax.defaults.headers.post['origin'] = config.url.domain
@@ -61,15 +83,23 @@ if (localLang === 'zh-CN') {
 } else if (localLang === 'en-US') {
     localLang = 'en'
 }
-const lang = window.localStorage.getItem('language') || localLang || 'cn';
+// const lang = window.localStorage.getItem('exchain_language') || localLang || 'cn';
 // window.localStorage.setItem('exchain_language', lang);
+
+const lang = cookie.get('exchain_language', {
+    domain: config.url.domain
+}) || localLang || 'cn';
+cookie.set('exchain_language', lang, {
+    domain: config.url.domain
+})
+
 
 Vue.config.lang = lang;
 console.log('lang = ' + lang)
 // 多语言配置
 // const locales = Locales;
-const mergeZH = Object.assign(LangZhCn, zhLocale);
-const mergeEN = Object.assign(LangEnUs, enLocale);
+const mergeZH = assign(LangZhCn, zhLocale);
+const mergeEN = assign(LangEnUs, enLocale);
 
 const messages = {
     cn: mergeZH,
@@ -82,6 +112,8 @@ const i18n = new VueI18n({
     locale: lang,
     messages
 })
+
+console.log('i18n', i18n);
 
 // 路由配置
 const RouterConfig = {
@@ -129,7 +161,8 @@ const store = new Vuex.Store({
         email: '',
         mtime: '',
         kycphoneStatus: '0',
-        idCardStatus: '0'
+        idCardStatus: '0',
+        marketPrecision: '',
     },
     mutations: {
         setActiveLang(s, data) {
@@ -139,7 +172,9 @@ const store = new Vuex.Store({
             s.email = data.email
             s.mtime = data.mtime
         },
-
+        setMarketPrecision(s, data) {
+            s.marketPrecision = data
+        }
     },
     getters: {
         // islogin: function () {
@@ -152,12 +187,29 @@ const store = new Vuex.Store({
 });
 
 Vue.prototype.$initGeetest = window.initGeetest
+Vue.prototype.$initSense = window.initSense
 
+//关键词
+import MetaInfo from 'vue-meta-info'
+Vue.use(MetaInfo)
 new Vue({
     el: '#app',
     router: router,
     i18n,
     store: store,
     render: h => h(App),
-    mounted() {}
+    mounted() {
+
+    },
+    metaInfo: {
+        title: 'Exchain', // set a title
+        meta: [{ // set meta
+            name: 'keyWords',
+            content: 'Exchain、Exchain交易所、交易所、买币、比特币、ETH、BTC、以太坊、USDT、ET、交易即挖矿、合作伙伴'
+        }],
+        link: [{
+            rel: 'asstes',
+            href: 'https://www.exchain.com/'
+        }]
+    }
 });

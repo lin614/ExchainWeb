@@ -1,5 +1,5 @@
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="user-center-cont">
       <div class="content-body-main clearfix">
         <crd potColor="#11b588">
@@ -21,7 +21,7 @@
               </router-link>
             </div>
             <div class="basic-btm">
-              <span class="recent-time">{{ $t('userCenter.index.baseInfo.recentLoginTime') }} : {{mtime ? mtime : userMtime}}</span>
+              <span class="recent-time">{{ $t('userCenter.index.baseInfo.recentLoginTime') }} : {{mtime ? mtime : userMtime}}（GMT+8）</span>
               <span>IP: {{userIP}}</span>
             </div>
           </div>
@@ -51,23 +51,20 @@
           </div>
 
           <!-- 修改密码框 -->
-          <Modal v-model="showChangePwd"
-                 class-name="change-pwd-model"
-                 :closable="false"
-                 :on-cancel="handleCloseChangePwd">
+          <Modal v-model="showChangePwd" class-name="change-pwd-model" :closable="false" :on-cancel="handleCloseChangePwd">
             <crd potColor="#4399e9">
               <span slot="title">{{ $t('userCenter.index.changePwd.title') }}</span>
               <div class="form-box">
                 <Form ref="formCustom" :rules="rules" :model="changePwdModal" label-position="top">
-                  <FormItem :label="$t('userCenter.index.changePwd.curPwd')" prop="currentPwd">
+                  <FormItem :label="$t('userCenter.index.changePwd.curPwd')" prop="currentPwd" class="ivu-form-item-required">
                     <Input type="password" v-model="changePwdModal.currentPwd"></Input>
                   </FormItem>
-                  <FormItem prop="password">
+                  <FormItem prop="password" class="ivu-form-item-required">
                     <span slot="label">{{ $t('userCenter.index.changePwd.newPwd') }}
                     </span>
                     <Input type="password" v-model="changePwdModal.password"></Input>
                   </FormItem>
-                  <FormItem :label="$t('userCenter.index.changePwd.confirmPwd')" prop="confirmPwd">
+                  <FormItem :label="$t('userCenter.index.changePwd.confirmPwd')" prop="confirmPwd" class="ivu-form-item-required">
                     <Input type="password" v-model="changePwdModal.confirmPwd"></Input>
                     <!-- <div class="pwd-rule">
                        密码要求：8 - 32个字符，至少一个大写字母，至少一个数字，至少一个特殊字符〜！@＃$％^＆*（）_ +
@@ -78,16 +75,17 @@
             </crd>
 
             <div slot="footer">
-              <div class="change-model-footer clearfix">
-                <span class="model-btn model-btn-active fl" @click="handleChangePwd('formCustom')">
-                  <Spin v-if="changeLoading" fix size="small"></Spin>{{ $t('userCenter.index.changePwd.change') }}</span>
+              <div class="model-btn-wrap clearfix">
+                <span class="model-btn primary fl" @click="handleChangePwd('formCustom')">
+                  <Spin v-if="changeLoading" fix size="small"></Spin>{{ $t('userCenter.index.changePwd.change') }}
+                </span>
                 <span class="model-btn fr" @click="handleCloseChangePwd('formCustom')">{{ $t('userCenter.index.changePwd.cancel') }}</span>
               </div>
             </div>
           </Modal>
 
           <!-- 谷歌验证框 -->
-          <Modal v-model="showGAModel" class-name="change-pwd-model" :closable="false">
+          <!-- <Modal v-model="showGAModel" class-name="change-pwd-model" :closable="false">
             <crd potColor="#4399e9">
               <span slot="title">身份验证</span>
               <div class="form-box">
@@ -135,7 +133,7 @@
                   <Spin v-if="changeLoading" size="small"></Spin>身份验证</span>
               </div>
             </div>
-          </Modal>
+          </Modal> -->
         </crd>
         <crd potColor="#fe7263">
           <span slot="title">{{ $t('userCenter.index.loginLog.title') }}</span>
@@ -159,9 +157,6 @@ import cookie from 'js-cookie'
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
-console.log(cookie.get('PN', {
-  domain: config.url.domain
-}))
 export default {
   name: 'usercenter',
   components: {
@@ -188,10 +183,12 @@ export default {
   },
   watch: {
     recentUserInfo() {
-      this.mtime = this.recentUserInfo[0].time
-      this.userIP = this.recentUserInfo[0].ip
+      if (this.recentUserInfo[0]) {
+        this.mtime = this.recentUserInfo[0].time
+        this.userIP = this.recentUserInfo[0].ip
+      }
     },
-    showChangePwd () {
+    showChangePwd() {
       if (!this.showChangePwd) {
         this.$refs.formCustom.resetFields()
       }
@@ -248,30 +245,47 @@ export default {
       rules: {
         currentPwd: [
           {
-            required: true,
-            message: this.$t('errorMsg.CURRENT_PASSWORD_BLANK'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.CURRENT_PASSWORD_BLANK'))
+              }
+              if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         password: [
           {
-            required: true,
-            message: this.$t('errorMsg.NEW_PASSWORD_BLANK'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.NEW_PASSWORD_BLANK'))
+              }
+              if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         confirmPwd: [
           {
-            required: true,
-            message: this.$t('errorMsg.CONFIRM_PASSWORD_BLANK'),
-            trigger: 'blur'
-          },
-          {
             validator: (rule, value, callback) => {
-              if ( this.changePwdModal.password === this.changePwdModal.confirmPwd ) {
-                callback()
-              } else {
+              if (!value) {
+                callback(this.$t('errorMsg.CONFIRM_PASSWORD_BLANK'))
+              }
+              if (!util.checkPwd(value)) {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+              if (value != this.changePwdModal.password) {
                 callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
+              } else {
+                callback()
               }
               callback()
             },
@@ -304,7 +318,7 @@ export default {
               sessionStorage.setItem('bindPhone', 'bind')
               vu.userNum =
                 '+ ' +
-                res.data.result.phone.code +
+                res.data.result.phone.country +
                 ' ' +
                 res.data.result.phone.number
             } else {
@@ -315,11 +329,11 @@ export default {
             sessionStorage.setItem('email', res.data.result.email)
             sessionStorage.setItem('userNum', vu.userNum)
           } else {
-            console.log('网络异常！')
+            apiError(vu, res);
           }
         })
         .catch(err => {
-          console.log('网络异常！')
+          apiReqError(vu, err);
         })
     },
     handleShowChangePwdModel() {
@@ -344,12 +358,12 @@ export default {
                 vu.showChangePwd = false
               } else {
                 vu.changeLoading = false
-                vu.$Message.error(vu.$t('errorMsg.FAIL'))
+                apiError(vu, res);
               }
             })
             .catch(err => {
               vu.changeLoading = false
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+              apiReqError(vu, err);
             })
         } else {
           console.log(4)
@@ -359,25 +373,21 @@ export default {
     },
     getRecentActivity() {
       var vu = this
-      console.log(cookie.get('PN', {
-        domain: config.url.domain
-      }))
       ax
         .get(config.url.user + '/api/user/getRecentActivity', getHeader)
         .then(res => {
-          console.log(typeof res.status)
           if (res.status === 200 && res.data.errorCode === 0) {
             vu.recentUserInfo = res.data.result.data
-            console.log(vu.recentUserInfo)
+          } else {
+            apiError(vu, res);
           }
         })
         .catch(err => {
-          //
+          apiReqError(vu, err);
         })
     },
     handleCloseChangePwd(form) {
       this.changeLoading = false
-      console.log(this.$refs[form])
       this.$refs[form].resetFields()
       this.showChangePwd = false
     },
@@ -390,13 +400,13 @@ export default {
   },
   mounted() {
     global.getHeader = (() => {
-        return {
-            headers: {
-                'X-EXCHAIN-PN': cookie.get('PN', {
-                    domain: config.url.domain
-                })
-            }
+      return {
+        headers: {
+          'X-EXCHAIN-PN': cookie.get('PN', {
+            domain: config.url.domain
+          })
         }
+      }
     })()
     ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
       domain: config.url.domain
@@ -425,7 +435,6 @@ export default {
 <style lang="less">
 .user-center-cont {
   width: 100%;
-  padding-top: 40px;
   background-color: #f6f6f6;
   .card-box {
     padding: 0 60px;
@@ -503,7 +512,7 @@ export default {
 }
 .change-pwd-model,
 .login-model {
-  display: flex;
+  // display: flex;
   align-items: center;
   justify-content: center;
   .ivu-modal {
@@ -531,26 +540,6 @@ export default {
     }
     .pwd-rule {
       padding-top: 40px;
-    }
-    .model-btn {
-      position: relative;
-      // display: inline-block;
-      width: 160px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      border: 1px solid #5999e5;
-      color: #5999e5;
-      background-color: #fff;
-      cursor: pointer;
-      // &:hover {
-      //   color: #fff;
-      //   background-color: #5999E5;
-      // }
-    }
-    .model-btn-active {
-      color: #fff;
-      background-color: #5999e5;
     }
   }
 }

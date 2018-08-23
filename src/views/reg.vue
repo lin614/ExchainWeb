@@ -1,6 +1,5 @@
-
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="reg">
       <block>
         <crd slot="inner">
@@ -8,34 +7,38 @@
           <div class=" content">
             <h1>{{$t('register.dec')}}</h1>
             <hr/>
+            <!-- <h1 style="text-align:center;">即将开放注册，敬请期待！</h1> -->
             <div class="reg_form">
+              
               <Form ref="regInfo" label-position="top" :model="regInfo" :rules="rules">
-                <FormItem prop="email" :label="$t('register.email')">
+                <FormItem prop="email" :label="$t('register.email')" class="ivu-form-item-required">
                   <Input v-model="regInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
                 </FormItem>
-                <FormItem prop="emailcode" :label="$t('register.emailcode')">
-                  <Input v-model="regInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')"></Input>
+
+                <FormItem prop="emailcode" :label="$t('register.emailcode')" class="ivu-form-item-required">
+                  <Input v-model="regInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')" style="width: 360px"></Input>
+
+                  <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
+                  <div v-show="!codeDown" class="send-code-btn fr" ref="sendEmail"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
                 </FormItem>
-                <FormItem prop="pwd" :label="$t('register.pwd')">
-                  <Input v-model="regInfo.pwd" type="password" :placeholder="$t('register.pleaseIptPwd')">
-                  </Input>
+
+                <FormItem prop="pwd" :label="$t('register.pwd')" class="ivu-form-item-required">
+                  <Input v-model="regInfo.pwd" type="password" :placeholder="$t('register.pleaseIptPwd')"></Input>
                 </FormItem>
-                <FormItem prop="pwd2" :label="$t('register.pwd2')">
-                  <Input v-model="regInfo.pwd2" type="password" :placeholder="$t('register.pleaseInputPwd2')">
-                  </Input>
+
+                <FormItem prop="pwd2" :label="$t('register.pwd2')" class="ivu-form-item-required">
+                  <Input v-model="regInfo.pwd2" type="password" :placeholder="$t('register.pleaseInputPwd2')"></Input>
                 </FormItem>
+
                 <FormItem prop="code" :label="$t('register.code')">
-                  <Input v-model="regInfo.code" type="text" placeholder="">
-                  </Input>
+                  <Input v-model="regInfo.code" type="text" placeholder=""></Input>
                 </FormItem>
+
                 <FormItem>
-                  <Button type="primary" @click="regUser('regInfo')">{{$t('register.registerBtn')}}</Button> {{$t('register.toLogin')}}
-                  <router-link to="/login">{{$t('register.login')}}</router-link>
+                  <Button class="btn-large" type="primary" ref="regUser"><Spin v-show="regLoading" :fix="true"></Spin>{{$t('register.registerBtn')}}</Button> {{$t('register.toLogin')}}
+                  <router-link class="login" to="/login">{{$t('register.login')}}</router-link>
                 </FormItem>
               </Form>
-            </div>
-            <div class="reg_sendemail">
-              <a @click="sendemail">{{$t('register.sendCode')}}</a>
             </div>
             <!-- <div class="info">
               <p>
@@ -57,72 +60,93 @@ import crd from './components/crd'
 import ax from 'axios'
 import config from '../config/config.js'
 import md5 from 'crypto-md5'
+import util from '../libs/util.js'
+
 export default {
   name: 'reg',
   components: { page, block, crd },
   data() {
-    var vu = this
-    var vali = function(rule, value, callback) {
-      if (value != vu.regInfo.pwd) {
-        callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
-      } else {
-        callback()
-      }
-    }
     return {
       regtoken: '',
       gtserver: '',
       regInfo: {
         email: '',
         emailcode: '',
+        source: '',
         pwd: '',
         pwd2: '',
         code: ''
       },
+      sense: null,
+      geettestFlag: '',
+      codeDown: false,
+      regLoading: false,
+      codeDownText: '',
+      timer: null,
       geettest: null,
       geetOnReady: false,
       sendCodeLoading: false,
       rules: {
         email: [
           {
-            required: true,
-            message: this.$t('errorMsg.EMAIL_BLANK'),
-            trigger: 'blur'
-          },
-          {
-            type: 'email',
-            message: this.$t('errorMsg.EMAIL_ERR'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.EMAIL_BLANK'))
+              }
+              if (value.length > 100) {
+                callback(this.$t('errorMsg.EMAIL_LIMIT_LENGTH'))
+              }
+              if (util.checkEmail(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.EMAIL_ERR'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         emailcode: [
           {
-            required: true,
-            message: this.$t('errorMsg.EMAIL_CODE_BLANK'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.EMAIL_CODE_BLANK'))
+              }
+              if (value.length > 20) {
+                callback(this.$t('errorMsg.EMAIL_CODE_LIMIT_LENGTH'))
+              }
+              if (util.checkCode(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.SYMBOL_ERR'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         pwd: [
           {
-            required: true,
-            message: this.$t('errorMsg.PWD_BLANK'),
-            trigger: 'blur'
-          },
-          {
-            type: 'string',
-            min: 6,
-            message: this.$t('errorMsg.PWD_LIMIT'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.PWD_BLANK'))
+              }
+              if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         pwd2: [
           {
-            required: true,
-            message: this.$t('errorMsg.PWD2_BLANK'),
-            trigger: 'blur'
-          },
-          {
             validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.PWD2_BLANK'))
+              }
+              if (!util.checkPwd(value)) {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
               if (value != this.regInfo.pwd) {
                 callback(this.$t('errorMsg.DIFFERENT_PASSWORD_IPT'))
               } else {
@@ -136,39 +160,102 @@ export default {
       }
     }
   },
+  computed: {
+    activeLang() {
+      return this.$store.state.activeLang
+    }
+  },
   methods: {
-    regUser(name) {
+    sendemailBefore() {
+      if (this.sendCodeLoading) {
+        return
+      }
       var vu = this
-      this.$refs[name].validate(valid => {
-        if (valid) {
-          if (vu.geetOnReady) {
-            vu.geettest.verify()
-          } else {
-            vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
-          }
-        } else {
-          vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
+      this.$refs['regInfo'].validateField('email', function(error) {
+        if (!error) {
+          vu.geettestFlag = 'SEND_EMAIL_CODEA';
+          vu.sense.sense();
         }
       })
     },
-    regUserFn() {
+
+    sendEmail (params) {
       var vu = this
-      var result = this.geettest.getValidate()
+      
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
+      vu.sendCodeLoading = true
+
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'dk-register'
+      } else {
+        captcha_type = 'dk-register-en'
+      }
+
+      params.email = vu.regInfo.email;
+      params.language = lang;
+      params.captcha_type = captcha_type;
+
       ax
-        .post(config.url.user + '/api/user/verifyRegister', {
-          email: vu.regInfo.email,
-          code: vu.regInfo.emailcode,
-          inviteCode: vu.regInfo.code,
-          token: vu.regtoken,
-          password: md5(vu.regInfo.pwd),
-          geetest_challenge: result.geetest_challenge,
-          geetest_validate: result.geetest_validate,
-          geetest_seccode: result.geetest_seccode,
-          gtserver: vu.gtserver
+        .post(config.url.user + '/api/user/register', params)
+        .then(function(res) {
+          vu.sendCodeLoading = false
+          if (res.status == '200' && res.data.errorCode == 0) {
+            vu.regtoken = res.data.result.token
+            vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
+            vu.codeDown = true;
+            vu.handleCodeDown();
+            // vu.geettest.reset();
+          } else {
+            // vu.geettest.reset();
+            apiError(vu, res);
+          }
         })
+        .catch((err) => {
+          // vu.geettest.reset();
+          vu.sendCodeLoading = false
+          apiReqError(vu, err);
+        })
+    },
+
+    regUser() {
+      var vu = this
+      this.regLoading = true
+      this.$refs['regInfo'].validate(valid => {
+        if (valid) {
+          vu.geettestFlag = 'SUBMIT_DATA';
+          vu.sense.sense();
+        } else {
+          vu.regLoading = false
+        }
+      })
+    },
+
+    regUserFn(params) {
+      var vu = this
+
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'dk-register'
+      } else {
+        captcha_type = 'dk-register-en'
+      }
+
+      params.email = vu.regInfo.email;
+      params.code = vu.regInfo.emailcode;
+      params.channel = vu.regInfo.source;
+      params.inviteCode = vu.regInfo.code;
+      params.token = vu.regtoken;
+      params.password = md5(vu.regInfo.pwd);
+      params.captcha_type = captcha_type;
+
+      ax
+        .post(config.url.user + '/api/user/verifyRegister', params)
         .then(function(res) {
           console.log(res)
           if (res.status == '200' && res.data.errorCode == 0) {
+            sessionStorage.removeItem('regInviteCode');
+            sessionStorage.removeItem('regSource');
             vu.$Message.success(vu.$t('errorMsg.REGISTER_SUCC'))
             vu.$router.push('/login')
             // vu.$Modal.success({
@@ -177,99 +264,198 @@ export default {
             //     vu.$router.push('/login')
             //   }
             // })
-          } else if (res.data.errorCode == 2) {
-            vu.geettest.reset()
-            vu.$Message.error(vu.$t('errorMsg.REGISTER_IPT_ERR'))
+            // vu.geettest.reset();
           } else {
-            vu.geettest.reset()
-            vu.$Message.error(vu.$t('errorMsg.FAIL'))
+            vu.regLoading = false
+            // vu.geettest.reset()
+            apiError(vu, res)
           }
         })
-        .catch(() => {
-          vu.geettest.reset()
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+        .catch((err) => {
+          vu.regLoading = false
+          // vu.geettest.reset()
+          apiReqError(vu, err)
         })
     },
-    sendemail() {
+
+    initGeetest() {
+      var vu = this
+      let params = null;
+
+      if (this.$t('common.lang') === 'cn') {
+        params = {type: 'dk-register'}
+      } else {
+        params = {type: 'dk-register-en'}
+      }
+
+      ax
+        .post(config.url.user + '/api/user/initCaptcha', params)
+        .then(res => {
+          var data = res.data
+          this.initSenseAction(data);
+        })
+        .catch(() => {
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
+        })
+    },
+
+    initSenseAction (data) {
+      let vu = this;
+      vu.$initSense({
+        id: data.id,
+        lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',
+        onError:function(err){
+            console.log('gt error', err)
+        }
+      }, sense => {
+        vu.sense = sense;
+        vu.$refs.sendEmail.addEventListener('click', this.sendemailBefore);
+        vu.$refs.regUser.$el.addEventListener('click', this.regUser);
+
+        sense.setInfos(function () {
+          return {
+            interactive: 1  //用户场景
+          }
+        }).onSuccess(function (data) {
+          if (vu.geettestFlag === 'SUBMIT_DATA') {
+            let params = {geetest_challenge: data.challenge}
+            vu.regUserFn(params);
+          } else {
+            let params = {geetest_challenge: data.challenge}
+            vu.sendEmail(params)
+          }
+        }).onClose(function(){
+          vu.regLoading = false
+          console.log('close')
+        }).onError(function(err){
+          console.log(err);
+          if(err && err.code === '1001'){
+              submit({})
+          }
+        })
+      });
+    },
+
+    initGeetestAction (data) {
+      vu.gtserver = data.gtserver
+      var result = this.geettest.getValidate()
+      vu.$initGeetest(
+        {
+          gt: data.gt,
+          challenge: data.challenge,
+          offline: !data.success,
+          new_captcha: true,
+          product: 'bind',
+          lang: this.activeLang ? (this.activeLang === 'cn') ? 'zh-cn' : this.activeLang : 'zh-cn'
+        },
+        function(captchaObj) {
+          vu.geettest = captchaObj
+          captchaObj
+            .onReady(function() {
+              console.log('onready')
+              vu.geetOnReady = true
+            })
+            .onSuccess(function() {
+              if (vu.geettestFlag === 'SUBMIT_DATA') {
+                let params = {
+                  geetest_challenge: result.geetest_challenge,
+                  geetest_validate: result.geetest_validate,
+                  geetest_seccode: result.geetest_seccode,
+                  gtserver: vu.gtserver
+                };
+                vu.regUserFn();
+              } else {
+                let params = {
+                  geetest_challenge: result.geetest_challenge,
+                  geetest_validate: result.geetest_validate,
+                  geetest_seccode: result.geetest_seccode,
+                  gtserver: vu.gtserver
+                }
+                vu.sendEmail();
+              }
+            })
+            .onError(function() {
+              vu.geetOnReady = false
+              vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
+            })
+            .onClose(function () {
+              vu.regLoading = false
+            })
+        }
+      )
+    },
+    /**
+     * 倒计时
+     */
+    handleCodeDown () {
+      var time = 60
+      this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+      clearInterval(this.timer)
+      this.timer = setInterval(() => {
+        time -= 1
+        if (time <= 0) {
+          this.codeDown = false
+          clearInterval(this.timer)
+        }
+        this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+      }, 1000)
+    },
+
+    sendemailBefore0() {
       if (this.sendCodeLoading) {
         return
       }
       var vu = this
       this.$refs['regInfo'].validateField('email', function(error) {
         if (!error) {
-          vu.sendCodeLoading = true
-          ax
-            .post(config.url.user + '/api/user/register', {
-              email: vu.regInfo.email
-            })
-            .then(function(res) {
-              vu.sendCodeLoading = false
-              if (res.status == '200' && res.data.errorCode == 0) {
-                vu.regtoken = res.data.result.token
-                vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
-              } else if (res.data.errorCode == 200) {
-                vu.$Message.error(vu.$t('errorMsg.USER_EXISTED'))
-              } else if (res.data.errorCode == 707) {
-                vu.$Message.error(vu.$t('errorMsg.REQ_LIMIT'))
-              } else {
-                vu.$Message.error(vu.$t('errorMsg.FAIL'))
-              }
-            })
-            .catch(() => {
-              vu.sendCodeLoading = false
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
-            })
-        } else {
-          vu.$Message.error(error)
+          if (vu.geetOnReady) {
+            vu.geettestFlag = 'SEND_EMAIL_CODEA';
+            vu.geettest.verify()
+          } else {
+            vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
+          }
         }
       })
     },
-    initGeetest() {
-      var vu = this
-      ax
-        .post(config.url.user + '/api/user/initCaptcha')
-        .then(res => {
-          var data = res.data
-          vu.gtserver = data.gtserver
-          vu.$initGeetest(
-            {
-              gt: data.gt,
-              challenge: data.challenge,
-              offline: !data.success,
-              new_captcha: true,
-              product: 'bind'
-            },
-            function(captchaObj) {
-              vu.geettest = captchaObj
-              captchaObj
-                .onReady(function() {
-                  console.log('onready')
-                  vu.geetOnReady = true
-                })
-                .onSuccess(function() {
-                  vu.regUserFn()
-                })
-                .onError(function() {
-                  vu.geetOnReady = false
-                  vu.$Message.error(this.$t('errorMsg.GEET_INIT_ERR'))
-                })
-            }
-          )
-        })
-        .catch(() => {
-          console.log('network error')
-        })
+
+    onEnter (e) {
+      if (e.keyCode === 13) {
+        this.regUser('regInfo')
+      }
     }
   },
   created() {
     this.initGeetest()
     this.regInfo.code = this.$route.params.code
+    this.regInfo.source = this.$route.query.source
+
+    // 邀请码
+    if (this.regInfo.code) {
+      sessionStorage.setItem('regInviteCode', this.regInfo.code);
+    } else {
+      let regInviteCode = sessionStorage.getItem('regInviteCode');
+      this.regInfo.code = regInviteCode ? regInviteCode : '';
+    }
+
+    // 来源
+    if (this.regInfo.source) {
+      sessionStorage.setItem('regSource', this.regInfo.source);
+    } else {
+      let source = sessionStorage.getItem('regSource');
+      this.regInfo.source = source ? source : '';
+    }
+    
     var vu = this
     bus.$on('langChange', () => {
-      vu.$refs.regInfo.resetFields()
+      vu.$refs.regInfo.resetFields();
+      vu.$refs.sendEmail.removeEventListener('click', this.sendemailBefore, false);
+      vu.$refs.regUser.$el.removeEventListener('click', this.regUser, false);
+      this.initGeetest();
     })
-    // console.log(this.$initGeetest)
-    // this.initGeetest()
+    window.addEventListener('keyup', this.onEnter)
+  },
+  destroyed () {
+    window.removeEventListener('keyup', this.onEnter)
   }
 }
 </script>
@@ -277,15 +463,12 @@ export default {
 <style lang="less">
 @import url(./style/config.less);
 .reg {
-  padding-top: 16px;
   .ivu-input {
-    border-radius: 0;
     font-size: @font-text;
   }
   .ivu-btn {
     width: 200px;
     margin-right: 32px;
-    border-radius: 0;
   }
   .content {
     padding: 32px;
@@ -303,7 +486,7 @@ export default {
       margin: 32px auto;
     }
     .reg_form {
-      width: 400px;
+      width: 520px;
       label {
         font-size: @font-text;
       }
@@ -311,20 +494,48 @@ export default {
         font-size: @font-text;
       }
     }
-
-    .reg_sendemail {
-      position: absolute;
-      top: 155px;
-      left: 450px;
-    }
     .info {
       background: @text-bg-color;
       padding: 16px;
       position: absolute;
-      top: 150px;
+      top: 165px;
       left: 650px;
       line-height: 40px;
     }
+  }
+  .send-code-down {
+    box-sizing: border-box;
+    min-width: 140px;
+    height: 50px;
+    line-height: 48px;
+    padding: 0 10px;
+    border: 1px solid #999;
+    color: #fff;
+    background-color: #999;
+    text-align: center;
+    border-radius: 0px;
+  }
+  .send-code-btn {
+    position: relative;
+    // display: inline-block;
+    box-sizing: border-box;
+    min-width: 140px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 0px;
+    padding: 0 10px;
+    border: 1px solid #419aec;
+    color: #419aec;
+    background-color: #fff;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #419aec;
+      color: #fff;
+    }
+  }
+  .btn-large {
+    position: relative;
   }
 }
 </style>

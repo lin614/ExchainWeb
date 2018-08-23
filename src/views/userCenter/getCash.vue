@@ -24,7 +24,7 @@
             <li class="friendly-notice-item">{{ $t('userCenter.withdrawBox.tipP1') }} : {{params.withdraw_min}} {{token}}</li>
           </div>
           <div class="get-btn-box fr">
-            <Button type="primary" @click="handleGetCash('getCashForm')">
+            <Button class="btn-large" type="primary" @click="handleGetCash('getCashForm')">
               <span>{{ $t('userCenter.withdrawBox.withdraw') }}</span>
               <Spin size="large" fix v-if="spinShow"></Spin>
             </Button>
@@ -67,7 +67,8 @@ export default {
       },
       getCashRules: {
         destAddr: [
-          { required: true, message: this.$t('errorMsg.ADDR_BLANK'), trigger: 'blur' }
+          { required: true, message: this.$t('errorMsg.ADDR_BLANK'), trigger: 'blur' },
+          { max: 100, message: this.$t('errorMsg.ADDR_LIMIT'), trigger: 'change, blur' }
         ],
         amount: [
           { required: true, message: this.$t('errorMsg.AMOUNT_BLANK'), trigger: 'blur' },
@@ -136,13 +137,12 @@ export default {
               vu.$Message.success(vu.$t('errorMsg.WITHDRAW_REQ_SUBMIT'))
             } else {
               vu.spinShow = false
-              vu.$Message.error(vu.$t('errorMsg.FAIL'))
+              apiError(vu, res);
             }
           })
           .catch((err) => {
             vu.spinShow = false
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
-            console.log(err)
+            apiReqError(vu, err);
           })
         }
       })
@@ -177,8 +177,6 @@ export default {
         .ivu-btn {
           position: relative;
           width: 200px;
-          height: 50px;
-          font-size: 20px;
         }
       }
     }

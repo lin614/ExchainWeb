@@ -9,7 +9,10 @@
               <Form class="clearfix" ref="magAddrForm" :rules="magAddrRules" :model="magAddrForm" label-position="top" inline>
                 <FormItem :label="$t('userCenter.withdrawAddress.type')" prop="tokenType" style="width: 180px;">
                   <Select v-model="magAddrForm.tokenType">
-                    <Option v-for="(item, index) in tokenList" :value="item.value" :key="index">{{ item.label }}</Option>
+                    <Option v-for="(item, index) in tokenList"
+                            :value="item.value"
+                            :key="index"
+                            :disabled="item.value === 'ET'">{{ item.label }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem :label="$t('userCenter.withdrawAddress.outer_address')" prop="addr" style="width: 420px;">
@@ -56,27 +59,40 @@ export default {
       tokenList: [],
       magAddrRules: {
         tokenType: [
-          {
-            required: true,
-            message: this.$t('errorMsg.TOKEN_UNSELECT'),
-            trigger: 'change'
-          }
+          { validator: (rule, value, callback) => {
+            if (!value) {
+              callback(this.$t('errorMsg.TOKEN_UNSELECT'))
+            }
+            callback()
+          },
+          trigger: 'change' }
         ],
         addr: [
-          {
-            required: true,
-            message: this.$t('errorMsg.ADDR_BLANK'),
-            trigger: 'blur'
+          { validator: (rule, value, callback) => {
+            if (!value) {
+              callback(this.$t('errorMsg.ADDR_BLANK'))
+            }
+            if (value.length > 100) {
+              callback(this.$t('errorMsg.ADDR_LIMIT'))
+            }
+            if (!util.checkAddr(value)) {
+              callback(this.$t('errorMsg.SYMBOL_ERR'))
+            }
+            callback()
           },
-          { max: 100, message: this.$t('errorMsg.ADDR_LIMIT'), trigger: 'change, blur' }
+          trigger: 'blur' }
         ],
         note: [
-          {
-            required: true,
-            message: this.$t('errorMsg.NOTE_BLANK'),
-            trigger: 'blur'
+          { validator: (rule, value, callback) => {
+            if (!value) {
+              callback(this.$t('errorMsg.NOTE_BLANK'))
+            }
+            if (value.length > 100) {
+              callback(this.$t('errorMsg.NOTE_LIMIT'))
+            }
+            callback()
           },
-          { max: 255, message: this.$t('errorMsg.NOTE_LIMIT'), trigger: 'change, blur' }
+          trigger: 'blur' }
         ]
       },
       addrListTable: [
@@ -150,9 +166,14 @@ export default {
               vu.tokenList.push(JSON.parse(JSON.stringify(obj)))
               vu.addrListTable[0].filters.push(JSON.parse(JSON.stringify(obj)))
             }
+            console.log(vu.tokenList)
+          } else {
+            apiError(vu, res);
           }
         })
-        .catch(err => {})
+        .catch(err => {
+          apiReqError(vu, err);
+        })
     },
     /**
      * 查询地址列表
@@ -166,9 +187,13 @@ export default {
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             vu.addrListData = [...res.data.result.data]
+          } else {
+            apiError(vu, res);
           }
         })
-        .catch(() => {})
+        .catch((err) => {
+          apiReqError(vu, err);
+        })
     },
     /**
      * 添加地址
@@ -188,14 +213,12 @@ export default {
                 vu.getWithdrawAddress()
                 vu.$refs.magAddrForm.resetFields()
                 vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
-              } else if (res.data.errorCode == 2) {
-                vu.$Message.error(vu.$t('errorMsg.REGISTER_IPT_ERR'))
               } else {
-                vu.$Message.error(vu.$t('errorMsg.FAIL'))
+                apiError(vu, res);
               }
             })
             .catch(err => {
-              vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+              apiReqError(vu, err);
             })
         }
       })
@@ -209,18 +232,18 @@ export default {
         .post(config.url.user + '/api/account/delWithdrawAddress', {
           type: type,
           outerAddress: addr
-        })
+        }, getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             vu.addrListData.splice(index, 1)
             vu.getWithdrawAddress()
             vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
           } else {
-            vu.$Message.error(vu.$t('errorMsg.FAIL'))
+            apiError(vu, res);
           }
         })
         .catch(err => {
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+          apiReqError(vu, err);
         })
     }
   },
@@ -259,7 +282,7 @@ export default {
       border-bottom: 1px solid #eee;
       .add-btn {
         display: inline-block;
-        min-width: 240px;
+        min-width: 200px;
         height: 50px;
         line-height: 50px;
         font-size: 18px;

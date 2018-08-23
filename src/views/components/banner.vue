@@ -14,13 +14,19 @@
           </div>
         </CarouselItem>
         <CarouselItem>
-          <div class="banner_2">
+          <div :class="'banner_2_' + $t('common.imgLang')">
             <block>
-              <div slot="inner">
-                <h2>Exchain内测即将开启，强拳重推合作伙伴计划</h2>
-                <hr/>
-                <p>Exchain全球首家共享型交易平台Exchain全新上线，并即将开启内测。<br/>先启动“合作伙伴计划”招募<br/>成为合作伙伴，享受交易费20%-50%回报+平台币(ET)奖励<br/>交易即挖矿，ET升值+平台收入奖励，收益+++<br/>限时全免，等你来！</p>
-              </div>
+              <a v-if="$t('common.imgLang') === 'cn'" target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360013309991" title="Exchain种子测试正式开启，千人限量每日瓜分2000 USDT">
+                <div slot="inner" style="height: 380px;">
+                  <!-- <h2>{{ $t('banner.title2') }}</h2> -->
+                  <!-- <hr/> -->
+                  <!-- <p class="banner-descript2" v-html="$t('banner.descript2')"></p> -->
+                </div>
+              </a>
+              <a v-if="$t('common.imgLang') === 'en'" target="_blank" href="https://support.exchain.com/hc/en-us/articles/360013309991" title="Instructions For Exchain Special User Test">
+                <div slot="inner" style="height: 380px;">
+                </div>
+              </a>
             </block>
           </div>
         </CarouselItem>
@@ -73,6 +79,7 @@ export default {
     background-repeat: no-repeat;
     background-position: center center;
     h2 {
+      width: 850px;
       padding-top: 50px;
       font-size: @banner-font-title;
       color: white;
@@ -94,15 +101,26 @@ export default {
     .banner-descript {
       width: 850px;
     }
+    .banner-descript2 {
+      // width: 900px;
+      line-height: 30px;
+    }
   }
   .banner_1 {
     .block {
       background: url(../../static/imgs/ban-bg1.png);
     }
   }
-  .banner_2 {
+  .banner_2_en {
     .block {
-      background: url(../../static/imgs/ban-bg2.png);
+      background: url(../../static/imgs/ban-bg2-en.png);
+      background-position: center;
+    }
+  }
+  .banner_2_cn {
+    .block {
+      background: url(../../static/imgs/ban-bg2-cn.png);
+      background-position: center;
     }
   }
   .notice {

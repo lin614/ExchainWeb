@@ -43,56 +43,47 @@
         <router-link to="/usercenter/asset" v-if="isLogin">
           <Button type="text">{{ $t("header.myAsset") }}</Button>
         </router-link>
-        <Dropdown class="lan" v-if="isLogin">
-          <!-- <router-link to="/usercenter">
-            <Button type="text">
-              <Icon type="person"></Icon>
-              {{email}}
-              <Icon type="arrow-down-b"></Icon>
-            </Button>
-          </router-link> -->
+
+        <Dropdown @on-visible-change="handleUserShowChange"
+                  class="lan"
+                  v-if="isLogin"
+                  @on-click="toLink">
           <Button type="text">
             <Icon type="person"></Icon>
             {{email}}
-            <Icon type="arrow-down-b"></Icon>
+            <Icon v-show="!showUserCenter" type="arrow-down-b"></Icon>
+            <Icon v-show="showUserCenter" type="arrow-up-b"></Icon>
           </Button>
-          <Dropdown class="lan" <DropdownMenu slot="list">
-            <DropdownItem>
-              <router-link to="/usercenter">
-                <span class="lan-item">{{ $t("header.userCenter") }}</span>
-              </router-link>
+          <DropdownMenu slot="list">
+            <DropdownItem name="/usercenter">
+              <span class="lan-item">{{ $t("header.userCenter") }}</span>
+            </DropdownItem>
+            <DropdownItem name="/usercenter/entrust">
+              <span class="lan-item">{{ $t("header.promiseManage") }}</span>
+            </DropdownItem>
+            <DropdownItem name="/bonus">
+              <span class="lan-item">{{ $t("header.partner") }}</span>
             </DropdownItem>
             <DropdownItem>
-              <router-link to="/usercenter/entrust">
-                <span class="lan-item">{{ $t("header.promiseManage") }}</span>
-              </router-link>
+              <span class="lan-item">{{ $t("header.logout") }}</span>
             </DropdownItem>
-            <DropdownItem>
-              <router-link to="/bonus">
-                <span class="lan-item">{{ $t("header.partner") }}</span>
-              </router-link>
-            </DropdownItem>
-            <DropdownItem>
-              <a @click="logout()">
-                <span class="lan-item">{{ $t("header.logout") }}</span>
-              </a>
-            </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          </DropdownMenu>
+        </Dropdown>
 
-          <Dropdown class="lan" @on-click="handleLangChange">
-            <a href="javascript:void(0)">
-              <Icon type="earth"></Icon>
-              <span>{{activeLang === 'cn' ? '简体中文' : 'English'}}</span>
-              <Icon type="arrow-down-b"></Icon>
-            </a>
-            <DropdownMenu slot="list">
-              <DropdownItem name="cn">
-                <span class="lan-item">简体中文</span>
-              </DropdownItem>
-              <DropdownItem name="en">English</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+        <Dropdown @on-visible-change="handleLangShowChange" class="lan" @on-click="handleLangChange">
+          <a href="javascript:void(0)">
+            <Icon type="earth"></Icon>
+            <span>{{activeLang === 'cn' ? '简体中文' : 'English'}}</span>
+            <Icon v-show="!showLanguage" type="arrow-down-b"></Icon>
+            <Icon v-show="showLanguage" type="arrow-up-b"></Icon>
+          </a>
+
+          <DropdownMenu slot="list">
+            <DropdownItem name="cn"><span class="lan-item">简体中文</span></DropdownItem>
+
+            <DropdownItem name="en">English</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
       </Col>
     </Row>
@@ -107,7 +98,6 @@ import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
 import md5 from 'crypto-md5'
-// import bus from '../../bus.js'
 export default {
   name: 'headr',
   components: { block, crd },
@@ -116,8 +106,16 @@ export default {
       return cookie.get('PN', config.url.domain)
     },
     email() {
-      var info = sessionStorage.getItem('email')
-      return info ? (info.length > 5 ? info.slice(0, 5) + '...' : info) : ''
+      var info = cookie.get('email', config.url.domain)
+      if (!info) {
+        this.isLogin = false
+        return ''
+      }
+      var emailArr = info.split('@')
+      if (emailArr[0].length > 4) {
+        emailArr[0] = emailArr[0].slice(0, 4) + '...'
+      }
+      return emailArr[0] + '@' + emailArr[1]
     },
     activeLang: {
       get: function() {
@@ -133,10 +131,19 @@ export default {
   data() {
     return {
       showLogin: false,
-      loginLoading: false
+      loginLoading: false,
+      showUserCenter: false,
+      showLanguage: false
     }
   },
   methods: {
+    toLink(rout) {
+      if (rout) {
+        this.$router.push(rout)
+      } else {
+        this.logout()
+      }
+    },
     login() {
       this.showLogin = true
     },
@@ -147,7 +154,11 @@ export default {
     },
     logout() {
       ax.get(config.url.user + '/api/user/logout', getHeader).then(res => {
-        console.log('登出')
+        if (res.status === 200 && res.data.meta.code === 0) {
+          console.log('登出')
+        } else {
+          apiError(this, res);
+        }
       })
       sessionStorage.clear()
       cookie.remove('PN')
@@ -162,18 +173,23 @@ export default {
     handleLangChange(name) {
       this.activeLang = name
       this.$i18n.locale = name
-      localStorage.setItem('language', name)
+      // localStorage.setItem('exchain_language', name)
+
+      cookie.set('exchain_language', name, {
+        domain: config.url.domain
+      })
+
       this.$store.commit('setActiveLang', name)
       bus.$emit('langChange')
+    },
+    handleUserShowChange (visible) {
+      this.showUserCenter = visible
+    },
+    handleLangShowChange (visible) {
+      this.showLanguage = visible
     }
   },
   mounted() {
-    // console.log(this.isLogin)
-    // let vu = this
-    // bus.$on('login', function() {
-    //   console.log('login happen')
-    //   vu.isLogin = true
-    // })
   }
 }
 </script>
@@ -193,6 +209,7 @@ export default {
     a {
       display: block;
       img {
+        width: 156px;
         height: 35px;
         vertical-align: middle;
       }

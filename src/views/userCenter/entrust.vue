@@ -1,5 +1,5 @@
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="entrust-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main clearfix">
         <crd potColor="#4399e9">
@@ -10,7 +10,7 @@
           </div>
           <Table v-if="currentTab === 'current'" :columns="columns1" :data="curData"></Table>
           <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleCurPageChange" :total="curTotal"></Page>
-          <Table v-if="currentTab === 'history'" :columns="columns1" :data="hisData"></Table>
+          <Table v-if="currentTab === 'history'" :columns="columns2" :data="hisData"></Table>
           <Page v-if="(currentTab === 'history') && showHisPage" @on-change="handleHisPageChange" :total="hisTotal"></Page>
         </crd>
       </div>
@@ -79,7 +79,7 @@ export default {
           key: 'amount'
         },
         {
-          title: this.$t('userCenter.entrust.closeRate') + '%',
+          title: this.$t('userCenter.entrust.closeRate'),
           key: 'closeRate'
         },
         {
@@ -110,7 +110,84 @@ export default {
                       }
                     }
                   },
-                  params.row.opera
+                  this.$t('userCenter.entrust.cancelOrder')
+                )
+              ]
+            )
+          }
+        }
+      ],
+      columns2: [
+        {
+          title: this.$t('userCenter.entrust.ctime'),
+          key: 'ctime',
+          width: 200
+        },
+        {
+          title: this.$t('userCenter.entrust.market'),
+          key: 'market'
+        },
+        {
+          title: this.$t('userCenter.entrust.side'),
+          key: 'side',
+          width: 100,
+          render: function(h, params) {
+            // var vu = this
+            console.log(vu)
+            return h(
+              'div',
+              {
+                style: {
+                  color: ((params.row.side + '') === '1') ? 'green' : 'red'
+                }
+              },
+              ((params.row.side + '') === '1')
+                ? vu.$t('userCenter.entrust.buy')
+                : vu.$t('userCenter.entrust.sell')
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.price'),
+          key: 'price'
+        },
+        {
+          title: this.$t('userCenter.entrust.amount'),
+          key: 'amount'
+        },
+        {
+          title: this.$t('userCenter.entrust.closeRate'),
+          key: 'closeRate'
+        },
+        {
+          title: this.$t('userCenter.entrust.averPrice'),
+          key: 'averPrice'
+        },
+        {
+          title: this.$t('userCenter.entrust.opera'),
+          key: 'opera',
+          render: (h, params) => {
+            return h(
+              'span',
+              {
+                style: {
+                  cursor: 'pointer'
+                }
+              },
+              [
+                h(
+                  'strong',
+                  {
+                    style: {
+                      color: '#419cf6'
+                    },
+                    on: {
+                      click: () => {
+                        this.cancelOrder(params.row)
+                      }
+                    }
+                  },
+                  ''
                 )
               ]
             )
@@ -157,18 +234,19 @@ export default {
               let amount = parseFloat(data[i].amount)
               let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
               data[i].closeRate = rate.toFixed(2)
-              data[i].opera = vu.$t('userCenter.entrust.cancelOrder')
               vu.curData = data
             }
             vu.curTotal = res.data.result.total * 1
             if (Math.ceil(vu.curTotal / vu.curSize) > 1) {
-              console.log(1)
               this.showCurPage = true
             } else {
               this.showCurPage = false
             }
+            if (data.length === 0) {
+              vu.curData = []
+            }
           } else {
-            vu.$Message.error({ content: res.data.errorMsg })
+            apiError(vu, res);
           }
         })
     },
@@ -185,7 +263,7 @@ export default {
       ax
         .get(
           config.url.user +
-            '/api/order/lists?status=2&method=history&t' +
+            '/api/order/lists?method=history&t' +
             new Date().getTime() + '&page=' + vu.hisPage + '&size=' + vu.hisSize,
           getHeader
         )
@@ -197,7 +275,6 @@ export default {
               let amount = parseFloat(data[i].amount)
               let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
               data[i].closeRate = rate.toFixed(2)
-              data[i].opera = ''
               vu.hisData = data
             }
             vu.hisTotal = res.data.result.total * 1
@@ -207,7 +284,7 @@ export default {
               this.showHisPage = false
             }
           } else {
-            vu.$Message.error({ content: res.data.errorMsg })
+            apiError(vu, res);
           }
         })
     },
@@ -274,7 +351,7 @@ export default {
             vu.getCurData()
             vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
           } else {
-            vu.$Message.error({ content: res.data.errorMsg })
+            apiError(vu, res);
           }
         })
     },
@@ -296,8 +373,10 @@ export default {
   mounted() {
     var vu = this
     util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
+    util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
     bus.$on('langChange', () => {
       util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
+      util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
     })
     console.log(getHeader)
   },
@@ -331,7 +410,6 @@ export default {
   }
   box-sizing: border-box;
   width: 100%;
-  padding-top: 40px;
   background-color: #f6f6f6;
   .crd {
     margin-bottom: 0;

@@ -1,25 +1,16 @@
-
 <template>
-    <page>
+    <page class="page_content-padding">
         <div class="paper">
             <block>
                 <crd slot="inner">
                     <span slot="title">{{$t('whitepaper.title')}}</span>
                     <div class=" content">
-                        <img src="../static/imgs/paper/01.jpg" />
-                        <img src="../static/imgs/paper/02.jpg" />
-                        <img src="../static/imgs/paper/03.jpg" />
-                        <img src="../static/imgs/paper/04.jpg" />
-                        <img src="../static/imgs/paper/05.jpg" />
-                        <img src="../static/imgs/paper/06.jpg" />
-                        <img src="../static/imgs/paper/07.jpg" />
-                        <img src="../static/imgs/paper/08.jpg" />
+                        <img :src="require('../static/imgs/'+$t('whitepaper.folder')+'/0'+i+'.jpg')" v-for="i in [1,2,3,4,5,6,7,8]" />
                     </div>
                 </crd>
             </block>
         </div>
     </page>
-
 </template>
 
 <script>
@@ -28,13 +19,13 @@ import block from './components/block'
 import crd from './components/crd'
 export default {
   name: 'paper',
-  components: { page, block, crd }
+  components: { page, block, crd },
+  mounted() {}
 }
 </script>
 
 <style lang="less">
 .paper {
- 
   .content {
     img {
       width: 100%;

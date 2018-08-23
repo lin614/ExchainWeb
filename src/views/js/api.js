@@ -4,7 +4,6 @@ import * as Constant from '@/assets/js/constant';
 import config from '../../config/config'
 
 axios.interceptors.request.use((config) => {
-  debugger
   if (config.method === "post") {
     config.data = qs.stringify(config.data);
   }
@@ -158,6 +157,9 @@ export const getMarketInfo = (market) => {
       market
     }
   })
+};
+export const getMarketPrecision = () => {
+  return axios.get(`${pend2}/exchange/getMarketInfo`)
 };
 
 export const orderPutLimit = ({

@@ -11,10 +11,10 @@
 
           <a class="copy-addr" id="btnLink" :data-clipboard-text="addr" @click="handleCopy">{{ $t('userCenter.depositBox.copy') }}</a>
           
-          <Poptip content="content" placement="bottom">
+          <Poptip content="content" placement="bottom" :transfer="true">
             <span class="show-addr-qr">{{ $t('userCenter.depositBox.qrCode') }}</span>
             <div class="qr-box" slot="content">
-              <img :src="qrCode" alt="">
+              <img :src="'data:image/png;base64,' + qrCode" alt="">
             </div>
           </Poptip>
         </div>
@@ -24,7 +24,7 @@
         <li class="friendly-notice-item">{{ $t('userCenter.depositBox.tipP1') }} {{token}} {{ $t('userCenter.depositBox.tipP2') }}</li>
       </div>
     </div>
-    <div v-else class="no-encharge">暂无可用充值地址</div>
+    <div v-else class="no-encharge">{{$t('errorMsg.NO_AVAILABLE_ENCHARGE_ADDR')}}</div>
     <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
@@ -69,11 +69,13 @@ export default {
           } else {
             vu.spinShow = false
             vu.no_encharge = true
+            apiError(vu, res);
           }
         })
         .catch((err) => {
           vu.spinShow = false
           vu.no_encharge = true
+          apiReqError(vu, err);
         })
     },
     /**
@@ -87,7 +89,7 @@ export default {
         clipboard.destroy()
       })
       clipboard.on('error', e => {
-        vu.$Message.error(vu.$t('errorMsg.该浏览器不支持自动复制'))
+        vu.$Message.error(vu.$t('errorMsg.BROWSER_COPY_LIMIT'))
         clipboard.destroy()
       })
     }
@@ -95,6 +97,9 @@ export default {
   mounted () {
     new ClipboardJS('#addr')
     this.getAddress(this.token)
+  },
+  beforeDestroy () {
+    console.log(1111);
   }
 }
 </script>
@@ -125,14 +130,7 @@ export default {
       .show-addr-qr {
         cursor: pointer;
       }
-      .qr-box {
-        width: 140px;
-        height: 140px;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
+      
     }
     .friendly-notice {
       .friendly-notice-title {
@@ -149,5 +147,8 @@ export default {
     font-weight: 600;
     text-align: center;
     line-height: 1.5;
+  }
+  .ivu-poptip-popper .ivu-poptip-body-content .qr-box img {
+    width: 100%;
   }
 </style>

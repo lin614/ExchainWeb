@@ -1,6 +1,5 @@
-
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="login">
       <block>
         <crd slot="inner">
@@ -11,19 +10,19 @@
 
             <div class="login_form">
               <Form ref="loginInfo" label-position="top" :model="loginInfo" :rules="rules">
-                <FormItem prop="email" :label="$t('userCenter.login.email')">
+                <FormItem prop="email" :label="$t('userCenter.login.email')" class="ivu-form-item-required">
                   <Input v-model="loginInfo.email" :placeholder="$t('userCenter.login.pleaseInputEmail')"></Input>
                 </FormItem>
 
-                <FormItem prop="pwd" :label="$t('userCenter.login.password')">
+                <FormItem prop="pwd" :label="$t('userCenter.login.password')" class="ivu-form-item-required">
                   <Input v-model="loginInfo.pwd" type="password" :placeholder="$t('userCenter.login.pleaseInputPassword')">
                   </Input>
                 </FormItem>
 
                 <FormItem>
-                  <Button type="primary" @click="login()">{{ $t('userCenter.login.login') }}</Button>
+                  <Button class="btn-large" type="primary" ref="loginBefore">{{ $t('userCenter.login.login') }}<Spin v-show="loginLoading" :fix="true"></Spin></Button>
                   {{ $t('userCenter.login.forgotPassword') }}?
-                  <router-link to="/reset">{{ $t('userCenter.login.resetPassword') }}</router-link>
+                  <router-link to="/reset" v-html="$t('userCenter.login.resetPassword')"></router-link>
                   </router-link>
                 </FormItem>
               </Form>
@@ -50,6 +49,7 @@ import ax from 'axios'
 import config from '../config/config.js'
 import cookie from 'js-cookie'
 import md5 from 'crypto-md5'
+import util from '../libs/util.js'
 // import bus from '../bus.js'
 
 export default {
@@ -58,7 +58,9 @@ export default {
   data() {
     return {
       geetOnReady: false,
+      loginLoading: false,
       gtserver: '',
+      sense: null,
       loginInfo: {
         email: '',
         pwd: ''
@@ -66,55 +68,96 @@ export default {
       rules: {
         email: [
           {
-            required: true,
-            message: this.$t('errorMsg.EMAIL_BLANK'),
-            trigger: 'blur'
-          },
-          {
-            type: 'email',
-            message: this.$t('errorMsg.EMAIL_ERR'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.EMAIL_BLANK'))
+              }
+              if (value.length > 100) {
+                callback(this.$t('errorMsg.EMAIL_LIMIT_LENGTH'))
+              }
+              if (util.checkEmail(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.EMAIL_ERR'))
+              }
+            },
             trigger: 'blur'
           }
         ],
         pwd: [
           {
-            required: true,
-            message: this.$t('errorMsg.PWD_BLANK'),
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.PWD_BLANK'))
+              }
+              if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
             trigger: 'blur'
           }
         ]
       }
     }
   },
+  computed: {
+    activeLang() {
+      return this.$store.state.activeLang
+    }
+  },
   methods: {
+    loginBefore() {
+      if (this.loginLoading) {
+        return
+      }
+      this.loginLoading = true
+      this.$refs['loginInfo'].validate(valid => {
+        if (valid) {
+          this.sense.sense();
+        } else {
+          this.loginLoading = false
+        }
+      })
+    },
     login() {
+      if (this.loginLoading) {
+        return
+      }
+      this.loginLoading = true
       var vu = this
       this.$refs['loginInfo'].validate(valid => {
         if (valid) {
           if (vu.geetOnReady) {
             vu.geettest.verify()
           } else {
+            vu.loginLoading = false
             vu.$Message.error(vu.$t('errorMsg.GEET_LOAD_ERR_TIP'))
           }
         } else {
-          vu.$Message.error(vu.$t('errorMsg.CHECK_FAIL'))
+          vu.loginLoading = false
         }
       })
     },
-    loginFn() {
+    loginFn(params) {
       var vu = this
-      var result = this.geettest.getValidate()
+      
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'dk-login'
+      } else {
+        captcha_type = 'dk-login-en'
+      }
+
+      params.email = vu.loginInfo.email;
+      params.password = md5(vu.loginInfo.pwd)
+      params.captcha_type = captcha_type
+
       ax
         .post(
           config.url.user + '/api/user/login',
-          {
-            email: vu.loginInfo.email,
-            password: md5(vu.loginInfo.pwd),
-            geetest_challenge: result.geetest_challenge,
-            geetest_validate: result.geetest_validate,
-            geetest_seccode: result.geetest_seccode,
-            gtserver: vu.gtserver
-          },
+          params,
           {
             withcredentials: true
           }
@@ -144,53 +187,109 @@ export default {
             }
 
             vu.$router.push('/userCenter')
-          } else if (res.data.errorCode == 202) {
-            vu.geettest.reset()
-            vu.$Message.error(vu.$t('errorMsg.USERNAME_OR_PWD_ERR'))
           } else {
-            vu.geettest.reset()
-            vu.$Message.error(vu.$t('errorMsg.FAIL'))
+            vu.loginLoading = false
+            // vu.geettest.reset()
+            apiError(vu, res);
           }
         })
-        .catch(function(error) {
-          vu.geettest.reset()
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
+        .catch(function(err) {
+          vu.loginLoading = false
+          // vu.geettest.reset()
+          apiReqError(vu, err);
         })
     },
+    
     initGeetest() {
       var vu = this
+      let params = null;
+
+      if (this.$t('common.lang') === 'cn') {
+        params = {type: 'dk-login'}
+      } else {
+        params = {type: 'dk-login-en'}
+      }
       ax
-        .post(config.url.user + '/api/user/initCaptcha')
+        .post(config.url.user + '/api/user/initCaptcha', params)
         .then(res => {
           var data = res.data
-          vu.gtserver = data.gtserver
-          vu.$initGeetest(
-            {
-              gt: data.gt,
-              challenge: data.challenge,
-              offline: !data.success,
-              new_captcha: true,
-              product: 'bind'
-            },
-            function(captchaObj) {
-              vu.geettest = captchaObj
-              captchaObj
-                .onReady(function() {
-                  vu.geetOnReady = true
-                })
-                .onSuccess(function() {
-                  vu.loginFn()
-                })
-                .onError(function() {
-                  vu.geetOnReady = false
-                  vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
-                })
-            }
-          )
+          // this.initGeetestAction(data);
+          this.initSenseAction(data);
         })
         .catch(() => {
-          console.log('网络异常')
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
         })
+    },
+    initSenseAction (data) {
+      let vu = this;
+      vu.$initSense({
+        id: data.id,
+        lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',     
+        onError:function(err){
+            console.log('gt error', err)
+        }
+      }, sense => {
+        vu.sense = sense;
+        vu.$refs.loginBefore.$el.addEventListener('click', this.loginBefore);
+        sense.setInfos(function () {
+          return {
+            interactive: 2  //用户场景
+          }
+        }).onSuccess(function (data) {
+          let params = {geetest_challenge: data.challenge}
+          vu.loginFn(params)
+        }).onClose(function(){
+          console.log('close')
+          vu.loginLoading = false
+        }).onError(function(err){
+          console.log(err);
+          if(err && err.code === '1001'){
+              submit({})
+          }
+        })
+      });
+    },
+    initGeetestAction (data) {
+      vu.gtserver = data.gtserver
+      vu.$initGeetest(
+        {
+          gt: data.gt,
+          challenge: data.challenge,
+          offline: !data.success,
+          new_captcha: true,
+          product: 'bind',
+          lang: this.activeLang ? (this.activeLang === 'cn') ? 'zh-cn' : this.activeLang : 'zh-cn'
+        },
+        function(captchaObj) {
+          vu.geettest = captchaObj
+          captchaObj
+            .onReady(function() {
+              vu.geetOnReady = true
+            })
+            .onSuccess(function() {
+              var result = this.geettest.getValidate()
+              let params = {
+                geetest_challenge: result.geetest_challenge,
+                geetest_validate: result.geetest_validate,
+                geetest_seccode: result.geetest_seccode,
+                gtserver: vu.gtserver
+              }
+              vu.loginFn(params)
+            })
+            .onError(function() {
+              vu.geetOnReady = false
+              vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
+            })
+            .onClose(function () {
+                vu.loginLoading = false
+            })
+        }
+      )
+    },
+    onEnter (e) {
+      if (e.keyCode === 13) {
+        this.login()
+      }
     }
   },
   mounted() {
@@ -198,7 +297,13 @@ export default {
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.loginInfo.resetFields()
+      vu.$refs.loginBefore.$el.removeEventListener('click', this.loginBefore, false);
+      this.initGeetest()
     })
+    window.addEventListener('keyup', this.onEnter)
+  },
+  destroyed () {
+    window.removeEventListener('keyup', this.onEnter)
   }
 }
 </script>
@@ -206,15 +311,12 @@ export default {
 <style lang="less">
 @import url(./style/config.less);
 .login {
-  padding-top: 16px;
   .ivu-input {
-    border-radius: 0;
     font-size: @font-text;
   }
   .ivu-btn {
     width: 200px;
     margin-right: 32px;
-    border-radius: 0;
   }
   .content {
     padding: 32px;
@@ -231,7 +333,7 @@ export default {
       margin: 32px auto;
     }
     .login_form {
-      width: 400px;
+      width: 520px;
       label {
         font-size: @font-text;
       }
@@ -247,6 +349,9 @@ export default {
       left: 650px;
       line-height: 40px;
     }
+  }
+  .btn-large {
+    position: relative;
   }
 }
 </style>

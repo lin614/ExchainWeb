@@ -67,7 +67,8 @@ const routers = [{
     }, {
         path: '/reset',
         meta: {
-            title: ''
+            title: '',
+            noNeedLogin: true
         },
         component: (resolve) => require(['./views/reset.vue'], resolve)
     },
@@ -116,12 +117,6 @@ const routers = [{
         },
         component: (resolve) => require(['./views/userCenter/bindPhone.vue'], resolve)
     }, {
-        path: '/usercenter/manageaddr',
-        meta: {
-            title: ''
-        },
-        component: (resolve) => require(['./views/userCenter/manageAddr.vue'], resolve)
-    }, {
         path: '*',
         meta: {
             title: ''
@@ -130,3 +125,11 @@ const routers = [{
     }
 ];
 export default routers;
+
+// {
+//     path: '/usercenter/manageaddr',
+//     meta: {
+//         title: ''
+//     },
+//     component: (resolve) => require(['./views/userCenter/manageAddr.vue'], resolve)
+// }

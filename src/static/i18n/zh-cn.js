@@ -1,4 +1,9 @@
 module.exports = {
+  common: {
+    lang: 'cn',
+    imgLang: 'cn',
+    legalMoney: '￥'
+  },
   header: {
     exchange: '交易',
     et: 'ET',
@@ -16,28 +21,34 @@ module.exports = {
   footer: {
     copyright: 'Copyright © 2018 Exchain',
     services: {
-        services: '服务',
-        exchange: '交易中心',
-        support: '支持',
-        feedback: '问题反馈',
-        listingApplication: '上币申请'
+      services: '服务',
+      exchange: '交易中心',
+      support: '支持',
+      feedback: '问题反馈',
+      listingApplication: '上币申请'
     },
     clauseInstruction: {
-        clauseInstruction: '条款说明',
-        privacyPolicy: '隐私政策',
-        serAgreement: '用户协议',
-        fees: '手续费'
+      clauseInstruction: '条款说明',
+      privacyPolicy: '隐私政策',
+      serAgreement: '用户协议',
+      fees: '手续费'
     },
     aboutUs: {
-        aboutUs: '关于我们',
-        customerSupport: '客户支持',
-        contactUs: '联系我们'
+      aboutUs: '关于我们',
+      customerSupport: '客户支持',
+      contactUs: '联系我们'
     },
-    social: '社区'
+    social: '社区',
+    link: {
+      tme: 'https://t.me/Exchain_cn'
+    }
+
   },
   banner: {
     title: '收入与合作伙伴共享，收益与交易伙伴共享',
-    descript: 'Exchain是全球首家共享型交易平台，不仅将合作交易费的20%支付给合作伙伴，<br/>50%支付给超级合伙伙伴，还将交易平台100%的收入每日分配给Exchain Token（ET）持有者，<br/>全免费交易计时开始。'
+    descript: 'Exchain是全球首家共享型交易平台，不仅将合作交易费的20%支付给合作伙伴，<br/>50%支付给超级合伙伙伴，还将交易平台100%的收入每日分配给Exchain Token（ET）持有者，<br/>全免费交易计时开始。',
+    title2: 'Exchain种子测试即将开启，强拳重推合作伙伴计划',
+    descript2: 'Exchain——全球首家共享型交易平台全新上线，即将开启种子测试。<br/>现启动“合作伙伴计划”招募<br/>成为Exchain首期合作伙伴，与我们共建平台，共享收益：<br/>享受平台收益20%-50%分红+平台币(ET)奖励+无上限USDT奖励<br/>多重好礼，收益+++<br/>交易限时免费，只为等你来共建！'
   },
   index: {
     announcement: {
@@ -46,7 +57,7 @@ module.exports = {
       news: 'Exchain超级合作伙伴计划开启'
     },
     txSumary: {
-      currentDay: '当日总成交额',
+      currentDay: '24小时成交额',
       etMarketValue: 'ET总市值',
       etCirculation: 'ET总流通量',
       freeTitle: '限时免费期',
@@ -69,12 +80,12 @@ module.exports = {
         tip: '风险投资区的数字资产通常处于项目的天使阶段，有极高的不确定性风险。请投资者根据自身承担风险能力慎重投资。'
       },
       rowName: {
-        pair: '交易对',
-        priceshow: '最新价格',
-        p24: '24h波动',
-        h24: '24h高点',
-        l24: '24h低点',
-        v24: '24h交易量',
+        name: '交易对',
+        close: '最新价格',
+        priceChange: '24h波动',
+        high: '24h高点',
+        low: '24h低点',
+        volume: '24h交易量',
         action: '去交易'
       }
     }
@@ -87,24 +98,26 @@ module.exports = {
     etRight: {
       title: 'ET持有者权利',
       descript: [{
-        title: '收益分配',
-        descript: 'Exchain会将全部100%的交易收入分配给ET的持有者。详情请见白皮书。'
-      },
-      {
-        title: '参与决策',
-        descript: 'Exchain致力于打造一个共享，自治，全面透明的社区，所有ET持有者可通过民主投票的形式参与Exchain社区各类决策'
-      }]
+          title: '收益分配',
+          descript: 'Exchain会将全部100%的交易收入分配给ET的持有者。详情请见白皮书。'
+        },
+        {
+          title: '参与决策',
+          descript: 'Exchain致力于打造一个共享，自治，全面透明的社区，所有ET持有者可通过民主投票的形式参与Exchain社区各类决策'
+        }
+      ]
     },
     getEt: {
       title: '获得ET的方法',
       descript: [{
-        title: '通过“交易即挖矿”获得ET',
-        descript: '1. 只要产生交易，即可按交易额占比100%返还ET的方式获取。<br/>2，通过“合作伙伴”模式，通过邀请好友注册并交易的方式获取。'
-      },
-      {
-        title: '交易购买ET',
-        descript: '用户可以通过币币交易的形式，购买并持有ET。'
-      }]
+          title: '通过“交易即挖矿”获得ET',
+          descript: '1. 只要产生交易，即可按交易额占比100%返还ET的方式获取。<br/>2，通过“合作伙伴”模式，通过邀请好友注册并交易的方式获取。'
+        },
+        {
+          title: '交易购买ET',
+          descript: '用户可以通过币币交易的形式，购买并持有ET。'
+        }
+      ]
     }
   },
   partnerPage: {
@@ -116,7 +129,8 @@ module.exports = {
     p5: '获取相关信息'
   },
   whitepaper: {
-    title: '白皮书'
+    title: '白皮书',
+    folder: 'paper_cn'
   },
   bonus: {
     currentLevel: '您当前等级：',
@@ -124,22 +138,27 @@ module.exports = {
     accumulateFeeRet: '被邀请人手续费累积返还',
     yesterdayETRet: '昨日获得ET返还量：',
     accumulateETRet: '累积ET返还量：',
-    superPartner: '超级合作伙伴：',
-    notice1: '邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。',
-    partner: '普通合作伙伴：',
-    notice2: '邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。',
-    tradeUser: '交易用户：',
+    Partner: '',
+    superPartner: '超级合作伙伴',
+    notice1: '邀请50人及以上注册且被邀请人中至少有50人产生交易（金额不限）即可成为超级合作伙伴。永久分享被推荐人相关交易费50%的回报，交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com 。普通和超级合作伙伴均可享受ET的奖励，具体详情请见白皮书。',
+    generalPartner: '普通合作伙伴',
+    notice2: '邀请 1人注册并产生1笔交易（金额不限）即可成为 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。普通和超级合作伙伴均可享受ET的奖励，具体详情请见白皮书。',
+    tradePartner: '交易伙伴',
     notice3: '任何用户产生至少一笔交易即可成为交易伙伴。',
-    normalUser: '普通用户：',
+    userPartner: '普通用户',
     notice4: '任何注册用户均为普通用户。',
+    wechat: '客服微信',
+    telegram: '电报群',
     inviteType: '邀请方式',
-    inviteCode: '邀请码：',
+    inviteCode: '我的专属邀请码：',
     copyInviteCode: '复制邀请码',
-    inviteLink: '邀请链接：',
+    inviteLink: '我的专属邀请链接：',
+    copyInviteLink: '复制邀请链接',
     inviteRecord: '邀请记录',
     invited: '已邀请',
+    madeTrades: '已完成交易',
     untrade: '未交易',
-    traded: '已完成交易',
+    traded: '已交易',
     inviteUnit: '人',
     account: '被邀请人账号',
     time: '时间',
@@ -187,7 +206,9 @@ module.exports = {
     asset: {
       title: '我的资产',
       estimatedValue: '当前估值',
+      legalTender: '￥',
       withdrawAddress: '提现地址管理',
+      notice: '种子测试期间当前估值不包含 ET ',
       transfer: {
         title: '划转',
         token: '币种',
@@ -198,8 +219,8 @@ module.exports = {
         balance: '余额为',
         cancel: '取消',
         confirm: '立刻划转',
-        account_available: '主账户',
-        exchange_available: '交易账户',
+        account_available: '充提账户',
+        exchange_available: '币币账户',
         deposit: '充值',
         withdraw: '提现',
         exchange_freeze: '冻结',
@@ -209,13 +230,19 @@ module.exports = {
     },
     // kyc
     kyc: {
+      nationality: '国籍',
       firstName: '名',
       familyName: '姓',
       idcardNo: '身份证号码',
+      passportNo: '护照号码',
       front: '证件正面',
       back: '证件背面',
       hold: '手持证件照片',
+      passportFront: '护照封面',
+      passportBack: '护照信息页',
+      passportHold: '手持护照信息页',
       tip: '上传身份证件信息',
+      pleaseUpload: '请上传',
       notice: '为方便审核，请上传清晰的照片',
       btnText: '点击更改',
       standard: {
@@ -267,7 +294,7 @@ module.exports = {
       side: '类型',
       price: '价格',
       amount: '数量',
-      closeRate: '成交率',
+      closeRate: '成交率(%)',
       averPrice: '成交均价',
       opera: '操作',
       detail: '详情',
@@ -276,18 +303,26 @@ module.exports = {
       buy: '买',
       cancelOrder: '撤单'
     },
-    
+
     bindPhone: {
       bindPhone: '绑定手机号',
       unBindPhone: '解绑手机号',
       china: '中国',
-      country: '国家',
+      nationalityList: {
+        china: '中国',
+        france: '法国',
+        us: '美国',
+        uk: '英国',
+      },
+      nationality: '国籍',
       mbileNumber: '手机号',
       smsCode: '短信验证码',
       getCode: '发送验证码',
       codeDownText: '后重新发送',
       ga: '谷歌验证码',
-      confirm: '确认'
+      confirm: '确认',
+      // source: '中国:0086,香港（中国）:00852,台湾（中国）:00886,日本:0081,韩国:0082,英国:0044,德国:0049,加拿大:001,阿尔巴尼亚:00355,阿尔及利亚:00213,安道尔:00376,安哥拉:00244,安圭拉:001264,安提瓜和巴布达:001268,阿根廷:0054,亚美尼亚:00374,阿鲁巴:00297,阿森松:00247,澳大利亚:0061,澳大利亚海外领土:00672,奥地利:0043,阿塞拜疆:00994,巴哈马:001242,巴林: 00973,巴巴多斯:001246,比利时:0032,伯利兹:00501,贝宁:00229,百慕大:001441,不丹:00975,波斯尼亚和黑塞哥维那:00387,波扎那:00267,巴西:0055,英属维尔京群岛:001284,文莱:00673,保加利亚:00359,布基纳法索:00226,布隆迪:00257,柬埔寨:00855,加拿大:001,佛得角:00238,开曼群岛:001345,智利:0056中国:0086,哥伦比亚:0057,科摩罗群岛:00269,库克群岛:00682,哥斯达黎加:00506,克罗地亚:00385,塞浦路斯:00357,巨乐:00420,丹麦:0045迪戈加西亚岛:00246,吉布提:00253,多明尼加:001809,东帝汶:00670,埃及:0020萨尔瓦多:00503,赤道几内亚:00240,厄立特里亚:00291,爱沙尼亚: 00372,埃塞俄比亚:00251,福克兰群岛:00500,法罗群岛:00298,斐济:00679,芬兰:00358,法国:0033,FrenchGuiana:00594,法属玻里尼西亚:00689,加蓬:00241,冈比亚:00220,格鲁吉亚:00995,德国:0049,加纳:00233,直布罗陀: 00350,希腊:0030,格陵兰:00299,格林纳达:001473,瓜德罗普岛:00590,关岛:001671,危地马拉:00502,几内亚 - 比绍:00245,圭亚那:00592,海地:00509,洪都拉斯:00504,香港（中国） :00852,匈牙利:0036,冰岛:00354,印度:0091,印尼:0062,爱尔兰:00353,以色列:00972,意大利:0039,牙买加:001876,日本:0081,如乔丹:00962,哈萨克斯坦:007,肯尼亚:00254 ,基里巴斯:00686,韩国:0082科威特:00965,吉尔吉斯斯坦:00996,老挝:00856,拉脱维亚:00371,莱索托:00266,列支敦士登:00423,立陶宛:00370,卢森堡:00352,马其顿:00389,马达加斯加:00261,马拉维:00265,马来西亚:0060马尔代夫:00960,马里:00223,马耳他:00356,MarshallIslands:00223,MarshallIslands:00692,马提尼克岛:00596,毛里塔尼亚:00222,毛里求斯:00230,墨西哥:0052,密克罗尼西亚:00691,摩尔多瓦:00373摩纳哥:00377,蒙古:00976,黑山:00382,蒙特塞拉特:001664,摩洛哥:00212,莫桑比克:00258,纳米比亚: 00264,瑙鲁:00674,尼泊尔:00977,荷属安的列斯'
+      source:'China:0086,HongKong(China):00852,Taiwan(China):00886,Japan:0081,Korea:0082,UnitedKingdom:0044,Germany:0049,Canada:001,Albania:00355,Algeria:00213,Andorra:00376,Angola:00244,Anguilla:001264,AntiguaandBarbuda:001268,Argentina:0054,Armenia:00374,Aruba:00297,Ascension:00247,Australia:0061,Australianoverseasterritories:00672,Austria:0043,Azerbaijan:00994,Bahamas:001242,Bahrain:00973,Barbados:001246,Belgium:0032,Belize:00501,Benin:00229,Bermuda:001441,Bhutan:00975,BosniaandHerzegovina:00387,Botswana:00267,Brazil:0055,BritishVirginIslands:001284,Brunei:00673,Bulgaria:00359,BurkinaFaso:00226,Burundi:00257,Cambodia:00855,Canada:001,CapeVerde:00238,CaymanIslands.:001345,Chile:0056,China:0086,Colombia:0057,ComorosIslands:00269,CookIslands.:00682,CostaRica:00506,Croatia:00385,Cyprus:00357,CzechRepublic:00420,Denmark:0045,DiegoGarcia:00246,Djibouti:00253,DominicanRepublic:001809,EastTimor:00670,Egypt:0020,ElSalvador:00503,EquatorialGuinea:00240,Eritrea:00291,Estonia:00372,Ethiopia:00251,FalklandIslands:00500,FaroeIslands:00298,Fiji:00679,Finland:00358,France:0033,FrenchGuiana:00594,FrenchPolynesia:00689,Gabon:00241,Gambia:00220,Georgia:00995,Germany:0049,Ghana:00233,Gibraltar:00350,Greece:0030,Greenland:00299,Grenada:001473,Guadeloupe:00590,Guam:001671,Guatemala:00502,Guinea:-,Bissau:00245,Guyana:00592,Haiti:00509,Honduras:00504,HongKong(China):00852,Hungary:0036,Iceland:00354,India:0091,Indonesia:0062,Ireland:00353,Israel:00972,Italy:0039,Jamaica:001876,Japan:0081,Jordan:00962,Kazakstan:007,Kenya:00254,Kiribati:00686,Korea:0082,Kuwait:00965,Kyrgyzstan:00996,Laos:00856,Latvia:00371,Lesotho:00266,Liechtenstein:00423,Lithuania:00370,Luxembourg:00352,Macedonia:00389,Madagascar:00261,Malawi:00265,Malaysia:0060,Maldives:00960,Mali:00223,Malta:00356,MarshallIslands:00223,MarshallIslands:00692,Martinique:00596,Mauritania:00222,Mauritius:00230,Mexico:0052,Micronesia:00691,Moldova:00373,Monaco:00377,Mongolia:00976,Montenegro:00382,Montserrat:001664,Morocco:00212,Mozambique:00258,Namibia:00264,Nauru:00674,Nepal:00977,NetheriandsAntilles:00599,Netherlands:0031,NewZealand:0064,NewCaledonia:00687,Nicaragua:00505,Niger:00227,Nigeria:00234,Niue:00683,Norway:0047,Oman:00968,Palau:00680,Palestine:00970,Panama:00507,PapuaNewCuinea:00675,Paraguay:00595,Peru:0051,Philippines:0063,Poland:0048,Portugal:00351,PuertoRico:001,Qatar:00974,Reunion:00262,Romania:0040,Russia:007,Rwanda:00250,SaintLueia:001758,SaintVincent:001784,SaintPierreandMiquelon:00508,SamoaEastern:00684,SamoaWestern:00685,SanMarino:00378,SaoTomeandPrincipe:00239,SaudiArabia:00966,Senegal:00221,Serbia:00381,Seychelles:00248,SierraLeone:00232,Singapore:0065,Slovakia:00421,Slovenia:00386,SolomonIslands:00677,SouthAfrica:0027,Spain:0034,SriLanka:0094,St.Helena:00290,St.Lucia:001758,St.Vincent:001784,Suriname:00597,Swaziland:00268,Sweden:0046,Switzerland:0041,Taiwan(China):00886,Tajikstan:00992,Tanzania:00255,Thailand:0066,Togo:00228,Tokelau:00690,Tonga:00676,TrinidadandTobago:001868,Tunisia:00216,Turkey:0090,Turkmenistan:00993,Tuvalu:00688,Uganda:00256,Ukraine:00380,UnitedArabEmirates:00971,UnitedKingdom:0044,Uruguay:00598,Uzbekistan:00998,Vanuatu:00678,VaticanCity:00379,Venezuela:0058,Vietnam:0084,WallisandFutuna:00681,Yugoslavia:00338,Zaire:00243,Zambia:00260'
     },
     login: {
       login: '登录',
@@ -305,7 +340,7 @@ module.exports = {
     // 邀请记录
     invite: {
       title: '邀请记录',
-      invitee: '被邀请人账号',
+      invite: '被邀请人账号',
       time: '时间',
       status: '状态',
       traded: '已交易',
@@ -364,9 +399,9 @@ module.exports = {
     ADDR_BLANK: '请输入提币地址',
     NOTE_BLANK: '请输入备注',
     ADDR_LIMIT: '地址不能超过 100 字符',
-    NOTE_LIMIT: '备注不能超过 255 字符',
+    NOTE_LIMIT: '备注不能超过 100 字符',
     // 绑定/解绑手机号
-    COUNTRY_UNSELECT: '请选择国家',
+    NATIONALITY_UNSELECT: '请选择国籍',
     PHONE_BLANK: '请输入您的手机号',
     PHONE_NOT_NUM: '手机号为数字',
     CODE_BLANK: '请输入手机号验证码',
@@ -375,6 +410,7 @@ module.exports = {
     // 充值
     COPY_SUCCESS: '复制成功',
     BROWSER_COPY_LIMIT: '该浏览器不支持自动复制',
+    NO_AVAILABLE_ENCHARGE_ADDR: '暂无可用充值地址',
     // 提现
     ADDR_BLANK: '地址不能为空',
     AMOUNT_BLANK: '请输入提现数量',
@@ -382,21 +418,31 @@ module.exports = {
     FEE_BLANK: '交易费不能为空',
     WITHDRAW_REQ_SUBMIT: '提币请求已提交',
     // kyc
+    NATIONALITY_BLANK: '请选择国籍',
+    NATIONALITY_LIMIT_LENGTH: '不能超过 100 字符',
     FIRSTNAME_BLANK: '请输入名字',
     FAMILYNAME_BLANK: '请输入姓',
-    CARD_BLANK: '请输入身份证号码',
+    IDCARD_ERROR: '格式错误',
+    IDCARD_BLANK: '请输入身份证号码',
+    PASSPORT_BLANK: '请输入护照号码',
     FRONT_BLANK: '请上传身份证正面照',
     BACK_BLANK: '请上传身份证背面照',
     HOLD_BLANK: '请上传手持身份证照',
+    PASSPORT_FRONT_BLANK: '请上护照封面',
+    PASSPORT_BACK_BLANK: '请上传护照信息页',
+    PASSPORT_HOLD_BLANK: '请上传手持护照信息页',
     KYC_SUBMIT: 'KYC 认证提交成功',
     FORMAT_ERROR: '错误的文件后缀',
     // 注册
     // DIFFERENT_PASSWORD_IPT
     EMAIL_BLANK: '邮箱不能为空',
     EMAIL_ERR: '邮箱格式不正确',
+    EMAIL_LIMIT_LENGTH: '不能超过 100 字符',
     EMAIL_CODE_BLANK: '邮箱验证码不能为空',
+    EMAIL_CODE_LIMIT_LENGTH: '不能超过 20 字符',
+    SYMBOL_ERR: '格式错误',
     PWD_BLANK: '密码不能为空',
-    PWD_LIMIT: '密码长度必须大于6位',
+    PWD_LIMIT: '密码为8-20个字符且至少包含数字、字母和符号中的两种',
     PWD2_BLANK: '确认密码不能为空',
     REGISTER_SUCC: '注册成功',
     REGISTER_IPT_ERR: '信息填写有误，请检查您的输入',
@@ -409,6 +455,111 @@ module.exports = {
     // 行为验证相关
     GEET_LOAD_ERR_TIP: '验证码加载失败，请重试',
     GEET_INIT_ERR: '验证码初始化异常，请尝试刷新页面来进行验证码初始化',
-    CHECK_FAIL: '验证失败'
+    CHECK_FAIL: '验证失败',
+    IPT_LENGTH_LIMIT_255: '不能超过 255 字符'
+  },
+  javaApiError: {
+    '1': '系统错误',
+    '2': '缺少参数',
+    '3': '参数格式或类型有误',
+    '108001': '参数 userId 不能为空',
+    '108002': '参数 page 不能为空'
+  },
+  ApiError: {
+    '-1': '未知错误',
+    // API相关
+    '0': '成功',
+    '1': '失败',
+    '2': '参数错误',
+    '3': '签名错误',
+    '4': '重复请求',
+    '5': '非法请求',
+
+    // 用户相关
+    '200': '用户已存在',
+    '201': '用户不存在',
+    '202': '用户名或密码错误',
+    '203': '设置密码失败',
+    '204': '新建用户失败',
+    '205': '用户未登录',
+    '206': '用户实名认证失败',
+    '207': '邀请失败',
+    '208': 'google二次验证失败',
+    '209': '手机绑定失败',
+    '210': '手机解绑失败',
+    '211': '已经实名验证',
+    '212': '用户身份证件上传失败',
+    '213': '用户身份证件类型无效',
+    '214': '验证码验证失败',
+    '215': '短信验证码验证失败',
+    '216': '邮箱验证码验证失败',
+
+    // 账户相关
+    '300': '余额不足',
+    '301': '转移金额到交易所失败',
+    '302': '账户创建出错',
+    '303': '提现创建失败',
+    '304': '转移金额到充提账户失败',
+    '305': '该货币提现限制',
+    '306': '该货币充值限制',
+    '307': '未找到提现记录',
+    '308': '已经处理过',
+    '309': '提现处理失败',
+    '310': '提现锁定状态错误',
+    '311': '提现处理失败',
+    '320': '充值失败',
+    '321': '添加提币地址失败',
+    '322': '删除提币地址失败',
+
+    // 钱包相关
+    '401': '钱包创建失败',
+    '402': '钱包格式不正确',
+    '403': '未知tokenName',
+    '404': 'amount必须大于0',
+    '405': '钱包未托管',
+    '406': '钱包密码不正确',
+    '407': '转账失败',
+    '408': '钱包创建出错',
+    '409': '钱包协议不正确',
+    // '410 ：
+    '411': '获取钱包地址失败',
+
+    // 行情相关
+    '600': '添加收藏失败',
+    '601': '收藏已经存在',
+    '602': '收藏不存在',
+    '603': '删除收藏失败',
+    '604': '获取收藏失败',
+
+    // 限制相关
+    '701': '验证码输入错误次数过多，请稍候再试',
+    '702': '验证码已经失效',
+    '703': 'TOKEN失效，请稍候再试	',
+    '704': 'TOKEN有误，请稍候再试',
+    '705': '验证码输入有误',
+    '706': '短信获取次数过多，请稍候再试',
+    '707': '短信发送频率过快，请稍候再试',
+    '708': '市场名称有误',
+    '709': '手机号码有误',
+    '710': '手机号码已经绑定，请先解绑',
+    '711': '手机号码还没绑定，请先绑定',
+
+    // 订单相关
+    '801': '价格不是限定倍数',
+    '802': '数量不是限定倍数',
+    '803': '总额过小',
+    '804': '未找到币对',
+    '805': '冻结失败',
+    '806': '下单失败',
+    '807': '撤单失败',
+    '808': '订单未找到',
+    '809': '有未结算的成交单',
+    '810': '价格太小',
+    '811': '挂单金额为0',
+    '812': '价格不能超过市价10%',
+
+    // 管理员后台管理页面相关(财务系统后台)
+    '901': '管理员不存在',
+    '902': '管理员登录失败'
   }
 }

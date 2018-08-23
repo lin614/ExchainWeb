@@ -10,7 +10,7 @@
               <div class="line2" />
             </h3>
             <p>{{ $t('etPage.what.descript') }}</p>
-            <img src="../static/imgs/et-t-1.png" id='et' />
+            <img :src="require('../static/imgs/et-t-1-' + $t('common.imgLang') + '.png')" id='et' />
           </div>
           <div class="sec">
             <h3>

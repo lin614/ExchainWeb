@@ -179,4 +179,3 @@ export const formatOrderSide = (side) => {
     }
     return result;
 }
-

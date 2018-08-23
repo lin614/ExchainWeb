@@ -1,4 +1,9 @@
 module.exports = {
+  common: {
+    lang: 'en',
+    imgLang: 'en',
+    legalMoney: '$'
+  },
   header: {
     exchange: 'Exchange',
     et: 'ET',
@@ -9,8 +14,8 @@ module.exports = {
     userCenter: 'Account',
     promiseManage: 'Order management',
     partner: 'Partner Project',
-    login: 'Sign in',
-    register: 'Sign up',
+    login: 'Log In',
+    register: 'Sign Up',
     logout: 'Logout'
   },
   footer: {
@@ -25,21 +30,26 @@ module.exports = {
     clauseInstruction: {
         clauseInstruction: 'Clause Instruction',
         privacyPolicy: 'Privacy Policy',
-        serAgreement: 'User Agreement',
+        serAgreement: 'Terms of Use',
         fees: 'Fees'
     },
     aboutUs: {
-        aboutUs: 'About Us',
-        customerSupport: 'Customer Support',
-        contactUs: 'Contact Us'
+      aboutUs: 'About Us',
+      customerSupport: 'Customer Support',
+      contactUs: 'Contact Us'
     },
-    social: 'Social'
+    social: 'Community',
+    link: {
+      tme: 'https://t.me/exchain_en'
+    }
+
   },
   banner: {
-    title: 'Share the income with partners. Share the profit with users.',
-    descript: 'Exchain, the first global shared digital assets trading platform, not only sharing the trans-fee with partners which the general partner can get 20%, while the super partner can get 50% but also Exchain will distribute 100% of daily profit to the holders of Exchain Token (ET). Free transaction with limited time is beginning now.'
+    title: 'Share the income with partners. Share the profit with users',
+    descript: 'Exchain, the first global shared digital assets trading platform, not only sharing the trans-fee with partners which the general partner can get 20%, while the super partner can get 50% but also Exchain will distribute 100% of daily profit to the holders of Exchain Token (ET). Free transaction with limited time is beginning now.',
+    title2: 'Exchain External Special Users Testing is Opening Soon, strongly promoting the "Partner Project"',
+    descript2: 'Exchain, first global shared digital assets trading platform will launch and start the special user testing soon.<br/>Now we are recruiting our precious Partners!<br/>As the initial partner, you will build the platform together with us, and share the profits:<br/>Enjoying 20%-50% of platform profits + Exchain Token (ET) + infinite USDT rewards Various gifts, more benefits<br/>Free transaction in limited time, only for you to join!'
   },
-  
   index: {
     announcement: {
       title: 'Announcement',
@@ -47,10 +57,10 @@ module.exports = {
       news: 'Exchain start the Partner Project'
     },
     txSumary: {
-      currentDay: 'Total volume on the day',
-      etMarketValue: 'ET total market cap',
+      currentDay: '24 Hour Volume',
+      etMarketValue: 'ET Total Market Cap',
       etCirculation: 'Total ET in circulation',
-      freeTitle: 'Free transaction Deadline',
+      freeTitle: 'Free Transaction Countdown',
       freeUnit: 'Day'
     },
     markets: {
@@ -59,23 +69,23 @@ module.exports = {
       },
       innovationBoard: {
         title: 'Innovation Board',
-        tip: '创新区数字资产属于新型投资产品，有一定投资风险。在投资前，我们希望您能充分了解目标数字资产，合理判断您自己的投资能力，并认真做出投资决策。'
+        tip: 'Digital assets in Innovation Board are new types of investment product,  have some certain risks. Before decising to invest, we wish you could understand the digital asset. Investors must carefully evaluate their own risk tolerance and investment ability and invest prudently.'
       },
       ventureCapitalBoard: {
-        title: 'Venture Capital Board',
-        tip: '相对于创新区的区块链项目，创投区的项目通常处于早期阶段，存在极高的不确定性风险，请投资者务必审慎评估自身风险承受能力以及投资能力，谨慎投资。'
+        title: 'GEM Board',
+        tip: 'Compared with Innovation Board project, GEM Board project at an early stage, have  high risks of uncertainty,Investors must carefully evaluate their own risk tolerance and investment ability and invest prudently.'
       },
       angelInvestmentBoard: {
-        title: 'Angel Investment Board',
-        tip: '风险投资区的数字资产通常处于项目的天使阶段，有极高的不确定性风险。请投资者根据自身承担风险能力慎重投资。'
+        title: 'Venture Capital Board',
+        tip: 'Venture Capital Board project at at angel stage, have extremely high risks of uncertainty. Investors must carefully evaluate their own risk tolerance and investment ability and invest prudently.'
       },
       rowName: {
-        pair: 'Pair',
-        priceshow: 'Last Price',
-        p24: '24h Change',
-        h24: '24h High',
-        l24: '24h Low',
-        v24: '24h Volume',
+        name: 'Pair',
+        close: 'Last Price',
+        priceChange: '24h Change',
+        high: '24h High',
+        low: '24h Low',
+        volume: '24h Volume',
         action: 'Action'
       }
     }
@@ -88,64 +98,72 @@ module.exports = {
     etRight: {
       title: 'ET Rights',
       descript: [{
-        title: 'Revenue Distribution',
-        descript: 'Exchain allocated all 100% of the transaction revenue to ET holders. See Exchain White Paper for details.'
-      },
-      {
-        title: 'Decision - making rights',
-        descript: 'Exchain is committed to creating a shared, autonomous and transparent community. All ET holders can participate in making Exchain community decisions through democratic voting.'
-      }]
+          title: 'Revenue Distribution',
+          descript: 'Exchain allocated all 100% of the transaction revenue to ET holders. See Exchain White Paper for details.'
+        },
+        {
+          title: 'Decision - making rights',
+          descript: 'Exchain is committed to creating a shared, autonomous and transparent community. All ET holders can participate in making Exchain community decisions through democratic voting.'
+        }
+      ]
     },
     getEt: {
       title: 'Tips on Getting ET',
       descript: [{
-        title: 'Get ET Through Mining',
-        descript: '1. “Transaction Mining”, get ET through transaction fees 100% reimbursement.<br/>2. “Partner Project”, get ET through inviting new users to register and exchange on Exchain.'
-      },
-      {
-        title: 'Exchange to Buy ET',
-        descript: 'Users can buy and hold ET via exchanging.'
-      }]
+          title: 'Get ET Through Mining',
+          descript: '1. “Transaction Mining”, get ET through transaction fees 100% reimbursement.<br/>2. “Partner Project”, get ET through inviting new users to register and exchange on Exchain.'
+        },
+        {
+          title: 'Exchange to Buy ET',
+          descript: 'Users can buy and hold ET via exchanging.'
+        }
+      ]
     }
   },
   partnerPage: {
     title: 'Exchain starts The Super Partner Project, create a new era of win-win.',
-    p1: 'Exchain, a digital asset trading platform, is about to be launched in late July. Exchain adopts “trans-fee mining” mode, for users to get ET reward based on transaction volume. From now on, Exchain starts the "Super Partner" project.',
-    p2: 'The user who recommends one or more successful transactions can become our "general  partner" and permanently share the 20% return of the transaction fee of recommended . ',
+    p1: 'Exchain, a digital asset trading platform, will launch soon. Exchain adopts “trans-fee mining” mode, for users to get ET reward based on transaction volume. From now on, Exchain starts the "Super Partner" project.',
+    p2: 'The user who recommends one or more successful transactions can become our "general partner" and permanently share the 20% return of the transaction fee of recommended . ',
     p3: 'The "general partner" will be upgraded to the "super partner" when the number of recommended transaction users reaches more than 50, witch will permanently share the 50% return of the transaction fee of recommended. Both the "general partner" and "super partner" can have Exchain Token(ET) as reward at the same time. ',
     p4: 'If you are interested in the Super Partner Project, please send email to',
     p5: 'for more information.'
   },
   whitepaper: {
-    title: 'Whitepaper'
+    title: 'Whitepaper',
+    folder: 'paper_en'
   },
   bonus: {
-    currentLevel: '您当前等级：',
+    currentLevel: 'Your Level:',
     yesterdayFeeRet: '昨日被邀请人手续费返还：',
     accumulateFeeRet: '被邀请人手续费累积返还',
     yesterdayETRet: '昨日获得ET返还量：',
     accumulateETRet: '累积ET返还量：',
-    superPartner: '超级合作伙伴：',
-    notice1: '邀请50人以上（含50人）注册且所有被邀请人均产生1笔交易（金额不限）即可成为 超级合作伙伴 永久分享被推荐人相关交易费50%的回报， 交易所上线前期超级合作伙伴还有额外好礼相送，具体细节，请联系 partner@exchain.com。',
-    partner: '普通合作伙伴：',
-    notice2: '邀请 1人注册并产生1笔交易（金额不限）（金额不限） 普通合作伙伴 。永久分享被推荐人相关交易费20%的回报。',
-    tradeUser: '交易用户：',
-    notice3: '任何用户产生至少一笔交易即可成为交易伙伴。',
-    normalUser: '普通用户：',
-    notice4: '任何注册用户均为普通用户。',
-    inviteType: '邀请方式',
-    inviteCode: '邀请码：',
-    copyInviteCode: '复制邀请码',
-    inviteLink: '邀请链接：',
+    Partner: '',
+    superPartner: 'Super Partner',
+    notice1: 'When the number of the invitee uses your referral reaches 50 or more, and they make trades (at least 1 trade) on our platform, you will be upgraded to the super partner, and earn a bonus of 50% of transaction fee on each invitee every trade performed. Exchain will give extra bonus to the super partners at the beginning of exchange launching, please contact us at partner@exchain.com for more details. Both the general partners and the super partners can receive the rewards of ET, please see the Whitepaper for more details.',
+    generalPartner: 'General Partner',
+    notice2: 'Invite your friend to register and complete one transaction through your referral code or link. You will become a general partner and earn a bonus of 20% of transaction fee on the invitee every trade performed. Both the general partners and the super partners can receive the rewards of ET, please see the Whitepaper for more details.',
+    tradePartner: 'Trader',
+    notice3: 'Successfully sign-up in our platform and complete at least one transaction, you will become a trader.',
+    userPartner: 'User',
+    notice4: 'Sign-up to our platform successfully, you’re Exchain user.',
+    wechat: 'Customer Service WeChat',
+    telegram: 'Telegram',
+    inviteType: 'Invitation',
+    inviteCode: 'My unique referral code:',
+    copyInviteCode: 'Copy',
+    inviteLink: 'My unique referral link:',
+    copyInviteLink: 'Copy',
     inviteRecord: 'Invite History',
-    invited: '已邀请',
-    untrade: '未交易',
-    traded: '已完成交易',
-    inviteUnit: '人',
+    invited: 'Invited',
+    madeTrades: 'Made trades:',
+    untrade: 'Transaction Uncompleted',
+    traded: 'Transaction Completed',
+    inviteUnit: 'person',
     account: 'Invited Account',
     time: 'Time',
-    status: '状态',
-    toMore: '点击查看更多'
+    status: 'Status',
+    toMore: 'View More'
   },
   userCenter: {
     index: {
@@ -188,7 +206,9 @@ module.exports = {
     asset: {
       title: 'My Asset',
       estimatedValue: 'Estimated Value',
-      withdrawAddress: 'Withdraw',
+      withdrawAddress: 'Withdraw Address',
+      legalTender: '$',
+      notice: 'current asset valuation doesn\'t include ET during the simulated trading period',
       transfer: {
         title: 'Transfer',
         token: 'Coin',
@@ -199,7 +219,7 @@ module.exports = {
         balance: 'Balance',
         cancel: 'cancel',
         confirm: 'Transfer Now',
-        account_available: 'Main Account',
+        account_available: 'Deposit&withdraw Account',
         exchange_available: 'Exchange Account',
         deposit: 'Deposit',
         withdraw: 'Withdraw',
@@ -209,23 +229,29 @@ module.exports = {
       }
     },
     kyc: {
-      firstName: '名',
-      familyName: '姓',
-      idcardNo: '身份证号码',
-      front: '证件正面',
-      back: '证件背面',
-      hold: '手持证件照片',
-      tip: '上传身份证件信息',
-      notice: '为方便审核，请上传清晰的照片',
-      btnText: '点击更改',
+      nationality: 'Nationality',
+      firstName: 'First Name',
+      familyName: 'Family Name',
+      idcardNo: 'ID NO.',
+      passportNo: 'Passport NO.',
+      front: 'ID Front',
+      back: 'ID Back',
+      hold: 'Hold ID',
+      passportFront: 'Passport Cover',
+      passportBack: 'Passport Data Page',
+      passportHold: 'Hold Passport Data Page',
+      tip: 'Please upload ID information',
+      pleaseUpload: 'Please Upload ',
+      notice: 'For the convenience of the audit, please upload a clear picture',
+      btnText: 'Change',
       standard: {
-        title: '手持证件照通过标准：',
-        text1: '人物头像清晰；',
-        text2: '身份证件信息清晰；',
-        text3: '证件照旁展示一张写有：EXCHAIN+申请日期的纸张信息；',
-        text4: '完整的展示您的手臂持证。'
+        title: 'Handheld photo standard',
+        text1: 'the head is clear;',
+        text2: 'Clear documents;',
+        text3: 'Contain EXCHAIN words + application date;',
+        text4: 'Completely display your arm holding the document;'
       },
-      submit: '申请提交'
+      submit: 'Submit'
     },
     // 提现地址管理
     withdrawAddress: {
@@ -268,7 +294,7 @@ module.exports = {
       side: 'Type',
       price: 'Price',
       amount: 'Amount',
-      closeRate: 'Filled',
+      closeRate: 'Filled(%)',
       averPrice: 'Average price',
       detail: 'Detail',
       limitPrice: 'Limit price',
@@ -278,34 +304,41 @@ module.exports = {
       cancelOrder: 'Cancel'
     },
     bindPhone: {
-      bindPhone: 'Bind Mobile Number',
-      unBindPhone: 'UnBind Mobile Number',
+      bindPhone: 'Link Mobile Number',
+      unBindPhone: 'UnLink Mobile Number',
       china: 'china',
-      country: 'Country',
-      mbileNumber: 'mobile Number',
+      nationalityList: {
+        china: 'China',
+        france: 'France',
+        us: 'United States of America',
+        uk: 'United Kiongdom',
+      },
+      nationality: 'Country code',
+      mbileNumber: 'Mobile number',
       smsCode: 'SMS code',
       getCode: 'Get code',
       codeDownText: 'later send',
       ga: 'Google authentication Verification Code',
-      confirm: 'Confirm'
+      confirm: 'Confirm',
+      source:'China:0086,HongKong(China):00852,Taiwan(China):00886,Japan:0081,Korea:0082,UnitedKingdom:0044,Germany:0049,Canada:001,Albania:00355,Algeria:00213,Andorra:00376,Angola:00244,Anguilla:001264,AntiguaandBarbuda:001268,Argentina:0054,Armenia:00374,Aruba:00297,Ascension:00247,Australia:0061,Australianoverseasterritories:00672,Austria:0043,Azerbaijan:00994,Bahamas:001242,Bahrain:00973,Barbados:001246,Belgium:0032,Belize:00501,Benin:00229,Bermuda:001441,Bhutan:00975,BosniaandHerzegovina:00387,Botswana:00267,Brazil:0055,BritishVirginIslands:001284,Brunei:00673,Bulgaria:00359,BurkinaFaso:00226,Burundi:00257,Cambodia:00855,Canada:001,CapeVerde:00238,CaymanIslands.:001345,Chile:0056,China:0086,Colombia:0057,ComorosIslands:00269,CookIslands.:00682,CostaRica:00506,Croatia:00385,Cyprus:00357,CzechRepublic:00420,Denmark:0045,DiegoGarcia:00246,Djibouti:00253,DominicanRepublic:001809,EastTimor:00670,Egypt:0020,ElSalvador:00503,EquatorialGuinea:00240,Eritrea:00291,Estonia:00372,Ethiopia:00251,FalklandIslands:00500,FaroeIslands:00298,Fiji:00679,Finland:00358,France:0033,FrenchGuiana:00594,FrenchPolynesia:00689,Gabon:00241,Gambia:00220,Georgia:00995,Germany:0049,Ghana:00233,Gibraltar:00350,Greece:0030,Greenland:00299,Grenada:001473,Guadeloupe:00590,Guam:001671,Guatemala:00502,Guinea:-,Bissau:00245,Guyana:00592,Haiti:00509,Honduras:00504,HongKong(China):00852,Hungary:0036,Iceland:00354,India:0091,Indonesia:0062,Ireland:00353,Israel:00972,Italy:0039,Jamaica:001876,Japan:0081,Jordan:00962,Kazakstan:007,Kenya:00254,Kiribati:00686,Korea:0082,Kuwait:00965,Kyrgyzstan:00996,Laos:00856,Latvia:00371,Lesotho:00266,Liechtenstein:00423,Lithuania:00370,Luxembourg:00352,Macedonia:00389,Madagascar:00261,Malawi:00265,Malaysia:0060,Maldives:00960,Mali:00223,Malta:00356,MarshallIslands:00223,MarshallIslands:00692,Martinique:00596,Mauritania:00222,Mauritius:00230,Mexico:0052,Micronesia:00691,Moldova:00373,Monaco:00377,Mongolia:00976,Montenegro:00382,Montserrat:001664,Morocco:00212,Mozambique:00258,Namibia:00264,Nauru:00674,Nepal:00977,NetheriandsAntilles:00599,Netherlands:0031,NewZealand:0064,NewCaledonia:00687,Nicaragua:00505,Niger:00227,Nigeria:00234,Niue:00683,Norway:0047,Oman:00968,Palau:00680,Palestine:00970,Panama:00507,PapuaNewCuinea:00675,Paraguay:00595,Peru:0051,Philippines:0063,Poland:0048,Portugal:00351,PuertoRico:001,Qatar:00974,Reunion:00262,Romania:0040,Russia:007,Rwanda:00250,SaintLueia:001758,SaintVincent:001784,SaintPierreandMiquelon:00508,SamoaEastern:00684,SamoaWestern:00685,SanMarino:00378,SaoTomeandPrincipe:00239,SaudiArabia:00966,Senegal:00221,Serbia:00381,Seychelles:00248,SierraLeone:00232,Singapore:0065,Slovakia:00421,Slovenia:00386,SolomonIslands:00677,SouthAfrica:0027,Spain:0034,SriLanka:0094,St.Helena:00290,St.Lucia:001758,St.Vincent:001784,Suriname:00597,Swaziland:00268,Sweden:0046,Switzerland:0041,Taiwan(China):00886,Tajikstan:00992,Tanzania:00255,Thailand:0066,Togo:00228,Tokelau:00690,Tonga:00676,TrinidadandTobago:001868,Tunisia:00216,Turkey:0090,Turkmenistan:00993,Tuvalu:00688,Uganda:00256,Ukraine:00380,UnitedArabEmirates:00971,UnitedKingdom:0044,Uruguay:00598,Uzbekistan:00998,Vanuatu:00678,VaticanCity:00379,Venezuela:0058,Vietnam:0084,WallisandFutuna:00681,Yugoslavia:00338,Zaire:00243,Zambia:00260'
     },
     login: {
-      login: 'Log in',
+      login: 'Log In',
       email: 'Email',
       password: 'Password',
       pleaseInputEmail: '',
       pleaseInputPassword: '',
       welcomeLogin: 'Welcome to log in with Exchain account',
       forgotPassword: 'Forgot your password',
-      resetPassword: 'reset password',
+      resetPassword: 'Reset Password',
       isnotEXUser: 'Not registered yet',
       quickReg: 'Create on to trade on first global free shared digital assets trading platform',
-      signUp: 'Sign up'
+      signUp: 'Sign Up'
     },
     // 邀请记录
     invite: {
       title: 'Invite History',
-      invitee: 'Invited Account',
+      invite: 'Invited Account',
       time: 'Time',
       status: 'Status',
       traded: 'Traded',
@@ -326,7 +359,7 @@ module.exports = {
     pwd2: 'Confirm password',
     pleaseInputPwd2: '',
     code: 'Invitation code(Optional)',
-    registerBtn: 'Register',
+    registerBtn: 'Sign Up',
     toLogin: '',
     login: 'Login',
     sendCode: 'Get code',
@@ -343,9 +376,9 @@ module.exports = {
   },
   errorMsg: {
     // 通用错误
-    SUCCESS: 'successful',
-    FAIL: 'fail',
-    NETWORK_ERROR: 'network error',
+    SUCCESS: 'Successful',
+    FAIL: 'Fail',
+    NETWORK_ERROR: 'Network Error',
     NO_DATA: 'No Data',
     // 修改密码
     CURRENT_PASSWORD_BLANK: 'Please input current password',
@@ -364,9 +397,10 @@ module.exports = {
     ADDR_BLANK: 'Please input your address',
     NOTE_BLANK: 'Please input remark',
     ADDR_LIMIT: '100 characters or shorter',
-    NOTE_LIMIT: '255 characters or shorter',
+    NOTE_LIMIT: '100 characters or shorter',
     // 绑定/解绑手机号
-    COUNTRY_UNSELECT: 'Country',
+    NATIONALITY_BLANK: 'nationality',
+    NATIONALITY_UNSELECT: 'nationality',
     PHONE_BLANK: 'Telehone',
     PHONE_NOT_NUM: 'Telephone must be digits',
     CODE_BLANK: 'Please input code',
@@ -375,6 +409,7 @@ module.exports = {
     // 充值
     COPY_SUCCESS: 'Copy success',
     BROWSER_COPY_LIMIT: 'Your browser do not support copy',
+    NO_AVAILABLE_ENCHARGE_ADDR: 'No available deposit address for now',
     // 提现
     ADDR_BLANK: 'Address can not be null',
     AMOUNT_BLANK: 'Please input amount',
@@ -382,21 +417,32 @@ module.exports = {
     FEE_BLANK: '',
     WITHDRAW_REQ_SUBMIT: 'Withdraw submit success',
     // kyc
-    FIRSTNAME_BLANK: '请输入名字',
-    FAMILYNAME_BLANK: '请输入姓',
-    CARD_BLANK: '请输入身份证号码',
-    FRONT_BLANK: '请上传身份证正面照',
-    BACK_BLANK: '请上传身份证背面照',
-    HOLD_BLANK: '请上传手持身份证照',
-    KYC_SUBMIT: 'KYC 认证提交成功',
-    FORMAT_ERROR: '错误的文件后缀',
+    NATIONALITY_BLANK: 'Please select nationality',
+    NATIONALITY_LIMIT_LENGTH: '100 characters or shorter',
+    FIRSTNAME_BLANK: 'Please input First Name',
+    FAMILYNAME_BLANK: 'Please input Family Name',
+    IDCARD_ERROR: 'ID NO. is error',
+    IDCARD_BLANK: 'Please input ID NO.',
+    PASSPORT_BLANK: 'Please input Passport NO.',
+    
+    FRONT_BLANK: 'Please upload the ID card front photo',
+    BACK_BLANK: 'Please upload the ID card back photo',
+    HOLD_BLANK: 'Please upload a hand-held ID card',
+    PASSPORT_FRONT_BLANK: 'Please upload the passport cover',
+    PASSPORT_BACK_BLANK: 'Please upload the passport information page',
+    PASSPORT_HOLD_BLANK: 'Please upload a hand-held passport information page',
+    KYC_SUBMIT: 'Successful submission of KYC information',
+    FORMAT_ERROR: 'Wrong file suffix',
     // 注册
     // DIFFERENT_PASSWORD_IPT
     EMAIL_BLANK: 'E-mail address can not be null',
     EMAIL_ERR: 'Format error',
+    EMAIL_LIMIT_LENGTH: '100 characters or shorter',
     EMAIL_CODE_BLANK: 'Code can not be null',
+    EMAIL_CODE_LIMIT_LENGTH: '20 characters or shorter',
+    SYMBOL_ERR: 'Format error',
     PWD_BLANK: 'Password can not be null',
-    PWD_LIMIT: 'Password must at least 6 characters',
+    PWD_LIMIT: 'Password must be 8-20 characters and contain at least two types of characters (alphabetic, numeric or special character)',
     PWD2_BLANK: 'Please enter the password again',
     REGISTER_SUCC: 'register success',
     REGISTER_IPT_ERR: 'Input information error',
@@ -409,6 +455,111 @@ module.exports = {
     // 行为验证相关
     GEET_LOAD_ERR_TIP: 'Auth code load fail,please try again',
     GEET_INIT_ERR: 'Auth code load error,please refresh',
-    CHECK_FAIL: 'authentication failed'
+    CHECK_FAIL: 'authentication failed',
+    IPT_LENGTH_LIMIT_255: '255 characters or shorter'
+  },
+  javaApiError: {
+    '1': 'System error',
+    '2': 'Parameters missed',
+    '3': 'Parameter format or type incorrect',
+    '108001': "Parameter userId can't be empty",
+    '108002': "Parameter page can’t be empty",
+  },
+  ApiError: {
+    '-1': 'Unknown error',
+    // API相关
+    '0': 'Success', // 成功
+    '1': 'Fail', //失败
+    '2': 'Parameter error', // 参数错误
+    '3': 'Signature error', // 签名错误
+    '4': 'Repeat request', // 重复请求
+    '5': 'Invalid request', // 非法请求
+
+    // 用户相关
+    '200': 'User already exists', // 用户已存在 
+    '201': 'User does not exist', // 用户不存在 
+    '202': 'Username or password is incorrect', // 密码错误|用户名或密码错误 
+    '203': 'Failed to set password', // 设置密码失败 
+    '204': 'Failed to set user', // 新建用户失败 
+    '205': 'User logged out', // 用户未登录 
+    '206': 'User KYC failed', // 用户实名认证失败 
+    '207': 'Invitation failed', // 邀请失败 
+    '208': 'Google authentication failed', // google二次验证失败 
+    '209': 'Phone link failed', // 手机绑定失败 
+    '210': 'Phone unlink failed', // 手机解绑失败 
+    '211': 'Already KYC', // 已经实名验证 
+    '212': 'ID card upload failed', // 用户身份证件上传失败 
+    '213': 'ID card type is invalid', // 用户身份证件类型无效 
+    '214': 'code verification failed', // 验证码验证失败 --- 行为验证码  
+    '215': 'SMS verification code verification failed', // 短信验证码验证失败 
+    '216': 'code verification failed', // 邮箱验证码验证失败 
+
+    // 账户相关
+    '300': 'Insufficient balance', // 余额不足 
+    '301': 'Transfer amount to exchange failed', // 转移金额到交易所失败 
+    '302': 'Account creation error', // 账户创建出错 
+    '303': 'Withdrawal failed', // 提现创建失败 
+    '304': 'Transfer to withdraw&Deposit account failed', // 转移金额到主账户失败 
+    '305': 'Withdrawal limit', // 该货币提现限制  
+    '306': 'Deposit limit', // 该货币充值限制 
+    '307': 'No withdrawal record found', // 未找到提现记录 
+    '308': 'Already processed', // 已经处理过 
+    '309': 'Withdraw processing failed', // 提现处理失败 
+    '310': 'Withdraw status error', // 提现锁定状态错误 
+    '311': 'Withdraw processing failed', // 提现处理失败 
+    '320': 'Deposit failed', // 充值失败 
+    '321': 'Fail to add address', // 添加提币地址失败 
+    '322': 'Fail to delete address', // 删除提币地址失败 
+
+    // 钱包相关
+    '401': 'Wallet Created Failed', // 钱包创建失败			
+    '402': 'Wallet Format Incorrect', // 钱包格式不正确		
+    '403': 'Unknown Token Name', // 未知tokenName		
+    '404': 'Amount must be greater than 0', // amount必须大于0		
+    '405': 'Wallet Uncolocated', // 钱包未托管			
+    '406': 'Wallet Password Incorrect', // 钱包密码不正确		
+    '407': 'Transfer Failed', // 转账失败				
+    '408': 'Wallet Created Error', // 钱包创建出错			
+    '409': 'Wallet Protocol Incorrect', // 钱包协议不正确		
+    // '410 ：
+    '411': 'Parse Wallet Address Failed', // 获取钱包地址失败		
+
+    // 行情相关
+    '600': 'Add Favorites Failed', // 添加收藏失败			
+    '601': 'Favorites Existed', // 收藏已经存在			
+    '602': 'Favorites Not Exist ', // 收藏不存在			
+    '603': 'Delete Favorites Failed', // 删除收藏失败			
+    '604': 'Wallet Archive Failed', // 获取收藏失败			
+
+    // 限制相关
+    '701': 'Verification code entered incorrectly too many times, please try later.', // 验证码输入错误次数过多，请稍候再试
+    '702': 'Verification Code Invalid', // 验证码已经失效					
+    '703': 'Token Invalid, please try later', //  TOKEN失效，请稍候再试
+    '704': 'Token Incorrect, please try later', // TOKEN有误，请稍候再试
+    '705': 'Verification Code Incorrect', // 验证码输入有误
+    '706': 'Message received too many times, please try later', // 短信获取次数过多，请稍候再试
+    '707': 'Message sent too many times, please try later', // 短信发送频率过快，请稍候再试
+    '708': 'Currency Pairs Name Incorrect', // 市场名称有误					
+    '709': 'Mobile No. Incorrect', // 手机号码有误					
+    '710': 'Mobile no. has been linked, please remove it first.', // 手机号码已经绑定，请先解绑	
+    '711': 'Mobile no. hasn’t been linked yet, please link it first.', // 手机号码还没绑定，请先绑定	
+
+    // 订单相关
+    '801': 'Price is not limited multiples', // 价格不是限定倍数
+    '802': 'Amount is not limited multiples', // 数量不是限定倍数
+    '803': 'Total amount is too small', // 总额过小
+    '804': 'Unfounded Currency Pairs', // 未找到币对
+    '805': 'Freezing Order Failed', // 冻结失败
+    '806': 'Making Order Failed', // 下单失败
+    '807': 'Order Cancelling Fail', // 撤单失败
+    '808': 'Unfounded Order', // 订单未找到
+    '809': 'Uncleared Transactions In Account', // 有未结算的成交单
+    '810': 'Price is too small', // 价格太小
+    '811': 'Pending order amount is 0', // 挂单金额为0
+    '812': 'Order price must not over market price', // 价格不能超过市价10%
+
+    // 管理员后台管理页面相关(财务系统后台)
+    '901': 'Admin Not Exist', // 管理员不存在
+    '902': 'Admin Login Failed' // 管理员登录失败
   }
 }

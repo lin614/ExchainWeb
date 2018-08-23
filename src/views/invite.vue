@@ -11,7 +11,7 @@
             <Row type="flex" :gutter="16">
               <Col span="8">
               <p class="earn">
-                <b>{{ $t('userCenter.invite.title') }}</b>
+                <b>{{ $t('userCenter.invite.invite') }}</b>
               </p>
               </Col>
               <Col span="8">
@@ -37,11 +37,12 @@
 
               </Col>
               <Col span="8">
-              <p class="earn"> {{p.isActive ? $t('userCenter.invite.traded') : $t('userCenter.invite.untraded')}}</p>
+              <p class="earn"> {{p.isActive ? $t('bonus.traded') : $t('bonus.untrade')}}</p>
 
               </Col>
             </Row>
             <Row v-if="noData" class="no-data" type="flex" :gutter="16">{{$t('errorMsg.NO_DATA')}}</Row>
+            <Page @on-change="handlePageChange" v-if="showPage" :total="total"></Page>
           </div>
         </crd>
       </block>
@@ -66,27 +67,52 @@ export default {
   data() {
     return {
       list: [], //邀请记录
-      noData: false
+      noData: false,
+      showPage: false,
+      page: 1,
+      size: 10,
+      total: 0
+    }
+  },
+  methods: {
+    handlePageChange (val) {
+      this.page = val
+      this.getData()
+    },
+    getData () {
+      var uid = cookie.get('uid', { domain: config.url.domain })
+      var vu = this
+      ax
+        .post(config.url.invite + '/api/invite/invitedList', {
+          userId: uid,
+          pageNum: vu.page,
+          pageSize: vu.size
+        })
+        .then(res => {
+          // console.log(res)
+          if (res.status == '200' && res.data.meta.code == '0') {
+            var data = res.data.data
+            vu.list = data.inviteList
+            vu.total = data.inviteCount
+            vu.page = data.pageNum
+            if (parseInt(data.totalPages) > 1) {
+              this.showPage = true
+            } else {
+              this.showPage = false
+            }
+            if (vu.list.length === 0) {
+              vu.noData = true
+            } else {
+              vu.noData = false
+            }
+          } else {
+            apiError(vu, res);
+          }
+        })
     }
   },
   created() {
-    var uid = cookie.get('uid', { domain: config.url.domain })
-    console.log('uid --- ' + uid)
-    ax
-      .post(config.url.invite + '/api/invite/invitedList', {
-        userId: uid
-      })
-      .then(res => {
-        // console.log(res)
-        if (res.status == '200' && res.data.meta.code == '0') {
-          this.list = res.data.data.inviteList
-          if (this.list.length === 0) {
-            this.noData = true
-          } else {
-            this.noData = false
-          }
-        }
-      })
+    this.getData()
   }
 }
 </script>
@@ -101,6 +127,9 @@ export default {
   }
   .no-data {
     justify-content: center;
+  }
+  .ivu-page {
+    text-align: center;
   }
 }
 </style>

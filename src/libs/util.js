@@ -62,4 +62,62 @@ util.toggleTableHeaderLang = (arr, count, langStr, vu) => {
     })
 }
 
+/**
+ * 
+ * 密码为8-20个字符且至少包含数字、字母和符号中的两种
+ * @param {String} pwd  密码
+ */
+util.checkPwd = (pwd) => {
+    var reg = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?![~!@#$%^&*()_+{}|:"<>?/*-.`\[';,/\]]+$)[~!@#$%^&*()_+{}|:"<>?/*-.`\[';,/\]0-9A-Za-z]{8,20}$/
+    return reg.test(pwd)
+}
+
+/**
+ * 
+ * 根据国家码不同采用不同的校验正则
+ * @param {Number} nationality 国家码
+ * @param {String} phone 手机号
+ */
+util.checkPhone = (nationality, phone) => {
+    switch (nationality) {
+        case 86: {
+            var reg = /^1[3-9]\d{9}$/
+            return reg.test(phone)
+        } break
+        default: {
+            return true
+        }
+    }
+}
+
+/**
+ * 
+ * 校验币的地址
+ * @param {String} addr 地址
+ */
+util.checkAddr = (addr) => {
+    var reg = /^[A-Za-z0-9\+\/\=]+$/
+    return reg.test(addr)
+}
+
+/**
+ * 
+ * 校验邮箱
+ * @param {String} email 邮箱
+ */
+util.checkEmail = (email) => {
+    var reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+    return reg.test(email)
+}
+
+/**
+ * 
+ * 校验验证码
+ * @param {String} code 验证码
+ */
+util.checkCode = (code) => {
+    var reg = /^[A-Za-z0-9]+$/
+    return reg.test(code)
+}
+
 export default util;
