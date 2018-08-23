@@ -312,8 +312,6 @@ export default {
             this.initMainMarket = res.data.result;
             let mainMarket = res.data.result;
 
-            debugger
-
             // USDT 交易对的价格
             let usdtArr = [];
             for (var i = 0; i < mainMarket.length; i++) {
