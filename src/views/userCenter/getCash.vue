@@ -79,14 +79,14 @@ export default {
               }
               // 判断精度
               var decimal = this.accountData.decimal
-              var reg = RegExp('^[0-9]{0,8}(\.[0-9]{0,' + decimal + '})?$')
+              var reg = RegExp('^[0-9]{0,8}(\\.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
                 callback(this.$t('errorMsg.DECIMAL_LIMIT') + decimal + this.$t('errorMsg.DECIMAL_UNIT'))
               }
               if (parseFloat(value) > parseFloat(this.accountData.account_available)) {
                 callback(this.$t('errorMsg.OVER_AVAILABLE_AMOUNT'))
               }
-              if (value < this.fee) {
+              if (parseFloat(value) < parseFloat(this.fee)) {
                 callback(this.$t('errorMsg.AMOUNT_LESS_FEE'))
               }
               callback()
