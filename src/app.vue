@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import './views/style/main.css'
+// import './views/style/main.css'
 
 export default {
   data() {
