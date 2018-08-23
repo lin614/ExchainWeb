@@ -392,6 +392,7 @@ module.exports = {
     TO_ADDR_BLANK: '请选择转入账户',
     AMOUNT_BLANK: '请输入划转数量',
     DECIMAL_LIMIT: '因币种限制，最多支持到小数点后',
+    FORMATTING_INCORRECT: '请输入正确格式的数量',
     DECIMAL_UNIT: '位',
     OVER_AVAILABLE_AMOUNT: '超过可用额度',
     // 地址管理

@@ -79,6 +79,9 @@ export default {
               }
               // 判断精度
               var decimal = this.accountData.decimal
+              if (!/^\d+(\.\d)?$/.test(value)) {
+                callback(this.$t('errorMsg.FORMATTING_INCORRECT'))
+              }
               var reg = RegExp('^[0-9]{0,8}(\\.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
                 callback(this.$t('errorMsg.DECIMAL_LIMIT') + decimal + this.$t('errorMsg.DECIMAL_UNIT'))

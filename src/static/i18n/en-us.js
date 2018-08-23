@@ -390,6 +390,7 @@ module.exports = {
     TO_ADDR_BLANK: 'TO',
     AMOUNT_BLANK: 'amount',
     DECIMAL_LIMIT: 'Maximum Decimal Places: ',
+    FORMATTING_INCORRECT: 'Please input the number of correct formatting.',
     DECIMAL_UNIT: '',
     OVER_AVAILABLE_AMOUNT: 'Over available amount',
     // 地址管理
