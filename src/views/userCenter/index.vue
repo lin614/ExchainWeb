@@ -513,7 +513,7 @@ export default {
 }
 .change-pwd-model,
 .login-model {
-  display: flex;
+  // display: flex;
   align-items: center;
   justify-content: center;
   .ivu-modal {

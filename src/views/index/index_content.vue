@@ -265,7 +265,7 @@ export default {
       this.subQuo(allMarket[i].parm)
     }
 
-    // 接收推送
+        // 接收推送
     bus.$on('wsUpdate', data => {
       let info = [
         ...this.mainMarket,
@@ -275,10 +275,12 @@ export default {
       ].filter(p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel)[0]
 
       if (info) {
+        console.log('111111111', data);
         this.wsData.push(data)
         this.calculate(this.wsData)
       }
     })
+
    
     // 中英文
     bus.$on('langChange', () => {
@@ -310,6 +312,8 @@ export default {
             this.initMainMarket = res.data.result;
             let mainMarket = res.data.result;
 
+            debugger
+
             // USDT 交易对的价格
             let usdtArr = [];
             for (var i = 0; i < mainMarket.length; i++) {
@@ -326,15 +330,16 @@ export default {
               mainMarket[i].parm_ = arr.join('_').toLowerCase() // 类似btc_usdt
 
               // 价格波动
-              let sub = new Decimal(mainMarket[i].close).sub(new Decimal(mainMarket[i].LastDayPrice))
-              let wave = new Decimal(sub).div(new Decimal(mainMarket[i].LastDayPrice)).toNumber();
-              mainMarket[i].priceChange = wave ? (wave * 100).toFixed(2) + '%' : '-';
+              // let sub = new Decimal(mainMarket[i].close).sub(new Decimal(mainMarket[i].LastDayPrice))
+              // let wave = new Decimal(sub).div(new Decimal(mainMarket[i].LastDayPrice)).toNumber();
+              // mainMarket[i].priceChange = wave ? (wave * 100).toFixed(2) + '%' : '-';
+              mainMarket[i].priceChange = (mainMarket[i].priceChange * 100).toFixed(2) + '%';
 
               // 法币计算
               // 非 [*/USDT] 的交易对，转换成按USDT计价
               let legalMoney = mainMarket[i].close
               if (mainMarket[i].name.split('/')[1] !== 'USDT') {
-                legalMoney = legalMoney * usdtArr[mainMarket[i].name];
+                legalMoney = legalMoney * usdtArr[mainMarket[i].name.split('/')[1] + '/USDT'];
               }
 
               // 中英文模式价格显示
@@ -387,15 +392,16 @@ export default {
           info.LastDayPrice = market.data[0][1]; // 昨天收盘价
 
           // 24h波动
-          let sub = new Decimal(info.close).sub(new Decimal(info.LastDayPrice))
-          let wave = new Decimal(sub).div(new Decimal(info.LastDayPrice)).toNumber()
-          info.priceChange = wave ? (wave * 100).toFixed(2) + '%' : '-'
+          // let sub = new Decimal(info.close).sub(new Decimal(info.LastDayPrice))
+          // let wave = new Decimal(sub).div(new Decimal(info.LastDayPrice)).toNumber()
+          // info.priceChange = wave ? (wave * 100).toFixed(2) + '%' : '-'
+          info.priceChange = (info.priceChange * 100).toFixed(2) + '%';
 
           // 法币计算
           // 非 [*/USDT] 的交易对，转换成按USDT计价
           let legalMoney = info.close
           if (mainMarket[i].name.split('/')[1] !== 'USDT') {
-            legalMoney = legalMoney * usdtArr[mainMarket[i].name];
+            legalMoney = legalMoney * usdtArr[mainMarket[i].name.split('/')[1] + '/USDT'];
           }
 
           // 中英文模式价格显示
