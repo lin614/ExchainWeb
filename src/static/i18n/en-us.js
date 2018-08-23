@@ -304,8 +304,8 @@ module.exports = {
       cancelOrder: 'Cancel'
     },
     bindPhone: {
-      bindPhone: 'Bind Mobile Number',
-      unBindPhone: 'UnBind Mobile Number',
+      bindPhone: 'Link Mobile Number',
+      unBindPhone: 'UnLink Mobile Number',
       china: 'china',
       nationalityList: {
         china: 'China',

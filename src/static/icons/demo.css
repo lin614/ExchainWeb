@@ -207,11 +207,11 @@ margin: 0 auto;
   margin: 0 3px;
   padding: 0 5px;
   background: #eee;
-  border-radius: 3px;
+  border-radius: 0px;
 }
 
 .markdown pre {
-  border-radius: 6px;
+  border-radius: 0px;
   background: #f7f7f7;
   padding: 20px;
 }

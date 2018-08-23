@@ -272,9 +272,7 @@ export default {
 <style lang="less">
 @import url(../style/config.less);
 .bonus_content {
-  margin-top: 16px;
   line-height: 40px;
-  padding-top: 40px;
   //   .pa-c {
   .lv {
     height: 80px;
@@ -330,7 +328,7 @@ export default {
   }
   .lv-text {
     padding: 8px 16px;
-    border-radius: 4px;
+    border-radius: 0px;
     background: @text-bg-color;
     h3 {
       font-size: 14px;
@@ -362,7 +360,7 @@ export default {
         // width: 90%;
         height: 50px;
         border: 1px solid #ebebeb;
-        border-radius: 4px;
+        border-radius: 0px;
         span {
           line-height: 50px;
           padding-left: 16px;

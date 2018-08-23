@@ -1,5 +1,5 @@
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="asset-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main">
         <crd potColor="#4399e9">
@@ -884,7 +884,6 @@ export default {
 <style lang="less">
 @import url(../style/config.less);
 .asset-cont {
-  padding: 40px 0;
   font-size: 14px;
   .crd {
     margin-bottom: 0;
@@ -928,7 +927,7 @@ export default {
           text-align: center;
           color: #fff;
           font-size: 16px;
-          border-radius: 4px;
+          border-radius: 0px;
           background-color: @font-color-blue;
           cursor: pointer;
         }

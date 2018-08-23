@@ -92,7 +92,10 @@ img {
 i {
   font-style: normal;
 }
-.ivu-card {
+.ivu-card,
+.ivu-card,
+.ivu-modal-content,.ivu-select-selection,
+.ivu-input {
   border-radius: 0px !important;
 }
 .ivu-form-item {

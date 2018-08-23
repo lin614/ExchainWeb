@@ -1,6 +1,6 @@
 
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="reset">
       <block>
         <crd slot="inner">
@@ -18,7 +18,7 @@
                   <Input v-model="resetInfo.emailcode" :placeholder="$t('register.pleaseIptEmailCode')" style="width: 360px"></Input>
 
                   <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
-                  <div v-show="!codeDown" class="send-code-btn fr" @click="sendemailBefore"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
+                  <div v-show="!codeDown" class="send-code-btn fr" ref="sendEmail"><Spin v-show="sendCodeLoading" size="small" fix></Spin><span>{{$t('register.sendCode')}}</span></div>
                 </FormItem>
 
                 <FormItem prop="pwd" :label="$t('register.pwd')" class="ivu-form-item-required">
@@ -32,7 +32,7 @@
                 </FormItem>
 
                 <FormItem>
-                  <Button class="btn-large" type="primary" @click="resSetPwd('resetInfo')"><Spin v-show="resetLoading" :fix="true"></Spin>{{$t('reset.resetBtn')}}</Button>{{$t('reset.toLogin')}}
+                  <Button class="btn-large" type="primary" ref="reset"><Spin v-show="resetLoading" :fix="true"></Spin>{{$t('reset.resetBtn')}}</Button>{{$t('reset.toLogin')}}
                   <router-link to="/login">{{$t('reset.login')}}</router-link>
                 </FormItem>
               </Form>
@@ -162,7 +162,233 @@ export default {
     }
   },
   methods: {
-    resSetPwd(name) {
+    sendemailBefore() {
+      if (this.sendCodeLoading) {
+        return
+      }
+      var vu = this
+      this.$refs['resetInfo'].validateField('email', function(error) {
+        if (!error) {
+          vu.geettestFlag = 'SEND_EMAIL_CODEA';
+          vu.sense.sense();
+        }
+      })
+    },
+
+    sendEmail (params) {
+      var vu = this
+      
+      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : '';
+      vu.sendCodeLoading = true
+
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'dk-reset'
+      } else {
+        captcha_type = 'dk-reset-en'
+      }
+
+      params.email = vu.resetInfo.email;
+      params.language = lang;
+      params.captcha_type = captcha_type;
+
+      ax
+        .post(config.url.user + '/api/user/resetPassword', params)
+        .then(function(res) {
+          vu.sendCodeLoading = false
+          if (res.status == '200' && res.data.errorCode == 0) {
+            vu.resettoken = res.data.result.token
+            vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
+            vu.codeDown = true;
+            vu.handleCodeDown();
+            // vu.geettest.reset();
+          } else {
+            // vu.geettest.reset();
+            apiError(vu, res);
+          }
+        })
+        .catch((err) => {
+          // vu.geettest.reset();
+          vu.sendCodeLoading = false
+          apiReqError(vu, err);
+        });
+    },
+
+    resSetPwd() {
+      var vu = this
+      this.resetLoading = true
+      this.$refs['resetInfo'].validate(valid => {
+        if (valid) {
+          vu.geettestFlag = 'SUBMIT_DATA';
+          vu.sense.sense();
+        } else {
+          vu.resetLoading = false
+        }
+      })
+    },
+
+    resSetPwdFn(params) {
+      let vu = this;
+
+      let captcha_type = '';
+      if (this.$t('common.lang') === 'cn') {
+        captcha_type = 'dk-reset'
+      } else {
+        captcha_type = 'dk-reset-en'
+      }
+
+      params.email = this.resetInfo.email;
+      params.code = this.resetInfo.emailcode;
+      params.token = this.resettoken;
+      params.password = md5(this.resetInfo.pwd);
+      params.captcha_type = captcha_type;
+
+      ax
+        .post(config.url.user + '/api/user/verifyResetPassword', params)
+        .then(function(res) {
+          if (res.status == 200 && res.data.errorCode == 0) {
+            // vu.$Modal.success({
+            //   content: '重置密码成功！',
+            //   onOk: function() {
+            //     vu.$router.push('/login')
+            //   }
+            // })
+            vu.$Message.success(vu.$t('errorMsg.RESET_SUCC'))
+            vu.$router.push('/login');
+            // vu.geettest.reset();
+          } else {
+            vu.resetLoading = false
+            // vu.geettest.reset()
+            apiError(vu, res);
+          }
+        })
+        .catch((err) => {
+          vu.resetLoading = false
+          // vu.geettest.reset()
+          apiReqError(vu, err);
+        })
+    },
+
+    initGeetest() {
+      var vu = this
+      let params = null;
+
+      if (this.$t('common.lang') === 'cn') {
+        params = {type: 'dk-reset'}
+      } else {
+        params = {type: 'dk-reset-en'}
+      }
+      
+      ax
+        .post(config.url.user + '/api/user/initCaptcha', params)
+        .then(res => {
+          var data = res.data
+          this.initSenseAction(data);
+        })
+        .catch(() => {
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
+        })
+    },
+
+    initSenseAction (data) {
+      let vu = this;
+      vu.$initSense({
+        id: data.id,
+        lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',
+        onError:function(err){
+            console.log('gt error', err)
+        }
+      }, sense => {
+        vu.sense = sense;
+        vu.$refs.sendEmail.addEventListener('click', this.sendemailBefore);
+        vu.$refs.reset.$el.addEventListener('click', this.resSetPwd);
+
+        sense.setInfos(function () {
+          return {
+            interactive: 1  //用户场景
+          }
+        }).onSuccess(function (data) {
+          if (vu.geettestFlag === 'SUBMIT_DATA') {
+            let params = {geetest_challenge: data.challenge}
+            vu.resSetPwdFn(params);
+          } else {
+            let params = {geetest_challenge: data.challenge}
+            vu.sendEmail(params)
+          }
+        }).onClose(function(){
+          console.log('close')
+          vu.resetLoading = false
+        }).onError(function(err){
+          console.log(err);
+          if(err && err.code === '1001'){
+              submit({})
+          }
+        })
+      });
+    },
+
+    initGeetestAction (data) {
+      vu.gtserver = data.gtserver
+        vu.$initGeetest({
+          gt: data.gt,
+          challenge: data.challenge,
+          offline: !data.success,
+          new_captcha: true,
+          product: 'bind',
+          lang: this.activeLang ? (this.activeLang === 'cn') ? 'zh-cn' : this.activeLang : 'zh-cn'
+        }, function (captchaObj) {
+          vu.geettest = captchaObj
+          captchaObj.onReady(function(){
+            console.log('onready')
+            vu.geetOnReady = true
+          }).onSuccess(function(){
+            if (vu.geettestFlag === 'SUBMIT_DATA') {
+              var result = this.geettest.getValidate()
+              let params = {
+                geetest_challenge: data.challenge,
+                geetest_validate: result.geetest_validate,
+                geetest_seccode: result.geetest_seccode,
+                gtserver: vu.gtserver
+              }
+              vu.resSetPwdFn(params);
+            } else {
+              var result = this.geettest.getValidate()
+              let params = {
+                geetest_challenge: result.geetest_challenge,
+                geetest_validate: result.geetest_validate,
+                geetest_seccode: result.geetest_seccode,
+                gtserver: vu.gtserver
+              };
+              vu.sendEmail(params);
+            }
+          }).onError(function(){
+            vu.geetOnReady = false
+            vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
+          })
+          .onClose(function () {
+            vu.resetLoading = false
+          })
+        })
+    },
+
+    /**
+     * 倒计时
+     */
+    handleCodeDown () {
+      var time = 60
+      this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+      clearInterval(this.timer)
+      this.timer = setInterval(() => {
+        time -= 1
+        if (time <= 0) {
+          this.codeDown = false
+          clearInterval(this.timer)
+        }
+        this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+      }, 1000)
+    },
+
+    resSetPwd0(name) {
       var vu = this
       this.resetLoading = true
       this.$refs[name].validate(valid => {
@@ -180,7 +406,7 @@ export default {
       })
     },
 
-    sendemailBefore() {
+    sendemailBefore0() {
       if (this.sendCodeLoading) {
         return
       }
@@ -197,157 +423,6 @@ export default {
       })
     },
 
-    sendEmail () {
-      var vu = this
-      var result = this.geettest.getValidate()
-      var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : '';
-      vu.sendCodeLoading = true
-
-      let captcha_type = '';
-      if (this.$t('common.lang') === 'cn') {
-        captcha_type = 'reset'
-      } else {
-        captcha_type = 'reset-en'
-      }
-
-      ax
-        .post(config.url.user + '/api/user/resetPassword', {
-          email: vu.resetInfo.email,
-          language: lang,
-          captcha_type: captcha_type,
-          geetest_challenge: result.geetest_challenge,
-          geetest_validate: result.geetest_validate,
-          geetest_seccode: result.geetest_seccode,
-          gtserver: vu.gtserver
-        })
-        .then(function(res) {
-          vu.sendCodeLoading = false
-          if (res.status == '200' && res.data.errorCode == 0) {
-            vu.resettoken = res.data.result.token
-            vu.$Message.success(vu.$t('errorMsg.EMAIL_SEND_SUCC'))
-            vu.codeDown = true;
-            vu.handleCodeDown();
-            vu.geettest.reset();
-          } else {
-            vu.geettest.reset();
-            apiError(vu, res);
-          }
-        })
-        .catch((err) => {
-          vu.geettest.reset();
-          vu.sendCodeLoading = false
-          apiReqError(vu, err);
-        });
-    },
-
-    resSetPwdFn() {
-      var vu = this
-      var result = this.geettest.getValidate()
-
-      let captcha_type = '';
-      if (this.$t('common.lang') === 'cn') {
-        captcha_type = 'reset'
-      } else {
-        captcha_type = 'reset-en'
-      }
-
-      ax
-        .post(config.url.user + '/api/user/verifyResetPassword', {
-          email: vu.resetInfo.email,
-          code: vu.resetInfo.emailcode,
-          token: vu.resettoken,
-          password: md5(vu.resetInfo.pwd),
-          captcha_type: captcha_type,
-          geetest_challenge: result.geetest_challenge,
-          geetest_validate: result.geetest_validate,
-          geetest_seccode: result.geetest_seccode,
-          gtserver: vu.gtserver
-        })
-        .then(function(res) {
-          if (res.status == 200 && res.data.errorCode == 0) {
-            // vu.$Modal.success({
-            //   content: '重置密码成功！',
-            //   onOk: function() {
-            //     vu.$router.push('/login')
-            //   }
-            // })
-            vu.$Message.success(vu.$t('errorMsg.RESET_SUCC'))
-            vu.$router.push('/login');
-            vu.geettest.reset();
-          } else {
-            vu.resetLoading = false
-            vu.geettest.reset()
-            apiError(vu, res);
-          }
-        })
-        .catch((err) => {
-          vu.resetLoading = false
-          vu.geettest.reset()
-          apiReqError(vu, err);
-        })
-    },
-    /**
-     * 倒计时
-     */
-    handleCodeDown () {
-      var time = 60
-      this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
-      clearInterval(this.timer)
-      this.timer = setInterval(() => {
-        time -= 1
-        if (time <= 0) {
-          this.codeDown = false
-          clearInterval(this.timer)
-        }
-        this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
-      }, 1000)
-    },
-    
-    initGeetest() {
-      var vu = this
-      let params = null;
-      if (this.$t('common.lang') === 'cn') {
-        params = {type: 'reset'}
-      } else {
-        params = {type: 'reset-en'}
-      }
-      ax
-        .post(config.url.user + '/api/user/initCaptcha', params)
-        .then(res => {
-          var data = res.data
-          vu.gtserver = data.gtserver
-          vu.$initGeetest({
-            gt: data.gt,
-            challenge: data.challenge,
-            offline: !data.success,
-            new_captcha: true,
-            product: 'bind',
-            lang: this.activeLang ? (this.activeLang === 'cn') ? 'zh-cn' : this.activeLang : 'zh-cn'
-          }, function (captchaObj) {
-            vu.geettest = captchaObj
-            captchaObj.onReady(function(){
-              console.log('onready')
-              vu.geetOnReady = true
-            }).onSuccess(function(){
-              if (vu.geettestFlag === 'SUBMIT_DATA') {
-                vu.resSetPwdFn();
-              } else {
-                vu.sendEmail();
-              }
-            }).onError(function(){
-              vu.geetOnReady = false
-              vu.$Message.error(vu.$t('errorMsg.GEET_INIT_ERR'))
-            })
-            .onClose(function () {
-              vu.resetLoading = false
-            })
-
-          })
-        })
-        .catch(() => {
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
-        })
-    },
     onEnter (e) {
       if (e.keyCode === 13) {
         this.resSetPwd('resetInfo')
@@ -355,14 +430,18 @@ export default {
     }
   },
   created() {
-    this.initGeetest()
     this.resetInfo.code = this.$route.params.code
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.resetInfo.resetFields()
+      vu.$refs.sendEmail.removeEventListener('click', this.sendemailBefore, false);
+      vu.$refs.reset.$el.removeEventListener('click', this.resSetPwd, false);
       this.initGeetest()
     })
     window.addEventListener('keyup', this.onEnter)
+  },
+  mounted() {
+    this.initGeetest()
   },
   destroyed () {
     window.removeEventListener('keyup', this.onEnter)
@@ -373,7 +452,6 @@ export default {
 <style lang="less">
 @import url(./style/config.less);
 .reset {
-  padding-top: 16px;
   .btn-large {
     position: relative;
   }
@@ -427,16 +505,16 @@ export default {
     color: #fff;
     background-color: #999;
     text-align: center;
-    border-radius: 4px;
+    border-radius: 0px;
   }
   .send-code-btn {
     position: relative;
     // display: inline-block;
     box-sizing: border-box;
     min-width: 140px;
-    height: 50px;
-    line-height: 48px;
-    border-radius: 4px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 0px;
     padding: 0 10px;
     border: 1px solid #419aec;
     color: #419aec;

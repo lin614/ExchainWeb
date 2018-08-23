@@ -1,5 +1,5 @@
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="kyc-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main">
         <crd potColor="#429aeb">
@@ -434,7 +434,6 @@ export default {
 
 <style lang="less">
   .kyc-cont {
-    padding-top: 40px;
     font-size: 14px;
     .kyc-main {
       padding: 60px;
@@ -463,7 +462,7 @@ export default {
         height: 180px;
         padding-top: 25px;
         background: rgba(245,248,253,1);
-        border-radius: 8px;
+        border-radius: 0px;
         text-align: center;
         cursor: pointer;
         img {
@@ -477,7 +476,7 @@ export default {
         top: 0;
         width: 280px;
         height: 180px;
-        border-radius: 8px;
+        border-radius: 0px;
       }
       .ivu-upload .tip {
         font-size: 16px;
@@ -501,7 +500,7 @@ export default {
           height: 180px;
           text-align: center;
           background: rgba(245,248,253,1);
-          border-radius: 8px;
+          border-radius: 0px;
           img {
             display: inline;
           }

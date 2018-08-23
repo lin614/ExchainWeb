@@ -1,5 +1,5 @@
 <template>
-  <page>
+  <page class="page_content-padding">
     <div class="bindphone-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main">
         <crd potColor="#4399e9">
@@ -352,11 +352,8 @@ export default {
 
 <style lang="less">
 .bindphone-cont {
-  padding-top: 40px;
-  padding-bottom: 40px;
   box-sizing: border-box;
   .crd {
-    margin-bottom: 0;
     .ivu-card {
       &:hover {
         transform: none;
@@ -391,11 +388,11 @@ export default {
       // display: inline-block;
       box-sizing: border-box;
       min-width: 140px;
-      height: 50px;
-      line-height: 48px;
+      height: 40px;
+      line-height: 40px;
       padding: 0 10px;
       border: 1px solid #5999e5;
-      border-radius: 4px;
+      border-radius: 0px;
       color: #5999e5;
       background-color: #fff;
       text-align: center;

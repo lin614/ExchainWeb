@@ -1,6 +1,5 @@
-
 <template>
-    <page>
+    <page class="page_content-padding">
         <div class="paper">
             <block>
                 <crd slot="inner">
@@ -12,7 +11,6 @@
             </block>
         </div>
     </page>
-
 </template>
 
 <script>
