@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div :class="$t('common.lang')">
     <router-view></router-view>
   </div>
 </template>
 <script>
+// import './views/style/main.css'
+
 export default {
   data() {
     return {}

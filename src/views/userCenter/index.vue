@@ -512,13 +512,13 @@ export default {
 }
 .change-pwd-model,
 .login-model {
-  display: flex;
+  // display: flex;
   align-items: center;
   justify-content: center;
   .ivu-modal {
     width: 420px;
     min-height: 500px;
-    top: 0;
+    // top: 0;
     .ivu-modal-content {
       padding: 20px 40px 40px;
     }

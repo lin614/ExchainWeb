@@ -80,12 +80,12 @@ module.exports = {
         tip: 'Venture Capital Board project at at angel stage, have extremely high risks of uncertainty. Investors must carefully evaluate their own risk tolerance and investment ability and invest prudently.'
       },
       rowName: {
-        pair: 'Pair',
-        priceshow: 'Last Price',
-        p24: '24h Change',
-        h24: '24h High',
-        l24: '24h Low',
-        v24: '24h Volume',
+        name: 'Pair',
+        close: 'Last Price',
+        priceChange: '24h Change',
+        high: '24h High',
+        low: '24h Low',
+        volume: '24h Volume',
         action: 'Action'
       }
     }
@@ -390,6 +390,7 @@ module.exports = {
     TO_ADDR_BLANK: 'TO',
     AMOUNT_BLANK: 'amount',
     DECIMAL_LIMIT: 'Maximum Decimal Places: ',
+    FORMATTING_INCORRECT: 'Please input the number of correct formatting.',
     DECIMAL_UNIT: '',
     OVER_AVAILABLE_AMOUNT: 'Over available amount',
     // 地址管理

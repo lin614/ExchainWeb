@@ -25,9 +25,8 @@ export default {
 }
 </script>
 
-<style lang="less">
-.paper {
-  .content {
+<style lang="less" scoped>
+  .content img{
+      width: 100%;
   }
-}
 </style>

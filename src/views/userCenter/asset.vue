@@ -181,7 +181,8 @@ export default {
       assetListTable: [
         {
           title: 'token',
-          key: 'token'
+          key: 'token',
+          minWidth: 30
         },
         {
           title: 'account_available',
@@ -195,12 +196,13 @@ export default {
         },
         {
           title: 'exchange_freeze',
-          key: 'exchange_freeze'
+          key: 'exchange_freeze',
+          minWidth: 70
         },
         {
           title: ' ',
           key: 'opera',
-          minWidth: 200,
+          minWidth: 280,
           render: (h, params) => {
             return h('div', [
               h(

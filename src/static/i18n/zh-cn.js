@@ -80,12 +80,12 @@ module.exports = {
         tip: '风险投资区的数字资产通常处于项目的天使阶段，有极高的不确定性风险。请投资者根据自身承担风险能力慎重投资。'
       },
       rowName: {
-        pair: '交易对',
-        priceshow: '最新价格',
-        p24: '24h波动',
-        h24: '24h高点',
-        l24: '24h低点',
-        v24: '24h交易量',
+        name: '交易对',
+        close: '最新价格',
+        priceChange: '24h波动',
+        high: '24h高点',
+        low: '24h低点',
+        volume: '24h交易量',
         action: '去交易'
       }
     }
@@ -392,6 +392,7 @@ module.exports = {
     TO_ADDR_BLANK: '请选择转入账户',
     AMOUNT_BLANK: '请输入划转数量',
     DECIMAL_LIMIT: '因币种限制，最多支持到小数点后',
+    FORMATTING_INCORRECT: '请输入正确格式的数量',
     DECIMAL_UNIT: '位',
     OVER_AVAILABLE_AMOUNT: '超过可用额度',
     // 地址管理
