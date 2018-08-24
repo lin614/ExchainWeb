@@ -27,7 +27,8 @@ export default {
 
 <style lang="less">
 .priv {
-  .content {
+  .content img{
+      width: 100%;
   }
 }
 </style>

@@ -390,16 +390,16 @@ export default {
           info.LastDayPrice = market.data[0][1]; // 昨天收盘价
 
           // 24h波动
-          // let sub = new Decimal(info.close).sub(new Decimal(info.LastDayPrice))
-          // let wave = new Decimal(sub).div(new Decimal(info.LastDayPrice)).toNumber()
-          // info.priceChange = wave ? (wave * 100).toFixed(2) + '%' : '-'
-          info.priceChange = (info.priceChange * 100).toFixed(2) + '%';
+          let sub = new Decimal(info.close).sub(new Decimal(info.LastDayPrice))
+          let wave = new Decimal(sub).div(new Decimal(info.LastDayPrice)).toNumber()
+          info.priceChange = wave ? (wave * 100).toFixed(2) + '%' : '-'
+          // info.priceChange = (info.priceChange * 100).toFixed(2) + '%';
 
           // 法币计算
           // 非 [*/USDT] 的交易对，转换成按USDT计价
           let legalMoney = info.close
-          if (mainMarket[i].name.split('/')[1] !== 'USDT') {
-            legalMoney = legalMoney * usdtArr[mainMarket[i].name.split('/')[1] + '/USDT'];
+          if (info.name.split('/')[1] !== 'USDT') {
+            legalMoney = legalMoney * usdtArr[info.name.split('/')[1] + '/USDT'];
           }
 
           // 中英文模式价格显示

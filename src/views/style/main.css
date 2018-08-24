@@ -33,6 +33,10 @@
   left: 488px;
 }
 
+.wap .login .content .login_form {
+    width: 420px;
+}
+
 /* 个人中心 */
 .wap .content-body-main {
   width: 980px;
@@ -48,6 +52,14 @@
 
 .wap .kyc-cont .kyc-main .sample .sample-txt {
   width: 230px;
+}
+
+.wap .footr {
+    height: 320px;
+}
+
+.wap .en .headr .logo {
+    margin-right: 10px;
 }
 
 body {

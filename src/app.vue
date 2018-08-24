@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$t('common.lang')">
     <router-view></router-view>
   </div>
 </template>
