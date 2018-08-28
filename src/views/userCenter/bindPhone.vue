@@ -78,6 +78,7 @@ export default {
       bindStatus: '',
       type: '',
       nationalityList: [],
+      oldLang: '',
       bindForm: {
         nationality: '86',
         phone: '',
@@ -321,6 +322,7 @@ export default {
     }
   },
   mounted() {
+    this.oldLang = this.activeLang;
     var bindStatus = sessionStorage.getItem('bindPhone')
     var userNum = sessionStorage.getItem('userNum')
     if (bindStatus) {
@@ -337,7 +339,14 @@ export default {
     }
     var vu = this
     bus.$on('langChange', () => {
-      vu.$refs.bindForm.resetFields()
+      if (vu.oldLang !== vu.activeLang) {
+        vu.oldLang = vu.activeLang;
+        vu.$refs.bindForm.resetFields()
+        vu.bindForm.nationality = ''
+        setTimeout(() => {
+          vu.bindForm.nationality = '86';
+        }, 50);
+      }
     })
   },
   created() {
