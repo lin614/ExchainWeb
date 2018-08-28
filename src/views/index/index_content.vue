@@ -8,7 +8,7 @@
         <Table size="large" :columns="col1" :data="mainMarket"></Table>
       </crd>
 
-      <!-- <crd potColor="#5999e5">
+      <crd potColor="#5999e5">
         <span slot="title">
           {{ $t('index.markets.innovationBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.innovationBoard.title')" content="content">
@@ -20,9 +20,9 @@
         </span>
 
         <Table size="large" :columns="col1" :data="data2"></Table>
-      </crd> -->
+      </crd>
 
-      <!-- <crd potColor="#f4c058">
+      <crd potColor="#f4c058">
         <span slot="title">
           {{ $t('index.markets.ventureCapitalBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.ventureCapitalBoard.title')" content="content">
@@ -34,8 +34,9 @@
           </Poptip>
         </span>
         <Table size="large" :columns="col1" :data="data3"></Table>
-      </crd> -->
-      <!-- <crd potColor="#e13737">
+      </crd>
+
+      <crd potColor="#e13737">
         <span slot="title">
           {{ $t('index.markets.angelInvestmentBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.angelInvestmentBoard.title')" content="content">
@@ -46,7 +47,7 @@
           </Poptip>
         </span>
         <Table size="large" :columns="col1" :data="data4"></Table>
-      </crd> -->
+      </crd>
     </div>
   </block>
 </template>
