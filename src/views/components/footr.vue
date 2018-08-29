@@ -14,7 +14,7 @@
                     </Row>
 
                     <Row>
-                        <Col span="8">{{ $t("footer.services.exchange") }}</Col>
+                        <Col span="8"><a target="_blank" @click="toTrade()">{{ $t("footer.services.exchange") }}</a></Col>
                         <Col span="8"><router-link to="/priv">{{ $t("footer.clauseInstruction.privacyPolicy") }}</router-link></Col>
                         <Col span="8"><a target="_blank" v-bind:href='$t("footer.link.tme")'>{{ $t("footer.aboutUs.customerSupport") }}</a></Col>
                     </Row>
