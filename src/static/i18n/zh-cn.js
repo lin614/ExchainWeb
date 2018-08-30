@@ -54,7 +54,17 @@ module.exports = {
     announcement: {
       title: '公告',
       more: '更多',
-      news: 'Exchain超级合作伙伴计划开启'
+      news: 'Exchain超级合作伙伴计划开启',
+      newsTitle1: 'Exchain升级期间ET分配及奖励规则公告',
+      newsUrl1: 'https://support.exchain.com/hc/zh-cn/articles/360014694392',
+      newsTitle2: 'Exchain整装待发，种子测试第二轮将在29日再次开启',
+      newsUrl2: 'https://support.exchain.com/hc/zh-cn/articles/360014972212',
+      newsTitle3: 'Exchain千万ET回馈种子测试用户',
+      newsUrl3: 'https://support.exchain.com/hc/zh-cn/articles/360015174991',
+      newsTitle4: 'Exchain超级合作伙伴计划开启',
+      newsUrl4: 'https://support.exchain.com/hc/zh-cn/articles/360006935231',
+      newsTitle5: '种子测试期间平台使用说明',
+      newsUrl5: 'https://support.exchain.com/hc/zh-cn/articles/360013213691',
     },
     txSumary: {
       currentDay: '24小时成交额',

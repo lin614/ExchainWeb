@@ -3,29 +3,46 @@
         <Card icon="compose" :bordered="false">
             <p slot="title">
                 {{ $t('index.announcement.title') }}
-                <a class="fr" style="font-weight: 400;" target="_blank" href="https://support.exchain.com/hc/zh-cn" v-if="$t('index.announcement.more') === '更多'">{{ $t('index.announcement.more') }} ></a>
-                <a class="fr" style="font-weight: 400;" target="_blank" href="https://support.exchain.com/hc/en-us" v-if="$t('index.announcement.more') === 'More'">{{ $t('index.announcement.more') }} ></a>
+                <a class="fr" style="font-weight: 400;" target="_blank" href="https://support.exchain.com/hc/zh-cn" v-if="$t('common.lang') === 'cn'">{{ $t('index.announcement.more') }} ></a>
+                <a class="fr" style="font-weight: 400;" target="_blank" href="https://support.exchain.com/hc/en-us" v-if="$t('common.lang') === 'en'">{{ $t('index.announcement.more') }} ></a>
             </p>
+
             <ul>
+
                 <li>
-                    <a class="notice-a" target="_blank" :href="$t('index.announcement.more') === '更多' ? 'https://support.exchain.com/hc/zh-cn/articles/360006935231' : 'https://support.exchain.com/hc/en-us/articles/360006935231'" :title="$t('index.announcement.news')">
-                        {{ $t('index.announcement.news') }}
+                    <a class="notice-a" target="_blank" :href="$t('index.announcement.newsUrl1')" :title="$t('index.announcement.newsTitle1')">
+                        {{ $t('index.announcement.newsTitle1') }}
                         <Icon type="chevron-right"></Icon>
                     </a>
                 </li>
-                <li v-if="$t('index.announcement.more') === '更多'">
-                    <a class="notice-a" target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360013213691" title="种子测试期间平台使用说明">
-                        种子测试期间平台使用说明
+
+                <li>
+                    <a class="notice-a" target="_blank" :href="$t('index.announcement.newsUrl2')" :title="$t('index.announcement.newsTitle2')">
+                        {{ $t('index.announcement.newsTitle2') }}
                         <Icon type="chevron-right"></Icon>
                     </a>
                 </li>
-                <li v-if="$t('index.announcement.more') === 'More'">
-                    <a class="notice-a" target="_blank" href="https://support.exchain.com/hc/en-us/articles/360013213691" title="Instructions For Exchain Special User Test">
-                        Instructions For Exchain Special User Test
+
+                <li>
+                    <a class="notice-a" target="_blank" :href="$t('index.announcement.newsUrl3')" :title="$t('index.announcement.newsTitle3')">
+                        {{ $t('index.announcement.newsTitle3') }}
                         <Icon type="chevron-right"></Icon>
                     </a>
                 </li>
                 
+                <li>
+                    <a class="notice-a" target="_blank" :href="$t('index.announcement.newsUrl4')" :title="$t('index.announcement.newsTitle4')">
+                        {{ $t('index.announcement.newsTitle4') }}
+                        <Icon type="chevron-right"></Icon>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="notice-a" target="_blank" :href="$t('index.announcement.newsUrl5')" :title="$t('index.announcement.newsTitle5')">
+                        {{ $t('index.announcement.newsTitle5') }}
+                        <Icon type="chevron-right"></Icon>
+                    </a>
+                </li>
             </ul>
         </Card>
     </div>
