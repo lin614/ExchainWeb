@@ -54,7 +54,17 @@ module.exports = {
     announcement: {
       title: 'Announcement',
       more: 'More',
-      news: 'Exchain start the Partner Project'
+      news: 'Exchain start the Partner Project',
+      newsTitle1: 'Upgrading Period ETs Distribution Rules',
+      newsUrl1: 'https://support.exchain.com/hc/en-us/articles/360014694392',
+      newsTitle2: 'The 2nd Round Special User Testing Has Started At 29th August',
+      newsUrl2: 'https://support.exchain.com/hc/en-us/articles/360014972212',
+      newsTitle3: 'Exchain Uses More Than Ten Million Extra ETs To Reward Special User Testing Users',
+      newsUrl3: 'https://support.exchain.com/hc/en-us/articles/360015174991',
+      newsTitle4: 'Exchain start the Partner Project',
+      newsUrl4: 'https://support.exchain.com/hc/en-us/articles/360006935231',
+      newsTitle5: 'Instructions For Exchain Special User Test',
+      newsUrl5: 'https://support.exchain.com/hc/en-us/articles/360013213691'
     },
     txSumary: {
       currentDay: '24 Hour Volume',
