@@ -105,6 +105,12 @@ const routers = [{
         },
         component: (resolve) => require(['./views/userCenter/asset.vue'], resolve)
     }, {
+        path: '/usercenter/financeRecord',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/userCenter/financeRecord.vue'], resolve)
+    }, {
         path: '/usercenter/kyc',
         meta: {
             title: ''

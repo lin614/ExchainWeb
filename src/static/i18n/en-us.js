@@ -238,6 +238,21 @@ module.exports = {
         trade: 'Trade'
       }
     },
+    // 财务记录
+    financeRecord: {
+      title: 'History',
+      depositHistory: 'Deposit History',
+      withdrawHistory: 'Withdraw History',
+      table: {
+        ctime: 'Time',
+        market: 'Coin',
+        side: 'Type',
+        amount: 'Amount',
+        status: 'Status',
+        opera: 'Action',
+        detail: 'Detail',
+      }
+    },
     kyc: {
       nationality: 'Nationality',
       firstName: 'First Name',

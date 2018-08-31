@@ -3,7 +3,10 @@
     <div class="asset-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main">
         <crd potColor="#4399e9">
-          <span slot="title">{{ $t('userCenter.asset.title') }}</span>
+          <div class="tit" slot="title">
+            <span>{{ $t('userCenter.asset.title') }}</span>
+            <router-link to="/usercenter/financeRecord" class="fr">充提记录</router-link>
+          </div>
           <div class="card-main clearfix">
             <div class="card-main-hd">
               <div class="asset-amount fl">
@@ -886,6 +889,10 @@ export default {
 <style lang="less">
 @import url(../style/config.less);
 .asset-cont {
+  .tit {
+    width: 100%;
+    padding-right: 20px;
+  }
   font-size: 14px;
   .crd {
     margin-bottom: 0;

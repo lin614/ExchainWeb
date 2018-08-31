@@ -238,6 +238,21 @@ module.exports = {
         trade: '交易'
       }
     },
+    // 财务记录
+    financeRecord: {
+      title: '充提记录',
+      depositHistory: '充币记录',
+      withdrawHistory: '提币记录',
+      table: {
+        ctime: '时间',
+        market: '币种',
+        side: '类型',
+        amount: '数量',
+        status: '状态',
+        opera: '操作',
+        detail: '详情',
+      }
+    },
     // kyc
     kyc: {
       nationality: '国籍',

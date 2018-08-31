@@ -3,12 +3,12 @@
     <div class="entrust-cont" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main clearfix">
         <crd potColor="#4399e9">
-          <span slot="title">{{ $t('userCenter.entrust.title') }}</span>
+          <span slot="title">{{ $t('userCenter.financeRecord.title') }}</span>
           <div class="entrust-tab">
-            <div class="entrust-tab-item fl" @click="handleTabClick('current')" :class="currentTab === 'current' ? 'tab-active' : ''">{{ $t('userCenter.entrust.currentOrder') }}</div>
-            <div class="entrust-tab-item fl" @click="handleTabClick('history')" :class="currentTab === 'history' ? 'tab-active' : ''">{{ $t('userCenter.entrust.historyOrder') }}</div>
+            <div class="entrust-tab-item fl" @click="handleTabClick('current')" :class="currentTab === 'current' ? 'tab-active' : ''">{{ $t('userCenter.financeRecord.depositHistory') }}</div>
+            <div class="entrust-tab-item fl" @click="handleTabClick('history')" :class="currentTab === 'history' ? 'tab-active' : ''">{{ $t('userCenter.financeRecord.withdrawHistory') }}</div>
           </div>
-          <Table v-if="currentTab === 'current'" :columns="columns1" :data="curData"></Table>
+          <Table v-if="currentTab === 'current'" :columns="columns1" :data="depositHistory"></Table>
           <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleCurPageChange" :total="curTotal"></Page>
           <Table v-if="currentTab === 'history'" :columns="columns2" :data="hisData"></Table>
           <Page v-if="(currentTab === 'history') && showHisPage" @on-change="handleHisPageChange" :total="hisTotal"></Page>
@@ -40,162 +40,91 @@ export default {
       hisPage: 1,
       hisSize: 10,
       hisTotal: 0,
-      columns1: [
-        {
-          title: this.$t('userCenter.entrust.ctime'),
-          key: 'ctime',
-          width: 200
-        },
-        {
-          title: this.$t('userCenter.entrust.market'),
-          key: 'market'
-        },
-        {
-          title: this.$t('userCenter.entrust.side'),
-          key: 'side',
-          width: 100,
-          render: function(h, params) {
-            // var vu = this
-            // console.log(vu)
-            return h(
-              'div',
-              {
-                style: {
-                  color: ((params.row.side + '') === '1') ? 'green' : 'red'
-                }
-              },
-              ((params.row.side + '') === '1')
-                ? vu.$t('userCenter.entrust.buy')
-                : vu.$t('userCenter.entrust.sell')
-            )
-          }
-        },
-        {
-          title: this.$t('userCenter.entrust.price'),
-          key: 'price'
-        },
-        {
-          title: this.$t('userCenter.entrust.amount'),
-          key: 'amount'
-        },
-        {
-          title: this.$t('userCenter.entrust.closeRate'),
-          key: 'closeRate'
-        },
-        {
-          title: this.$t('userCenter.entrust.averPrice'),
-          key: 'averPrice'
-        },
-        {
-          title: this.$t('userCenter.entrust.opera'),
-          key: 'opera',
-          render: (h, params) => {
-            return h(
-              'span',
-              {
-                style: {
-                  cursor: 'pointer'
-                }
-              },
-              [
-                h(
-                  'strong',
-                  {
-                    style: {
-                      color: '#419cf6'
-                    },
-                    on: {
-                      click: () => {
-                        this.cancelOrder(params.row)
-                      }
-                    }
-                  },
-                  this.$t('userCenter.entrust.cancelOrder')
-                )
-              ]
-            )
-          }
-        }
-      ],
-      columns2: [
-        {
-          title: this.$t('userCenter.entrust.ctime'),
-          key: 'ctime',
-          width: 200
-        },
-        {
-          title: this.$t('userCenter.entrust.market'),
-          key: 'market'
-        },
-        {
-          title: this.$t('userCenter.entrust.side'),
-          key: 'side',
-          width: 100,
-          render: function(h, params) {
-            // var vu = this
-            // console.log(vu)
-            return h(
-              'div',
-              {
-                style: {
-                  color: ((params.row.side + '') === '1') ? 'green' : 'red'
-                }
-              },
-              ((params.row.side + '') === '1')
-                ? vu.$t('userCenter.entrust.buy')
-                : vu.$t('userCenter.entrust.sell')
-            )
-          }
-        },
-        {
-          title: this.$t('userCenter.entrust.price'),
-          key: 'price'
-        },
-        {
-          title: this.$t('userCenter.entrust.amount'),
-          key: 'amount'
-        },
-        {
-          title: this.$t('userCenter.entrust.closeRate'),
-          key: 'closeRate'
-        },
-        {
-          title: this.$t('userCenter.entrust.averPrice'),
-          key: 'averPrice'
-        },
-        {
-          title: this.$t('userCenter.entrust.opera'),
-          key: 'opera',
-          render: (h, params) => {
-            return h(
-              'span',
-              {
-                style: {
-                  cursor: 'pointer'
-                }
-              },
-              [
-                h(
-                  'strong',
-                  {
-                    style: {
-                      color: '#419cf6'
-                    },
-                    on: {
-                      click: () => {
-                        this.cancelOrder(params.row)
-                      }
-                    }
-                  },
-                  ''
-                )
-              ]
-            )
-          }
-        }
-      ],
-      curData: [],
+      depositHistory: [],
       hisData: []
+    }
+  },
+  computed: {
+    columns1() {
+      let vu = this;
+      return [
+        {
+          title: this.$t('userCenter.financeRecord.table.ctime'),
+          key: 'ctime',
+          width: 250
+        },
+        {
+          title: this.$t('userCenter.financeRecord.table.market'),
+          key: 'market',
+          width: 250
+        },
+        {
+          title: this.$t('userCenter.financeRecord.table.side'),
+          key: 'side',
+          width: 250,
+          render: function(h, params) {
+            return h(
+              'div',
+              {
+                style: {
+                  color: ((params.row.side + '') === '1') ? 'green' : 'red'
+                }
+              },
+              ((params.row.side + '') === '1')
+                ? vu.$t('userCenter.entrust.buy')
+                : vu.$t('userCenter.entrust.sell')
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.financeRecord.table.amount'),
+          key: 'amount',
+          width: 250
+        },
+        {
+          title: this.$t('userCenter.financeRecord.table.opera'),
+          key: 'opera',
+          width: 100,
+          render: (h, params) => {
+            return h(
+              'span',
+              {
+                style: {
+                  cursor: 'pointer'
+                },
+                on: {
+                  click: () => {
+                    if (params.row.recharge) {
+                      this.handleOpera(params.index, params.row, 'encharge')
+                    }
+                  }
+                }
+              },
+              [
+                h(
+                  'strong',
+                  {
+                    style: {
+                      color: '#419cf6'
+                    },
+                    on: {
+                      click: () => {
+                        this.cancelOrder(params.row)
+                      }
+                    }
+                  },
+                  this.$t('userCenter.financeRecord.table.detail')
+                )
+              ]
+            )
+          }
+        }
+      ]
+    },
+    columns2() {
+      return [
+        ...this.columns1
+      ]
     }
   },
   components: {
@@ -209,46 +138,36 @@ export default {
     handleTabClick(type) {
       this.currentTab = type
       if (type === 'current') {
-        this.getCurData()
+        this.getDepositHistory()
       } else {
         this.getHisData()
       }
     },
     /**
-     * 获取当前委托
+     * 获取提币记录
      */
-    getCurData() {
-      var vu = this
-      ax
-        .get(
-          config.url.user +
-            '/api/order/lists?status=1&method=active&t' +
-            new Date().getTime() + '&page=' + vu.curPage + '&size=' + vu.curSize,
-          getHeader
-        )
-        .then(res => {
-          if (res.status == '200' && res.data.errorCode == 0) {
-            let data = res.data.result.data
-            for (let i = 0; i < data.length; i++) {
-              let amount_deal = parseFloat(data[i].amount_deal)
-              let amount = parseFloat(data[i].amount)
-              let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
-              data[i].closeRate = rate.toFixed(2)
-              vu.curData = data
-            }
-            vu.curTotal = res.data.result.total * 1
-            if (Math.ceil(vu.curTotal / vu.curSize) > 1) {
-              this.showCurPage = true
-            } else {
-              this.showCurPage = false
-            }
-            if (data.length === 0) {
-              vu.curData = []
-            }
-          } else {
-            apiError(vu, res);
-          }
-        })
+    getDepositHistory() {
+      this.depositHistory = [{
+        ctime: '2018-06-20 15:08:08',
+        market: 'ETH',
+        side: '普通币种',
+        amount: '1.23020002',
+        status: '已完成'
+      },
+      {
+        ctime: '2018-06-20 15:08:08',
+        market: 'ETH',
+        side: '普通币种',
+        amount: '1.23020002',
+        status: '已完成'
+      },
+      {
+        ctime: '2018-06-20 15:08:08',
+        market: 'ETH',
+        side: '普通币种',
+        amount: '1.23020002',
+        status: '已完成'
+      }];
     },
     /**
      * 获取成交历史
@@ -348,7 +267,7 @@ export default {
         )
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
-            vu.getCurData()
+            vu.getDepositHistory()
             vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
           } else {
             apiError(vu, res);
@@ -360,7 +279,7 @@ export default {
      */
     handleCurPageChange (e) {
       this.curPage = e
-      this.getCurData()
+      this.getDepositHistory()
     },
     /**
      * 成交历史页码改变
@@ -371,13 +290,13 @@ export default {
     }
   },
   mounted() {
-    var vu = this
-    util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
-    util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
-    bus.$on('langChange', () => {
-      util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
-      util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
-    })
+    // var vu = this
+    // util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
+    // util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
+    // bus.$on('langChange', () => {
+    //   util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
+    //   util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
+    // })
     // console.log(getHeader)
   },
   created() {
@@ -392,7 +311,7 @@ export default {
     })()
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
-    this.getCurData()
+    this.getDepositHistory()
   },
   destroyed() {
     window.removeEventListener('resize', this.handleWindowResize)
@@ -421,7 +340,8 @@ export default {
     }
   }
   .entrust-tab {
-    height: 50px;
+    height: 49px;
+    margin-bottom: 15px;
     padding-left: 30px;
     background-color: #f9fafc;
     // border-top: 1px solid #e9eaec;
@@ -460,6 +380,7 @@ export default {
     }
   }
   .ivu-table-wrapper {
+    padding: 0px 30px;
     border: none;
     .ivu-table::after {
       width: 0;
@@ -473,7 +394,6 @@ export default {
     }
     .ivu-table th {
       background-color: transparent;
-      border-bottom: none;
     }
     .ivu-table td {
       border-bottom: none;
