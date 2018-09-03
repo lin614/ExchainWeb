@@ -95,8 +95,11 @@ export default {
     }
   },
   mounted () {
-    new ClipboardJS('#addr')
-    this.getAddress(this.token)
+    if (this.showCharge) {
+      new ClipboardJS('#addr')
+      this.getAddress(this.token)
+    }
+    
   },
   beforeDestroy () {
     // console.log(1111);

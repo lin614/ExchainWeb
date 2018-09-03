@@ -548,7 +548,7 @@ module.exports = {
     '408': 'Wallet Created Error', // 钱包创建出错			
     '409': 'Wallet Protocol Incorrect', // 钱包协议不正确		
     // '410 ：
-    '411': 'Parse Wallet Address Failed', // 获取钱包地址失败		
+    '411': 'Failed to parse wallet address', // 获取钱包地址失败		
 
     // 行情相关
     '600': 'Add Favorites Failed', // 添加收藏失败			
