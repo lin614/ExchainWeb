@@ -1,6 +1,6 @@
 <template>
   <page class="page_content-padding">
-    <div class="entrust-cont" :style="'minHeight:' + pageHeight + 'px'">
+    <div class="finance-record" :style="'minHeight:' + pageHeight + 'px'">
       <div class="content-body-main clearfix">
         <crd potColor="#4399e9">
           <span slot="title">{{ $t('userCenter.financeRecord.title') }}</span>
@@ -25,8 +25,15 @@ import ax from 'axios'
 import config from '../../config/config.js'
 import util from '../../libs/util.js'
 import cookie from 'js-cookie'
+import depositDetail from './financeRecord-depositDetail'
+
 export default {
   name: 'entrust',
+
+  components: {
+    depositDetail,
+  },
+
   data() {
     var vu = this
     return {
@@ -51,17 +58,17 @@ export default {
         {
           title: this.$t('userCenter.financeRecord.table.ctime'),
           key: 'ctime',
-          width: 250
+          width: 240
         },
         {
           title: this.$t('userCenter.financeRecord.table.market'),
           key: 'market',
-          width: 250
+          width: 240
         },
         {
           title: this.$t('userCenter.financeRecord.table.side'),
           key: 'side',
-          width: 250,
+          width: 240,
           render: function(h, params) {
             return h(
               'div',
@@ -79,12 +86,12 @@ export default {
         {
           title: this.$t('userCenter.financeRecord.table.amount'),
           key: 'amount',
-          width: 250
+          width: 240
         },
         {
           title: this.$t('userCenter.financeRecord.table.opera'),
           key: 'opera',
-          width: 100,
+          width: 158,
           render: (h, params) => {
             return h(
               'span',
@@ -94,9 +101,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    if (params.row.recharge) {
-                      this.handleOpera(params.index, params.row, 'encharge')
-                    }
+                    this.handleOpera(params)
                   }
                 }
               },
@@ -106,15 +111,49 @@ export default {
                   {
                     style: {
                       color: '#419cf6'
-                    },
-                    on: {
-                      click: () => {
-                        this.cancelOrder(params.row)
-                      }
                     }
                   },
                   this.$t('userCenter.financeRecord.table.detail')
                 )
+              ]
+            )
+          }
+        },
+        {
+          type: 'expand',
+          width: 1,
+          render: (h, params) => {
+            return h(
+              'div',
+              {
+                style: {
+                  width: '100%',
+                  padding: '5px 20px',
+                  border: '1px solid #ebebeb',
+                  borderRadius: '4px',
+                  backgroundColor: '#fafafa'
+                }
+              },
+              [
+                h(depositDetail, {
+                  props: {
+                    showCharge: this.showCharge
+                  }
+                }),
+                // h(getCash, {
+                //   props: {
+                //     showCharge: this.showCharge,
+                //     fee: this.tokenFee,
+                //     token: this.enchargeToken,
+                //     params: params.row,
+                //     getTokenObj: this.tokenObj
+                //   },
+                //   on: {
+                //     submitGetCash: () => {
+                //       this.getMyAsset()
+                //     }
+                //   }
+                // })
               ]
             )
           }
@@ -143,6 +182,12 @@ export default {
         this.getHisData()
       }
     },
+    handleOpera(row) {
+      this.depositHistory.forEach((value, index) => {
+        value._expanded = false
+      })
+      this.depositHistory[row.index]._expanded = true
+    },
     /**
      * 获取提币记录
      */
@@ -152,6 +197,7 @@ export default {
         market: 'ETH',
         side: '普通币种',
         amount: '1.23020002',
+        _expanded: false,
         status: '已完成'
       },
       {
@@ -159,6 +205,7 @@ export default {
         market: 'ETH',
         side: '普通币种',
         amount: '1.23020002',
+        _expanded: false,
         status: '已完成'
       },
       {
@@ -166,6 +213,7 @@ export default {
         market: 'ETH',
         side: '普通币种',
         amount: '1.23020002',
+        _expanded: false,
         status: '已完成'
       }];
     },
@@ -320,7 +368,7 @@ export default {
 </script>
 
 <style lang="less">
-.entrust-cont {
+.finance-record {
   div {
     box-sizing: border-box;
   }

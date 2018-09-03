@@ -49,7 +49,9 @@ export default {
   },
   watch: {
     token () {
-      this.getAddress(this.token)
+      if (this.showCharge) {
+        this.getAddress(this.token)
+      }
     }
   },
   methods: {

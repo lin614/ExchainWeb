@@ -414,8 +414,8 @@ export default {
     .send-code-down {
       box-sizing: border-box;
       min-width: 140px;
-      height: 50px;
-      line-height: 48px;
+      height: 40px;
+      line-height: 38px;
       padding: 0 10px;
       border: 1px solid #999;
       color: #fff;
@@ -431,8 +431,8 @@ export default {
       border-radius: 0px;
     }
     .ivu-btn-primary {
-      height: 60px;
-      font-size: 18px;
+      height: 40px;
+      font-size: 16px;
     }
     .phone-form-item {
       & .ivu-form-item-content {

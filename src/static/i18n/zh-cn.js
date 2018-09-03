@@ -2,7 +2,9 @@ module.exports = {
   common: {
     lang: 'cn',
     imgLang: 'cn',
-    legalMoney: '￥'
+    legalMoney: '￥',
+    confirm: '确认',
+    cancel: '取消'
   },
   header: {
     exchange: '交易',
@@ -219,6 +221,13 @@ module.exports = {
       legalTender: '￥',
       withdrawAddress: '提现地址管理',
       notice: '种子测试期间当前估值不包含 ET ',
+      withdrawModal: {
+        title: '安全验证',
+        phone: '手机号',
+        phoneCode: '短信验证码',
+        email: '邮箱',
+        emailCode: '邮箱验证码'
+      },
       transfer: {
         title: '划转',
         token: '币种',
@@ -441,6 +450,7 @@ module.exports = {
     ADDR_BLANK: '地址不能为空',
     AMOUNT_BLANK: '请输入提现数量',
     AMOUNT_LESS_FEE: '提现数量不足以支付手续费',
+    AMOUNT_LESS_MIN_WITHDRAW: '提现数量不能小于最小提现额度',
     FEE_BLANK: '交易费不能为空',
     WITHDRAW_REQ_SUBMIT: '提币请求已提交',
     // kyc
@@ -466,6 +476,11 @@ module.exports = {
     EMAIL_LIMIT_LENGTH: '不能超过 100 字符',
     EMAIL_CODE_BLANK: '邮箱验证码不能为空',
     EMAIL_CODE_LIMIT_LENGTH: '不能超过 20 字符',
+    PHONE_BLANK: '手机号不能为空',
+    PHONE_ERR: '手机号格式不正确',
+    PHONE_LIMIT_LENGTH: '不能超过 100 字符',
+    PHONE_CODE_BLANK: '手机验证码不能为空',
+    PHONE_CODE_LIMIT_LENGTH: '不能超过 20 字符',
     SYMBOL_ERR: '格式错误',
     PWD_BLANK: '密码不能为空',
     PWD_LIMIT: '密码为8-20个字符且至少包含数字、字母和符号中的两种',
@@ -473,6 +488,7 @@ module.exports = {
     REGISTER_SUCC: '注册成功',
     REGISTER_IPT_ERR: '信息填写有误，请检查您的输入',
     EMAIL_SEND_SUCC: '邮件已发送',
+    PHONE_SEND_SUCC: '短信验证码已发送',
     USER_EXISTED: '用户已存在',
     REQ_LIMIT: '限制请求，请稍候再试',
     USERNAME_OR_PWD_ERR: '用户名或密码错误',
@@ -519,6 +535,7 @@ module.exports = {
     '214': '验证码验证失败',
     '215': '短信验证码验证失败',
     '216': '邮箱验证码验证失败',
+    '218': '用户还未实名认证',
 
     // 账户相关
     '300': '余额不足',

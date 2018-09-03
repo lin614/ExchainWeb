@@ -843,7 +843,7 @@ export default {
     })
     this.initBTCPrice()
     clearInterval(this.initBTCPriceTimer)
-    this.initBTCPriceTimer = setInterval(vu.initBTCPrice, 60 * 1000)
+    // this.initBTCPriceTimer = setInterval(vu.initBTCPrice, 60 * 1000)
     bus.$on('wsUpdate', data => {
       console.log(data)
       if (data.data) {
@@ -861,10 +861,10 @@ export default {
     this.initAsset()
     clearInterval(this.timer)
     var vu = this
-    this.timer = setInterval(() => {
-      console.log('---------------------- try -------------------')
-      vu.getMyAsset1()
-    }, 5000)
+    // this.timer = setInterval(() => {
+    //   console.log('---------------------- try -------------------')
+    //   vu.getMyAsset1()
+    // }, 5000)
     var vu = this
     util.toggleTableHeaderLang(
       vu.assetListTable,
@@ -980,7 +980,40 @@ export default {
       display: none;
     }
   }
+
+  
 }
+.send-code-down {
+    box-sizing: border-box;
+    min-width: 140px;
+    height: 40px;
+    line-height: 38px;
+    padding: 0 10px;
+    border: 1px solid #999;
+    color: #fff;
+    background-color: #999;
+    text-align: center;
+    border-radius: 0px;
+  }
+  .send-code-btn {
+    position: relative;
+    // display: inline-block;
+    box-sizing: border-box;
+    min-width: 140px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 0px;
+    padding: 0 10px;
+    border: 1px solid #419aec;
+    color: #419aec;
+    background-color: #fff;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #419aec;
+      color: #fff;
+    }
+  }
 .available-box {
   position: relative;
   .available-amount {

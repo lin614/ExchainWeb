@@ -24,14 +24,65 @@
             <li class="friendly-notice-item">{{ $t('userCenter.withdrawBox.tipP1') }} : {{params.withdraw_min}} {{token}}</li>
           </div>
           <div class="get-btn-box fr">
-            <Button class="btn-large" type="primary" @click="handleGetCash('getCashForm')">
+            <Button class="btn-large" type="primary" @click="openSecurityModal()">
               <span>{{ $t('userCenter.withdrawBox.withdraw') }}</span>
-              <Spin size="large" fix v-if="spinShow"></Spin>
+              <!-- <Spin size="large" fix v-if="securityModalLoading"></Spin> -->
             </Button>
           </div>
         </FormItem>
       </Form>
     </div>
+
+    <!-- 发送验证码模态框 -->
+    <Modal v-model="showSecurityModal" class-name="change-pwd-model" :closable="false" @on-cancel="closeSecurityModal('formCustom')">
+      <crd potColor="#4399e9">
+        <span slot="title">{{ $t('userCenter.asset.withdrawModal.title') }}</span>
+        <div class="form-box">
+          <Form ref="securityModal" :rules="securityModalRules" :model="securityModal" label-position="top">
+            <FormItem :label="$t('userCenter.asset.withdrawModal.phone')">
+              <Input v-model="securityModal.phone" disabled></Input>
+            </FormItem>
+
+            <FormItem :label="$t('userCenter.asset.withdrawModal.phoneCode')" prop="phoneCode">
+              <Input v-model="securityModal.phoneCode" style="width: 250px"></Input>
+
+              <div v-show="phoneCodeDownFlag" class="send-code-down fr">{{phoneCodeDownText}}</div>
+
+              <div v-show="!phoneCodeDownFlag" class="send-code-btn fr" @click="sendPhoneCode">
+                <Spin v-show="phoneCodeLoading" size="small" fix></Spin>
+                <span>{{$t('register.sendCode')}}</span>
+              </div>
+            </FormItem>
+
+            <FormItem :label="$t('userCenter.asset.withdrawModal.email')">
+              <Input v-model="securityModal.email" disabled></Input>
+            </FormItem>
+
+            <FormItem :label="$t('userCenter.asset.withdrawModal.emailCode')" prop="emailCode">
+              <Input v-model="securityModal.emailCode" style="width: 250px"></Input>
+
+              <div v-show="emailCodeDownFlag" class="send-code-down fr">{{emailCodeDownText}}</div>
+
+              <div v-show="!emailCodeDownFlag" class="send-code-btn fr" @click="sendEmailCode">
+                <Spin v-show="emailCodeLoading" size="small" fix></Spin>
+                <span>{{$t('register.sendCode')}}</span>
+              </div>
+            </FormItem>
+          </Form>
+        </div>
+      </crd>
+
+      <div slot="footer">
+        <div class="model-btn-wrap clearfix">
+          <span class="model-btn fr" @click="closeSecurityModal()">{{$t('common.cancel')}}</span>
+
+          <div class="model-btn primary fl" @click="handleGetCash()">
+            <span>{{ $t('common.confirm') }}</span>
+            <Spin v-if="securityModalLoading" size="small" fix></Spin>
+          </div>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -41,11 +92,15 @@ import util from '../../libs/util.js'
 import NP from 'number-precision'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
+import crd from '../components/crd.vue'
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
 export default {
   name: 'getCash',
+  components: {
+    crd
+  },
   props: {
     showCharge: Boolean,
     fee: String,
@@ -54,7 +109,7 @@ export default {
   },
   data () {
     return {
-      spinShow: false,
+      // securityModalLoading: false,
       tokenDecimal: '',
       accountData: {
         account_available: ''
@@ -63,7 +118,7 @@ export default {
         destAddr: '',
         amount: '',
         fee: '',
-        actualAmount: ''
+        actualAmount: '',
       },
       getCashRules: {
         destAddr: [
@@ -79,7 +134,7 @@ export default {
               }
               // 判断精度
               var decimal = this.accountData.decimal
-              if (!/^\d+(\.\d)?$/.test(value)) {
+              if (!/^\d+(\.\d+)?$/.test(value)) {
                 callback(this.$t('errorMsg.FORMATTING_INCORRECT'))
               }
               var reg = RegExp('^[0-9]{0,8}(\\.[0-9]{0,' + decimal + '})?$')
@@ -88,6 +143,9 @@ export default {
               }
               if (parseFloat(value) > parseFloat(this.accountData.account_available)) {
                 callback(this.$t('errorMsg.OVER_AVAILABLE_AMOUNT'))
+              }
+              if (parseFloat(value) < parseFloat(this.params.withdraw_min)) {
+                callback(this.$t('errorMsg.AMOUNT_LESS_MIN_WITHDRAW'))
               }
               if (parseFloat(value) < parseFloat(this.fee)) {
                 callback(this.$t('errorMsg.AMOUNT_LESS_FEE'))
@@ -99,7 +157,57 @@ export default {
         fee: [
           { required: true, message: this.$t('errorMsg.FEE_BLANK'), trigger: 'blur' }
         ]
-      }
+      },
+      showSecurityModal: false,
+      securityModalLoading: false,
+      securityModal: {
+        phone: '',
+        phoneCode: '',
+        phoneToken: '',
+        email: '',
+        emailCode: '',
+        emailToken: ''
+      },
+      securityModalRules: {
+        emailCode: [
+          { required: true, message: this.$t('errorMsg.EMAIL_CODE_BLANK'), trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              if (value.length > 20) {
+                callback(this.$t('errorMsg.EMAIL_CODE_LIMIT_LENGTH'))
+              } else if (util.checkCode(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.SYMBOL_ERR'))
+              }
+            },
+            trigger: 'blur'
+          }
+        ],
+        phoneCode: [
+          { required: true, message: this.$t('errorMsg.PHONE_CODE_BLANK'), trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              if (value.length > 20) {
+                callback(this.$t('errorMsg.PHONE_CODE_LIMIT_LENGTH'))
+              } else if (util.checkCode(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.SYMBOL_ERR'))
+              }
+            },
+            trigger: 'blur'
+          }
+        ]
+      },
+      phoneCodeTimer: null,
+      phoneCodeDownFlag: false,
+      phoneCodeDownText: '',
+      phoneCodeLoading: false,
+      emailCodeTimer: null,
+      emailCodeDownFlag: false,
+      emailCodeDownText: '',
+      emailCodeLoading: false,
     }
   },
   watch: {
@@ -118,33 +226,137 @@ export default {
     }
   },
   methods: {
-    handleGetCash (form) {
-      if (this.spinShow) {
+    /**
+     * 打开安全验证模态框
+     */
+    openSecurityModal () {
+      this.$refs['getCashForm'].validate((valid) => {
+        if (valid) {
+          this.showSecurityModal = true;
+        }
+      });
+    },
+    /**
+     * 关闭安全验证模态框
+     */
+    closeSecurityModal(form) {
+      this.$refs['securityModal'].resetFields()
+      this.showSecurityModal = false
+    },
+    /**
+     * 发送短信验证码
+     */
+    sendPhoneCode () {
+      if (this.phoneCodeLoading) {
+        return
+      } else {
+        this.phoneCodeLoading = true
+      }
+
+      ax
+        .post(config.url.user + '/api/account/getPhoneCode', {})
+        .then((res) => {
+          this.phoneCodeLoading = false
+          if (res.status == '200' && res.data.errorCode == 0) {
+            this.securityModal.phoneToken = res.data.result
+            this.$Message.success(this.$t('errorMsg.PHONE_SEND_SUCC'))
+            this.phoneCodeDownFlag = true;
+            this.handleCodeDown('phoneCodeTimer', 'phoneCodeDownText', 'phoneCodeDownFlag');
+          } else {
+            apiError(this, res);
+          }
+        })
+        .catch((err) => {
+          this.phoneCodeLoading = false
+          apiReqError(this, err);
+        })
+    },
+    
+    /**
+     * 发送邮件验证码
+     */
+    sendEmailCode () {
+      if (this.emailCodeLoading) {
+        return
+      } else {
+        this.emailCodeLoading = true
+      }
+
+      ax
+        .post(config.url.user + '/api/account/getEmailCode', {})
+        .then((res) => {
+          this.emailCodeLoading = false
+          if (res.status == '200' && res.data.errorCode == 0) {
+            this.securityModal.emailToken = res.data.result
+            this.$Message.success(this.$t('errorMsg.EMAIL_SEND_SUCC'))
+            this.emailCodeDownFlag = true;
+            this.handleCodeDown('emailCodeTimer', 'emailCodeDownText', 'emailCodeDownFlag');
+          } else {
+            apiError(this, res);
+          }
+        })
+        .catch((err) => {
+          this.emailCodeLoading = false
+          apiReqError(this, err);
+        })
+    },
+    /**
+     * 倒计时
+     */
+    handleCodeDown (timer, codeDownText, codeDownFlag) {
+      var time = 60
+      this[codeDownText] = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+      clearInterval(this[timer])
+      this[timer] = setInterval(() => {
+        time -= 1
+        if (time <= 0) {
+          this[codeDownFlag] = false
+          clearInterval(this[timer])
+        }
+        this[codeDownText] = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
+      }, 1000)
+    },
+    handleGetCash () {
+      if (this.securityModalLoading) {
         return
       }
       var vu = this
-      this.$refs[form].validate((valid) => {
+      this.$refs['getCashForm'].validate((valid) => {
         if (valid) {
-          vu.spinShow = true
+          vu.securityModalLoading = true
           ax.post(config.url.user+'/api/account/withdraw', {
             type: vu.token,
             outer_address: vu.getCashModal.destAddr,
-            balance: vu.getCashModal.amount
+            balance: vu.getCashModal.amount,
+            emailCode: this.securityModal.emailCode,
+            emailToken: this.securityModal.emailToken,
+            phoneCode: this.securityModal.phoneCode,
+            phoneToken: this.securityModal.phoneToken
           })
           .then((res) => {
             if (res.status == '200' && res.data.errorCode == 0) {
-              vu.spinShow = false
+              vu.showSecurityModal = false
+              vu.securityModalLoading = false
               vu.$refs.getCashForm.resetFields()
               vu.getCashModal.fee = vu.fee
-              vu.$emit('submitGetCash')
               vu.$Message.success(vu.$t('errorMsg.WITHDRAW_REQ_SUBMIT'))
+
+              setTimeout(() => {
+                vu.$emit('submitGetCash')
+              }, 50);
+            } else if (res.status == '200' && res.data.errorCode == 711) {
+              apiError(vu, res);
+              vu.$router.push('/usercenter/bind')
+            } else if (res.status == '200' && res.data.errorCode == 218) {
+              apiError(vu, res);
+              vu.$router.push('/usercenter/kyc')
             } else {
-              vu.spinShow = false
+              vu.securityModalLoading = false
               apiError(vu, res);
             }
           })
           .catch((err) => {
-            vu.spinShow = false
+            vu.securityModalLoading = false
             apiReqError(vu, err);
           })
         }
@@ -160,9 +372,14 @@ export default {
           vu.getCashModal.actualAmount = ''
         }
       })
+    },
+    initSecurityModalData () {
+      this.securityModal.phone = sessionStorage.getItem('userNum');
+      this.securityModal.email = sessionStorage.getItem('email');
     }
   },
   mounted () {
+    this.initSecurityModalData();
     this.accountData = JSON.parse(JSON.stringify(this.params))
     this.getCashModal.fee = this.fee
   }

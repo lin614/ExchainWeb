@@ -2,7 +2,9 @@ module.exports = {
   common: {
     lang: 'en',
     imgLang: 'en',
-    legalMoney: '$'
+    legalMoney: '$',
+    confirm: 'Confirm',
+    cancel: 'Cancel'
   },
   header: {
     exchange: 'Exchange',
@@ -440,6 +442,7 @@ module.exports = {
     ADDR_BLANK: 'Address can not be null',
     AMOUNT_BLANK: 'Please input amount',
     AMOUNT_LESS_FEE: 'Amount can not cover trans-fee',
+    AMOUNT_LESS_MIN_WITHDRAW: 'Amount Cannot be less than minimum withdrawal amount',
     FEE_BLANK: '',
     WITHDRAW_REQ_SUBMIT: 'Withdraw submit success',
     // kyc
@@ -466,6 +469,11 @@ module.exports = {
     EMAIL_LIMIT_LENGTH: '100 characters or shorter',
     EMAIL_CODE_BLANK: 'Code can not be null',
     EMAIL_CODE_LIMIT_LENGTH: '20 characters or shorter',
+    PHONE_BLANK: 'Phone can not be null',
+    PHONE_ERR: 'Format error',
+    PHONE_LIMIT_LENGTH: '100 characters or shorter',
+    PHONE_CODE_BLANK: 'Code can not be null',
+    PHONE_CODE_LIMIT_LENGTH: '20 characters or shorter',
     SYMBOL_ERR: 'Format error',
     PWD_BLANK: 'Password can not be null',
     PWD_LIMIT: 'Password must be 8-20 characters and contain at least two types of characters (alphabetic, numeric or special character)',
@@ -473,6 +481,7 @@ module.exports = {
     REGISTER_SUCC: 'register success',
     REGISTER_IPT_ERR: 'Input information error',
     EMAIL_SEND_SUCC: 'E-mail has been send',
+    PHONE_SEND_SUCC: 'SMS Code has been send',
     USER_EXISTED: 'User exist',
     REQ_LIMIT: 'Request limited, please try later',
     USERNAME_OR_PWD_ERR: 'Username or password error',
@@ -519,6 +528,7 @@ module.exports = {
     '214': 'code verification failed', // 验证码验证失败 --- 行为验证码  
     '215': 'SMS verification code verification failed', // 短信验证码验证失败 
     '216': 'code verification failed', // 邮箱验证码验证失败 
+    '218': '用户还未实名认证', // 用户还未实名认证 
 
     // 账户相关
     '300': 'Insufficient balance', // 余额不足 

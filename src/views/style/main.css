@@ -138,3 +138,13 @@ body {
     height: 40px;
     border-radius: 0px;
 }
+
+
+
+
+
+
+
+.finance-record .ivu-table-cell-expand i {
+    display: none;
+}
