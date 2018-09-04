@@ -182,10 +182,11 @@ export default {
       },
       securityModalRules: {
         emailCode: [
-          { required: true, message: this.$t('errorMsg.EMAIL_CODE_BLANK'), trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
-              if (value.length > 20) {
+              if (value === '') {
+                callback(this.$t('errorMsg.EMAIL_CODE_BLANK'))
+              } else if (value.length > 20) {
                 callback(this.$t('errorMsg.EMAIL_CODE_LIMIT_LENGTH'))
               } else if (util.checkCode(value)) {
                 callback()
@@ -197,10 +198,11 @@ export default {
           }
         ],
         phoneCode: [
-          { required: true, message: this.$t('errorMsg.PHONE_CODE_BLANK'), trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
-              if (value.length > 20) {
+              if (value === '') {
+                callback(this.$t('errorMsg.PHONE_CODE_BLANK'))
+              } else if (value.length > 20) {
                 callback(this.$t('errorMsg.PHONE_CODE_LIMIT_LENGTH'))
               } else if (util.checkCode(value)) {
                 callback()

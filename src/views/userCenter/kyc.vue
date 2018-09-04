@@ -40,7 +40,7 @@
                       <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
                       <p class="tip" v-if="!files.front">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')}}</p>
                       <p class="after-tip" v-if="files.front">{{$t('userCenter.kyc.btnText')}}</p>
-                      <img class="uploaded-img" v-if="files.front" :src="'//' + formField.frontImg + '?t=' + Math.random()" alt="">
+                      <img class="uploaded-img" v-if="files.front" :src="formField.frontImg" alt="">
                   </div>
                 </Upload>
                 
@@ -69,7 +69,7 @@
                       <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
                       <p class="tip" v-if="!files.back">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')}}</p>
                       <p class="after-tip" v-if="files.back">{{$t('userCenter.kyc.btnText')}}</p>
-                      <img class="uploaded-img" v-if="files.back" :src="'//' + formField.backImg + '?t=' + Math.random()" alt="">                      
+                      <img class="uploaded-img" v-if="files.back" :src="formField.backImg" alt="">                      
                   </div>
                 </Upload>
 
@@ -98,7 +98,7 @@
                       <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
                       <p class="tip" v-if="!files.hold">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')}}</p>
                       <p class="after-tip" v-if="files.hold">{{$t('userCenter.kyc.btnText')}}</p>
-                       <img class="uploaded-img" v-if="files.hold" :src="'//' + formField.holdImg" alt="">
+                       <img class="uploaded-img" v-if="files.hold" :src="formField.holdImg" alt="">
                   </div>
                 </Upload>
 
@@ -361,11 +361,11 @@ export default {
      * 证件正面上传成功处理
      */
     handleFrontSuccess (res, file, fileList) {
-      var result = res.result.split('/')
-      var result_ = result[result.length - 1]
-      this.files.front = result_
+      // var result = res.result.split('/')
+      // var result_ = result[result.length - 1]
+      this.files.front = res.result.ext
       // console.log(file)
-      this.formField.frontImg = res.result + '?t=' + Math.random()
+      this.formField.frontImg = 'data:image/' + res.result.ext + ';base64,' + res.result.front
       // this.$set(this.formField, 'frontImg', res.result)
       // console.log(this.formField.frontImg)
     },
@@ -379,10 +379,10 @@ export default {
      * 证件反面上传成功处理
      */
     handleBackSuccess (res, file, fileList) {
-      var result = res.result.split('/')
-      var result_ = result[result.length - 1]
-      this.files.back = result_
-      this.formField.backImg = res.result + '?t=' + Math.random()
+      // var result = res.result.split('/')
+      // var result_ = result[result.length - 1]
+      this.files.back = res.result.ext
+      this.formField.backImg = 'data:image/' + res.result.ext + ';base64,' + res.result.back
       // this.$set(this.formField, 'backImg', res.result)
     },
     /**
@@ -395,10 +395,10 @@ export default {
      * 手持证件照片上传成功处理
      */
     handleHoldSuccess (res, file, fileList) {
-      var result = res.result.split('/')
-      var result_ = result[result.length - 1]
-      this.files.hold = result_
-      this.formField.holdImg = res.result + '?t=' + Math.random()
+      // var result = res.result.split('/')
+      // var result_ = result[result.length - 1]
+      this.files.hold = res.result.ext
+      this.formField.holdImg = 'data:image/' + res.result.ext + ';base64,' + res.result.hold
       // this.$set(this.formField, 'holdImg', res.result)
     },
     /**

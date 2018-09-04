@@ -18,9 +18,9 @@
             </Dropdown>
           </div>
           <Table v-if="currentTab === 'current'" :columns="rechargeColumns" :data="rechargeData"></Table>
-          <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleCurPageChange" :total="rechargeParamTotal"></Page>
+          <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleRechargePageChange" :total="rechargeParamTotal"></Page>
           <Table v-if="currentTab === 'history'" :columns="withdrawColumns" :data="withdrawData"></Table>
-          <Page v-if="(currentTab === 'history') && showWithdrawPage" @on-change="handleHisPageChange" :total="withdrawParamTotal"></Page>
+          <Page v-if="(currentTab === 'history') && showWithdrawPage" @on-change="handleWithdrawPageChange" :total="withdrawParamTotal"></Page>
         </crd>
       </div>
     </div>
@@ -426,15 +426,15 @@ export default {
     /**
      * 当前委托页码改变
      */
-    handleCurPageChange (e) {
+    handleRechargePageChange (e) {
       this.rechargeParam.start = e
       this.getRecharge()
     },
     /**
      * 成交历史页码改变
      */
-    handleHisPageChange(e) {
-      this.hisPage = e
+    handleWithdrawPageChange (e) {
+      this.withdrawParam.start = e
       this.getWithdraw()
     }
   },
