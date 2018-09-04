@@ -221,6 +221,13 @@ module.exports = {
       withdrawAddress: 'Withdraw Address',
       legalTender: '$',
       notice: 'current asset valuation doesn\'t include ET during the simulated trading period',
+      withdrawModal: {
+        title: 'Security Authentication',
+        phone: 'Phone',
+        phoneCode: 'SMS Code',
+        email: 'Email',
+        emailCode: 'E-mail Code'
+      },
       transfer: {
         title: 'Transfer',
         token: 'Coin',

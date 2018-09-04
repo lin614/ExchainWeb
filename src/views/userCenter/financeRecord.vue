@@ -7,11 +7,20 @@
           <div class="entrust-tab">
             <div class="entrust-tab-item fl" @click="handleTabClick('current')" :class="currentTab === 'current' ? 'tab-active' : ''">{{ $t('userCenter.financeRecord.depositHistory') }}</div>
             <div class="entrust-tab-item fl" @click="handleTabClick('history')" :class="currentTab === 'history' ? 'tab-active' : ''">{{ $t('userCenter.financeRecord.withdrawHistory') }}</div>
+            <Dropdown class="finance-record-dropdown" placement="bottom-start" trigger="click" @on-click="clickDropdown">
+              <span>
+                {{coin}}
+                <Icon type="arrow-down-b"></Icon>
+              </span>
+              <DropdownMenu slot="list">
+                <DropdownItem v-for="(item, index) in coins" :key="index" :name="item.name">{{item.label}}</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
-          <Table v-if="currentTab === 'current'" :columns="columns1" :data="depositHistory"></Table>
-          <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleCurPageChange" :total="curTotal"></Page>
-          <Table v-if="currentTab === 'history'" :columns="columns2" :data="hisData"></Table>
-          <Page v-if="(currentTab === 'history') && showHisPage" @on-change="handleHisPageChange" :total="hisTotal"></Page>
+          <Table v-if="currentTab === 'current'" :columns="rechargeColumns" :data="rechargeData"></Table>
+          <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleCurPageChange" :total="rechargeParamTotal"></Page>
+          <Table v-if="currentTab === 'history'" :columns="withdrawColumns" :data="withdrawData"></Table>
+          <Page v-if="(currentTab === 'history') && showWithdrawPage" @on-change="handleHisPageChange" :total="withdrawParamTotal"></Page>
         </crd>
       </div>
     </div>
@@ -25,73 +34,164 @@ import ax from 'axios'
 import config from '../../config/config.js'
 import util from '../../libs/util.js'
 import cookie from 'js-cookie'
-import depositDetail from './financeRecord-depositDetail'
+import rechargeDetail from './financeRecord-rechargeDetail'
+import withdrawDetail from './financeRecord-withdrawDetail'
 
 export default {
   name: 'entrust',
 
   components: {
-    depositDetail,
+    rechargeDetail,
+    withdrawDetail
   },
 
   data() {
     var vu = this
     return {
+      coin: null,
       pageHeight: 0,
       currentTab: 'current',
       showCurPage: false,
-      showHisPage: false,
+      showWithdrawPage: false,
       curPage: 1,
       curSize: 10,
-      curTotal: 0,
       hisPage: 1,
       hisSize: 10,
-      hisTotal: 0,
-      depositHistory: [],
-      hisData: []
+      rechargeParamTotal: 0,
+      withdrawParamTotal: 0,
+      rechargeData: [],
+      withdrawData: [],
+      rechargeParam: {
+        type: null,
+        ways: 'recharge', // recharge 表充币、withdraw表示提币
+        start: 1,
+        size: 10,
+        dateStart: '2018-07-01',
+        dateEnd: '2020-12-31'
+      },
+      withdrawParam: {
+        type: null,
+        ways: 'withdraw', // recharge 表充币、withdraw表示提币
+        start: 1,
+        size: 10,
+        dateStart: '2018-07-01',
+        dateEnd: '2020-12-31'
+      },
+      oldOpenName: null,
+      oldOpenIndex: null
     }
   },
   computed: {
-    columns1() {
+    rechargeStatus() {
+      return [{
+        name: 0,
+        label: this.$t('common.lang') === 'cn' ? '充值中' : 'All'
+      },
+      {
+        name: 1,
+        label: this.$t('common.lang') === 'cn' ? '充值中' : 'All'
+      },
+      {
+        name: 2,
+        label: this.$t('common.lang') === 'cn' ? '充值完成' : 'All'
+      }]
+    },
+    withdrawStatus() {
+      return [{
+        name: 1,
+        label: this.$t('common.lang') === 'cn' ? '待审核' : 'All'
+      },
+      {
+        name: 2,
+        label: this.$t('common.lang') === 'cn' ? '审核通过' : 'All'
+      },
+      {
+        name: 3,
+        label: this.$t('common.lang') === 'cn' ? '审核驳回' : 'All'
+      },
+      {
+        name: 4,
+        label: this.$t('common.lang') === 'cn' ? '处理中' : 'All'
+      },
+      {
+        name: 5,
+        label: this.$t('common.lang') === 'cn' ? '处理完成' : 'All'
+      },
+      {
+        name: 6,
+        label: this.$t('common.lang') === 'cn' ? '处理失败' : 'All'
+      }];
+    },
+    coins() {
+      return [{
+        name: this.$t('common.lang') === 'cn' ? '全部' : 'All',
+        label: this.$t('common.lang') === 'cn' ? '全部' : 'All'
+      },
+      {
+        name: 'USDT',
+        label: 'USDT'
+      },
+      {
+        name: 'BTC',
+        label: 'BTC'
+      },
+      {
+        name: 'ETH',
+        label: 'ETH'
+      },
+      {
+        name: 'ET',
+        label: 'ET'
+      }];
+    },
+    columns() {
       let vu = this;
       return [
         {
           title: this.$t('userCenter.financeRecord.table.ctime'),
           key: 'ctime',
-          width: 240
+          width: 200
         },
         {
           title: this.$t('userCenter.financeRecord.table.market'),
-          key: 'market',
-          width: 240
+          key: 'type',
+          width: 200
         },
         {
           title: this.$t('userCenter.financeRecord.table.side'),
           key: 'side',
-          width: 240,
-          render: function(h, params) {
-            return h(
-              'div',
-              {
-                style: {
-                  color: ((params.row.side + '') === '1') ? 'green' : 'red'
-                }
-              },
-              ((params.row.side + '') === '1')
-                ? vu.$t('userCenter.entrust.buy')
-                : vu.$t('userCenter.entrust.sell')
-            )
-          }
+          width: 200
         },
         {
           title: this.$t('userCenter.financeRecord.table.amount'),
-          key: 'amount',
-          width: 240
+          key: 'balance',
+          width: 200
+        },
+        {
+          title: this.$t('userCenter.financeRecord.table.status'),
+          key: 'status',
+          width: 160,
+          render: (h, params) => {
+            return h('span', this.showStatus(params));
+          }
         },
         {
           title: this.$t('userCenter.financeRecord.table.opera'),
           key: 'opera',
           width: 158,
+          align: 'right',
+          className: 'opera',
+          renderHeader: (h, params) => {
+            return h(
+              'span',
+              {
+                style: {
+                  marginRight: '12px'
+                }
+              },
+              this.$t('userCenter.financeRecord.table.opera')
+            );
+          },
           render: (h, params) => {
             return h(
               'span',
@@ -114,11 +214,25 @@ export default {
                     }
                   },
                   this.$t('userCenter.financeRecord.table.detail')
-                )
+                ),
+                h('Icon', {
+                  props: {
+                    type: params.row._expanded ? 'arrow-up-b' : 'arrow-down-b'
+                  },
+                  style: {
+                    color: '#c8c8c8',
+                    marginLeft: '4px'
+                  }
+                })
               ]
             )
           }
-        },
+        }
+      ]
+    },
+    rechargeColumns() {
+      return [
+        ...this.columns,
         {
           type: 'expand',
           width: 1,
@@ -135,34 +249,45 @@ export default {
                 }
               },
               [
-                h(depositDetail, {
+                h(rechargeDetail, {
                   props: {
                     showCharge: this.showCharge
                   }
                 }),
-                // h(getCash, {
-                //   props: {
-                //     showCharge: this.showCharge,
-                //     fee: this.tokenFee,
-                //     token: this.enchargeToken,
-                //     params: params.row,
-                //     getTokenObj: this.tokenObj
-                //   },
-                //   on: {
-                //     submitGetCash: () => {
-                //       this.getMyAsset()
-                //     }
-                //   }
-                // })
               ]
             )
           }
         }
       ]
     },
-    columns2() {
+    withdrawColumns() {
       return [
-        ...this.columns1
+        ...this.columns,
+        {
+          type: 'expand',
+          width: 1,
+          render: (h, params) => {
+            return h(
+              'div',
+              {
+                style: {
+                  width: '100%',
+                  padding: '5px 20px',
+                  border: '1px solid #ebebeb',
+                  borderRadius: '4px',
+                  backgroundColor: '#fafafa'
+                }
+              },
+              [
+                h(withdrawDetail, {
+                  props: {
+                    showCharge: this.showCharge
+                  }
+                }),
+              ]
+            )
+          }
+        }
       ]
     }
   },
@@ -171,152 +296,128 @@ export default {
     page
   },
   methods: {
+    showStatus(params) {
+      if (params.row.name === 'recharge') {
+        for (var i = 0; i < this.rechargeStatus.length; i++) {
+          if(this.rechargeStatus[i].name == params.row.status) {
+            return this.rechargeStatus[i].label
+          }
+        }
+      } else {
+        for (var i = 0; i < this.withdrawStatus.length; i++) {
+          if(this.withdrawStatus[i].name == params.row.status) {
+            return this.withdrawStatus[i].label
+          }
+        }
+      }
+    },
+    clickDropdown(value) {
+      this.coin = value;
+      if (this.currentTab === 'current') {
+        this.getRecharge();
+      } else {
+        this.getWithdraw();
+      }
+    },
     handleWindowResize() {
       this.pageHeight = window.innerHeight - 360
     },
     handleTabClick(type) {
       this.currentTab = type
       if (type === 'current') {
-        this.getDepositHistory()
+        this.getRecharge()
       } else {
-        this.getHisData()
+        this.getWithdraw()
       }
     },
+    /**
+     * 操作
+     */
     handleOpera(row) {
-      this.depositHistory.forEach((value, index) => {
-        value._expanded = false
-      })
-      this.depositHistory[row.index]._expanded = true
+      // 点击同一列两次关闭
+      if (this.oldOpenName === row.row.name && this.oldOpenIndex === row.index) {
+        this.oldOpenName = null
+        this.oldOpenIndex = null
+        if (row.row.name === 'recharge') {
+          this.rechargeData.forEach((value, index) => {
+            value._expanded = false
+          })
+        } else {
+          this.withdrawData.forEach((value, index) => {
+            value._expanded = false
+          })
+        }
+      } else {
+        this.oldOpenName = row.row.name
+        this.oldOpenIndex = row.index
+        if (row.row.name === 'recharge') {
+          this.rechargeData.forEach((value, index) => {
+            value._expanded = false
+          })
+          this.rechargeData[row.index]._expanded = true
+        } else {
+          this.withdrawData.forEach((value, index) => {
+            value._expanded = false
+          })
+          this.withdrawData[row.index]._expanded = true
+        }
+      }
     },
     /**
      * 获取提币记录
      */
-    getDepositHistory() {
-      this.depositHistory = [{
-        ctime: '2018-06-20 15:08:08',
-        market: 'ETH',
-        side: '普通币种',
-        amount: '1.23020002',
-        _expanded: false,
-        status: '已完成'
-      },
-      {
-        ctime: '2018-06-20 15:08:08',
-        market: 'ETH',
-        side: '普通币种',
-        amount: '1.23020002',
-        _expanded: false,
-        status: '已完成'
-      },
-      {
-        ctime: '2018-06-20 15:08:08',
-        market: 'ETH',
-        side: '普通币种',
-        amount: '1.23020002',
-        _expanded: false,
-        status: '已完成'
-      }];
+    getRecharge() {
+      this.rechargeParam.type = (this.coin === '全部' || this.coin === 'All') ? null : this.coin;
+
+      ax
+        .post(config.url.user + '/api/account/getHistory', this.rechargeParam, getHeader)
+        .then(res => {
+          // if (res.status == '200' && res.data.errorCode == 0) {
+          //   let data = res.data.result.data
+          //   for (let i = 0; i < data.length; i++) {
+          //     let amount_deal = parseFloat(data[i].amount_deal)
+          //     let amount = parseFloat(data[i].amount)
+          //     let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
+          //     data[i].closeRate = rate.toFixed(2)
+          //     vu.hisData = data
+          //   }
+          //   vu.hisTotal = res.data.result.total * 1
+          //   if (Math.ceil(vu.hisTotal / vu.hisSize) > 1) {
+          //     this.showHisPage = true
+          //   } else {
+          //     this.showHisPage = false
+          //   }
+          // } else {
+          //   apiError(vu, res);
+          // }
+        })
     },
     /**
      * 获取成交历史
      */
-    getHisData() {
-      let params = {
-        status: 2,
-        method: 'history',
-        t: new Date().getTime()
-      }
+    getWithdraw() {
       var vu = this
+      this.withdrawParam.type = (this.coin === '全部' || this.coin === 'All') ? null : this.coin;
       ax
-        .get(
-          config.url.user +
-            '/api/order/lists?method=history&t' +
-            new Date().getTime() + '&page=' + vu.hisPage + '&size=' + vu.hisSize,
-          getHeader
-        )
+        .post(config.url.user + '/api/account/getHistory', this.withdrawParam, getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             let data = res.data.result.data
-            for (let i = 0; i < data.length; i++) {
-              let amount_deal = parseFloat(data[i].amount_deal)
-              let amount = parseFloat(data[i].amount)
-              let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
-              data[i].closeRate = rate.toFixed(2)
-              vu.hisData = data
+            
+            for (var i = 0; i < data.length; i++) {
+              data[i]._expanded = false
+              data[i].side = '普通币种';
             }
-            vu.hisTotal = res.data.result.total * 1
-            if (Math.ceil(vu.hisTotal / vu.hisSize) > 1) {
-              this.showHisPage = true
+            
+            this.withdrawData = data;
+            
+            // 分页是否显示
+            vu.withdrawParamTotal = res.data.result.total * 1
+            if (Math.ceil(vu.withdrawParamTotal / this.withdrawParam.size) > 1) {
+              this.showWithdrawPage = true
             } else {
-              this.showHisPage = false
+              this.showWithdrawPage = false
             }
-          } else {
-            apiError(vu, res);
-          }
-        })
-    },
-    /**
-     * 除法
-     * @param {number} arg1 减数
-     * @param {number} arg2 被减数
-     * @return {number} arg1-arg2 结果
-     */
-    accDiv(arg1, arg2) {
-      let t1 = 0,
-        t2 = 0,
-        r1,
-        r2
-      try {
-        t1 = arg1.toString().split('.')[1].length
-      } catch (e) {}
-
-      try {
-        t2 = arg2.toString().split('.')[1].length
-      } catch (e) {}
-
-      r1 = Number(arg1.toString().replace('.', ''))
-      r2 = Number(arg2.toString().replace('.', ''))
-      return r1 / r2 * Math.pow(10, t2 - t1)
-    },
-    /**
-     * 乘法
-     * @param {number} arg1 乘数
-     * @param {number} arg2 乘数
-     * @return {number} arg1*arg2 结果
-     */
-    accMul(arg1, arg2) {
-      var m = 0,
-        s1 = arg1.toString(),
-        s2 = arg2.toString()
-      try {
-        m += s1.split('.')[1].length
-      } catch (e) {}
-
-      try {
-        m += s2.split('.')[1].length
-      } catch (e) {}
-
-      return (
-        Number(s1.replace('.', '')) *
-        Number(s2.replace('.', '')) /
-        Math.pow(10, m)
-      )
-    },
-    /**
-     * 取消订单
-     * @param {object} row 订单记录
-     */
-    cancelOrder(row) {
-      var vu = this
-      ax
-        .get(
-          config.url.user + '/api/exchange/orderCancel?order_id=' + row.order_id + '&market=' + row.market,
-          getHeader
-        )
-        .then(res => {
-          if (res.status == '200' && res.data.errorCode == 0) {
-            vu.getDepositHistory()
-            vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
           } else {
             apiError(vu, res);
           }
@@ -326,26 +427,24 @@ export default {
      * 当前委托页码改变
      */
     handleCurPageChange (e) {
-      this.curPage = e
-      this.getDepositHistory()
+      this.rechargeParam.start = e
+      this.getRecharge()
     },
     /**
      * 成交历史页码改变
      */
     handleHisPageChange(e) {
       this.hisPage = e
-      this.getHisData()
+      this.getWithdraw()
     }
   },
   mounted() {
-    // var vu = this
-    // util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
-    // util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
-    // bus.$on('langChange', () => {
-    //   util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
-    //   util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
-    // })
-    // console.log(getHeader)
+    this.coin = this.$t('common.lang') === 'cn' ? '全部' : 'All';
+    bus.$on('langChange', () => {
+      if (this.coin === '全部' || this.coin === 'All') {
+        this.coin = this.$t('common.lang') === 'cn' ? '全部' : 'All';
+      }
+    })
   },
   created() {
     global.getHeader = (() => {
@@ -359,7 +458,7 @@ export default {
     })()
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
-    this.getDepositHistory()
+    this.getRecharge()
   },
   destroyed() {
     window.removeEventListener('resize', this.handleWindowResize)
@@ -369,6 +468,18 @@ export default {
 
 <style lang="less">
 .finance-record {
+  .finance-record-dropdown{
+    float: right;
+    margin-top: 14px;
+    margin-right: 30px;
+  }
+  .finance-record-dropdown span{
+    color: #333;
+    cursor: pointer;
+  }
+  .finance-record-dropdown span .ivu-icon{
+    color: #c8c8c8;
+  }
   div {
     box-sizing: border-box;
   }

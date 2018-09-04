@@ -93,9 +93,13 @@ import NP from 'number-precision'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
 import crd from '../components/crd.vue'
+
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
+
+let instance = null;
+
 export default {
   name: 'getCash',
   components: {
@@ -122,14 +126,22 @@ export default {
       },
       getCashRules: {
         destAddr: [
-          { required: true, message: this.$t('errorMsg.ADDR_BLANK'), trigger: 'blur' },
-          { max: 100, message: this.$t('errorMsg.ADDR_LIMIT'), trigger: 'change, blur' }
-        ],
-        amount: [
-          { required: true, message: this.$t('errorMsg.AMOUNT_BLANK'), trigger: 'blur' },
           { 
             validator: (rule, value, callback) => {
-              if (value === '' || value === 0 || value === '0') {
+              if (value === '') {
+                callback(this.$t('errorMsg.ADDR_BLANK'))
+              } else if (value.length > 100) {
+                callback(this.$t('errorMsg.ADDR_LIMIT'))
+              } else {
+                callback()
+              }
+            }, trigger: 'change, blur'
+          }
+        ],
+        amount: [
+          { 
+            validator: (rule, value, callback) => {
+              if (value === '') {
                 callback(this.$t('errorMsg.AMOUNT_BLANK'))
               }
               // 判断精度
@@ -331,7 +343,8 @@ export default {
             emailCode: this.securityModal.emailCode,
             emailToken: this.securityModal.emailToken,
             phoneCode: this.securityModal.phoneCode,
-            phoneToken: this.securityModal.phoneToken
+            phoneToken: this.securityModal.phoneToken,
+            language: this.$t('common.lang') === 'cn' ? 'zh-cn' : 'en-us'
           })
           .then((res) => {
             if (res.status == '200' && res.data.errorCode == 0) {
@@ -378,10 +391,19 @@ export default {
       this.securityModal.email = sessionStorage.getItem('email');
     }
   },
+  created () {
+    instance = this;
+  },
   mounted () {
     this.initSecurityModalData();
     this.accountData = JSON.parse(JSON.stringify(this.params))
     this.getCashModal.fee = this.fee
+    let vu = this;
+    bus.$on('langChange', () => {
+      let fee = vu.getCashModal.fee;
+      vu.$refs.getCashForm.resetFields();
+      vu.getCashModal.fee = fee;
+    })
   }
 }
 </script>

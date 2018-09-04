@@ -5,7 +5,7 @@
         <crd potColor="#4399e9">
           <div class="tit" slot="title">
             <span>{{ $t('userCenter.asset.title') }}</span>
-            <router-link to="/usercenter/financeRecord" class="fr">充提记录</router-link>
+            <router-link to="/usercenter/financeRecord" class="fr">{{$t('userCenter.financeRecord.title')}}</router-link>
           </div>
           <div class="card-main clearfix">
             <div class="card-main-hd">
@@ -367,33 +367,33 @@ export default {
           value: 'USDT'
         }
       ],
-      fromList: [
-        {
-          label: this.$t('userCenter.asset.transfer.account_available'),
-          value: 'master'
-        },
-        {
-          label: this.$t('userCenter.asset.transfer.exchange_available'),
-          value: 'trade'
-        }
-      ],
-      toList: [
-        {
-          label: this.$t('userCenter.asset.transfer.account_available'),
-          value: 'master'
-        },
-        {
-          label: this.$t('userCenter.asset.transfer.exchange_available'),
-          value: 'trade'
-        }
-      ],
       tokenObj: {}
     }
   },
   computed: {
     getActiveLang() {
       return this.$store.state.activeLang
-    }
+    },
+    fromList() {
+      return [{
+        label: this.$t('userCenter.asset.transfer.account_available'),
+        value: 'master'
+      },
+      {
+        label: this.$t('userCenter.asset.transfer.exchange_available'),
+        value: 'trade'
+      }];
+    },
+    toList() {
+      return [{
+        label: this.$t('userCenter.asset.transfer.account_available'),
+        value: 'master'
+      },
+      {
+        label: this.$t('userCenter.asset.transfer.exchange_available'),
+        value: 'trade'
+      }]
+    },
   },
   watch: {
     getActiveLang(val) {
