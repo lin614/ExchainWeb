@@ -268,7 +268,7 @@ export default {
       }
 
       ax
-        .post(config.url.user + '/api/account/getPhoneCode', {})
+        .post(config.url.user + '/api/account/getPhoneCode', {language: this.$t('common.lang') === 'cn' ? 'zh-cn' : 'en-us'})
         .then((res) => {
           this.phoneCodeLoading = false
           if (res.status == '200' && res.data.errorCode == 0) {
@@ -297,7 +297,7 @@ export default {
       }
 
       ax
-        .post(config.url.user + '/api/account/getEmailCode', {})
+        .post(config.url.user + '/api/account/getEmailCode', {language: this.$t('common.lang') === 'cn' ? 'zh-cn' : 'en-us'})
         .then((res) => {
           this.emailCodeLoading = false
           if (res.status == '200' && res.data.errorCode == 0) {
