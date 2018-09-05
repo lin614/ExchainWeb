@@ -175,7 +175,8 @@ export default {
       // localStorage.setItem('exchain_language', name)
 
       cookie.set('exchain_language', name, {
-        domain: config.url.domain
+        domain: config.url.domain,
+        expires: 0.08
       })
 
       this.$store.commit('setActiveLang', name)

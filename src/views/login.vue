@@ -174,13 +174,16 @@ export default {
             if (res.data.result.pn) {
               ax.defaults.headers.post['X-EXCHAIN-PN'] = res.data.result.pn
               cookie.set('PN', res.data.result.pn, {
-                domain: config.url.domain
+                domain: config.url.domain,
+                expires: 0.08
               })
               cookie.set('email', vu.loginInfo.email, {
-                domain: config.url.domain
+                domain: config.url.domain,
+                expires: 0.08
               })
               cookie.set('uid', res.data.result.id, {
-                domain: config.url.domain
+                domain: config.url.domain,
+                expires: 0.08
               })
               var Pn = encodeURIComponent(res.data.result.pn)
               sessionStorage.setItem('PN', Pn)

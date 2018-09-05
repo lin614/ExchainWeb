@@ -2,9 +2,9 @@
   <div class="bonus_content">
     <block>
       <div slot="inner">
-        <crd :hideTitle="true">
+        <crd class="user-level" :hideTitle="true">
           <!-- <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span> -->
-          <div :class="'lv' + level + '-' + $t('common.imgLang')"></div>
+          <div :class="'lv lv' + level + '-' + $t('common.imgLang')"></div>
 
           <div class="lv-name">
             <h2>{{$t('bonus.currentLevel')}}
@@ -49,7 +49,7 @@
           </div>
         </crd>
 
-        <crd potColor="#50b08c">
+        <crd class="invite-type" potColor="#50b08c">
           <span slot="title">
             {{$t('bonus.inviteType')}}
           </span>
@@ -84,24 +84,25 @@
           </div>
         </crd>
 
-        <crd>
-          <span slot="title">{{$t('bonus.inviteRankingList.title')}}</span>
+        <crd class="ranking-list">
+          <span class="ranking-list-title" slot="title">{{$t('bonus.inviteRankingList.title')}}</span>
+          <router-link class="more" slot="more" target="_blank" to="/ranking">{{$t('bonus.inviteRankingList.more')}} >></router-link>
           
-          <div class="content">
+          <div class="content ec-table">
             <Row type="flex" :gutter="16">
-              <Col span="8"><p class="earn"><b>{{$t('bonus.inviteRankingList.ranking')}}</b></p></Col>
-              <Col span="8"><p class="earn"><b>{{$t('bonus.inviteRankingList.username')}}</b></p></Col>
-              <Col span="8"><p class="earn"><b>{{$t('bonus.inviteRankingList.partnerNum')}}</b></p></Col>
+              <Col span="8"><p class="tit"><b>{{$t('bonus.inviteRankingList.ranking')}}</b></p></Col>
+              <Col span="8"><p class="tit"><b>{{$t('bonus.inviteRankingList.username')}}</b></p></Col>
+              <Col span="8"><p class="tit"><b>{{$t('bonus.inviteRankingList.partnerNum')}}</b></p></Col>
             </Row>
 
             <Row type="flex" :gutter="16" v-for="(item, index) in inviteRankingList" :key="index">
-              <Col span="8"><p class="earn">{{item.userName}}</p></Col>
-              <Col span="8"><p class="earn"> {{item.userName}}</p></Col>
-              <Col span="8"><p class="earn"> {{item.activeCount}}</p></Col>
+              <Col span="8"><p class="cnt"><span :class="'ranking ranking' + item.top">{{item.top}}</span></p></Col>
+              <Col span="8"><p class="cnt"> {{item.email}}</p></Col>
+              <Col span="8"><p class="cnt"> {{item.activeCount}}</p></Col>
             </Row>
           </div>
 
-          <router-link target="_blank" class="to-more" to="/invite">{{$t('bonus.inviteRankingList.more')}}</router-link>
+          
         </crd>
 
         <crd>
@@ -325,41 +326,43 @@ export default {
   //   .pa-c {
   .lv {
     height: 80px;
+    font-size: @font-title;
+  }
+  .lv-bg {
     background-position: top center;
     background-repeat: no-repeat;
-    font-size: @font-title;
   }
   .lv0-cn {
     background: url(../../static/imgs/l0-cn.png);
-    .lv;
+    .lv-bg;
   }
   .lv1-cn {
     background: url(../../static/imgs/l1-cn.png);
-    .lv;
+    .lv-bg;
   }
   .lv2-cn {
     background: url(../../static/imgs/l2-cn.png);
-    .lv;
+    .lv-bg;
   }
   .lv3-cn {
     background: url(../../static/imgs/l3-cn.png);
-    .lv;
+    .lv-bg;
   }
   .lv0-en {
     background: url(../../static/imgs/l0-en.png);
-    .lv;
+    .lv-bg;
   }
   .lv1-en {
     background: url(../../static/imgs/l1-en.png);
-    .lv;
+    .lv-bg;
   }
   .lv2-en {
     background: url(../../static/imgs/l2-en.png);
-    .lv;
+    .lv-bg;
   }
   .lv3-en {
     background: url(../../static/imgs/l3-en.png);
-    .lv;
+    .lv-bg;
   }
   .lv-name {
     display: flex;
@@ -435,15 +438,52 @@ export default {
       }
     }
   }
+  .ec-table .cnt {
+    color: #999;
+  }
+  .user-level {
+    height: 636px;
+  }
+  .invite-type {
+    height: 243px;
+  }
+  .ranking-list {
+    min-height: 311px;
+    .content {
+      padding: 20px 40px;
+    }
+    .ranking-list-title {
+      width: 1076px;
+
+    }
+    .ranking {
+      width: 24px;
+      height: 24px;
+      display: block;
+      line-height: 24px;
+      margin-top: 8px;
+      text-align: center;
+      border-radius: 50%;
+      &.ranking1 {
+        color: #fff;
+        background: #f5c250;
+        font-weight: 600;
+      }
+      &.ranking2 {
+        color: #fff;
+        background: #d8d8d8;
+        font-weight: 600;
+      }
+      &.ranking3 {
+        color: #fff;
+        background: #d09455;
+        font-weight: 600;
+      }
+    }
+    .ivu-row-flex {
+      margin: 10px -8px;
+    }
+  }
 }
-.to-more {
-  display: inline-block;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  border-top: 1px solid #eee;
-  text-align: center;
-  color: @font-color-blue;
-  cursor: pointer;
-}
+
 </style>
