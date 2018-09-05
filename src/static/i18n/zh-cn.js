@@ -6,6 +6,11 @@ module.exports = {
     confirm: '确认',
     cancel: '取消'
   },
+  name: {
+    fees: '手续费',
+    depositAddress: '充币地址',
+    withdrawAddress: '提币地址'
+  },
   header: {
     exchange: '交易',
     et: 'ET',
@@ -175,7 +180,14 @@ module.exports = {
     account: '被邀请人账号',
     time: '时间',
     status: '状态',
-    toMore: '点击查看更多'
+    toMore: '点击查看更多',
+    inviteRankingList: {
+      title: '邀请榜单',
+      more: '完整榜单',
+      ranking: '排名',
+      username: '用户名',
+      partnerNum: '邀请交易伙伴数'
+    }
   },
   userCenter: {
     index: {
@@ -260,6 +272,18 @@ module.exports = {
         status: '状态',
         opera: '操作',
         detail: '详情',
+        hash: '区块链交易ID',
+        recharge: '普通充值',
+        withdraw: '普通提现'
+      },
+      depositStatus: {
+        toppingUp: '充值中',
+        topUpCompleted: '充值完成',
+      },
+      withdrawStatus: {
+        pending: '待审核',
+        passed: '审核通过',
+        rejected: '审核驳回'
       }
     },
     // kyc
@@ -535,7 +559,8 @@ module.exports = {
     '214': '验证码验证失败',
     '215': '短信验证码验证失败',
     '216': '邮箱验证码验证失败',
-    '218': '用户还未实名认证',
+    '218': '用户还未通过实名认证',
+    '219': '用户还未申请实名认证',
 
     // 账户相关
     '300': '余额不足',
@@ -603,6 +628,7 @@ module.exports = {
 
     // 管理员后台管理页面相关(财务系统后台)
     '901': '管理员不存在',
-    '902': '管理员登录失败'
+    '902': '管理员登录失败',
+    '903': '管理员未登录'
   }
 }

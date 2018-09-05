@@ -85,6 +85,26 @@
         </crd>
 
         <crd>
+          <span slot="title">{{$t('bonus.inviteRankingList.title')}}</span>
+          
+          <div class="content">
+            <Row type="flex" :gutter="16">
+              <Col span="8"><p class="earn"><b>{{$t('bonus.inviteRankingList.ranking')}}</b></p></Col>
+              <Col span="8"><p class="earn"><b>{{$t('bonus.inviteRankingList.username')}}</b></p></Col>
+              <Col span="8"><p class="earn"><b>{{$t('bonus.inviteRankingList.partnerNum')}}</b></p></Col>
+            </Row>
+
+            <Row type="flex" :gutter="16" v-for="(item, index) in inviteRankingList" :key="index">
+              <Col span="8"><p class="earn">{{item.userName}}</p></Col>
+              <Col span="8"><p class="earn"> {{item.userName}}</p></Col>
+              <Col span="8"><p class="earn"> {{item.activeCount}}</p></Col>
+            </Row>
+          </div>
+
+          <router-link target="_blank" class="to-more" to="/invite">{{$t('bonus.inviteRankingList.more')}}</router-link>
+        </crd>
+
+        <crd>
           <span slot="title">{{$t('bonus.inviteRecord')}}</span>
           
           <div class="content ">
@@ -100,7 +120,7 @@
               <Col span="8"><p class="earn"><b>{{$t('bonus.status')}}</b></p></Col>
             </Row>
 
-            <Row type="flex" :gutter="16" v-for="(p, index) in list" :key="p.user">
+            <Row type="flex" :gutter="16" v-for="(p, index) in list" :key="index">
               <Col span="8"><p class="earn">{{p.userId}}</p></Col>
 
               <Col span="8"><p class="earn"> {{p.createTime}}</p></Col>
@@ -143,7 +163,9 @@ export default {
       et2: '0', //累积ET返还量,
       list: [], //邀请记录
       n_all: 0, //已邀请人数
-      n_act: 0 //已激活人数
+      n_act: 0, //已激活人数,
+      inviteRankingMore: false,
+      inviteRankingList: []
     }
   },
   created() {
@@ -158,6 +180,7 @@ export default {
     this.getUserLevel();
     this.getInvitedCode();
     this.getInvitedList();
+    this.getInviteRankingList();
   },
   mounted() {
     new ClipboardJS('#btnCode')
@@ -264,7 +287,33 @@ export default {
         vu.$Message.error(vu.$t('errorMsg.BROWSER_COPY_LIMIT'))
         clipboard.destroy()
       })
-    }
+    },
+
+    /**
+     * 获取邀请记录
+     */
+    getInviteRankingList () {
+      let params = {
+        pageNum: 1,
+        pageSize: 3,
+        totalPages: 0
+      };
+      ax
+        .post(config.url.invite + '/api/invite/partnerTop', params)
+        .then(res => {
+          if (res.status === 200 && res.data.meta.code === 0) {
+            if (res.data.data.totalPages > 1) {
+              this.inviteRankingMore = true
+            } else {
+              this.inviteRankingMore = false
+            }
+            this.inviteRankingList = res.data.data.list
+          }
+        })
+        .catch(err => {
+          apiReqError(this, err);
+        });
+    },
   }
 }
 </script>

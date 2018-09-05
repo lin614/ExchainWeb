@@ -7,10 +7,11 @@
           <div class="entrust-tab">
             <div class="entrust-tab-item fl" @click="handleTabClick('current')" :class="currentTab === 'current' ? 'tab-active' : ''">{{ $t('userCenter.financeRecord.depositHistory') }}</div>
             <div class="entrust-tab-item fl" @click="handleTabClick('history')" :class="currentTab === 'history' ? 'tab-active' : ''">{{ $t('userCenter.financeRecord.withdrawHistory') }}</div>
-            <Dropdown class="finance-record-dropdown" placement="bottom-start" trigger="click" @on-click="clickDropdown">
+            <Dropdown class="finance-record-dropdown" placement="bottom-start" @on-visible-change="handleArrowDownFlag" @on-click="clickDropdown">
               <span>
                 {{coin}}
-                <Icon type="arrow-down-b"></Icon>
+                <Icon v-show="!arrowDownFlag" type="arrow-down-b"></Icon>
+                <Icon v-show="arrowDownFlag" type="arrow-up-b"></Icon>
               </span>
               <DropdownMenu slot="list">
                 <DropdownItem v-for="(item, index) in coins" :key="index" :name="item.name">{{item.label}}</DropdownItem>
@@ -18,7 +19,7 @@
             </Dropdown>
           </div>
           <Table v-if="currentTab === 'current'" :columns="rechargeColumns" :data="rechargeData"></Table>
-          <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleRechargePageChange" :total="rechargeParamTotal"></Page>
+          <Page v-if="(currentTab === 'current') && showRechargePage" @on-change="handleRechargePageChange" :total="rechargeParamTotal"></Page>
           <Table v-if="currentTab === 'history'" :columns="withdrawColumns" :data="withdrawData"></Table>
           <Page v-if="(currentTab === 'history') && showWithdrawPage" @on-change="handleWithdrawPageChange" :total="withdrawParamTotal"></Page>
         </crd>
@@ -51,7 +52,8 @@ export default {
       coin: null,
       pageHeight: 0,
       currentTab: 'current',
-      showCurPage: false,
+      arrowDownFlag: false,
+      showRechargePage: false,
       showWithdrawPage: false,
       curPage: 1,
       curSize: 10,
@@ -85,41 +87,41 @@ export default {
     rechargeStatus() {
       return [{
         name: 0,
-        label: this.$t('common.lang') === 'cn' ? '充值中' : 'All'
+        label: this.$t('userCenter.financeRecord.depositStatus.toppingUp') // 0等待完善
       },
       {
         name: 1,
-        label: this.$t('common.lang') === 'cn' ? '充值中' : 'All'
+        label: this.$t('userCenter.financeRecord.depositStatus.toppingUp') // 1等待确认
       },
       {
         name: 2,
-        label: this.$t('common.lang') === 'cn' ? '充值完成' : 'All'
+        label: this.$t('userCenter.financeRecord.depositStatus.topUpCompleted') // 2完成确认
       }]
     },
     withdrawStatus() {
       return [{
         name: 1,
-        label: this.$t('common.lang') === 'cn' ? '待审核' : 'All'
+        label: this.$t('userCenter.financeRecord.withdrawStatus.pending') // 1提交
       },
       {
         name: 2,
-        label: this.$t('common.lang') === 'cn' ? '审核通过' : 'All'
+        label: this.$t('userCenter.financeRecord.withdrawStatus.passed') //2同意
       },
       {
         name: 3,
-        label: this.$t('common.lang') === 'cn' ? '审核驳回' : 'All'
+        label: this.$t('userCenter.financeRecord.withdrawStatus.rejected') // 3驳回
       },
       {
         name: 4,
-        label: this.$t('common.lang') === 'cn' ? '处理中' : 'All'
+        label: this.$t('common.lang') === 'cn' ? '处理中' : 'All' // 4处理中
       },
       {
         name: 5,
-        label: this.$t('common.lang') === 'cn' ? '处理完成' : 'All'
+        label: this.$t('common.lang') === 'cn' ? '处理完成' : 'All' // 5处理完成
       },
       {
         name: 6,
-        label: this.$t('common.lang') === 'cn' ? '处理失败' : 'All'
+        label: this.$t('common.lang') === 'cn' ? '处理失败' : 'All' // 6处理失败
       }];
     },
     coins() {
@@ -138,6 +140,10 @@ export default {
       {
         name: 'ETH',
         label: 'ETH'
+      },
+      {
+        name: 'BCH',
+        label: 'BCH'
       },
       {
         name: 'ET',
@@ -160,12 +166,18 @@ export default {
         {
           title: this.$t('userCenter.financeRecord.table.side'),
           key: 'side',
-          width: 200
+          width: 200,
+          render: (h, params) => {
+            return h('span', params.row.name === 'recharge' ? this.$t('userCenter.financeRecord.table.recharge') : this.$t('userCenter.financeRecord.table.withdraw'));
+          }
         },
         {
           title: this.$t('userCenter.financeRecord.table.amount'),
           key: 'balance',
-          width: 200
+          width: 200,
+          render: (h, params) => {
+            return h('span', parseFloat(params.row.balance).toFixed(8));
+          }
         },
         {
           title: this.$t('userCenter.financeRecord.table.status'),
@@ -281,7 +293,7 @@ export default {
               [
                 h(withdrawDetail, {
                   props: {
-                    showCharge: this.showCharge
+                    detail: params.row
                   }
                 }),
               ]
@@ -296,6 +308,9 @@ export default {
     page
   },
   methods: {
+    handleArrowDownFlag(visible) {
+      this.arrowDownFlag = visible
+    },
     showStatus(params) {
       if (params.row.name === 'recharge') {
         for (var i = 0; i < this.rechargeStatus.length; i++) {
@@ -312,6 +327,10 @@ export default {
       }
     },
     clickDropdown(value) {
+      if (this.coin === value) {
+        return;
+      }
+
       this.coin = value;
       if (this.currentTab === 'current') {
         this.getRecharge();
@@ -372,31 +391,32 @@ export default {
       ax
         .post(config.url.user + '/api/account/getHistory', this.rechargeParam, getHeader)
         .then(res => {
-          // if (res.status == '200' && res.data.errorCode == 0) {
-          //   let data = res.data.result.data
-          //   for (let i = 0; i < data.length; i++) {
-          //     let amount_deal = parseFloat(data[i].amount_deal)
-          //     let amount = parseFloat(data[i].amount)
-          //     let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
-          //     data[i].closeRate = rate.toFixed(2)
-          //     vu.hisData = data
-          //   }
-          //   vu.hisTotal = res.data.result.total * 1
-          //   if (Math.ceil(vu.hisTotal / vu.hisSize) > 1) {
-          //     this.showHisPage = true
-          //   } else {
-          //     this.showHisPage = false
-          //   }
-          // } else {
-          //   apiError(vu, res);
-          // }
+          if (res.status == '200' && res.data.errorCode == 0) {
+            let data = res.data.result.data
+            
+            for (var i = 0; i < data.length; i++) {
+              data[i]._expanded = false
+              data[i].side = '普通币种';
+            }
+            
+            this.rechargeData = data;
+            
+            // 分页是否显示
+            this.rechargeParamTotal = res.data.result.total * 1
+            if (Math.ceil(this.rechargeParamTotal / this.rechargeParam.size) > 1) {
+              this.showRechargePage = true
+            } else {
+              this.showRechargePage = false
+            }
+          } else {
+            apiError(this, res);
+          }
         })
     },
     /**
      * 获取成交历史
      */
     getWithdraw() {
-      var vu = this
       this.withdrawParam.type = (this.coin === '全部' || this.coin === 'All') ? null : this.coin;
       ax
         .post(config.url.user + '/api/account/getHistory', this.withdrawParam, getHeader)
@@ -412,14 +432,14 @@ export default {
             this.withdrawData = data;
             
             // 分页是否显示
-            vu.withdrawParamTotal = res.data.result.total * 1
-            if (Math.ceil(vu.withdrawParamTotal / this.withdrawParam.size) > 1) {
+            this.withdrawParamTotal = res.data.result.total * 1
+            if (Math.ceil(this.withdrawParamTotal / this.withdrawParam.size) > 1) {
               this.showWithdrawPage = true
             } else {
               this.showWithdrawPage = false
             }
           } else {
-            apiError(vu, res);
+            apiError(this, res);
           }
         })
     },

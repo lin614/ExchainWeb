@@ -1,21 +1,22 @@
 <template>
   <div class="deposit-detail">
     <div class="detail-group">
-      <div class="detail-item">
+      <!-- <div class="detail-item">
         <label>钱包处理时间：</label>
         <span>2018-06-20 15:06:08</span>
-      </div>
+      </div> -->
       <div class="detail-item">
-        <label>充币地址：</label>
+        <label>{{name.depositAddress}}：</label>
         <span>04gdfgfd031249fsdfdsfds03249fdsu8t05tfght4398gfsd</span>
       </div>
-    </div>
-    <div class="detail-group">
       <div class="detail-item">
-        <label>区块链交易ID：</label>
+        <label>{{$t('userCenter.financeRecord.table.hash')}}：</label>
         <span>034hklg756nib5tg9dth9e458ttr09y6t095eut0213dn</span>
       </div>
     </div>
+    <!-- <div class="detail-group">
+      
+    </div> -->
   </div>
 </template>
 

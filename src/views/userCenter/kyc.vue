@@ -365,7 +365,7 @@ export default {
       // var result_ = result[result.length - 1]
       this.files.front = res.result.ext
       // console.log(file)
-      this.formField.frontImg = 'data:image/' + res.result.ext + ';base64,' + res.result.front
+      this.formField.frontImg = res.result.front
       // this.$set(this.formField, 'frontImg', res.result)
       // console.log(this.formField.frontImg)
     },
@@ -382,7 +382,7 @@ export default {
       // var result = res.result.split('/')
       // var result_ = result[result.length - 1]
       this.files.back = res.result.ext
-      this.formField.backImg = 'data:image/' + res.result.ext + ';base64,' + res.result.back
+      this.formField.backImg = res.result.back
       // this.$set(this.formField, 'backImg', res.result)
     },
     /**
@@ -398,7 +398,7 @@ export default {
       // var result = res.result.split('/')
       // var result_ = result[result.length - 1]
       this.files.hold = res.result.ext
-      this.formField.holdImg = 'data:image/' + res.result.ext + ';base64,' + res.result.hold
+      this.formField.holdImg = res.result.hold
       // this.$set(this.formField, 'holdImg', res.result)
     },
     /**

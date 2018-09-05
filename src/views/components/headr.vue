@@ -80,7 +80,6 @@
 
           <DropdownMenu slot="list">
             <DropdownItem name="cn"><span class="lan-item">简体中文</span></DropdownItem>
-
             <DropdownItem name="en">English</DropdownItem>
           </DropdownMenu>
         </Dropdown>

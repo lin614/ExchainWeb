@@ -276,6 +276,9 @@ export default {
             this.$Message.success(this.$t('errorMsg.PHONE_SEND_SUCC'))
             this.phoneCodeDownFlag = true;
             this.handleCodeDown('phoneCodeTimer', 'phoneCodeDownText', 'phoneCodeDownFlag');
+          } else if (res.status == '200' && res.data.errorCode == 711) {
+            apiError(this, res);
+            this.$router.push('/usercenter/bind')
           } else {
             apiError(this, res);
           }
@@ -305,6 +308,9 @@ export default {
             this.$Message.success(this.$t('errorMsg.EMAIL_SEND_SUCC'))
             this.emailCodeDownFlag = true;
             this.handleCodeDown('emailCodeTimer', 'emailCodeDownText', 'emailCodeDownFlag');
+          } else if (res.status == '200' && res.data.errorCode == 711) {
+            apiError(this, res);
+            this.$router.push('/usercenter/bind')
           } else {
             apiError(this, res);
           }
@@ -359,12 +365,9 @@ export default {
               setTimeout(() => {
                 vu.$emit('submitGetCash')
               }, 50);
-            } else if (res.status == '200' && res.data.errorCode == 711) {
-              apiError(vu, res);
-              vu.$router.push('/usercenter/bind')
-            } else if (res.status == '200' && res.data.errorCode == 218) {
-              apiError(vu, res);
-              vu.$router.push('/usercenter/kyc')
+            } else if (res.status == '200' && res.data.errorCode == 219) {
+              apiError(this, res);
+              this.$router.push('/usercenter/kyc')
             } else {
               vu.securityModalLoading = false
               apiError(vu, res);

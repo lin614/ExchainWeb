@@ -6,6 +6,11 @@ module.exports = {
     confirm: 'Confirm',
     cancel: 'Cancel'
   },
+  name: {
+    fees: 'Fees',
+    depositAddress: 'Deposit Address',
+    withdrawAddress: 'Withdraw Address'
+  },
   header: {
     exchange: 'Exchange',
     et: 'ET',
@@ -175,7 +180,14 @@ module.exports = {
     account: 'Invited Account',
     time: 'Time',
     status: 'Status',
-    toMore: 'View More'
+    toMore: 'View More',
+    inviteRankingList: {
+      title: '邀请榜单',
+      more: '完整榜单',
+      ranking: '排名',
+      username: '用户名',
+      partnerNum: '邀请交易伙伴数'
+    }
   },
   userCenter: {
     index: {
@@ -260,6 +272,18 @@ module.exports = {
         status: 'Status',
         opera: 'Action',
         detail: 'Detail',
+        hash: 'Hash',
+        recharge: 'Recharge',
+        withdraw: 'Withdraw'
+      },
+      depositStatus: {
+        toppingUp: 'Topping up',
+        topUpCompleted: 'Top-up completed',
+      },
+      withdrawStatus: {
+        pending: 'Verification Pending',
+        passed: 'Verification Passed',
+        rejected: 'Verification Rejected'
       }
     },
     kyc: {
@@ -516,6 +540,7 @@ module.exports = {
     '3': 'Signature error', // 签名错误
     '4': 'Repeat request', // 重复请求
     '5': 'Invalid request', // 非法请求
+    "7": "频率限制", // 频率限制
 
     // 用户相关
     '200': 'User already exists', // 用户已存在 
@@ -534,8 +559,9 @@ module.exports = {
     '213': 'ID card type is invalid', // 用户身份证件类型无效 
     '214': 'code verification failed', // 验证码验证失败 --- 行为验证码  
     '215': 'SMS verification code verification failed', // 短信验证码验证失败 
-    '216': 'code verification failed', // 邮箱验证码验证失败 
-    '218': '用户还未实名认证', // 用户还未实名认证 
+    '216': 'Code verification failed', // 邮箱验证码验证失败 
+    '218': 'Identify verification failed', // 用户还未实名认证
+    '219': 'Identify verification required', // 用户还未申请实名认证
 
     // 账户相关
     '300': 'Insufficient balance', // 余额不足 
@@ -603,6 +629,7 @@ module.exports = {
 
     // 管理员后台管理页面相关(财务系统后台)
     '901': 'Admin Not Exist', // 管理员不存在
-    '902': 'Admin Login Failed' // 管理员登录失败
+    '902': 'Admin Login Failed', // 管理员登录失败
+    '903': '管理员未登录' // 管理员未登录
   }
 }

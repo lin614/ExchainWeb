@@ -1,23 +1,23 @@
 <template>
   <div class="deposit-detail">
     <div class="detail-group">
-      <div class="detail-item">
+      <!-- <div class="detail-item">
         <label>钱包处理时间：</label>
         <span>2018-06-20 15:06:08</span>
+      </div> -->
+      <div class="detail-item">
+        <label>{{$t('name.fees')}}：</label>
+        <span>{{detail.other}}</span>
       </div>
       <div class="detail-item">
-        <label>手续费：</label>
-        <span>0.00500000</span>
+        <label>{{$t('name.withdrawAddress')}}：</label>
+        <span>{{detail.address}}</span>
       </div>
     </div>
     <div class="detail-group">
       <div class="detail-item">
-        <label>充币地址：</label>
-        <span>04gdfgfd031249fsdfdsfds03249fdsu8t05tfght4398gfsd</span>
-      </div>
-      <div class="detail-item">
-        <label>区块链交易ID：</label>
-        <span>034hklg756nib5tg9dth9e458ttr09y6t095eut0213dn</span>
+        <label>{{$t('userCenter.financeRecord.table.hash')}}：</label>
+        <span>{{detail.tid}}</span>
       </div>
     </div>
   </div>
@@ -29,8 +29,7 @@ import config from '../../config/config.js'
 export default {
   name: 'encharge',
   props: {
-    showCharge: Boolean,
-    token: String
+    detail: Object
   },
   data () {
     return {
