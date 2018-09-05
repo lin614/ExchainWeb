@@ -173,6 +173,9 @@ export default {
 
             if (res.data.result.pn) {
               ax.defaults.headers.post['X-EXCHAIN-PN'] = res.data.result.pn
+              let timestamp = Date.parse(new Date()) + (5*60*1000);
+              
+              let dateStr = new Date(timestamp);
               cookie.set('PN', res.data.result.pn, {
                 domain: config.url.domain,
                 expires: 0.08

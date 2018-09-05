@@ -133,6 +133,76 @@
           <router-link v-if="showMore" target="_blank" class="to-more" to="/invite">{{$t('bonus.toMore')}}</router-link>
         </crd>
 
+        <div class="my-reward-wrap">
+          <div class="my-reward">
+            <p class="tit">合作伙伴USDT返现活动 
+              <Tooltip placement="top" max-width="360">
+                <span class="tip">?</span>
+                <div slot="content" style="white-space: normal;">
+                  <p class="tooltip1-tit">合作伙伴和被邀请人均需通过KYC认证且被邀请人需至少完成一笔交易</p>
+                  <ul class="tooltip1-group">
+                    <li class="tooltip1-item">
+                      <span class="pt30">邀请交易用户数</span><span class="pt30">奖励（USDT）</span><span>可获得奖励（USDT）</span><span>永久分享被邀请人相关交易手续费比例</span><span>被邀请交易用户（USDT）</span>
+                    </li>
+                    <li class="tooltip1-item h62">
+                      <span>0-50</span><span>1/用户</span><span>邀请交易用户数*1</span><span>20%</span><span>1/用户</span>
+                    </li>
+                    <li class="tooltip1-item">
+                      <span class="pt30">51-500</span><span class="pt30">2/用户</span><span>50+（邀请交易用户数-50）*2</span><span class="pt30">50%</span><span class="pt30">1/用户</span>
+                    </li>
+                    <li class="tooltip1-item">
+                      <span class="pt30">>500</span><span class="pt30">3/用户</span><span>950+（邀请交易用户数-500）*3</span><span class="pt30">50%</span><span class="pt30">1/用户</span>
+                    </li>
+                  </ul>
+                </div>
+              </Tooltip>
+            </p>
+
+            <ul class="detail-group">
+              <li class="detail-item">
+                <label>已邀请注册用户数：</label>
+                <span>{{userUSDT.inviteRegisterCount}}</span>
+              </li>
+
+              <li class="detail-item">
+                <label>已获得USDT：</label>
+                <span>{{userUSDT.usdt}}</span>
+              </li>
+
+              <li class="detail-item">
+                <label>已邀请合规交易用户数：</label>
+                <span>{{userUSDT.inviteKycCount}}</span>
+              </li>
+
+              <li class="detail-item">
+                <label>最多可获得USDT
+                  <Tooltip placement="top" max-width="360">
+                    <strong>?</strong>
+                    <div slot="content" style="white-space: normal;">
+                      <p>已邀请注册用户全部完成KYC认证并完成一笔交易后，可获得的USDT</p>
+                    </div>
+                  </Tooltip>
+                  ：
+                  </label>
+                <span>{{userUSDT.usdtCount}}</span>
+              </li>
+            </ul>
+
+            <ul class="untrade-user">
+              <li class="untrade-user-tit">
+                <span>注册未交易用户账号</span>
+                <span>注册时间</span>
+              </li>
+              <li v-for="(item, index) in userUSDT.list" :key="index">
+                <span>{{item.email}}</span>
+                <span>{{item.createTime}}</span>
+              </li>
+              <li v-if="userUSDT.list.length === 0" style="margin-left: 390px; color: #999; line-height: 150px;">{{userUSDT.msg}}</li>
+            </ul>
+
+          </div>
+        </div>
+
       </div>
     </block>
   </div>
@@ -166,7 +236,15 @@ export default {
       n_all: 0, //已邀请人数
       n_act: 0, //已激活人数,
       inviteRankingMore: false,
-      inviteRankingList: []
+      inviteRankingList: [],
+      userUSDT: {
+        inviteKycCount: null,
+        inviteRegisterCount: null,
+        msg: '数据加载中',
+        usdt: null,
+        usdtCount: null,
+        list: []
+      }
     }
   },
   created() {
@@ -182,6 +260,7 @@ export default {
     this.getInvitedCode();
     this.getInvitedList();
     this.getInviteRankingList();
+    this.getUserUSDT();
   },
   mounted() {
     new ClipboardJS('#btnCode')
@@ -315,6 +394,27 @@ export default {
           apiReqError(this, err);
         });
     },
+
+    /**
+     * getUserUSDT
+     */
+    getUserUSDT () {
+      let params = {
+        userId: cookie.get('uid', { domain: config.url.domain })
+      };
+      
+      ax
+        .post(config.url.invite + '/api/invite/activityInfo', params)
+        .then(res => {
+          if (res.status === 200 && res.data.meta.code === 0) {
+            this.userUSDT = res.data.data
+            this.userUSDT.msg = '没有未交易用户账号'
+          }
+        })
+        .catch(err => {
+          apiReqError(this, err);
+        });
+    }
   }
 }
 </script>
@@ -482,6 +582,137 @@ export default {
     }
     .ivu-row-flex {
       margin: 10px -8px;
+    }
+  }
+  .my-reward-wrap {
+    padding: 10px;
+    background: #c9a37d;
+    border-radius: 10px;
+  }
+  .my-reward {
+    min-height: 640px;
+    padding: 20px;
+    background: #fdfcf7;
+    border-radius: 10px;
+    .tit {
+      margin: 0px 20px;
+      padding: 50px;
+      font-size: 18px;
+      text-align: center;
+      color: #474543;
+      border-bottom: 1px solid #ede1d2;
+      .tip {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        line-height: 19px;
+        color: #fff;
+        background: #c4a481;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        border-radius: 50%;
+      }
+      .ivu-tooltip-content {
+        white-space: normal;
+      }
+      .ivu-tooltip-popper {
+        // top: 1629px!important;
+        left: 1020px!important;
+      }
+      .ivu-tooltip-inner {
+        width: 700px;
+        max-width: none;
+        padding: 0px;
+      }
+      .ivu-tooltip-inner {
+        background: #f8f1e2;
+        color: #b4997e;
+      }
+      .ivu-tooltip-arrow {
+        border-top-color: #c4a481;
+        border-bottom-color: #c4a481; 
+      }
+      .tooltip1-tit{
+        padding: 25px;
+        font-size: 18px;
+        color: #88684f;
+        background: #f8f1e2;
+      }
+      .tooltip1-group {
+        border-top: 1px solid #ede1d2;
+        background: #fdf8e5;
+      }
+      .tooltip1-item span {
+          display: inline-block;
+          width: 20%;
+          padding: 20px 6px;
+          font-size: 14px;
+          border-right: 1px solid #ede1d2;
+          border-bottom: 1px solid #ede1d2;
+          text-align: center;
+          height: 83px;
+          vertical-align: middle;
+        &:last-child {
+          border-right: 0px solid #ede1d2;
+        }
+      }
+      .tooltip1-item.h62 span {
+        height: 62px;
+      }
+      .tooltip1-item span.pt30 {
+        padding-top: 30px;
+      }
+    }
+
+    .detail-group {
+      margin: 0px 20px;
+      border-bottom: 1px solid #ede1d2;
+      padding: 45px 0px 45px 100px;
+    }
+    .detail-group .detail-item {
+      width: 49.5%;
+      display: inline-block;
+    }
+    .detail-group .detail-item .ivu-tooltip-inner {
+      background: #f8f1e2;
+      color: #b4997e;
+      border: 1px solid #ede1d2;
+    }
+    .detail-group .detail-item .ivu-tooltip-arrow {
+      border-top-color: #c4a481;
+      border-bottom-color: #c4a481;
+    }
+    .detail-group .detail-item label {
+      color: #333;
+    }
+    .detail-group .detail-item span {
+      color: #999;
+    }
+    .detail-group .detail-item strong {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin: 0px 5px;
+      line-height: 19px;
+      color: #fff;
+      background: #c4a481;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 50%;
+    }
+    .untrade-user {
+      margin: 0px 20px;
+      padding: 45px 0px 45px 100px;
+      span {
+        width: 49.5%;
+        display: inline-block;
+        color: #999;
+      }
+      .untrade-user-tit span{
+        color: #333;
+      }
     }
   }
 }

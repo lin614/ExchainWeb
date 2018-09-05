@@ -19,9 +19,9 @@
             </Dropdown>
           </div>
           <Table v-if="currentTab === 'current'" :columns="rechargeColumns" :data="rechargeData"></Table>
-          <Page v-if="(currentTab === 'current') && showRechargePage" @on-change="handleRechargePageChange" :total="rechargeParamTotal"></Page>
+          <Page v-if="(currentTab === 'current') && showRechargePage" @on-change="handleRechargePageChange" :page-size="rechargeParam.size" :total="rechargeParamTotal"></Page>
           <Table v-if="currentTab === 'history'" :columns="withdrawColumns" :data="withdrawData"></Table>
-          <Page v-if="(currentTab === 'history') && showWithdrawPage" @on-change="handleWithdrawPageChange" :total="withdrawParamTotal"></Page>
+          <Page v-if="(currentTab === 'history') && showWithdrawPage" @on-change="handleWithdrawPageChange" :page-size="withdrawParam.size" :total="withdrawParamTotal"></Page>
         </crd>
       </div>
     </div>
