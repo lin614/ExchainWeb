@@ -4,7 +4,7 @@
       <block>
         <div slot="inner">
           <crd class="ranking-list">
-            <span class="ranking-list-title" slot="title">{{$t('bonus.inviteRankingList.title')}}</span>
+            <span class="ranking-list-title" slot="title">{{$t('bonus.inviteRankingList.more')}}</span>
             
             <div class="content ec-table">
               <Row type="flex" :gutter="16">

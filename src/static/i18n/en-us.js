@@ -7,6 +7,8 @@ module.exports = {
     cancel: 'Cancel'
   },
   name: {
+    loadingData: 'Loading',
+    noData: 'No Data',
     fees: 'Fees',
     depositAddress: 'Deposit Address',
     withdrawAddress: 'Withdraw Address'
@@ -182,11 +184,30 @@ module.exports = {
     status: 'Status',
     toMore: 'View More',
     inviteRankingList: {
-      title: '邀请榜单',
-      more: '完整榜单',
-      ranking: '排名',
-      username: '用户名',
-      partnerNum: '邀请交易伙伴数'
+      title: 'Invitation Program',
+      more: 'Ranking Full List',
+      ranking: 'Ranking',
+      username: 'User Name',
+      partnerNum: 'Number of Invitees (Traders)'
+    },
+    usdtReward: {
+      title: "Partners' USDT Rewards Program",
+      inviteRegisterCount: 'Number of Invitees (Users)',
+      usdtReward: 'USDT Rewards',
+      inviteKycCount: 'Number of Invitees (Traders)',
+      maxUsdt: 'Maximum Rewards of USDT', // 最多可获得USDT
+      maxUsdtMsg: 'USDT rewards from your invitees who passed KYC and made 1 transaction.', // 已邀请注册用户全部完成KYC认证并完成一笔交易后，可获得的USDT
+      regUntradeUserEmail: 'Users Registered Email Address', // 注册未交易用户账号
+      regUntradeUserTime: 'Registration Time', // 注册时间
+      table: {
+        sumary: 'Both partner (inviter) and invitee(s) need to pass KYC, moreover the invitee(s) need to make at least 1 transaction.', // 合作伙伴和被邀请人均需通过KYC认证且被邀请人需至少完成一笔交易
+        traderUsreNum: 'Number of Invitees (Traders)', // 邀请交易用户数
+        inviteesRewards: 'Rewards for Invitees (Traders)', // 被邀请交易用户
+        rewards: 'Rewards', // 奖励
+        rewards2: 'USDT Rewards', // 可获得奖励
+        feesReward: 'Permanently earn the corresponding rate of trading frees of your invitees (traders)',
+        user: 'User'
+      }
     }
   },
   userCenter: {

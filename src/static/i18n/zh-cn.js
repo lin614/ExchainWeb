@@ -7,6 +7,8 @@ module.exports = {
     cancel: '取消'
   },
   name: {
+    loadingData: '数据加载中',
+    noData: '暂无数据',
     fees: '手续费',
     depositAddress: '充币地址',
     withdrawAddress: '提币地址'
@@ -180,13 +182,32 @@ module.exports = {
     account: '被邀请人账号',
     time: '时间',
     status: '状态',
-    toMore: '点击查看更多',
+    toMore: '查看更多',
     inviteRankingList: {
       title: '邀请榜单',
       more: '完整榜单',
       ranking: '排名',
       username: '用户名',
       partnerNum: '邀请交易伙伴数'
+    },
+    usdtReward: {
+      title: '合作伙伴USDT返现活动',
+      inviteRegisterCount: '已邀请注册用户数',
+      usdtReward: '已获得USDT',
+      inviteKycCount: '已邀请合规交易用户数',
+      maxUsdt: '最多可获得USDT',
+      maxUsdtMsg: '已邀请注册用户全部完成KYC认证并完成一笔交易后，可获得的USDT',
+      regUntradeUserEmail: '注册未交易用户账号',
+      regUntradeUserTime: '注册时间',
+      table: {
+        sumary: '合作伙伴和被邀请人均需通过KYC认证且被邀请人需至少完成一笔交易',
+        traderUsreNum: '邀请交易用户数',
+        inviteesRewards: '被邀请交易用户',
+        rewards: '奖励',
+        rewards2: '可获得奖励',
+        feesReward: '永久分享被邀请人相关交易手续费比例',
+        user: '用户'
+      }
     }
   },
   userCenter: {

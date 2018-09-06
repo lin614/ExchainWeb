@@ -60,10 +60,12 @@ export default {
   }
   .more {
     float: right;
+    width: 213px;
     color: #666;
     font-size: 16px;
     margin-right: 15px;
     line-height: 20px;
+    text-align: right;
   }
   .mainContent {
     // padding: 16px;
