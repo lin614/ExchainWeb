@@ -19,9 +19,9 @@
             </Dropdown>
           </div>
           <Table v-if="currentTab === 'current'" :columns="rechargeColumns" :data="rechargeData"></Table>
-          <Page v-if="(currentTab === 'current') && showRechargePage" @on-change="handleRechargePageChange" :total="rechargeParamTotal"></Page>
+          <Page v-if="(currentTab === 'current') && showRechargePage" @on-change="handleRechargePageChange" :page-size="rechargeParam.size" :total="rechargeParamTotal"></Page>
           <Table v-if="currentTab === 'history'" :columns="withdrawColumns" :data="withdrawData"></Table>
-          <Page v-if="(currentTab === 'history') && showWithdrawPage" @on-change="handleWithdrawPageChange" :total="withdrawParamTotal"></Page>
+          <Page v-if="(currentTab === 'history') && showWithdrawPage" @on-change="handleWithdrawPageChange" :page-size="withdrawParam.size" :total="withdrawParamTotal"></Page>
         </crd>
       </div>
     </div>
@@ -66,7 +66,7 @@ export default {
       rechargeParam: {
         type: null,
         ways: 'recharge', // recharge 表充币、withdraw表示提币
-        start: 1,
+        start: 0,
         size: 10,
         dateStart: '2018-07-01',
         dateEnd: '2020-12-31'
@@ -74,7 +74,7 @@ export default {
       withdrawParam: {
         type: null,
         ways: 'withdraw', // recharge 表充币、withdraw表示提币
-        start: 1,
+        start: 0,
         size: 10,
         dateStart: '2018-07-01',
         dateEnd: '2020-12-31'
@@ -263,7 +263,7 @@ export default {
               [
                 h(rechargeDetail, {
                   props: {
-                    showCharge: this.showCharge
+                    detail: params.row
                   }
                 }),
               ]
@@ -417,6 +417,7 @@ export default {
      * 获取成交历史
      */
     getWithdraw() {
+      this.withdrawParam
       this.withdrawParam.type = (this.coin === '全部' || this.coin === 'All') ? null : this.coin;
       ax
         .post(config.url.user + '/api/account/getHistory', this.withdrawParam, getHeader)
@@ -447,14 +448,14 @@ export default {
      * 当前委托页码改变
      */
     handleRechargePageChange (e) {
-      this.rechargeParam.start = e
+      this.rechargeParam.start = (e - 1) * this.rechargeParam.size
       this.getRecharge()
     },
     /**
      * 成交历史页码改变
      */
     handleWithdrawPageChange (e) {
-      this.withdrawParam.start = e
+      this.withdrawParam.start = (e - 1) * this.withdrawParam.size
       this.getWithdraw()
     }
   },

@@ -354,7 +354,7 @@ export default {
 
             this.mainMarket = mainMarket;
           } else {
-            apiError(vu, res)
+            apiError(this, res)
           }
         });
     },

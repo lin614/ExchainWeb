@@ -7,6 +7,8 @@ module.exports = {
     cancel: '取消'
   },
   name: {
+    loadingData: '数据加载中',
+    noData: '暂无数据',
     fees: '手续费',
     depositAddress: '充币地址',
     withdrawAddress: '提币地址'
@@ -180,17 +182,38 @@ module.exports = {
     account: '被邀请人账号',
     time: '时间',
     status: '状态',
-    toMore: '点击查看更多',
+    toMore: '查看更多',
     inviteRankingList: {
       title: '邀请榜单',
       more: '完整榜单',
       ranking: '排名',
       username: '用户名',
       partnerNum: '邀请交易伙伴数'
+    },
+    usdtReward: {
+      title: '合作伙伴USDT返现活动',
+      inviteRegisterCount: '已邀请注册用户数',
+      usdtReward: '已获得USDT',
+      inviteKycCount: '已邀请合规交易用户数',
+      maxUsdt: '最多可获得USDT',
+      maxUsdtMsg: '已邀请注册用户全部完成KYC认证并完成一笔交易后，可获得的USDT',
+      regUntradeUserEmail: '注册未交易用户账号',
+      regUntradeUserTime: '注册时间',
+      table: {
+        sumary: '合作伙伴和被邀请人均需通过KYC认证且被邀请人需至少完成一笔交易',
+        traderUsreNum: '邀请交易用户数',
+        inviteesRewards: '被邀请交易用户',
+        rewards: '奖励',
+        rewards2: '可获得奖励',
+        feesReward: '永久分享被邀请人相关交易手续费比例',
+        user: '用户'
+      }
     }
   },
   userCenter: {
     index: {
+      hello: '您好，',
+      yourLevel: '你目前为',
       baseInfo: {
         title: '基本信息',
         kycUncheck: 'kyc 未认证',
@@ -340,6 +363,7 @@ module.exports = {
       receiveAmount: '到账数量',
       tip: '温馨提示',
       tipP1: '最小提现额度为',
+      tipP2: '最大提现额度为',
       withdraw: '提币'
     },
     // 委托管理
@@ -474,6 +498,7 @@ module.exports = {
     ADDR_BLANK: '地址不能为空',
     AMOUNT_BLANK: '请输入提现数量',
     AMOUNT_LESS_FEE: '提现数量不足以支付手续费',
+    AMOUNT_LESS_MAX_WITHDRAW: '提现数量不能大于最大提现额度',
     AMOUNT_LESS_MIN_WITHDRAW: '提现数量不能小于最小提现额度',
     FEE_BLANK: '交易费不能为空',
     WITHDRAW_REQ_SUBMIT: '提币请求已提交',
@@ -568,13 +593,15 @@ module.exports = {
     '302': '账户创建出错',
     '303': '提现创建失败',
     '304': '转移金额到充提账户失败',
-    '305': '该货币提现限制',
+    '305': '小于最小提币限制',
     '306': '该货币充值限制',
     '307': '未找到提现记录',
     '308': '已经处理过',
     '309': '提现处理失败',
     '310': '提现锁定状态错误',
     '311': '提现处理失败',
+    '312': '大于于最大提币限制',
+    '313': '超出24小时最大提币限制',
     '320': '充值失败',
     '321': '添加提币地址失败',
     '322': '删除提币地址失败',

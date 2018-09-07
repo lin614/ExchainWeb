@@ -90,7 +90,8 @@ const lang = cookie.get('exchain_language', {
     domain: config.url.domain
 }) || localLang || 'cn';
 cookie.set('exchain_language', lang, {
-    domain: config.url.domain
+    domain: config.url.domain,
+    expires: 0.08
 })
 
 
@@ -125,7 +126,8 @@ const router = new VueRouter(RouterConfig);
 Vue.prototype.toTrade = function (pair) {
     pair = pair ? pair : 'btc_usdt'
     cookie.set('pair', pair, {
-        domain: config.url.domain
+        domain: config.url.domain,
+        expires: 0.08
     })
 
     window.location.href = config.url.trade

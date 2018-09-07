@@ -6,12 +6,10 @@
         <span>2018-06-20 15:06:08</span>
       </div> -->
       <div class="detail-item">
-        <label>{{name.depositAddress}}：</label>
-        <span>04gdfgfd031249fsdfdsfds03249fdsu8t05tfght4398gfsd</span>
+        <label>{{$t('name.depositAddress')}}：</label><span>{{detail.address}}</span>
       </div>
-      <div class="detail-item">
-        <label>{{$t('userCenter.financeRecord.table.hash')}}：</label>
-        <span>034hklg756nib5tg9dth9e458ttr09y6t095eut0213dn</span>
+      <div class="detail-item too-large84">
+        <label>{{$t('userCenter.financeRecord.table.hash')}}：</label><span><a target="_blank" :href="detail.url">{{detail.tid}}</a></span>
       </div>
     </div>
     <!-- <div class="detail-group">
@@ -26,16 +24,10 @@ import config from '../../config/config.js'
 export default {
   name: 'encharge',
   props: {
-    showCharge: Boolean,
-    token: String
+    detail: Object
   },
   data () {
-    return {
-      addr: '',
-      qrCode: '',
-      spinShow: false,
-      no_encharge: true
-    }
+    return {}
   },
   watch: {
     
@@ -62,11 +54,18 @@ export default {
   .deposit-detail .detail-group .detail-item {
     width: 49.5%;
     display: inline-block;
+    vertical-align: top;
   }
   .deposit-detail .detail-group .detail-item label {
     color: #000;
   }
   .deposit-detail .detail-group .detail-item span {
     color: #999;
+  }
+  .deposit-detail .detail-group .detail-item.too-large84 {
+    padding-left: 84px;
+    label {
+      margin-left: -84px;
+    }
   }
 </style>

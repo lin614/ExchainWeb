@@ -6,18 +6,15 @@
         <span>2018-06-20 15:06:08</span>
       </div> -->
       <div class="detail-item">
-        <label>{{$t('name.fees')}}：</label>
-        <span>{{detail.other}}</span>
+        <label>{{$t('name.fees')}}：</label><span>{{detail.other}}</span>
       </div>
       <div class="detail-item">
-        <label>{{$t('name.withdrawAddress')}}：</label>
-        <span>{{detail.address}}</span>
+        <label>{{$t('name.withdrawAddress')}}：</label><span>{{detail.address}}</span>
       </div>
     </div>
     <div class="detail-group">
-      <div class="detail-item">
-        <label>{{$t('userCenter.financeRecord.table.hash')}}：</label>
-        <span>{{detail.tid}}</span>
+      <div class="detail-item w100">
+        <label>{{$t('userCenter.financeRecord.table.hash')}}：</label><span><a target="_blank" :href="detail.url">{{detail.tid}}</a></span>
       </div>
     </div>
   </div>
@@ -32,12 +29,7 @@ export default {
     detail: Object
   },
   data () {
-    return {
-      addr: '',
-      qrCode: '',
-      spinShow: false,
-      no_encharge: true
-    }
+    return {}
   },
   watch: {
     
@@ -64,6 +56,10 @@ export default {
   .deposit-detail .detail-group .detail-item {
     width: 49.5%;
     display: inline-block;
+    vertical-align: top;
+  }
+  .deposit-detail .detail-group .detail-item.w100 {
+    width: 100%;
   }
   .deposit-detail .detail-group .detail-item label {
     color: #000;

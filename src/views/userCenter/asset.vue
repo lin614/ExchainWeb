@@ -185,27 +185,27 @@ export default {
         {
           title: 'token',
           key: 'token',
-          minWidth: 30
+          minWidth: 20
         },
         {
           title: 'account_available',
           key: 'account_available',
-          minWidth: 80
+          minWidth: 120
         },
         {
           title: 'exchange_available',
           key: 'exchange_available',
-          minWidth: 50
+          minWidth: 120
         },
         {
           title: 'exchange_freeze',
           key: 'exchange_freeze',
-          minWidth: 70
+          minWidth: 120
         },
         {
           title: ' ',
           key: 'opera',
-          minWidth: 280,
+          minWidth: 230,
           render: (h, params) => {
             return h('div', [
               h(
@@ -315,7 +315,7 @@ export default {
         },
         {
           type: 'expand',
-          width: 50,
+          width: 1,
           render: (h, params) => {
             return h(
               'div',
@@ -523,6 +523,7 @@ export default {
               obj.withdraw = vu.tokenObj[key].withdraw
               obj.decimal = vu.tokenObj[key].decimal
               obj.recharge_min = vu.tokenObj[key].recharge_min
+              obj.withdraw_max = vu.tokenObj[key].withdraw_max
               obj.withdraw_min = vu.tokenObj[key].withdraw_min
               vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
               btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
@@ -794,6 +795,7 @@ export default {
               obj.withdraw = tokenObj[key].withdraw
               obj.decimal = tokenObj[key].decimal
               obj.recharge_min = tokenObj[key].recharge_min
+              obj.withdraw_max = vu.tokenObj[key].withdraw_max
               obj.withdraw_min = tokenObj[key].withdraw_min
               vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
               btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))

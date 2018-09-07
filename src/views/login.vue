@@ -173,14 +173,20 @@ export default {
 
             if (res.data.result.pn) {
               ax.defaults.headers.post['X-EXCHAIN-PN'] = res.data.result.pn
+              let timestamp = Date.parse(new Date()) + (5*60*1000);
+              
+              let dateStr = new Date(timestamp);
               cookie.set('PN', res.data.result.pn, {
-                domain: config.url.domain
+                domain: config.url.domain,
+                expires: 0.08
               })
               cookie.set('email', vu.loginInfo.email, {
-                domain: config.url.domain
+                domain: config.url.domain,
+                expires: 0.08
               })
               cookie.set('uid', res.data.result.id, {
-                domain: config.url.domain
+                domain: config.url.domain,
+                expires: 0.08
               })
               var Pn = encodeURIComponent(res.data.result.pn)
               sessionStorage.setItem('PN', Pn)

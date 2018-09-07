@@ -7,6 +7,8 @@ module.exports = {
     cancel: 'Cancel'
   },
   name: {
+    loadingData: 'Loading',
+    noData: 'No Data',
     fees: 'Fees',
     depositAddress: 'Deposit Address',
     withdrawAddress: 'Withdraw Address'
@@ -182,15 +184,36 @@ module.exports = {
     status: 'Status',
     toMore: 'View More',
     inviteRankingList: {
-      title: '邀请榜单',
-      more: '完整榜单',
-      ranking: '排名',
-      username: '用户名',
-      partnerNum: '邀请交易伙伴数'
+      title: 'Invitation Program',
+      more: 'Ranking Full List',
+      ranking: 'Ranking',
+      username: 'User Name',
+      partnerNum: 'Number of Invitees (Traders)'
+    },
+    usdtReward: {
+      title: "Partners' USDT Rewards Program",
+      inviteRegisterCount: 'Number of Invitees (Users)',
+      usdtReward: 'USDT Rewards',
+      inviteKycCount: 'Number of Invitees (Traders)',
+      maxUsdt: 'Maximum Rewards of USDT', // 最多可获得USDT
+      maxUsdtMsg: 'USDT rewards from your invitees who passed KYC and made 1 transaction.', // 已邀请注册用户全部完成KYC认证并完成一笔交易后，可获得的USDT
+      regUntradeUserEmail: 'Users Registered Email Address', // 注册未交易用户账号
+      regUntradeUserTime: 'Registration Time', // 注册时间
+      table: {
+        sumary: 'Both partner (inviter) and invitee(s) need to pass KYC, moreover the invitee(s) need to make at least 1 transaction.', // 合作伙伴和被邀请人均需通过KYC认证且被邀请人需至少完成一笔交易
+        traderUsreNum: 'Number of Invitees (Traders)', // 邀请交易用户数
+        inviteesRewards: 'Rewards for Invitees (Traders)', // 被邀请交易用户
+        rewards: 'Rewards', // 奖励
+        rewards2: 'USDT Rewards', // 可获得奖励
+        feesReward: 'Permanently earn the corresponding rate of trading frees of your invitees (traders)',
+        user: 'User'
+      }
     }
   },
   userCenter: {
     index: {
+      hello: 'Hello, ',
+      yourLevel: 'your level is ',
       baseInfo: {
         title: 'Profile',
         kycUncheck: 'kyc Unauthorized',
@@ -340,6 +363,7 @@ module.exports = {
       receiveAmount: 'Receive Amount',
       tip: 'Tip',
       tipP1: 'Minimum withdrawal amount',
+      tipP2: 'Maximum withdrawal amount',
       withdraw: 'Withdraw'
     },
     // 委托管理
@@ -473,6 +497,7 @@ module.exports = {
     ADDR_BLANK: 'Address can not be null',
     AMOUNT_BLANK: 'Please input amount',
     AMOUNT_LESS_FEE: 'Amount can not cover trans-fee',
+    AMOUNT_LESS_MAX_WITHDRAW: 'Amount Cannot be greater than maximum withdrawal amount',
     AMOUNT_LESS_MIN_WITHDRAW: 'Amount Cannot be less than minimum withdrawal amount',
     FEE_BLANK: '',
     WITHDRAW_REQ_SUBMIT: 'Withdraw submit success',
@@ -569,13 +594,15 @@ module.exports = {
     '302': 'Account creation error', // 账户创建出错 
     '303': 'Withdrawal failed', // 提现创建失败 
     '304': 'Transfer to withdraw&Deposit account failed', // 转移金额到主账户失败 
-    '305': 'Withdrawal limit', // 该货币提现限制  
+    '305': 'Less than minimum withdrawal limit', // 该货币提现限制  
     '306': 'Deposit limit', // 该货币充值限制 
     '307': 'No withdrawal record found', // 未找到提现记录 
     '308': 'Already processed', // 已经处理过 
     '309': 'Withdraw processing failed', // 提现处理失败 
-    '310': 'Withdraw status error', // 提现锁定状态错误 
+    '310': 'Withdraw status error', // 提现锁定状态错误
     '311': 'Withdraw processing failed', // 提现处理失败 
+    '312': 'Greater than maximum withdrawal limit',
+    '313': 'Over 24hour maximum withdrawal limit',
     '320': 'Deposit failed', // 充值失败 
     '321': 'Fail to add address', // 添加提币地址失败 
     '322': 'Fail to delete address', // 删除提币地址失败 

@@ -148,3 +148,20 @@ body {
 .finance-record .ivu-table-cell-expand i {
     display: none;
 }
+
+.bonus_content .my-reward .pa-left {
+    position: absolute;
+    top: 48px;
+    left: 21px;
+    width: 2px;
+    height: calc(100% - 96px);
+    background: #bfa68c;
+}
+.bonus_content .my-reward .pa-right {
+    position: absolute;
+    top: 48px;
+    right: 21px;
+    width: 2px;
+    height: calc(100% - 96px);
+    background: #bfa68c;
+}

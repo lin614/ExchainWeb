@@ -11,6 +11,12 @@ const routers = [{
             title: ''
         },
         component: (resolve) => require(['./views/bonus.vue'], resolve)
+    }, {
+        path: '/ranking',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/bonus/ranking-list.vue'], resolve)
     },
     {
         path: '/partner',
