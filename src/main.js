@@ -1,7 +1,7 @@
-// import Vue from 'vue';
-// import Vuex from 'vuex';
-// import VueRouter from 'vue-router';
-// import VueI18n from 'vue-i18n';
+import Vue from 'vue';
+import Vuex from 'vuex';
+import VueRouter from 'vue-router';
+import VueI18n from 'vue-i18n';
 import iView from 'iview';
 import Routers from './router';
 import Util from './libs/util';
