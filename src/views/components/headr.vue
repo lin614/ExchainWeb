@@ -3,7 +3,7 @@
     <Row type="flex" justify="space-between" slot="inner">
       <Col>
       <div class="logo">
-        <router-link to="/"><img src="../../static/imgs/logo.png"></router-link>
+        <router-link to="/"><img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/logo.png"></router-link>
       </div>
       <Button class="menu" type="text" @click="toTrade()">{{ $t("header.exchange") }}</Button>
       <router-link to="/et">

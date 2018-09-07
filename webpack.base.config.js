@@ -12,6 +12,16 @@ module.exports = {
     output: {
         path: path.join(__dirname, './dist')
     },
+    externals: {
+        'vue': 'Vue',
+        // 'iview': 'iView',
+        // 'iview/dist/locale/zh-CN': 'zhLocale',
+        // 'iview/dist/locale/en-US': 'enLocale',
+        'vue-router': 'VueRouter',
+        'vuex': 'Vuex',
+        // 'js-cookie': 'cookie',
+        'vue-i18n': 'VueI18n'
+    },
     module: {
         rules: [{
                 test: /.vue$/,

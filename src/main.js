@@ -1,13 +1,13 @@
-import Vue from 'vue';
+// import Vue from 'vue';
+// import Vuex from 'vuex';
+// import VueRouter from 'vue-router';
+// import VueI18n from 'vue-i18n';
 import iView from 'iview';
-import VueRouter from 'vue-router';
 import Routers from './router';
-import Vuex from 'vuex';
 import Util from './libs/util';
 import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 import cookie from 'js-cookie'
-import VueI18n from 'vue-i18n';
 import Locales from './locale';
 import zhLocale from 'iview/dist/locale/zh-CN';
 import enLocale from 'iview/dist/locale/en-US';
@@ -163,6 +163,7 @@ const store = new Vuex.Store({
         kycphoneStatus: '0',
         idCardStatus: '0',
         marketPrecision: '',
+        cdn:'https://d3bcj1iwrh8aaw.cloudfront.net'
     },
     mutations: {
         setActiveLang(s, data) {

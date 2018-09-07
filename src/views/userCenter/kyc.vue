@@ -36,8 +36,8 @@
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0;">
-                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
-                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
+                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
+                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
                       <p class="tip" v-if="!files.front">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')}}</p>
                       <p class="after-tip" v-if="files.front">{{$t('userCenter.kyc.btnText')}}</p>
                       <img class="uploaded-img" v-if="files.front" :src="formField.frontImg" alt="">
@@ -46,8 +46,8 @@
                 
                 <div class="sample">
                   <div class="sample-img-wrap">
-                    <img src="../../static/imgs/kyc-id-front.png" alt="kyc-id-front" v-if="formField.nationality === 'CN'">
-                    <img src="../../static/imgs/kyc-passport-front.png" alt="kyc-passport-front" v-if="formField.nationality !== 'CN'">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-id-front.png" alt="kyc-id-front" v-if="formField.nationality === 'CN'">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-front.png" alt="kyc-passport-front" v-if="formField.nationality !== 'CN'">
                   </div>
                   <p class="sample-txt">{{$t('userCenter.kyc.notice')}}</p>
                 </div>
@@ -65,8 +65,8 @@
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
-                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
-                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
+                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
+                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
                       <p class="tip" v-if="!files.back">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')}}</p>
                       <p class="after-tip" v-if="files.back">{{$t('userCenter.kyc.btnText')}}</p>
                       <img class="uploaded-img" v-if="files.back" :src="formField.backImg" alt="">                      
@@ -75,8 +75,8 @@
 
                 <div class="sample">
                   <div class="sample-img-wrap">
-                    <img src="../../static/imgs/kyc-id-back.png" alt="kyc-id-back" v-if="formField.nationality === 'CN'">
-                    <img src="../../static/imgs/kyc-passport-back.png" alt="kyc-passport-back" v-if="formField.nationality !== 'CN'">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-id-back.png" alt="kyc-id-back" v-if="formField.nationality === 'CN'">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-back.png" alt="kyc-passport-back" v-if="formField.nationality !== 'CN'">
                   </div>
                   <p class="sample-txt">{{$t('userCenter.kyc.notice')}}</p>
                 </div>
@@ -94,8 +94,8 @@
                   accept="image"
                   :show-upload-list="false">
                   <div style="padding: 20px 0">
-                      <img src="../../static/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
-                      <img src="../../static/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
+                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
+                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
                       <p class="tip" v-if="!files.hold">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')}}</p>
                       <p class="after-tip" v-if="files.hold">{{$t('userCenter.kyc.btnText')}}</p>
                        <img class="uploaded-img" v-if="files.hold" :src="formField.holdImg" alt="">
@@ -104,8 +104,8 @@
 
                 <div class="sample">
                   <div class="sample-img-wrap">
-                    <img src="../../static/imgs/kyc-id-hold.png" alt="kyc-id-hold" v-if="formField.nationality === 'CN'">
-                    <img src="../../static/imgs/kyc-passport-hold.png" alt="kyc-passport-hold" v-if="formField.nationality !== 'CN'">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-id-hold.png" alt="kyc-id-hold" v-if="formField.nationality === 'CN'">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-hold.png" alt="kyc-passport-hold" v-if="formField.nationality !== 'CN'">
                   </div>
                   <p class="sample-txt sample-txt3">
                     {{$t('userCenter.kyc.standard.title')}}</br>

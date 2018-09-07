@@ -2,7 +2,6 @@
 <div class="miss-page-cont" :style="'min-height:' + pageHeight + 'px;'">
   <div class="miss-main-cont">
     <div class="img-cont">
-      <!-- <img src="../assets/images/not-found.png" /> -->
     </div>
     <div class="miss-title">404</div>
     <div class="miss-tips">Page not found! don’t worry,sometimes it happens even for the best of us.</div>

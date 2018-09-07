@@ -6,7 +6,7 @@
                 <crd slot="inner">
                     <span slot="title">Privacy policy</span>
                     <div class=" content">
-                        <img src="../static/imgs/b.jpg" />
+                        <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/b.jpg" />
                     </div>
                 </crd>
             </block>

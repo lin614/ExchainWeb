@@ -108,18 +108,18 @@ export default {
   }
   .banner_1 {
     .block {
-      background: url(../../static/imgs/ban-bg1.png);
+      background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-bg1.png');
     }
   }
   .banner_2_en {
     .block {
-      background: url(../../static/imgs/ban-bg2-en.png);
+      background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-bg2-en.png');
       background-position: center;
     }
   }
   .banner_2_cn {
     .block {
-      background: url(../../static/imgs/ban-bg2-cn.png);
+      background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-bg2-cn.png');
       background-position: center;
     }
   }

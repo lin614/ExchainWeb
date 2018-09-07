@@ -10,7 +10,7 @@
               <div class="line2" />
             </h3>
             <p>{{ $t('etPage.what.descript') }}</p>
-            <img :src="require('../static/imgs/et-t-1-' + $t('common.imgLang') + '.png')" id='et' />
+            <img :src="'https://d3bcj1iwrh8aaw.cloudfront.net/imgs/et-t-1-' + $t('common.imgLang') + '.png'" id='et' />
           </div>
           <div class="sec">
             <h3>
@@ -55,7 +55,7 @@ export default {
 <style lang="less">
 @import url(./style/config.less);
 .et {
-  background: url(../static/imgs/etbg.png);
+  background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/etbg.png');
   background-position: top -200px center;
   background-repeat: no-repeat;
   // background-size: cover;

@@ -5,7 +5,8 @@
                 <crd slot="inner">
                     <span slot="title">{{$t('whitepaper.title')}}</span>
                     <div class=" content">
-                        <img :src="require('../static/imgs/'+$t('whitepaper.folder')+'/0'+i+'.jpg')" v-for="i in [1,2,3,4,5,6,7,8]" />
+                       
+                        <img :src="'https://d3bcj1iwrh8aaw.cloudfront.net/imgs/'+$t('whitepaper.folder')+'/0'+i+'.jpg'" v-for="i in [1,2,3,4,5,6,7,8]" />
                     </div>
                 </crd>
             </block>

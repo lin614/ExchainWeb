@@ -3,7 +3,6 @@
     <block>
       <div slot="inner">
         <crd :hideTitle="true">
-          <!-- <span slot="title">{{levelName}} <img src="../../static/imgs/l1.png" v-show="level==1" /><img src="../../static/imgs/l2.png" v-show="level==2" /></span> -->
           <div :class="'lv' + level + '-' + $t('common.imgLang')"></div>
 
           <div class="lv-name">
@@ -61,9 +60,7 @@
                 <div>
                   <input id="foo" :value="code" disabled>
                   <!-- <span>{{code}}</span> -->
-                  <a type="text" id="btnCode"
-                     :data-clipboard-text="code"
-                     @click="handleCopy('#btnCode')">{{$t('bonus.copyInviteCode')}}</a>
+                  <a type="text" id="btnCode" :data-clipboard-text="code" @click="handleCopy('#btnCode')">{{$t('bonus.copyInviteCode')}}</a>
                 </div>
               </div>
               </Col>
@@ -74,9 +71,7 @@
                 <div>
                   <input id="foo2" :value="link" disabled>
                   <!-- <span> {{link}} </span> -->
-                  <a type="text" id="btnLink"
-                     :data-clipboard-text="link"
-                     @click="handleCopy('#btnLink')">{{$t('bonus.copyInviteLink')}}</a>
+                  <a type="text" id="btnLink" :data-clipboard-text="link" @click="handleCopy('#btnLink')">{{$t('bonus.copyInviteLink')}}</a>
                 </div>
               </div>
               </Col>
@@ -86,18 +81,36 @@
 
         <crd>
           <span slot="title">{{$t('bonus.inviteRankingList.title')}}</span>
-          
+
           <div class="content">
             <Row type="flex" :gutter="16">
-              <Col span="8"><p class="earn"><b>{{$t('bonus.inviteRankingList.ranking')}}</b></p></Col>
-              <Col span="8"><p class="earn"><b>{{$t('bonus.inviteRankingList.username')}}</b></p></Col>
-              <Col span="8"><p class="earn"><b>{{$t('bonus.inviteRankingList.partnerNum')}}</b></p></Col>
+              <Col span="8">
+              <p class="earn">
+                <b>{{$t('bonus.inviteRankingList.ranking')}}</b>
+              </p>
+              </Col>
+              <Col span="8">
+              <p class="earn">
+                <b>{{$t('bonus.inviteRankingList.username')}}</b>
+              </p>
+              </Col>
+              <Col span="8">
+              <p class="earn">
+                <b>{{$t('bonus.inviteRankingList.partnerNum')}}</b>
+              </p>
+              </Col>
             </Row>
 
             <Row type="flex" :gutter="16" v-for="(item, index) in inviteRankingList" :key="index">
-              <Col span="8"><p class="earn">{{item.userName}}</p></Col>
-              <Col span="8"><p class="earn"> {{item.userName}}</p></Col>
-              <Col span="8"><p class="earn"> {{item.activeCount}}</p></Col>
+              <Col span="8">
+              <p class="earn">{{item.userName}}</p>
+              </Col>
+              <Col span="8">
+              <p class="earn"> {{item.userName}}</p>
+              </Col>
+              <Col span="8">
+              <p class="earn"> {{item.activeCount}}</p>
+              </Col>
             </Row>
           </div>
 
@@ -106,26 +119,44 @@
 
         <crd>
           <span slot="title">{{$t('bonus.inviteRecord')}}</span>
-          
+
           <div class="content ">
             <div class="lv-text">
               {{$t('bonus.invited')}} {{n_all}} {{$t('bonus.inviteUnit')}}, {{$t('bonus.madeTrades')}} {{n_act}} {{$t('bonus.inviteUnit')}}
             </div>
 
             <Row type="flex" :gutter="16">
-              <Col span="8"><p class="earn"><b>{{$t('bonus.account')}}</b></p></Col>
+              <Col span="8">
+              <p class="earn">
+                <b>{{$t('bonus.account')}}</b>
+              </p>
+              </Col>
 
-              <Col span="8"><p class="earn"><b>{{$t('bonus.time')}}</b></p></Col>
+              <Col span="8">
+              <p class="earn">
+                <b>{{$t('bonus.time')}}</b>
+              </p>
+              </Col>
 
-              <Col span="8"><p class="earn"><b>{{$t('bonus.status')}}</b></p></Col>
+              <Col span="8">
+              <p class="earn">
+                <b>{{$t('bonus.status')}}</b>
+              </p>
+              </Col>
             </Row>
 
             <Row type="flex" :gutter="16" v-for="(p, index) in list" :key="index">
-              <Col span="8"><p class="earn">{{p.userId}}</p></Col>
+              <Col span="8">
+              <p class="earn">{{p.userId}}</p>
+              </Col>
 
-              <Col span="8"><p class="earn"> {{p.createTime}}</p></Col>
-              
-              <Col span="8"><p class="earn"> {{p.isActive ? $t('bonus.traded') : $t('bonus.untrade')}}</p></Col>
+              <Col span="8">
+              <p class="earn"> {{p.createTime}}</p>
+              </Col>
+
+              <Col span="8">
+              <p class="earn"> {{p.isActive ? $t('bonus.traded') : $t('bonus.untrade')}}</p>
+              </Col>
             </Row>
           </div>
 
@@ -177,10 +208,10 @@ export default {
     ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
       domain: config.url.domain
     })
-    this.getUserLevel();
-    this.getInvitedCode();
-    this.getInvitedList();
-    this.getInviteRankingList();
+    this.getUserLevel()
+    this.getInvitedCode()
+    this.getInvitedList()
+    this.getInviteRankingList()
   },
   mounted() {
     new ClipboardJS('#btnCode')
@@ -191,30 +222,33 @@ export default {
     /**
      * 获取用户等级
      */
-    getUserLevel () {
+    getUserLevel() {
       let uid = cookie.get('uid', { domain: config.url.domain })
-       ax
-        .post(config.url.invite + '/api/invite/userLevel', {userId: uid})
+      ax
+        .post(config.url.invite + '/api/invite/userLevel', { userId: uid })
         .then(res => {
           if (res.status === 200 && res.data.meta.code === 0) {
             this.level = res.data.data.level
-            this.levelName = this.level < 2 ? (this.level === 0 ? 'user' : 'trade') : (this.level === 2 ? 'general' : 'super');
+            this.levelName =
+              this.level < 2
+                ? this.level === 0 ? 'user' : 'trade'
+                : this.level === 2 ? 'general' : 'super'
           } else {
-            apiError(this, res);
+            apiError(this, res)
           }
         })
         .catch(err => {
-          apiReqError(this, err);
-        });
+          apiReqError(this, err)
+        })
     },
 
     /**
      * 获取邀请码
      */
-    getInvitedCode () {
+    getInvitedCode() {
       let uid = cookie.get('uid', { domain: config.url.domain })
       ax
-        .post(config.url.invite + '/api/invite/getInvitedCode', {userId: uid})
+        .post(config.url.invite + '/api/invite/getInvitedCode', { userId: uid })
         .then(res => {
           if (res.status === 200 && res.data.meta.code === 0) {
             this.code = res.data.data.code
@@ -222,17 +256,17 @@ export default {
           }
         })
         .catch(err => {
-          apiReqError(this, err);
-        });
+          apiReqError(this, err)
+        })
     },
 
     /**
      * 获取邀请记录
      */
-    getInvitedList () {
+    getInvitedList() {
       let uid = cookie.get('uid', { domain: config.url.domain })
       ax
-        .post(config.url.invite + '/api/invite/invitedList', {userId: uid})
+        .post(config.url.invite + '/api/invite/invitedList', { userId: uid })
         .then(res => {
           if (res.status === 200 && res.data.meta.code === 0) {
             if (res.data.data.totalPages > 1) {
@@ -241,7 +275,7 @@ export default {
               this.showMore = false
             }
             this.list = res.data.data.inviteList.slice(0, 10)
-           
+
             this.n_all = res.data.data.inviteCount
             this.n_act = res.data.data.activeCount
             // this.n_act = res.data.data.inviteList.filter(function(p) {
@@ -250,16 +284,16 @@ export default {
           }
         })
         .catch(err => {
-          apiReqError(this, err);
-        });
+          apiReqError(this, err)
+        })
     },
 
     /**
      * 获取用户奖励：昨日被邀请人手续费返还、被邀请人手续费累积返还、昨日获得ET返还量、累积ET返还量
      */
-    getUserBouns () {
+    getUserBouns() {
       ax
-        .post(config.url.fee + '/api/exet/stats/userBouns', {userId: uid})
+        .post(config.url.fee + '/api/exet/stats/userBouns', { userId: uid })
         .then(res => {
           if (res.status === 200 && res.data.meta.code === 0) {
             this.fee1 = res.data.data.inviteesBonus
@@ -269,14 +303,14 @@ export default {
           }
         })
         .catch(error => {
-          apiReqError(this, err);
-        });
+          apiReqError(this, err)
+        })
     },
-    
+
     /**
      * 复制按钮
      */
-    handleCopy (ele) {
+    handleCopy(ele) {
       var vu = this
       var clipboard = new ClipboardJS(ele)
       clipboard.on('success', e => {
@@ -292,12 +326,12 @@ export default {
     /**
      * 获取邀请记录
      */
-    getInviteRankingList () {
+    getInviteRankingList() {
       let params = {
         pageNum: 1,
         pageSize: 3,
         totalPages: 0
-      };
+      }
       ax
         .post(config.url.invite + '/api/invite/partnerTop', params)
         .then(res => {
@@ -311,9 +345,9 @@ export default {
           }
         })
         .catch(err => {
-          apiReqError(this, err);
-        });
-    },
+          apiReqError(this, err)
+        })
+    }
   }
 }
 </script>
@@ -330,35 +364,35 @@ export default {
     font-size: @font-title;
   }
   .lv0-cn {
-    background: url(../../static/imgs/l0-cn.png);
+    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l0-cn.png');
     .lv;
   }
   .lv1-cn {
-    background: url(../../static/imgs/l1-cn.png);
+    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l1-cn.png');
     .lv;
   }
   .lv2-cn {
-    background: url(../../static/imgs/l2-cn.png);
+    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l2-cn.png');
     .lv;
   }
   .lv3-cn {
-    background: url(../../static/imgs/l3-cn.png);
+    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l3-cn.png');
     .lv;
   }
   .lv0-en {
-    background: url(../../static/imgs/l0-en.png);
+    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l0-en.png');
     .lv;
   }
   .lv1-en {
-    background: url(../../static/imgs/l1-en.png);
+    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l1-en.png');
     .lv;
   }
   .lv2-en {
-    background: url(../../static/imgs/l2-en.png);
+    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l2-en.png');
     .lv;
   }
   .lv3-en {
-    background: url(../../static/imgs/l3-en.png);
+    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l3-en.png');
     .lv;
   }
   .lv-name {
@@ -394,15 +428,11 @@ export default {
     }
   }
   .content {
-    // background: url(../../static/imgs/pa-bg.png);
     background-repeat: no-repeat;
     background-position: bottom right;
     padding: 32px;
 
     .invistyle {
-      // p {
-      //   font-size: @fontsize*1.1;
-      // }
       div {
         margin: 1em 0;
         background: @text-bg-color;
