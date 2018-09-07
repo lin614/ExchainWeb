@@ -212,6 +212,8 @@ module.exports = {
   },
   userCenter: {
     index: {
+      hello: '您好，',
+      yourLevel: '你目前为',
       baseInfo: {
         title: '基本信息',
         kycUncheck: 'kyc 未认证',
@@ -361,6 +363,7 @@ module.exports = {
       receiveAmount: '到账数量',
       tip: '温馨提示',
       tipP1: '最小提现额度为',
+      tipP2: '最大提现额度为',
       withdraw: '提币'
     },
     // 委托管理
@@ -495,6 +498,7 @@ module.exports = {
     ADDR_BLANK: '地址不能为空',
     AMOUNT_BLANK: '请输入提现数量',
     AMOUNT_LESS_FEE: '提现数量不足以支付手续费',
+    AMOUNT_LESS_MAX_WITHDRAW: '提现数量不能大于最大提现额度',
     AMOUNT_LESS_MIN_WITHDRAW: '提现数量不能小于最小提现额度',
     FEE_BLANK: '交易费不能为空',
     WITHDRAW_REQ_SUBMIT: '提币请求已提交',

@@ -6,7 +6,11 @@
           <span slot="title">{{ $t('userCenter.index.baseInfo.title') }}</span>
           <div class="card-box basic-info">
             <div class="basic-top">
-              <span class="email">{{userEmail}}</span>
+              <span class="email">{{$t('userCenter.index.hello')}}{{userEmail}}, {{$t('userCenter.index.yourLevel')}}
+                <router-link to="/bonus" class="to-kyc">{{$t('bonus.' + levelName + 'Partner')}}</router-link>
+              </span>
+            </div>
+            <div class="basic-top">
               <router-link v-if="idCardStatus === '0'" to="/usercenter/kyc" class="to-kyc">
                 {{ $t('userCenter.index.baseInfo.kycUncheck') }} >
               </router-link>
@@ -200,6 +204,7 @@ export default {
       bind: false,
       userNum: '',
       idCardStatus: '',
+      levelName: '',
       recentUserCol: [
         {
           title: this.$t('userCenter.index.loginLog.device'),
@@ -298,6 +303,25 @@ export default {
     }
   },
   methods: {
+    /**
+     * 获取用户等级
+     */
+    getUserLevel () {
+      let uid = cookie.get('uid', { domain: config.url.domain })
+       ax
+        .post(config.url.invite + '/api/invite/userLevel', {userId: uid})
+        .then(res => {
+          if (res.status === 200 && res.data.meta.code === 0) {
+            let level = res.data.data.level
+            this.levelName = level < 2 ? (level === 0 ? 'user' : 'trade') : (level === 2 ? 'general' : 'super');
+          } else {
+            apiError(this, res);
+          }
+        })
+        .catch(err => {
+          apiReqError(this, err);
+        });
+    },
     /**
      * kyc 认证状态
      * 0 未验证
@@ -413,6 +437,7 @@ export default {
     })
     this.getUserInfo()
     this.getRecentActivity()
+    this.getUserLevel();
     var vu = this
     util.toggleTableHeaderLang(
       vu.recentUserCol,

@@ -263,7 +263,7 @@ export default {
               [
                 h(rechargeDetail, {
                   props: {
-                    showCharge: this.showCharge
+                    detail: params.row
                   }
                 }),
               ]

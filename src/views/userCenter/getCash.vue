@@ -22,6 +22,7 @@
             <p class="friendly-notice-title">{{ $t('userCenter.withdrawBox.tip') }}</p>
             <li class="friendly-notice-item">{{$t('errorMsg.DECIMAL_LIMIT')}} {{accountData.decimal}} {{$t('errorMsg.DECIMAL_UNIT')}}</li>
             <li class="friendly-notice-item">{{ $t('userCenter.withdrawBox.tipP1') }} : {{params.withdraw_min}} {{token}}</li>
+            <li class="friendly-notice-item">{{ $t('userCenter.withdrawBox.tipP2') }} : {{params.withdraw_max}} {{token}}</li>
           </div>
           <div class="get-btn-box fr">
             <Button class="btn-large" type="primary" @click="openSecurityModal()">
@@ -155,6 +156,9 @@ export default {
               }
               if (parseFloat(value) > parseFloat(this.accountData.account_available)) {
                 callback(this.$t('errorMsg.OVER_AVAILABLE_AMOUNT'))
+              }
+              if (parseFloat(value) > parseFloat(this.params.withdraw_max)) {
+                callback(this.$t('errorMsg.AMOUNT_LESS_MAX_WITHDRAW'))
               }
               if (parseFloat(value) < parseFloat(this.params.withdraw_min)) {
                 callback(this.$t('errorMsg.AMOUNT_LESS_MIN_WITHDRAW'))

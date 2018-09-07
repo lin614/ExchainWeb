@@ -523,6 +523,7 @@ export default {
               obj.withdraw = vu.tokenObj[key].withdraw
               obj.decimal = vu.tokenObj[key].decimal
               obj.recharge_min = vu.tokenObj[key].recharge_min
+              obj.withdraw_max = vu.tokenObj[key].withdraw_max
               obj.withdraw_min = vu.tokenObj[key].withdraw_min
               vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
               btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
@@ -794,6 +795,7 @@ export default {
               obj.withdraw = tokenObj[key].withdraw
               obj.decimal = tokenObj[key].decimal
               obj.recharge_min = tokenObj[key].recharge_min
+              obj.withdraw_max = vu.tokenObj[key].withdraw_max
               obj.withdraw_min = tokenObj[key].withdraw_min
               vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
               btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))

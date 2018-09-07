@@ -212,6 +212,8 @@ module.exports = {
   },
   userCenter: {
     index: {
+      hello: 'Hello, ',
+      yourLevel: 'your level is ',
       baseInfo: {
         title: 'Profile',
         kycUncheck: 'kyc Unauthorized',
@@ -494,6 +496,7 @@ module.exports = {
     ADDR_BLANK: 'Address can not be null',
     AMOUNT_BLANK: 'Please input amount',
     AMOUNT_LESS_FEE: 'Amount can not cover trans-fee',
+    AMOUNT_LESS_MAX_WITHDRAW: 'Amount Cannot be greater than maximum withdrawal amount',
     AMOUNT_LESS_MIN_WITHDRAW: 'Amount Cannot be less than minimum withdrawal amount',
     FEE_BLANK: '',
     WITHDRAW_REQ_SUBMIT: 'Withdraw submit success',
