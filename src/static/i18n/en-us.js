@@ -363,6 +363,7 @@ module.exports = {
       receiveAmount: 'Receive Amount',
       tip: 'Tip',
       tipP1: 'Minimum withdrawal amount',
+      tipP2: 'Maximum withdrawal amount',
       withdraw: 'Withdraw'
     },
     // 委托管理
@@ -593,13 +594,15 @@ module.exports = {
     '302': 'Account creation error', // 账户创建出错 
     '303': 'Withdrawal failed', // 提现创建失败 
     '304': 'Transfer to withdraw&Deposit account failed', // 转移金额到主账户失败 
-    '305': 'Withdrawal limit', // 该货币提现限制  
+    '305': 'Less than minimum withdrawal limit', // 该货币提现限制  
     '306': 'Deposit limit', // 该货币充值限制 
     '307': 'No withdrawal record found', // 未找到提现记录 
     '308': 'Already processed', // 已经处理过 
     '309': 'Withdraw processing failed', // 提现处理失败 
-    '310': 'Withdraw status error', // 提现锁定状态错误 
+    '310': 'Withdraw status error', // 提现锁定状态错误
     '311': 'Withdraw processing failed', // 提现处理失败 
+    '312': 'Greater than maximum withdrawal limit',
+    '313': 'Over 24hour maximum withdrawal limit',
     '320': 'Deposit failed', // 充值失败 
     '321': 'Fail to add address', // 添加提币地址失败 
     '322': 'Fail to delete address', // 删除提币地址失败 
