@@ -187,7 +187,7 @@ module.exports = {
       title: '邀请榜单',
       more: '完整榜单',
       ranking: '排名',
-      username: '用户名',
+      username: '用户账号',
       partnerNum: '邀请交易伙伴数'
     },
     usdtReward: {
@@ -497,6 +497,7 @@ module.exports = {
     // 提现
     ADDR_BLANK: '地址不能为空',
     AMOUNT_BLANK: '请输入提现数量',
+    AMOUNT_EFFECTIVE: '请输入有效的数量',
     AMOUNT_LESS_FEE: '提现数量不足以支付手续费',
     AMOUNT_LESS_MAX_WITHDRAW: '提现数量不能大于最大提现额度',
     AMOUNT_LESS_MIN_WITHDRAW: '提现数量不能小于最小提现额度',

@@ -43,8 +43,8 @@ export default {
     return {
       addr: '',
       qrCode: '',
-      spinShow: false,
-      no_encharge: true
+      spinShow: true,
+      no_encharge: false
     }
   },
   watch: {
@@ -97,6 +97,7 @@ export default {
     }
   },
   mounted () {
+    this.no_encharge = false
     if (this.showCharge) {
       new ClipboardJS('#addr')
       this.getAddress(this.token)
@@ -104,6 +105,7 @@ export default {
     
   },
   beforeDestroy () {
+    this.no_encharge = false
     // console.log(1111);
   }
 }

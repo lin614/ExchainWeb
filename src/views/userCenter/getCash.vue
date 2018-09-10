@@ -250,6 +250,28 @@ export default {
     openSecurityModal () {
       this.$refs['getCashForm'].validate((valid) => {
         if (valid) {
+          // 验证是否kyc
+          let idCardStatus = sessionStorage.getItem('idCardStatus');
+          if (idCardStatus === '0') {
+            this.$Message.error(this.$t(`ApiError.219`));
+            this.$router.push('/usercenter/kyc')
+            return;
+          } else if (idCardStatus === '1') {
+            this.$Message.error(this.$t(`ApiError.218`));
+            return;
+          } else if (idCardStatus === '3') {
+            this.$Message.error(this.$t(`ApiError.218`));
+            this.$router.push('/usercenter/kyc')
+            return;
+          } 
+
+          // 验证是否绑定手机号
+          let bindPhone = sessionStorage.getItem('bindPhone');
+          if (bindPhone === 'unbind') {
+            this.$Message.error(this.$t(`ApiError.711`));
+            this.$router.push('/usercenter/bind');
+            return;
+          }
           this.showSecurityModal = true;
         }
       });

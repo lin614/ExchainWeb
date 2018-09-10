@@ -14,7 +14,7 @@
                 <span>{{ $t('userCenter.asset.estimatedValue') }}：</span>
                 <!-- {{ $t('userCenter.asset.transfer.volumeUnit') }} -->
                 <span class="total-amount">{{BTCBalance}}BTC / {{ $t('userCenter.asset.legalTender') }}{{balanceTotal}}</span>
-                <div class="asset-notice">{{$t('userCenter.asset.notice')}}</div>
+                <!-- <div class="asset-notice">{{$t('userCenter.asset.notice')}}</div> -->
               </div>
               <div class="opera-box clearfix">
                 <!-- <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link> -->
@@ -128,32 +128,38 @@ export default {
       transRules: {
         from: [
           {
-            required: true,
-            message: this.$t('errorMsg.FROM_ADDR_BLANK'),
+            validator: (rule, value, callback) => {
+              if (value === '') {
+                callback(this.$t('errorMsg.FROM_ADDR_BLANK'))
+              }
+              callback();
+            },
             trigger: 'change'
           }
         ],
         to: [
           {
-            required: true,
-            message: this.$t('errorMsg.TO_ADDR_BLANK'),
+            validator: (rule, value, callback) => {
+              if (value === '') {
+                callback(this.$t('errorMsg.TO_ADDR_BLANK'))
+              }
+              callback();
+            },
             trigger: 'change'
           }
         ],
         amount: [
           {
-            required: true,
-            message: this.$t('errorMsg.AMOUNT_BLANK'),
-            trigger: 'blur'
-          },
-          {
             validator: (rule, value, callback) => {
               if (value === '' || value === 0 || value === '0') {
                 callback(this.$t('errorMsg.AMOUNT_BLANK'))
               }
+              if (value <= 0) {
+                callback(this.$t('errorMsg.AMOUNT_EFFECTIVE'))
+              }
               // 判断精度
               var decimal = this.tokenObj[this.trabsferModal.token].decimal
-              var reg = RegExp('^[0-9]{0,8}(.[0-9]{0,' + decimal + '})?$')
+              var reg = RegExp('/^[0-9]{0,8}(.[0-9]{0,' + decimal + '})?$/')
               if (!reg.test(value)) {
                 callback(
                   this.$t('errorMsg.DECIMAL_LIMIT') +
@@ -617,27 +623,30 @@ export default {
         value.showCharge = false
         value.showCash = false
       })
-      if (exType === 'encharge') {
-        /**
-         * 充值
-         */
-        this.enchargeToken = params.token
-        this.showCharge = true
-        this.assetListData[index]._expanded = true
-        this.showExType = exType
-        this.assetListData[index].showCharge = true
-        this.$set(this.assetListData, index, this.assetListData[index])
-      } else {
-        /**
-         * 提现
-         */
-        this.enchargeToken = params.token
-        this.tokenFee = params.withdraw_fee
-        this.showCharge = false
-        this.assetListData[index]._expanded = true
-        this.assetListData[index].showCash = true
-        this.$set(this.assetListData, index, this.assetListData[index])
-      }
+
+      setTimeout(() => {
+        if (exType === 'encharge') {
+          /**
+           * 充值
+           */
+          this.enchargeToken = params.token
+          this.showCharge = true
+          this.assetListData[index]._expanded = true
+          this.showExType = exType
+          this.assetListData[index].showCharge = true
+          this.$set(this.assetListData, index, this.assetListData[index])
+        } else {
+          /**
+           * 提现
+           */
+          this.enchargeToken = params.token
+          this.tokenFee = params.withdraw_fee
+          this.showCharge = false
+          this.assetListData[index]._expanded = true
+          this.assetListData[index].showCash = true
+          this.$set(this.assetListData, index, this.assetListData[index])
+        }
+      }, 10);
     },
     /**
      * 划转模态框的显示

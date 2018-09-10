@@ -302,6 +302,7 @@ export default {
     this.initGeetest()
     var vu = this
     bus.$on('langChange', () => {
+      // this.$refs['loginInfo'].resetFields()
       vu.$refs.loginInfo.resetFields()
       vu.$refs.loginBefore.$el.removeEventListener('click', this.loginBefore, false);
       this.initGeetest()
