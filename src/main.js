@@ -83,8 +83,6 @@ if (localLang === 'zh-CN') {
 } else if (localLang === 'en-US') {
     localLang = 'en'
 }
-// const lang = window.localStorage.getItem('exchain_language') || localLang || 'cn';
-// window.localStorage.setItem('exchain_language', lang);
 
 const lang = cookie.get('exchain_language', {
     domain: config.url.domain
@@ -96,7 +94,6 @@ cookie.set('exchain_language', lang, {
 
 
 Vue.config.lang = lang;
-// console.log('lang = ' + lang)
 // 多语言配置
 // const locales = Locales;
 const mergeZH = assign(LangZhCn, zhLocale);

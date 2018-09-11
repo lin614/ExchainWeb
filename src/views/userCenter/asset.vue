@@ -90,6 +90,8 @@ ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
 
+let instance = null;
+
 import util from '../../libs/util.js'
 import { setInterval, clearInterval } from 'timers'
 export default {
@@ -132,6 +134,7 @@ export default {
               if (value === '') {
                 callback(this.$t('errorMsg.FROM_ADDR_BLANK'))
               }
+              instance.$refs.formCustom.validateField('amount', () => {})
               callback();
             },
             trigger: 'change'
@@ -143,6 +146,7 @@ export default {
               if (value === '') {
                 callback(this.$t('errorMsg.TO_ADDR_BLANK'))
               }
+              instance.$refs.formCustom.validateField('amount', () => {})
               callback();
             },
             trigger: 'change'
@@ -151,7 +155,7 @@ export default {
         amount: [
           {
             validator: (rule, value, callback) => {
-              if (value === '' || value === 0 || value === '0') {
+              if (value === '') {
                 callback(this.$t('errorMsg.AMOUNT_BLANK'))
               }
               if (value <= 0) {
@@ -159,7 +163,7 @@ export default {
               }
               // 判断精度
               var decimal = this.tokenObj[this.trabsferModal.token].decimal
-              var reg = RegExp('/^[0-9]{0,8}(.[0-9]{0,' + decimal + '})?$/')
+              var reg = RegExp('^[0-9]{1,8}(.[0-9]{0,' + decimal + '})?$')
               if (!reg.test(value)) {
                 callback(
                   this.$t('errorMsg.DECIMAL_LIMIT') +
@@ -847,6 +851,7 @@ export default {
     }
   },
   mounted() {
+    instance = this;
     var vu = this
     ws.postData({
       event: 'sub',

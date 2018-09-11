@@ -172,7 +172,6 @@ export default {
     handleLangChange(name) {
       this.activeLang = name
       this.$i18n.locale = name
-      // localStorage.setItem('exchain_language', name)
 
       cookie.set('exchain_language', name, {
         domain: config.url.domain,

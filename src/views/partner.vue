@@ -46,17 +46,13 @@ export default {
 	},
 	methods: {
 		isChina () {
-            // var lang = window.localStorage.getItem('exchain_language')
             var lang = cookie.get('exchain_language', { domain: config.url.domain })
-			// console.log(lang)
 			if (!lang) {
 				lang = this.$store.state.activeLang
 			}
-			// console.log(lang)
 			if (!lang) {
 				lang = 'cn'
 			}
-			// console.log(lang)
 			return (lang === 'cn')
     }
 	},
