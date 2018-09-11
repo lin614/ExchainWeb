@@ -435,6 +435,9 @@ export default {
       vu.$refs.getCashForm.resetFields();
       vu.getCashModal.fee = fee;
     })
+  },
+  destroyed() {
+    bus.$off('langChange');
   }
 }
 </script>

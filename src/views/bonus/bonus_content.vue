@@ -271,7 +271,9 @@ export default {
       this.userUSDTMsg = this.$t('name.noData');
     })
   },
-
+  destroyed () {
+    bus.$off('langChange');
+  },
   methods: {
     /**
      * 获取用户等级

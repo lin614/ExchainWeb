@@ -482,6 +482,7 @@ export default {
     this.getRecharge()
   },
   destroyed() {
+    bus.$off('langChange');
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }

@@ -890,6 +890,7 @@ export default {
     window.addEventListener('resize', this.handleWindowResize)
   },
   destroyed() {
+    bus.$off('langChange');
     clearInterval(this.timer)
     clearInterval(this.initBTCPriceTimer)
     window.removeEventListener('resize', this.handleWindowResize)

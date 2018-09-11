@@ -427,6 +427,7 @@ export default {
     })
   },
   destroyed () {
+    bus.$off('langChange');
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }

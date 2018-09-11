@@ -395,6 +395,7 @@ export default {
     this.getCurData()
   },
   destroyed() {
+    bus.$off('langChange');
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }

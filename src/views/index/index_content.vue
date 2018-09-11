@@ -289,6 +289,9 @@ export default {
       util.toggleTableHeaderLang(this.col1, 6, 'index.markets.rowName.', this)
     })
   },
+  destroyed () {
+    bus.$off('langChange');
+  },
   methods: {
     /**
      * 订阅队列

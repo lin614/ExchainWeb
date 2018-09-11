@@ -444,6 +444,7 @@ export default {
     this.initGeetest()
   },
   destroyed () {
+    bus.$off('langChange');
     window.removeEventListener('keyup', this.onEnter)
   }
 }

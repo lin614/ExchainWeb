@@ -267,6 +267,9 @@ export default {
         vu
       )
     })
+  },
+  destroyed () {
+    bus.$off('langChange');
   }
 }
 </script>

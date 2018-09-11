@@ -34,6 +34,8 @@
 <script>
 import page from './components/page'
 import block from './components/block'
+import cookie from 'js-cookie'
+import config from '../config/config.js'
 export default {
   name: 'partner',
   components: { page, block },
@@ -61,11 +63,14 @@ export default {
 	created () {
 		this.activeLang = this.isChina()
 		var vu = this
-    bus.$on('langChange', () => {
-      vu.activeLang = vu.isChina()
+        bus.$on('langChange', () => {
+            vu.activeLang = vu.isChina()
 		})
 		console.log(this.activeLang)
-	}
+    },
+    destroyed () {
+        bus.$off('langChange');
+    }
 }
 </script>
 

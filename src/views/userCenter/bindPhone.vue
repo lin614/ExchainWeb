@@ -354,6 +354,7 @@ export default {
     window.addEventListener('resize', this.handleWindowResize)
   },
   destroyed() {
+    bus.$off('langChange');
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }
