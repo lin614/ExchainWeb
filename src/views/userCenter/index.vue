@@ -80,9 +80,11 @@
 
             <div slot="footer">
               <div class="model-btn-wrap clearfix">
-                <span class="model-btn primary fl" @click="handleChangePwd('formCustom')">
-                  <Spin v-if="changeLoading" fix size="small"></Spin>{{ $t('userCenter.index.changePwd.change') }}
-                </span>
+                <Button class="model-btn primary fl pr" @click="handleChangePwd('formCustom')">
+                  {{ $t('userCenter.index.changePwd.change') }}
+                  <Spin v-show="changeLoading" :fix="true"></Spin>
+                </Button>
+
                 <span class="model-btn fr" @click="handleCloseChangePwd('formCustom')">{{ $t('userCenter.index.changePwd.cancel') }}</span>
               </div>
             </div>

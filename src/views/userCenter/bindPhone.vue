@@ -36,7 +36,10 @@
                 </FormItem>
 
                 <FormItem>
-                  <Button type="primary" @click="handleConfirmClick('bindForm')" long>{{ $t('userCenter.bindPhone.confirm') }}</Button>
+                  <Button class="pr" type="primary" @click="handleConfirmClick('bindForm')" long>
+                    {{ $t('userCenter.bindPhone.confirm') }}
+                    <Spin v-show="btnLoading" :fix="true"></Spin>
+                  </Button>
                 </FormItem>
               </Form>
             </div>
@@ -67,8 +70,8 @@ export default {
       pageHeight: 0,
       haveNationality: false,
       isPhone: false,
+      btnLoading: false,
       sendCodeLoading: false,
-      confirmLoading: false,
       codeDown: false,
       codeDownText: '',
       timer: null,
@@ -154,65 +157,65 @@ export default {
      * 发送验证码
      */
     handleSendCode() {
-      if (this.sendCodeLoading) {
-        return
-      }
-      var lang =
-        this.activeLang === 'cn'
-          ? 'zh-cn'
-          : this.activeLang === 'en' ? 'en-us' : ''
-      this.sendCodeLoading = true
-      if (this.isPhone && this.haveNationality) {
-        var vu = this
-        ax({
-          url: config.url.user + '/api/user/bindPhone',
-          method: 'post',
-          data: {
-            phone: vu.bindForm.phone,
-            country: vu.bindForm.nationality,
-            pn: cookie.get('PN'),
-            type: vu.type,
-            language: lang
-          },
-          transformRequest: [
-            function(data) {
-              // Do whatever you want to transform the data
-              let ret = ''
-              for (let it in data) {
-                ret +=
-                  encodeURIComponent(it) +
-                  '=' +
-                  encodeURIComponent(data[it]) +
-                  '&'
+      this.$refs.bindForm.validateField('phone', (valid) => {
+        if (valid !== '' || this.sendCodeLoading) {
+          return
+        }
+
+        var lang = this.activeLang === 'cn' ? 'zh-cn' : this.activeLang === 'en' ? 'en-us' : ''
+        this.sendCodeLoading = true
+        if (this.isPhone && this.haveNationality) {
+          var vu = this
+          ax({
+            url: config.url.user + '/api/user/bindPhone',
+            method: 'post',
+            data: {
+              phone: vu.bindForm.phone,
+              country: vu.bindForm.nationality,
+              pn: cookie.get('PN'),
+              type: vu.type,
+              language: lang
+            },
+            transformRequest: [
+              function(data) {
+                // Do whatever you want to transform the data
+                let ret = ''
+                for (let it in data) {
+                  ret +=
+                    encodeURIComponent(it) +
+                    '=' +
+                    encodeURIComponent(data[it]) +
+                    '&'
+                }
+                return ret.slice(0, ret.length - 1)
               }
-              return ret.slice(0, ret.length - 1)
-            }
-          ],
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        })
-          .then(res => {
-            vu.sendCodeLoading = false
-            if (res.status == '200' && res.data.errorCode == 0) {
-              vu.codeDown = true
-              vu.token = res.data.result.token
-              vu.handleCodeDown()
-              vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
-            } else {
-              apiError(vu, res)
+            ],
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
             }
           })
-          .catch(err => {
-            // vu.codeDown = true
-            vu.sendCodeLoading = false
-            apiReqError(vu, err)
-          })
-      } else {
-        this.$refs.bindForm.validateField('phone', () => {})
-        this.$refs.bindForm.validateField('nationality', () => {})
-        this.sendCodeLoading = false
-      }
+            .then(res => {
+              vu.sendCodeLoading = false
+              if (res.status == '200' && res.data.errorCode == 0) {
+                vu.codeDown = true
+                vu.token = res.data.result.token
+                vu.handleCodeDown()
+                vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
+              } else {
+                apiError(vu, res)
+              }
+            })
+            .catch(err => {
+              // vu.codeDown = true
+              vu.sendCodeLoading = false
+              apiReqError(vu, err)
+            })
+        } else {
+          this.$refs.bindForm.validateField('phone', () => {})
+          this.$refs.bindForm.validateField('nationality', () => {})
+          this.sendCodeLoading = false
+        }
+      });
     },
     /**
      * 倒计时
@@ -236,12 +239,10 @@ export default {
      * 绑定 && 解绑
      */
     handleConfirmClick(form) {
-      // this.confirmLoading = true
       var vu = this
       this.$refs[form].validate(valid => {
-        // console.log(2)
         if (valid) {
-          // console.log(3)
+          this.btnLoading = true
           ax({
             url: config.url.user + '/api/user/verifyBindPhone',
             method: 'post',
@@ -272,14 +273,17 @@ export default {
           })
             .then(res => {
               if (res.status == '200' && res.data.errorCode == 0) {
+                this.btnLoading = false
                 vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
                 vu.$refs.bindForm.resetFields()
                 vu.$router.push('/usercenter')
               } else {
+                this.btnLoading = false
                 apiError(vu, res)
               }
             })
             .catch(err => {
+              this.btnLoading = false
               apiReqError(vu, err)
             })
         }
@@ -355,6 +359,7 @@ export default {
   },
   destroyed() {
     bus.$off('langChange');
+    clearInterval(this.timer)
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }

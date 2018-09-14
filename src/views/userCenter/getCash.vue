@@ -437,6 +437,8 @@ export default {
     })
   },
   destroyed() {
+    clearInterval(this.phoneCodeTimer)
+    clearInterval(this.emailCodeTimer)
     bus.$off('langChange');
   }
 }

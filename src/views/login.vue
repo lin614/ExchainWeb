@@ -357,8 +357,5 @@ export default {
       line-height: 40px;
     }
   }
-  .btn-large {
-    position: relative;
-  }
 }
 </style>

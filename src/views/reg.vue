@@ -455,6 +455,7 @@ export default {
     window.addEventListener('keyup', this.onEnter)
   },
   destroyed () {
+    clearInterval(this.timer)
     bus.$off('langChange');
     window.removeEventListener('keyup', this.onEnter)
   }

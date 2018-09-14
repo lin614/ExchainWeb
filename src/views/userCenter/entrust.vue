@@ -102,11 +102,12 @@ export default {
                   'strong',
                   {
                     style: {
-                      color: '#419cf6'
+                      color: '#419cf6',
+                      cursor: params.row.cancelOrderLoading ? 'not-allowed' : 'pointer',
                     },
                     on: {
                       click: () => {
-                        this.cancelOrder(params.row)
+                        this.cancelOrder(params.index, params.row)
                       }
                     }
                   },
@@ -234,6 +235,7 @@ export default {
               let amount = parseFloat(data[i].amount)
               let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
               data[i].closeRate = rate.toFixed(2)
+              data[i].cancelOrderLoading = false;
               vu.curData = data
             }
             vu.curTotal = res.data.result.total * 1
@@ -339,8 +341,13 @@ export default {
      * 取消订单
      * @param {object} row 订单记录
      */
-    cancelOrder(row) {
+    cancelOrder(index, row) {
+      if (row.cancelOrderLoading) {
+        return
+      }
+
       var vu = this
+      row.cancelOrderLoading = true
       ax
         .get(
           config.url.user + '/api/exchange/orderCancel?order_id=' + row.order_id + '&market=' + row.market,
@@ -351,6 +358,7 @@ export default {
             vu.getCurData()
             vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
           } else {
+            row.cancelOrderLoading = false
             apiError(vu, res);
           }
         })
