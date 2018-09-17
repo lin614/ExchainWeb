@@ -168,10 +168,7 @@ export default {
             ])
           }
         }
-      ],
-      // initmainMarket: [],
-      invMarket: [],
-      vcMarket: [],
+      ],      
       mainMarket: [
         // {
         //   name: 'BTC/USDT', // 交易对
@@ -234,6 +231,7 @@ export default {
         //   LastDayPrice: '' // 昨天收盘价
         // }
       ],
+      invMarket: [],
       vcMarket: [],
       gemMarket: [],
       wsData: [],
@@ -298,6 +296,30 @@ export default {
           for (var o in data) {
             markets = markets + o + ',';
             this.marketsDomain[o] = data[o].domain;
+
+            let pair = {
+              name: o, // 交易对
+              close: '-', // 最新价
+              closeshow: '', // 最新价
+              priceChange: '-', // 24小时波动
+              high: '-', // 最高价
+              low: '-', // 最低价
+              volume: '-', // 交易量
+              LastDayPrice: '' // 昨天收盘价
+            }
+
+            if (data[o].domain === 'main') {
+              this.mainMarket.push(pair);
+            } else if (data[o].domain === 'inv') {
+              // 创新
+              this.invMarket.push(pair);
+            } else if (data[o].domain === 'vc') {
+              // 风投
+              this.vcMarket.push(pair);
+            } else if (data[o].domain === 'gem') {
+              // 天使轮
+              this.gemMarket.push(pair);
+            }
           }
           this.markets = markets.substr(0, markets.length - 1)
           this.getMainMarket();
