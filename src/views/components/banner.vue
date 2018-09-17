@@ -31,17 +31,17 @@
           </div>
         </CarouselItem>
       </Carousel>
-      <notice ></notice>
+      <shortcut></shortcut>
     </block>
   </div>
 </template>
 
 <script>
 import block from './block'
-import notice from './notice'
+import shortcut from './shortcut'
 export default {
   name: 'banner',
-  components: { block, notice },
+  components: { block, shortcut },
   data() {
     return {
       setting: {
