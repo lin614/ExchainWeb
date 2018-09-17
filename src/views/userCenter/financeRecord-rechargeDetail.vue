@@ -41,7 +41,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
   .finance-record .ivu-table-wrapper .ivu-table .ivu-table-expanded-cell {
     padding: 0px;
   }
