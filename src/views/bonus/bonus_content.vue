@@ -114,7 +114,7 @@
             </Row>
 
             <Row type="flex" :gutter="16" v-for="(p, index) in list" :key="index">
-              <Col span="8"><p class="earn">{{p.userId}}</p></Col>
+              <Col span="8"><p class="earn">{{p.email}}</p></Col>
               <Col span="8"><p class="earn"> {{p.createTime}}</p></Col>
               <Col span="8"><p class="earn"> {{p.isActive ? $t('bonus.traded') : $t('bonus.untrade')}}</p></Col>
             </Row>
@@ -267,7 +267,9 @@ export default {
       this.userUSDTMsg = this.$t('name.noData');
     })
   },
-
+  destroyed () {
+    bus.$off('langChange');
+  },
   methods: {
     /**
      * 获取用户等级

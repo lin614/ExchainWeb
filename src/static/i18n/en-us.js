@@ -187,7 +187,7 @@ module.exports = {
       title: 'Invitation Program',
       more: 'Ranking Full List',
       ranking: 'Ranking',
-      username: 'User Name',
+      username: 'User Account',
       partnerNum: 'Number of Invitees (Traders)'
     },
     usdtReward: {
@@ -496,6 +496,7 @@ module.exports = {
     // 提现
     ADDR_BLANK: 'Address can not be null',
     AMOUNT_BLANK: 'Please input amount',
+    AMOUNT_EFFECTIVE: 'Please input effective amount',
     AMOUNT_LESS_FEE: 'Amount can not cover trans-fee',
     AMOUNT_LESS_MAX_WITHDRAW: 'Amount Cannot be greater than maximum withdrawal amount',
     AMOUNT_LESS_MIN_WITHDRAW: 'Amount Cannot be less than minimum withdrawal amount',

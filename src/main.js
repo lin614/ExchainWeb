@@ -53,6 +53,13 @@ import VueResource from 'vue-resource';
 Vue.use(VueResource);
 Vue.http.options.emulateJSON = true;
 
+// 路由配置
+const RouterConfig = {
+    mode: 'history',
+    routes: Routers
+};
+const router = new VueRouter(RouterConfig);
+
 global.getHeader = (() => {
     return {
         headers: {
@@ -75,6 +82,15 @@ global.toParmStr = obj => {
 ax.defaults.headers.post['Content-Type'] = "application/json"
 // ax.defaults.headers.post['referer'] = config.url.domain
 // ax.defaults.headers.post['origin'] = config.url.domain
+ax.interceptors.response.use(response => {
+    if (response.data.errorCode === 205) {
+        sessionStorage.clear()
+        cookie.remove('PN')
+        cookie.remove('PN', { domain: config.url.domain })
+        router.push('/login');
+    }
+    return response;
+});
 // 自动设置语言
 const navLang = navigator.language;
 let localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false;
@@ -83,8 +99,6 @@ if (localLang === 'zh-CN') {
 } else if (localLang === 'en-US') {
     localLang = 'en'
 }
-// const lang = window.localStorage.getItem('exchain_language') || localLang || 'cn';
-// window.localStorage.setItem('exchain_language', lang);
 
 const lang = cookie.get('exchain_language', {
     domain: config.url.domain
@@ -96,7 +110,6 @@ cookie.set('exchain_language', lang, {
 
 
 Vue.config.lang = lang;
-// console.log('lang = ' + lang)
 // 多语言配置
 // const locales = Locales;
 const mergeZH = assign(LangZhCn, zhLocale);
@@ -116,12 +129,7 @@ const i18n = new VueI18n({
 
 // console.log('i18n', i18n);
 
-// 路由配置
-const RouterConfig = {
-    mode: 'history',
-    routes: Routers
-};
-const router = new VueRouter(RouterConfig);
+
 
 Vue.prototype.toTrade = function (pair) {
     pair = pair ? pair : 'btc_usdt'

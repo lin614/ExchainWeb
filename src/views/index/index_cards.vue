@@ -11,34 +11,37 @@
       </crd2>
       </Col>
 
-      <Col span="8">
+      
       <!-- <crd2 potColor="#13b385">
-                <p slot="p1">{{ $t('index.txSumary.etMarketValue') }}</p>
-                <p slot="p2">
-                    <Icon type="social-bitcoin"></Icon>&nbsp {{etvalue}}
-                </p>
-                <p slot="p3">{{ $t('index.txSumary.etCirculation') }}
-                    <span>
-                        {{etnum}}
-
-                    </span>
-                </p>
-            </crd2> -->
-      <crd2 potColor="#13b385">
-        <p slot="p1">{{ $t('index.txSumary.etCirculation') }}</p>
+        <p slot="p1">{{ $t('index.txSumary.etMarketValue') }}</p>
         <p slot="p2">
-          &nbsp; {{etnum}}
+            <Icon type="social-bitcoin"></Icon>&nbsp {{etvalue}}
         </p>
-        <p slot="p3">&nbsp;</p>
-      </crd2>
-      </Col>
+        <p slot="p3">{{ $t('index.txSumary.etCirculation') }}
+            <span>
+                {{etnum}}
+
+            </span>
+        </p>
+      </crd2> -->
+
       <Col span="8">
-      <crd2 potColor="#f5162b">
-        <p slot="p1">{{ $t('index.txSumary.freeTitle') }}</p>
-        <p slot="p2">
-          90 {{ $t('index.txSumary.freeUnit') }}</p>
-        <p slot="p3">&nbsp</p>
-      </crd2>
+        <crd2 potColor="#13b385">
+          <p slot="p1">{{ $t('index.txSumary.etCirculation') }}</p>
+          <p slot="p2">
+            &nbsp; {{etnum}}
+          </p>
+          <p slot="p3">&nbsp;</p>
+        </crd2>
+      </Col>
+
+      <Col span="8">
+        <crd2 potColor="#f5162b">
+          <p slot="p1">{{ $t('index.txSumary.freeTitle') }}</p>
+          <p slot="p2">
+            90 {{ $t('index.txSumary.freeUnit') }}</p>
+          <p slot="p3">&nbsp</p>
+        </crd2>
       </Col>
     </Row>
 
@@ -74,16 +77,16 @@ export default {
         }
       })
     //ET总市值
-    ax
-      .get(config.url.fee + '/api/exet/stats/etStandardCirculate', getHeader)
-      .then(res => {
-        if (res.status == 200 && res.data.meta.code == '0') {
-          // console.log(res)
-          this.etvalue = res.data.data.etCirculate
-        } else {
-          javaApiReqError(this, res)
-        }
-      })
+    // ax
+    //   .get(config.url.fee + '/api/exet/stats/etStandardCirculate', getHeader)
+    //   .then(res => {
+    //     if (res.status == 200 && res.data.meta.code == '0') {
+    //       // console.log(res)
+    //       this.etvalue = res.data.data.etCirculate
+    //     } else {
+    //       javaApiReqError(this, res)
+    //     }
+    //   })
     //et总流通量
     ax
       .get(config.url.fee + '/api/exet/stats/etCirculate', getHeader)

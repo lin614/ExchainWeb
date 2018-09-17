@@ -8,7 +8,7 @@
       <div class="detail-item">
         <label>{{$t('name.fees')}}：</label><span>{{detail.other}}</span>
       </div>
-      <div class="detail-item">
+      <div class="detail-item too-large60">
         <label>{{$t('name.withdrawAddress')}}：</label><span>{{detail.address}}</span>
       </div>
     </div>
@@ -66,5 +66,22 @@ export default {
   }
   .deposit-detail .detail-group .detail-item span {
     color: #999;
+  }
+  .deposit-detail .detail-group .detail-item.too-large84 {
+    padding-left: 84px;
+    label {
+      margin-left: -84px;
+    }
+  }
+  .deposit-detail .detail-group .detail-item.too-large60 {
+    padding-left: 60px;
+    label {
+      margin-left: -60px;
+    }
+  }
+  .deposit-detail .detail-group .detail-item span {
+    color: #999;
+    width: 100%;
+    word-break: break-all;
   }
 </style>

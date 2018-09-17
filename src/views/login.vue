@@ -309,6 +309,7 @@ export default {
     window.addEventListener('keyup', this.onEnter)
   },
   destroyed () {
+    bus.$off('langChange');
     window.removeEventListener('keyup', this.onEnter)
   }
 }
@@ -355,9 +356,6 @@ export default {
       left: 650px;
       line-height: 40px;
     }
-  }
-  .btn-large {
-    position: relative;
   }
 }
 </style>

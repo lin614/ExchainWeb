@@ -5,7 +5,7 @@
         <label>钱包处理时间：</label>
         <span>2018-06-20 15:06:08</span>
       </div> -->
-      <div class="detail-item">
+      <div class="detail-item too-large60">
         <label>{{$t('name.depositAddress')}}：</label><span>{{detail.address}}</span>
       </div>
       <div class="detail-item too-large84">
@@ -67,5 +67,16 @@ export default {
     label {
       margin-left: -84px;
     }
+  }
+  .deposit-detail .detail-group .detail-item.too-large60 {
+    padding-left: 60px;
+    label {
+      margin-left: -60px;
+    }
+  }
+  .deposit-detail .detail-group .detail-item span {
+    color: #999;
+    width: 100%;
+    word-break: break-all;
   }
 </style>

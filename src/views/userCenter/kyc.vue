@@ -117,7 +117,9 @@
                 </div>
               </FormItem>
 
-              <Button class="submit btn-large" type="primary" @click="handleSubmit('formField')">{{$t('userCenter.kyc.submit')}}</Button>
+              <Button class="submit btn-large" type="primary" @click="handleSubmit('formField')">
+                {{$t('userCenter.kyc.submit')}}<Spin v-show="btnLoading" :fix="true"></Spin>
+              </Button>
             </Form>
           </div>
         </crd>
@@ -143,6 +145,7 @@ export default {
       nationalityENName: [],
       nationalityList: [],
       oldNationlity: '',
+      btnLoading: false,
       formField: {
         nationality: '',
         firstName: '',
@@ -305,7 +308,7 @@ export default {
      */
     handleSubmit (form) {
       this.$refs[form].validate(valid => {
-        if (valid) {
+        // if (valid) {
           if (!this.files.front) {
             if (this.formField.nationality === 'CN') {
               this.$Message.error(this.$t('errorMsg.FRONT_BLANK'))
@@ -329,6 +332,8 @@ export default {
             return
           }
           var vu = this
+
+          this.btnLoading = true;
       
           // console.log('vu.files.front : ' + vu.files.front)
           // console.log('vu.files.back : ' + vu.files.back)
@@ -343,6 +348,7 @@ export default {
             idCardHoldUrl: vu.files.hold
           }, getHeader)
           .then((res) => {
+            this.btnLoading = false;
             if (res.status === 200 && res.data.errorCode === 0) {
               vu.$router.push('/usercenter')
               vu.$Message.success(vu.$t('errorMsg.KYC_SUBMIT'))
@@ -351,9 +357,10 @@ export default {
             }
           })
           .catch((err) => {
+            this.btnLoading = false;
             apiReqError(vu, err);
           })
-        }
+        // }
       });
     },
 
@@ -427,6 +434,7 @@ export default {
     })
   },
   destroyed () {
+    bus.$off('langChange');
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }

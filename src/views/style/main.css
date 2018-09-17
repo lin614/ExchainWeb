@@ -1,5 +1,10 @@
 .fl {float: left;}
 .fr {float: right;}
+.pr {position: relative;}
+/* .ivu-btn {float: left;} */
+.btn-large {
+    position: relative;
+}
 
 .wap .headr .ivu-btn {
   padding: 6px 10px;

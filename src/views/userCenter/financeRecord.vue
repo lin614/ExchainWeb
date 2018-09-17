@@ -332,6 +332,7 @@ export default {
       }
 
       this.coin = value;
+
       if (this.currentTab === 'current') {
         this.getRecharge();
       } else {
@@ -343,6 +344,7 @@ export default {
     },
     handleTabClick(type) {
       this.currentTab = type
+      this.coin = this.$t('common.lang') === 'cn' ? '全部' : 'All';
       if (type === 'current') {
         this.getRecharge()
       } else {
@@ -482,6 +484,7 @@ export default {
     this.getRecharge()
   },
   destroyed() {
+    bus.$off('langChange');
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }
