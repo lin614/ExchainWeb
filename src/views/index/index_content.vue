@@ -237,7 +237,9 @@ export default {
       vcMarket: [],
       gemMarket: [],
       wsData: [],
-      amountPrecision: ''
+      amountPrecision: '',
+      marketsDomain: [],
+      markets: ''
     }
   },
   computed: {},
@@ -259,9 +261,7 @@ export default {
     
   },
   mounted() {
-    this.getMainMarket();
-      
-    
+    this.getMarketPrecision();    
 
         // 接收推送
     bus.$on('wsUpdate', data => {
@@ -273,7 +273,6 @@ export default {
       ].filter(p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel)[0]
 
       if (info) {
-        console.log('111111111', data);
         this.wsData.push(data)
         this.calculate(this.wsData)
       }
@@ -290,6 +289,21 @@ export default {
     bus.$off('langChange');
   },
   methods: {
+    getMarketPrecision () {
+      ax.get(config.url.user + '/api/exchange/getMarketInfo').then(res => {
+        if (res.data.errorCode === 0) {
+          let data = res.data.result;
+          this.$store.commit('setMarketPrecision', data);
+          let markets = '';
+          for (var o in data) {
+            markets = markets + o + ',';
+            this.marketsDomain[o] = data[o].domain;
+          }
+          this.markets = markets.substr(0, markets.length - 1)
+          this.getMainMarket();
+        }
+      })
+    },
     /**
      * 订阅队列
      */
@@ -307,7 +321,7 @@ export default {
      */
     getMainMarket () {
       ax
-        .get(config.url.user + '/api/v1-b/market/price_change?markets=BTC/USDT,ETH/USDT,BCH/USDT,ETH/BTC,BCH/BTC', getHeader)
+        .get(config.url.user + '/api/v1-b/market/price_change?markets=' + this.markets, getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             let resData = res.data.result;
@@ -323,6 +337,8 @@ export default {
             // mainMarket
             for (i = 0; i < resData.length; i++) {
               // 增加字段
+              
+              resData[i].domain = this.marketsDomain[resData[i].name];
               let arr = resData[i].name.split('/');
               resData[i].parm = arr.join('').toLowerCase() // 类似btcusdt
               resData[i].parm_ = arr.join('_').toLowerCase() // 类似btc_usdt
@@ -352,7 +368,6 @@ export default {
             }
 
             for (var i = 0; i < resData.length; i++) {
-              debugger
               // 主区
               if (resData[i].domain === 'main') {
                 this.mainMarket.push(resData[i]);

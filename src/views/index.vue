@@ -15,19 +15,7 @@ import ax from 'axios';
 
 export default {
   name: 'index',
-  components: { page, index_cards, index_content },
-  methods: {
-    getMarketPrecision () {
-      ax.get(config.url.user + '/api/exchange/getMarketInfo').then(data => {
-        if (data.data.errorCode === 0) {
-          this.$store.commit('setMarketPrecision', data.data.result);
-        }
-      })
-    }
-  },
-  created () {
-    this.getMarketPrecision();
-  }
+  components: { page, index_cards, index_content }
 }
 </script>
 
