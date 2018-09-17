@@ -44,6 +44,7 @@ module.exports = merge(webpackBaseConfig, {
     //   }
     // },
     host: 'www.exchain.com',
+    // host:'172.16.1.12',
     port: '80'
   }
 })
