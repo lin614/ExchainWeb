@@ -1,6 +1,17 @@
 .fl {float: left;}
 .fr {float: right;}
 .pr {position: relative;}
+
+
+.banner-shortcut {
+    position: absolute;
+    width: 380px;
+    height: 300px;
+    background: #fff;
+    float: right;
+    right: calc(50% - 600px);
+    top: 120px;
+}
 /* .ivu-btn {float: left;} */
 .btn-large {
     position: relative;
