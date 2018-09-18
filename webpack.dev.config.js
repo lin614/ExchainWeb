@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const merge = require('webpack-merge')
 const webpackBaseConfig = require('./webpack.base.config.js')
 const fs = require('fs')
@@ -32,7 +33,13 @@ module.exports = merge(webpackBaseConfig, {
       template: './src/template/index.ejs',
       inject: false,
       favicon: path.resolve('./src/static/favicon.ico') //新增
-    })
+    }),
+    // copy custom static assets
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, './static'),
+      to: 'static',
+      ignore: ['.*']
+    }])
   ],
   devServer: {
     // // host: '127.0.0.1',

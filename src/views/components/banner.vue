@@ -108,7 +108,7 @@ export default {
   }
   .banner_1 {
     .block {
-      background: url(../../static/imgs/ban-bg1.jpg);
+      background: url(https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-bg1.jpg);
     }
   }
   .banner_2_en {

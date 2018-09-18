@@ -1,0 +1,120 @@
+{
+    "banner": "banner.jpg",
+    "title1": "Thanks",
+    "content1": " <p>We cherish every suggestion from our users, to build a shared, co-owned and co-governed Exchain platform</p> <p> As the two rounds Exchain Special User Testing ended, we collected advises from users, media professionals and project parties. We also improved our platform according to those advises. In the future, we will value all users’ suggestions to create an exchange platform that belongs to everyone.  </p>",
+    "title2": "Users’ Sound",
+    "content2": [{
+            "name": "A Xuan",
+            "say1": "I’m a senior stock buyer but junior Cryptocurrency buyer. As a newbie to join the market, I need more information as my weapon.",
+            "sub": "Listen to me, to build Exchain together:",
+            "say2": "I’m good at earning money via various types information from stock trading Apps, but have no idea about how to trade digital assets. I need more objective information about coins and token to help me understand the market. I’m sure if there are more basic educational contents on Exchain, it will attract more newbies to join and trade.",
+            "img": "user1.jpg"
+        }, {
+            "name": "Backpacker",
+            "say1": " I’m an unlucky investor in digital assets trading market for three years. I hope I can have “sharp-eyes” to identify qualified projects. ",
+            "sub": "Listen to me, to build Exchain together:",
+            "say2": "There are many ICO rating reports in the market, which I think the exchange platform could use for references. The transparent ICO project information is quite important for people like me to trade smarter. Even if I lose money, I need to know why I lose. ",
+            "img": "user2.jpg"
+        },
+        {
+            "name": "Miss Qian",
+            "say1": "I’m a newbie of “managing money”, and luckily to stand on the shoulder of giant. The future of digital assets investment is brilliant, so I would like to join and learn how to trade in the early stage.",
+            "sub": "Listen to me, to build Exchain together:",
+            "say2": "I have never bought stock or bitcoin, and totally have no idea when the first time I logged in Exchain. For a newbie, I prefer a friendly and simple website rather than something magnificent. So that everyone can use easily and leave advises with good service, just like an ecommerce site, to lower the boundary of new customer. It is hard to make right invest decision, I wish I could be smarter via value investment. ",
+            "img": "user3.jpg"
+        }
+    ],
+    "title3": "More user advises",
+    "content3": [{
+        "name": "Physico",
+        "say": "Not very friendly for buying or selling. I advise Exchain to add a “percentage tag “for more convenient trading. And it will be easier for users to refer if showing market price directly",
+        "img": "user4.jpg"
+    }, {
+        "name": "Aki",
+        "say": "I suggest to classify Partnership. Super Partners should have two levels including Super Partners Plus who have bigger influence, and normal Super Partners",
+        "img": "user5.jpg"
+    }, {
+        "name": "Tu Luo Bolie",
+        "say": "Will you distribute ETs from updating period averagely in the 2nd round testing? I think it will be more beneficial to users",
+        "img": "user6.jpg"
+    }, {
+        "name": "Hehe",
+        "say": "There should be a one click undo button for the pending orders",
+        "img": "user7.jpg"
+    }, {
+        "name": "Jiao",
+        "say": "In the trading page, you should put amount upon price, which is more friendly for user experience",
+        "img": "user8.jpg"
+    }],
+    "title4": "Media Professionals’ Sound",
+    "content4": [{
+        "name": "BigBbro",
+        "say1": "Everything about Cryptocurrency you want to know",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "The website contains every for trading, not perfect but OK. I just feel the design looked a little awkward, hopefully the tech and designer team will improve the experience later. However, it is just a testing version, so I can accept it temporarily.There are real ET for the stimulated trading, reminding me some trading competitions. Although the coins in my account is stimulated, but the ET is real for sell when the website launch officially.ET is valuable to hold and Exchain is valuable to register. You can share current content in “my assets “page to your social media, show off the number to your friends. ",
+        "img": "media1.jpg",
+        "qrcode": "qrcode1.jpg",
+        "url": ""
+    }, {
+        "name": "LAK",
+        "say1": "Among thousands and millions info about Blockchain, we only share the most valuables.",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "Excellent capacity, fast speed. Wining token from transaction, just like have mine field.",
+        "img": "media2.jpg",
+        "qrcode": "qrcode2.jpg",
+        "url": ""
+    }, {
+        "name": "News.one",
+        "say1": "The blockchain media owns millions social communities.",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "Exchain is a digital assets exchange platform that really think about their users. We have high expectation for its own token-ET. But how Exchain utilize ET to more scenarios in the future is quite important, such as BNB could be used as transaction fee, which is more beneficial to users.",
+        "img": "media3.jpg",
+        "qrcode": "",
+        "url": "http://news.one"
+    }, {
+        "name": "Shangxia.net",
+        "say1": "Spreading blockchain knowledge and delivering consensus recognition.",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "Exchain’s partnership mode is quite good. The only thing needs to be improved is that only using characters and link to invite friends is boring. I will suggest Exchain form invitation code to customized posters, for us to share to friends and social media. ",
+        "img": "media4.jpg",
+        "qrcode": "",
+        "url": "http://www.shangxia.net"
+    }],
+    "title5": "Project Parties‘ Sound",
+    "content5": [{
+        "name": "Loopring",
+        "say1": "is a protocol for building decentralized exchanges. Besides the protocol smart contracts, Loopring also offers a collection of open-sourced software to help you build decentralized exchanges.",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "Exchain has an excellent technology team, we hope to work with the team closely. For Loopring, we believe that the decentralized platform will be the trend of the future. ",
+        "img": "project1.jpg",
+        "qrcode": "",
+        "url": "https://loopring.org"
+    }, {
+        "name": "WaykiChain",
+        "say1": "is a smart contract platform that supports Turing devices. It adopts DPOS consensus mechanism, sets up11 voting nodes, and generates a new block every 10 seconds.",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "The webpage is simple and clear with fresh and cool design style, and the operation of trading is quite friendly, as well as the user experience. We hope Exchain could build more professional functions like OTC, API, etc.",
+        "img": "project2.jpg",
+        "qrcode": "",
+        "url": "http://waykichain.com"
+    }],
+    "title6": "Exchain Improvements",
+    "content6": [{
+            "sub": "Trading page updating",
+            "url": "/exchange",
+            "detail": [
+                "increase one click undo function", " Percentage order function", "5 customized EMA to enhance K line", "Changing the position of “amount” and “price”", "Speed up married deal…"
+            ]
+        },
+        {
+            "sub": "Partnership Campaign",
+            "url": "/partner",
+            "detail": [
+                "Laddering USDT and ET to reward partners, the more invitation the more rewarding", "Reward both inviters and invitees, to create win-win invitation"
+            ]
+        }
+    ],
+    "others": {
+        "button": "Share your suggestion"
+    }
+}
