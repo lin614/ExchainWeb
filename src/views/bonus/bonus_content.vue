@@ -434,6 +434,8 @@ export default {
   .lv {
     height: 80px;
     font-size: @font-title;
+    background-repeat: no-repeat;
+    background-position-x: center;
   }
   .lv-bg {
     background-position: top center;

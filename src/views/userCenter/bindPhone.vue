@@ -31,9 +31,9 @@
                   </div>
                 </FormItem>
 
-                <FormItem :label="$t('userCenter.bindPhone.ga')" prop="googleCode">
+                <!-- <FormItem :label="$t('userCenter.bindPhone.ga')" prop="googleCode">
                   <Input v-model="bindForm.googleCode"></Input>
-                </FormItem>
+                </FormItem> -->
 
                 <FormItem>
                   <Button class="pr" type="primary" @click="handleConfirmClick('bindForm')" long>
