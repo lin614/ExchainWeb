@@ -79,7 +79,7 @@ export default {
     background-repeat: no-repeat;
     background-position: center center;
     h2 {
-      width: 850px;
+      width: 700px;
       padding-top: 50px;
       font-size: @banner-font-title;
       color: white;
@@ -99,7 +99,7 @@ export default {
       line-height: 40px;
     }
     .banner-descript {
-      width: 850px;
+      width: 700px;
     }
     .banner-descript2 {
       // width: 900px;
