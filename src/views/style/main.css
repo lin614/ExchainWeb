@@ -1,7 +1,7 @@
 .fl {float: left;}
 .fr {float: right;}
+.clearfix::before {content: ''; display:block; clear: both;}
 .pr {position: relative;}
-
 
 .banner-shortcut {
     position: absolute;
@@ -15,6 +15,43 @@
 /* .ivu-btn {float: left;} */
 .btn-large {
     position: relative;
+}
+
+body {
+    font-size: 14px;
+}
+
+.page_content-padding .page_content {
+    padding-top: 40px;
+    padding-bottom: 24px;
+}
+
+.model-btn-wrap {
+    font-size: 16px;
+}
+
+.model-btn-wrap .model-btn {
+    position: relative;
+    width: 160px;
+    height: 50px;
+    padding: 10px 16px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #419aec;
+    color: #419aec;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 0px;
+}
+
+.model-btn-wrap .model-btn:hover {
+    color: #fff;
+    background-color: #419aec;
+}
+
+.model-btn-wrap .primary {
+    color: #fff;
+    background-color: #419aec;
 }
 
 .wap .headr .ivu-btn {
@@ -79,42 +116,7 @@
     margin-right: 10px;
 }
 
-body {
-    font-size: 14px;
-}
 
-.page_content-padding .page_content {
-    padding-top: 40px;
-    padding-bottom: 24px;
-}
-
-.model-btn-wrap {
-    font-size: 16px;
-}
-
-.model-btn-wrap .model-btn {
-    position: relative;
-    width: 160px;
-    height: 50px;
-    padding: 10px 16px;
-    line-height: 30px;
-    text-align: center;
-    border: 1px solid #419aec;
-    color: #419aec;
-    background-color: #fff;
-    cursor: pointer;
-    border-radius: 0px;
-}
-
-.model-btn-wrap .model-btn:hover {
-    color: #fff;
-    background-color: #419aec;
-}
-
-.model-btn-wrap .primary {
-    color: #fff;
-    background-color: #419aec;
-}
 
 /* 统一成50 */
 
@@ -154,12 +156,6 @@ body {
     height: 40px;
     border-radius: 0px;
 }
-
-
-
-
-
-
 
 .finance-record .ivu-table-cell-expand i {
     display: none;

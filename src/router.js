@@ -93,6 +93,13 @@ const routers = [{
         },
         component: (resolve) => require(['./views/login.vue'], resolve)
     }, {
+        path: '/sound',
+        meta: {
+            title: '',
+            noNeedLogin: true
+        },
+        component: (resolve) => require(['./views/sound.vue'], resolve)
+    }, {
         path: '/usercenter',
         meta: {
             title: ''
