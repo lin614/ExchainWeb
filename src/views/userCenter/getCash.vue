@@ -367,7 +367,7 @@ export default {
         return
       }
       var vu = this
-      this.$refs['getCashForm'].validate((valid) => {
+      this.$refs['securityModal'].validate((valid) => {
         if (valid) {
           vu.securityModalLoading = true
           ax.post(config.url.user+'/api/account/withdraw', {

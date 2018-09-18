@@ -36,7 +36,7 @@
         <Table size="large" :columns="col1" :data="vcMarket"></Table>
       </crd>
 
-      <crd potColor="#e13737">
+      <!-- <crd potColor="#e13737">
         <span slot="title">
           {{ $t('index.markets.angelInvestmentBoard.title') }}
           <Poptip class="poptip-markets" width="300" placement="right" trigger="hover" :title="$t('index.markets.angelInvestmentBoard.title')" content="content">
@@ -47,7 +47,7 @@
           </Poptip>
         </span>
         <Table size="large" :columns="col1" :data="gemMarket"></Table>
-      </crd>
+      </crd> -->
     </div>
   </block>
 </template>
@@ -234,7 +234,7 @@ export default {
       invMarket: [],
       vcMarket: [],
       gemMarket: [],
-      wsData: [],
+      // inner-tit: [],
       amountPrecision: '',
       marketsDomain: [],
       markets: ''
@@ -267,7 +267,7 @@ export default {
         ...this.mainMarket,
         ...this.invMarket,
         ...this.vcMarket,
-        ...this.gemMarket
+        // ...this.gemMarket
       ].filter(p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel)[0]
 
       if (info) {
@@ -388,30 +388,52 @@ export default {
               // 对应法币价格
               resData[i].closeshow = legalMoney ? ' ≈ ' + this.$t('common.legalMoney') + legalMoney : ''
             }
+            
 
-            for (var i = 0; i < resData.length; i++) {
-              // 主区
-              if (resData[i].domain === 'main') {
-                this.mainMarket.push(resData[i]);
-              } else if (resData[i].domain === 'inv') {
-                // 创新
-                this.invMarket.push(resData[i]);
-              } else if (resData[i].domain === 'vc') {
-                // 风投
-                this.vcMarket.push(resData[i]);
-              } else if (resData[i].domain === 'gem') {
-                // 天使轮
-                this.gemMarket.push(resData[i]);
+            
+            for (var i = 0; i < this.mainMarket.length; i++) {
+              for (var j = 0; j < resData.length; j++) {
+                if (this.mainMarket[i].name === resData[j].name) {
+                  // this.mainMarket[i] = util.deepClone(resData[j]);
+                  this.$set(this.mainMarket, i, resData[j])
+                  break;
+                }
               }
             }
+
+
+            for (var i = 0; i < this.invMarket.length; i++) {
+              for (var j = 0; j < resData.length; j++) {
+                if (this.invMarket[i].name === resData[j].name) {
+                  this.$set(this.invMarket, i, resData[j])
+                  break;
+                }
+              }
+            }
+
+            for (var i = 0; i < this.vcMarket.length; i++) {
+              for (var j = 0; j < resData.length; j++) {
+                if (this.vcMarket[i].name === resData[j].name) {
+                  this.$set(this.vcMarket, i, resData[j])
+                  break;
+                }
+              }
+            }
+
+            // for (var i = 0; i < this.gemMarket.length; i++) {
+            //   for (var j = 0; j < resData.length; j++) {
+            //     if (this.gemMarket[i].name === resData[j].name) {
+            //       this.$set(this.gemMarket, i, resData[j])
+            //       break;
+            //     }
+            //   }
+            // }
 
             //订阅
             var allMarket = [...this.mainMarket, ...this.invMarket, ...this.vcMarket, ...this.gemMarket]
             for (var i in allMarket) {
               this.subQuo(allMarket[i].parm)
             }
-
-            
           } else {
             apiError(this, res)
           }
