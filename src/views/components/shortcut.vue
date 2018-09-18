@@ -57,23 +57,15 @@ export default {
   .item {
     height: 100px;
     div {
-      padding: 20px;
+      padding: 16px 20px;
     }
     :hover {
       background-color: rgb(80, 176, 140);
     }
   }
-  .novice {
-    background: #6856a3;
-  }
-  .advise {
-    background: #67868a;
-  }
-  .announcement {
-    background: #895e8e;
-  }
+  
   .tit3 {
-    margin-bottom: 10px;
+    margin-bottom: 11px;
     color: #fff;
     font-size: 22px;
     font-weight: 500;
