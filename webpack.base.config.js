@@ -10,7 +10,7 @@ module.exports = {
         vendors: ["babel-polyfill", "./src/vendors.js"]
     },
     output: {
-        path: path.join(__dirname, './dist')
+        path: path.join(__dirname, './dist/dist/')
     },
 
     module: {
