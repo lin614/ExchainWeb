@@ -36,6 +36,12 @@ export default (url = DEFAULT_URL) => {
 
     WS.onclose = (e) => {
         console.log(`${url} onclose: ${e}`);
+        window.checkNet = setInterval(function () {
+            if (navigator.onLine) {
+                window.checkNet = null
+                window.location.reload()
+            }
+        }, 1000)
     };
 
     WS.onerror = (e) => {
