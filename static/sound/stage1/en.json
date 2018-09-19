@@ -115,6 +115,7 @@
         }
     ],
     "others": {
-        "button": "Share your suggestion"
+        "button": "Share your suggestion",
+        "link": "https://support.exchain.com/hc/en-us/requests/new"
     }
 }

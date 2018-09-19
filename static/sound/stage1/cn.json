@@ -115,6 +115,7 @@
         }
     ],
     "others": {
-        "button": "留下您的建议"
+        "button": "留下您的建议",
+        "link": "https://support.exchain.com/hc/zh-cn/requests/new"
     }
 }
