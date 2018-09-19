@@ -186,6 +186,7 @@ export default {
     padding-bottom: 30px;
   }
   .banner {
+    height: 400px;
     background: #084794;
     text-align: center;
     img {
