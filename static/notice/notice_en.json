@@ -1,16 +1,16 @@
 [{
-        "title": "abcdef",
-        "subTitle": "图文指导Exchain使用流程",
-        "url": "http://baidu.com"
+        "title": "Guide For Beginner",
+        "subTitle": "How to buy digital assets on Exchain",
+        "url": "https://support.exchain.com/hc/en-us/articles/360013213691-Instructions-For-Exchain-Special-User-Test"
     },
     {
-        "title": "Exchain听你说",
-        "subTitle": "共享、共有、共建Exchain",
+        "title": "Exchain Sound",
+        "subTitle": "Build a Shared, Co-owned, Co-governed Exchain",
         "url": "/sound/1"
     },
     {
-        "title": "最新公告",
-        "subTitle": "USDT+ET加码合作伙伴共赢",
-        "url": "http://baidu.com"
+        "title": "Latest News",
+        "subTitle": "USDT+ET for both inviter and invitee",
+        "url": "https://support.exchain.com/hc/en-us/sections/360001480732-Announcements"
     }
 ]
