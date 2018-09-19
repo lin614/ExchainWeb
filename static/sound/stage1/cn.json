@@ -1,5 +1,5 @@
 {
-    "banner": "banner.jpg",
+    "banner": "banner-cn.jpg",
     "title1": "感谢语",
     "content1": " <p>Exchain为期两周的种子测试结束，我们收集了用户、媒体、项目方的建议，并作出了改变未来，我们将更珍视大家的想法，一次次变更好，与用户共建一个真正属于大家的交易所。</p> <p> 如果Exchain好， 请分享给你的朋友， 如果Exchain还有不足， 请告诉我们！ </p>",
     "title2": "用户说",
@@ -115,6 +115,7 @@
         }
     ],
     "others": {
-        "button": "留下您的建议"
+        "button": "留下您的建议",
+        "link": "https://support.exchain.com/hc/zh-cn/requests/new"
     }
 }

@@ -1,15 +1,18 @@
 <template>
-  <page class="page_content-padding sound-content">
+  <page :class="'page_content-padding sound-page ' + $t('common.lang')">
     <div class="sound">
       <block>
         <div class="banner">
           <img :src="imgPath+con.banner">
         </div>
+
         <div slot="inner">
           <div class="inner-content">
             <ul>
               <li>
-                <h1 class="inner-tit blue">{{con.title1}}</h1>
+                <h1 class="inner-tit blue">
+                  <span>{{con.title1}}</span>
+                </h1>
                 <div class="cnt thank-you-cnt">
                   <img class="thank-you" src="../static/imgs/sound-say.png">
                   <p v-html="con.content1"></p>
@@ -17,10 +20,12 @@
               </li>
 
               <li>
-                <h1 class="inner-tit green">{{con.title2}}</h1>
+                <h1 class="inner-tit green">
+                   <span>{{con.title2}}</span>
+                </h1>
                 <div class="cnt">
                   <ul class="big-user-group">
-                    <li class="user-item clearfix" v-for="p of con.content2">
+                    <li class="user-item clearfix" v-for="(p, i) of con.content2" :key="i">
                       <img class="fl avator" :src="imgPath+p.img">
                       <div class="say-cnt">
                         <p class="p1">
@@ -31,10 +36,12 @@
                     </li>
                   </ul>
 
-                  <p class="more-advise">{{con.title3}}</p>
+                  <p class="more-advise">
+                    <span>{{con.title3}}:</span>
+                  </p>
 
                   <ul class="other-user-group">
-                    <li class="other-user-item clearfix" v-for="p of con.content3">
+                    <li class="other-user-item clearfix" v-for="(p, i) of con.content3" :key="i">
                       <img class="fl avator" :src="imgPath+p.img">
                       <div class="say-cnt">
                         <p class="p1">{{p.name}}</p>
@@ -46,10 +53,12 @@
               </li>
 
               <li>
-                <h1 class="inner-tit orange">{{con.title4}}</h1>
+                <h1 class="inner-tit orange">
+                  <span>{{con.title4}}</span>
+                </h1>
                 <div class="cnt">
                   <ul class="media-group">
-                    <li class="media-item clearfix" v-for="p of con.content4">
+                    <li class="media-item clearfix" v-for="(p, i) of con.content4" :key="i">
                       <img class="fl avator" :src="imgPath+p.img">
                       <div class="say-cnt">
                         <p class="p1">
@@ -66,10 +75,12 @@
               </li>
 
               <li>
-                <h1 class="inner-tit red">{{con.title5}}</h1>
+                <h1 class="inner-tit red">
+                  <span>{{con.title5}}</span>
+                </h1>
                 <div class="cnt">
                   <ul class="media-group">
-                    <li class="media-item clearfix" v-for="p of con.content5">
+                    <li class="media-item clearfix" v-for="(p, i) of con.content5" :key="i">
                       <img class="fl avator" :src="imgPath+p.img">
                       <div class="say-cnt">
                         <p class="p1">
@@ -91,11 +102,12 @@
             </div>
 
             <ul class="change-group">
-              <li class="change-item" v-for="p,i of con.content6">
+              <li class="change-item" v-for="(p,i) of con.content6" :key="i">
                 <p class="tit">{{p.sub}}</p>
                 <p class="list">
-                  <span v-for="d,j in p.detail">{{d}}
-                    <span v-show="j<p.detail.length-1">|</span>
+                  <span v-for="d,j in p.detail">
+                    <span class="highlight">{{d}}</span>
+                    <span v-show="j<p.detail.length-1"> | </span>
                   </span>
 
                 </p>
@@ -103,7 +115,7 @@
 
             </ul>
 
-            <a class="your-advise" href="" target="_blank">{{con.others.button}}</a>
+            <a class="your-advise" :href="con.others.link" target="_blank">{{con.others.button}}</a>
 
           </div>
         </div>
@@ -125,8 +137,10 @@ export default {
   data() {
     return {
       stage: this.$route.params.stage,
-      imgPath: '/dist/static/sound/stage' + this.$route.params.stage + '/',
-      con: []
+      imgPath: '/static/sound/stage' + this.$route.params.stage + '/',
+      con: {
+        others: {}
+      }
     }
   },
   computed: {
@@ -166,12 +180,13 @@ export default {
 
 <style lang="less">
 @import url(./style/config.less);
-.page_content-padding.sound-content {
+.page_content-padding.sound-page {
   .page_content {
     padding-top: 0px;
     padding-bottom: 30px;
   }
   .banner {
+    height: 400px;
     background: #084794;
     text-align: center;
     img {
@@ -190,39 +205,41 @@ export default {
       border-bottom: 1px solid #e8e8e8;
       margin-bottom: 30px;
       padding-bottom: 20px;
-      padding-left: 14px;
-      &::before {
+      span {
+        position: relative;
+        padding: 0px 14px;
+      }
+      span::before {
         content: '';
         position: absolute;
         left: 0;
-        width: 100px;
+        width: 100%;
         height: 4px;
-        background: red;
-        bottom: 0px;
+        bottom: -25px;
         border-radius: 10px;
       }
       &.blue {
         color: @font-color-blue;
       }
-      &.blue::before {
+      &.blue span::before {
         background: @font-color-blue;
       }
       &.green {
         color: #50b08c;
       }
-      &.green::before {
+      &.green span::before {
         background: #50b08c;
       }
       &.orange {
         color: #f4c058;
       }
-      &.orange::before {
+      &.orange span::before {
         background: #f4c058;
       }
       &.red {
         color: #e13737;
       }
-      &.red::before {
+      &.red span::before {
         background: #e13737;
       }
     }
@@ -249,6 +266,7 @@ export default {
 
     .user-item {
       margin-bottom: 30px;
+      padding-bottom: 20px;
       border: 1px solid #eaeaea;
       &:nth-child(2n + 1) {
         background: #f5f5f5;
@@ -259,10 +277,11 @@ export default {
       .avator {
         width: 120px;
         height: 120px;
-        margin: 20px;
+        margin: 20px 20px 0px;
       }
       .say-cnt {
-        padding-top: 30px;
+        padding-top: 22px;
+        margin-left: 160px;
         p {
           line-height: 24px;
         }
@@ -274,7 +293,7 @@ export default {
           }
         }
         .p2 {
-          margin-bottom: 10px;
+          margin-bottom: 6px;
           font-size: 16px;
           color: @font-color-blue;
         }
@@ -286,12 +305,13 @@ export default {
     }
 
     .more-advise {
-      margin: 60px 0px 10px 0px;
+      margin: 60px 0px 15px 0px;
       font-size: 16px;
     }
 
     .other-user-item {
-      margin-bottom: 30px;
+      margin-bottom: 20px;
+      padding-bottom: 40px;
       border-bottom: 1px solid #eaeaea;
       &:last-child {
         border-bottom-width: 0px;
@@ -299,7 +319,7 @@ export default {
       .avator {
         width: 60px;
         height: 60px;
-        margin: 20px 20px 20px 0px;
+        margin: 20px 20px 0px 0px;
       }
       .say-cnt {
         padding-top: 25px;
@@ -414,7 +434,7 @@ export default {
         p.list {
           font-size: 16px;
         }
-        span {
+        .highlight {
           color: @font-color-blue;
         }
       }
@@ -428,6 +448,19 @@ export default {
       text-align: center;
       color: #fff;
       background: #2d8cf0;
+    }
+  }
+
+  &.en {
+    .inner-content {
+      .thank-you-cnt {
+        p {
+          margin-bottom: 20px;
+        }
+      }
+      .our-change {
+        width: 470px;
+      }
     }
   }
 }
