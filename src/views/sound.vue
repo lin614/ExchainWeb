@@ -153,7 +153,7 @@ export default {
       var vu = this
       ax
         .get(
-          '/static/sound/stage' +
+          '/dist/static/sound/stage' +
             vu.$route.params.stage +
             '/' +
             vu.lan +
