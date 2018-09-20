@@ -14,7 +14,7 @@
                   <span>{{con.title1}}</span>
                 </h1>
                 <div class="cnt thank-you-cnt">
-                  <img class="thank-you" src="../static/imgs/sound-say.png">
+                  <img class="thank-you" :src="imgPath + 'sound-say.png'">
                   <p v-html="con.content1"></p>
                 </div>
               </li>
@@ -26,7 +26,7 @@
                 <div class="cnt">
                   <ul class="big-user-group">
                     <li class="user-item clearfix" v-for="(p, i) of con.content2" :key="i">
-                      <img class="fl avator" :src="imgPath+p.img">
+                      <img class="fl avator" :src="imgPath + p.img">
                       <div class="say-cnt">
                         <p class="p1">
                           <span>{{p.name}}：</span>{{p.say1}}</p>
@@ -137,7 +137,7 @@ export default {
   data() {
     return {
       stage: this.$route.params.stage,
-      imgPath: '/static/sound/stage' + this.$route.params.stage + '/',
+      imgPath: '/dist/static/sound/stage' + this.$route.params.stage + '/',
       con: {
         others: {}
       }
