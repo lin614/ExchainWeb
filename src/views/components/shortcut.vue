@@ -32,7 +32,7 @@ export default {
   methods: {
     getNotice() {
       var vu = this
-      ax.get('/static/notice/notice_' + vu.lan + '.json').then(res => {
+      ax.get('/dist/static/notice/notice_' + vu.lan + '.json').then(res => {
         if (typeof res.data == 'object') {
           vu.list = res.data
           console.log(vu.list)
