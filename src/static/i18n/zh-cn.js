@@ -447,6 +447,7 @@ module.exports = {
     toLogin: '已有账户？请',
     login: '登录',
     sendCode: '发送验证码',
+    emailTip: '如长时间未收到，请检查垃圾箱',
     info1: '验证邮件可能会被误判为垃圾邮件，请注意查收。',
     info2: '请妥善保存您的 Exchain 账号及登录密码。',
     info3: '请勿和其他网站使用相同的登录密码。'

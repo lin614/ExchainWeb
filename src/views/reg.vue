@@ -13,6 +13,7 @@
               <Form ref="regInfo" label-position="top" :model="regInfo" :rules="rules">
                 <FormItem prop="email" :label="$t('register.email')" class="ivu-form-item-required">
                   <Input v-model="regInfo.email" :placeholder="$t('register.pleaseIptEmail')"></Input>
+                  <div>{{$t('register.emailTip')}}</div>
                 </FormItem>
 
                 <FormItem prop="emailcode" :label="$t('register.emailcode')" class="ivu-form-item-required">
