@@ -838,8 +838,8 @@ export default {
       ax.get(config.url.user + '/api/v1-b/market/trade_history?market=huobi&symbol=btcusdt&limit=1', getHeader)
         .then((res) => {
           if (res.status == 200 && res.data.code === 0) {
-            var data = res.data.data
-            vu.btcPrice = data[0][1]
+            var data = res.data.data.length === 0 ? 0 :  res.data.data[0][1]
+            vu.btcPrice = data
             console.log('btcPrice : ' + vu.btcPrice)
           } else {
             apiError(vu, res);

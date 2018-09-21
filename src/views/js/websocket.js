@@ -39,7 +39,7 @@ export default (url = DEFAULT_URL) => {
         window.checkNet = setInterval(function () {
             if (navigator.onLine) {
                 window.checkNet = null
-                window.location.reload()
+                // window.location.reload()
             }
         }, 1000)
     };
