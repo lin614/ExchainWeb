@@ -43,6 +43,17 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueI18n);
 Vue.use(iView);
+
+// Vue.use(iView, {
+//     i18n: function(path, options) {
+//       let value = VueI18n.t(path, options)
+//       if (value !== null && value !== undefined) {
+//         return value
+//       }
+//       return ''
+//     }
+// });
+
 Vue.locale = () => {};
 
 import config from './config/config'
