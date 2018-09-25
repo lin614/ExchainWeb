@@ -48,6 +48,14 @@
     }],
     "title4": "Media Professionals’ Sound",
     "content4": [{
+        "name": "快链星球",
+        "say1": "全面、即时、准确的全球区块链资讯入口与数据资产管理平台。",
+        "sub": "与Exchain共建交易所，听我说:",
+        "say2": "从个人使用习惯上提一个小小的建议：白皮书写的很详细，不过要是能够在一两个下滑页面看完就更好了，对于用户来说更简单、清晰，其他的都很好。",
+        "img": "media5.jpg",
+        "qrcode": "media5-qrcode.jpg",
+        "url": ""
+    }, {
         "name": "BigBbro",
         "say1": "Everything about Cryptocurrency you want to know",
         "sub": "Listen to me, to build Exchain together:",
@@ -116,6 +124,9 @@
     ],
     "others": {
         "button": "Share your suggestion",
-        "link": "https://support.exchain.com/hc/en-us/requests/new"
+        "link": "https://support.exchain.com/hc/en-us/requests/new",
+        "join": "加入Exchain社区参与讨论：",
+        "joinUrl": "https://t.me/Exchain_cn",
+        "exchainQrcode": "exchain-qrcode.png"
     }
 }

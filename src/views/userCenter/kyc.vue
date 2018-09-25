@@ -50,7 +50,7 @@
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-id-front.png" alt="kyc-id-front" v-if="formField.nationality === 'CN'">
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-front.png" alt="kyc-passport-front" v-if="formField.nationality !== 'CN'">
                   </div>
-                  <p class="sample-txt">{{$t('userCenter.kyc.notice')}}</p>
+                  <p class="sample-txt">{{$t('userCenter.kyc.notice')}}<br/><span style="font-family: SimSun; color: #ed3f14;">*</span><span style="color: #ed3f14;">{{$t('errorMsg.IMAGE_TOO_LARGE')}}</span></p>
                 </div>
               </FormItem>
 
@@ -80,7 +80,7 @@
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-id-back.png" alt="kyc-id-back" v-if="formField.nationality === 'CN'">
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-back.png" alt="kyc-passport-back" v-if="formField.nationality !== 'CN'">
                   </div>
-                  <p class="sample-txt">{{$t('userCenter.kyc.notice')}}</p>
+                  <p class="sample-txt">{{$t('userCenter.kyc.notice')}}<br/><span style="font-family: SimSun; color: #ed3f14;">*</span><span style="color: #ed3f14;">{{$t('errorMsg.IMAGE_TOO_LARGE')}}</span></p>
                 </div>
               </FormItem>
 
@@ -111,11 +111,12 @@
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-hold.png" alt="kyc-passport-hold" v-if="formField.nationality !== 'CN'">
                   </div>
                   <p class="sample-txt sample-txt3">
-                    {{$t('userCenter.kyc.standard.title')}}</br>
-                    {{$t('userCenter.kyc.standard.text1')}}</br>
-                    {{$t('userCenter.kyc.standard.text2')}}</br>
-                    {{$t('userCenter.kyc.standard.text3')}}</br>
-                    {{$t('userCenter.kyc.standard.text4')}}
+                    {{$t('userCenter.kyc.standard.title')}}<br/>
+                    {{$t('userCenter.kyc.standard.text1')}}<br/>
+                    {{$t('userCenter.kyc.standard.text2')}}<br/>
+                    {{$t('userCenter.kyc.standard.text3')}}<br/>
+                    {{$t('userCenter.kyc.standard.text4')}}<br/>
+                    <span style="font-family: SimSun; color: #ed3f14;">*</span><span style="color: #ed3f14;">{{$t('errorMsg.IMAGE_TOO_LARGE')}}</span>
                   </p>
                 </div>
               </FormItem>
@@ -536,13 +537,13 @@ export default {
         }
         .sample-txt {
           float: left;
-          margin-top: 75px;
+          margin-top: 65px;
           margin-left: 40px;
           font-size:14px;
           color:rgba(19,20,24,1);
         }
         .sample-txt3 {
-          margin-top: 10px;
+          margin-top: -5px;
         }
       }
       .passport .sample .sample-img-wrap{

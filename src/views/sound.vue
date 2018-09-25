@@ -116,7 +116,8 @@
             </ul>
 
             <a class="your-advise" :href="con.others.link" target="_blank">{{con.others.button}}</a>
-
+            <p class="join"><span class="txt">{{con.others.join}}</span><a class="url" :href="con.others.joinUrl" target="_blank">{{con.others.joinUrl}}</a></p>
+            <img class="exchain-qrcode" :src="imgPath + con.others.exchainQrcode" alt="Exchain 二维码">
           </div>
         </div>
       </block>
@@ -448,6 +449,20 @@ export default {
       text-align: center;
       color: #fff;
       background: #2d8cf0;
+    }
+    .join {
+      margin: 40px 0px 10px 25px;
+      .txt {
+        color: #333;
+        font-size: 16px;
+      }
+      .url {
+        color: @font-color-blue;
+        font-size: 16px;
+      }
+    }
+    .exchain-qrcode {
+      margin-left: 20px;
     }
   }
 

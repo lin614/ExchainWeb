@@ -521,7 +521,7 @@ module.exports = {
     PASSPORT_HOLD_BLANK: 'Please upload a hand-held passport information page',
     KYC_SUBMIT: 'Successful submission of KYC information',
     FORMAT_ERROR: 'Wrong file suffix',
-    IMAGE_TOO_LARGE: 'Maximum upload file size 2mb',
+    IMAGE_TOO_LARGE: 'Maximum upload file size 2 MB',
     // 注册
     // DIFFERENT_PASSWORD_IPT
     EMAIL_BLANK: 'E-mail address can not be null',
