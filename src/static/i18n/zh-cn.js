@@ -352,7 +352,8 @@ module.exports = {
       qrCode: '二维码',
       tip: '温馨提示',
       tipP1: '请勿向上述地址充值任何非',
-      tipP2: '资产，否则资产将不可找回。'
+      tipP2: '资产，否则资产将不可找回。',
+      tipP3: '最小充值额度为',
     },
     // 提现
     withdrawBox: {
@@ -520,6 +521,7 @@ module.exports = {
     PASSPORT_HOLD_BLANK: '请上传手持护照信息页',
     KYC_SUBMIT: 'KYC 认证提交成功',
     FORMAT_ERROR: '错误的文件后缀',
+    IMAGE_TOO_LARGE: '文件大小不能超过 2MB',
     // 注册
     // DIFFERENT_PASSWORD_IPT
     EMAIL_BLANK: '邮箱不能为空',

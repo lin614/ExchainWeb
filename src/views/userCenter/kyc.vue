@@ -26,6 +26,7 @@
 
               <FormItem class="ivu-form-item-required" :class="{'form-item form-item-front': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')" prop="frontImg" v-if="formField.nationality !== ''">
                 <Upload
+                  :before-upload="handleUpload"
                   :on-success="handleFrontSuccess"
                   :on-format-error="handleFormatErr"
                   :on-error="handleFrontUploadErr"
@@ -55,6 +56,7 @@
 
               <FormItem class="ivu-form-item-required" :class="{'form-item form-item-back': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')" prop="backImg" v-if="formField.nationality !== ''">
                 <Upload
+                  :before-upload="handleUpload"
                   :on-success="handleBackSuccess"
                   :on-format-error="handleFormatErr"
                   :on-error="handleBackUploadErr"
@@ -84,6 +86,7 @@
 
               <FormItem class="ivu-form-item-required" :class="{'form-item form-item-hold': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')" prop="holdImg" v-if="formField.nationality !== ''">
                 <Upload
+                  :before-upload="handleUpload"
                   :on-success="handleHoldSuccess"
                   :on-format-error="handleFormatErr"
                   :on-error="handleHoldUploadErr"
@@ -244,13 +247,20 @@ export default {
   },
   watch: {
     getActiveLang(val) {
+      let that = this;
       this.curLanguage = val;
       this.nationalityList = val === 'cn' ? this.nationalityCNName : this.nationalityENName;
+      this.formField.nationality = ''
+      this.$refs.formField.resetFields();
+      setTimeout(() => {
+        that.formField.nationality = ''
+      }, 50);
     }
   },
   methods: {
     changeNationality(e) {
-      if (this.oldNationlity !== '' && this.oldNationlity !== e.value && (this.oldNationlity === 'CN' || e.value === 'CN')) {
+      // e 有值才执行
+      if (e && this.oldNationlity !== '' && this.oldNationlity !== e.value && (this.oldNationlity === 'CN' || e.value === 'CN')) {
         this.files.front = '';
         this.files.back = '';
         this.files.hold = '';
@@ -260,8 +270,8 @@ export default {
         this.$refs.formField.resetFields();
         this.formField.nationality = this.oldNationlity;
       }
-      this.oldNationlity = this.formField.nationality;
     },
+
     getNationalityByCN () {
       var vu = this
       ax.post(config.url.user + '/api/user/getCountryList', {
@@ -281,6 +291,7 @@ export default {
         apiReqError(vu, err);
       });
     },
+
     getNationalityByEN () {
       var vu = this
       ax.post(config.url.user + '/api/user/getCountryList', {
@@ -300,6 +311,7 @@ export default {
         apiReqError(vu, err);
       });
     },
+
     handleWindowResize () {
       this.pageHeight = window.innerHeight - 360
     },
@@ -308,7 +320,7 @@ export default {
      */
     handleSubmit (form) {
       this.$refs[form].validate(valid => {
-        // if (valid) {
+        if (valid) {
           if (!this.files.front) {
             if (this.formField.nationality === 'CN') {
               this.$Message.error(this.$t('errorMsg.FRONT_BLANK'))
@@ -360,8 +372,17 @@ export default {
             this.btnLoading = false;
             apiReqError(vu, err);
           })
-        // }
+        }
       });
+    },
+
+    handleUpload (file) {
+      const isLt2M = (file.size / 1024 / 1024 <= 2)
+
+      if (!isLt2M) {
+        this.$Message.error(this.$t('errorMsg.IMAGE_TOO_LARGE'))
+        return false
+      }
     },
 
     /**

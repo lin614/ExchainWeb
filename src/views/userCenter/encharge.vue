@@ -22,6 +22,7 @@
       <div class="friendly-notice">
         <p class="friendly-notice-title">{{ $t('userCenter.depositBox.tip') }}</p>
         <li class="friendly-notice-item">{{ $t('userCenter.depositBox.tipP1') }} {{token}} {{ $t('userCenter.depositBox.tipP2') }}</li>
+        <li class="friendly-notice-item">{{ $t('userCenter.depositBox.tipP3') }} {{params.recharge_min}} {{token}}</li>
       </div>
     </div>
     <div v-else class="no-encharge">{{$t('errorMsg.NO_AVAILABLE_ENCHARGE_ADDR')}}</div>
@@ -37,7 +38,8 @@ export default {
   name: 'encharge',
   props: {
     showCharge: Boolean,
-    token: String
+    token: String,
+    params: Object
   },
   data () {
     return {

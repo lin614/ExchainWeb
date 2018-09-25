@@ -41,8 +41,10 @@
                       <Option v-for="(item, index) in fromList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
                     <span class="available-amount">{{ $t('userCenter.asset.transfer.balance') }} :
-                      <i v-show="(trabsferModal.from === 'master')">{{master}}</i>
-                      <i v-show="(trabsferModal.from === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
+                      <i v-show="(trabsferModal.from === 'master')" @click="copyAmount(master)" style="cursor:pointer">{{master}}</i>
+                      <i v-show="(trabsferModal.from === 'trade')" @click="copyAmount(trade)" style="cursor:pointer">{{trade}}</i>
+                      {{trabsferModal.token}}
+                    </span>
                   </FormItem>
 
                   <FormItem :label="$t('userCenter.asset.transfer.to')" prop="to" class="available-box">
@@ -50,8 +52,10 @@
                       <Option v-for="(item, index) in toList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
                     <span class="available-amount">{{ $t('userCenter.asset.transfer.balance') }} :
-                      <i v-show="(trabsferModal.to === 'master')">{{master}}</i>
-                      <i v-show="(trabsferModal.to === 'trade')">{{trade}}</i> {{trabsferModal.token}}</span>
+                      <i v-show="(trabsferModal.to === 'master')" @click="copyAmount(master)" style="cursor:pointer">{{master}}</i>
+                      <i v-show="(trabsferModal.to === 'trade')" @click="copyAmount(trade)" style="cursor:pointer">{{trade}}</i>
+                      {{trabsferModal.token}}
+                    </span>
                   </FormItem>
 
                   <FormItem :label="$t('userCenter.asset.transfer.volume')" prop="amount">
@@ -60,6 +64,7 @@
                 </Form>
               </div>
             </crd>
+
             <div slot="footer">
               <div class="model-btn-wrap clearfix">
                 <span class="model-btn fr" @click="handleCloseTransfer('formCustom')">{{$t('userCenter.asset.transfer.cancel')}}</span>
@@ -134,7 +139,9 @@ export default {
               if (value === '') {
                 callback(this.$t('errorMsg.FROM_ADDR_BLANK'))
               }
-              instance.$refs.formCustom.validateField('amount', () => {})
+              if (instance.trabsferModal.amount) {
+                instance.$refs.formCustom.validateField('amount', () => {})
+              }
               callback();
             },
             trigger: 'change'
@@ -146,7 +153,9 @@ export default {
               if (value === '') {
                 callback(this.$t('errorMsg.TO_ADDR_BLANK'))
               }
-              instance.$refs.formCustom.validateField('amount', () => {})
+              if (instance.trabsferModal.amount) {
+                instance.$refs.formCustom.validateField('amount', () => {})
+              }
               callback();
             },
             trigger: 'change'
@@ -340,7 +349,8 @@ export default {
                 h(encharge, {
                   props: {
                     showCharge: this.showCharge,
-                    token: this.enchargeToken
+                    token: this.enchargeToken,
+                    params: params.row
                   }
                 }),
                 h(getCash, {
@@ -484,6 +494,10 @@ export default {
     }
   },
   methods: {
+    copyAmount(value) {
+      this.trabsferModal.amount = parseFloat(value)
+    },
+
     getBalance() {
       ax
         .get(
