@@ -79,7 +79,7 @@ module.exports = {
       currentDay: '24 Hour Volume',
       etMarketValue: 'ET Total Market Cap',
       etCirculation: 'Total ET in circulation',
-      freeTitle: 'Free Transaction Countdown',
+      freeTitle: 'Free Transaction Countdown (GMT+8)',
       freeUnit: 'Day'
     },
     markets: {
