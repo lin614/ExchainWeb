@@ -95,7 +95,7 @@ ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
 
-let instance = null;
+let instance = null
 
 import util from '../../libs/util.js'
 import { setInterval, clearInterval } from 'timers'
@@ -109,6 +109,7 @@ export default {
     manageAddr
   },
   data() {
+    var vu = this
     return {
       pageHeight: 0,
       showExType: '',
@@ -142,7 +143,7 @@ export default {
               if (instance.trabsferModal.amount) {
                 instance.$refs.formCustom.validateField('amount', () => {})
               }
-              callback();
+              callback()
             },
             trigger: 'change'
           }
@@ -156,7 +157,7 @@ export default {
               if (instance.trabsferModal.amount) {
                 instance.$refs.formCustom.validateField('amount', () => {})
               }
-              callback();
+              callback()
             },
             trigger: 'change'
           }
@@ -231,7 +232,11 @@ export default {
                 'span',
                 {
                   style: {
-                    color: params.row.recharge ? (this.assetListData[params.index].showCharge ? '#419cf6' : '') : '#999',
+                    color: params.row.recharge
+                      ? this.assetListData[params.index].showCharge
+                        ? '#419cf6'
+                        : ''
+                      : '#999',
                     cursor: params.row.recharge ? 'pointer' : 'not-allowed',
                     marginRight: '30px'
                   },
@@ -248,7 +253,9 @@ export default {
                   h('i', this.$t('userCenter.asset.transfer.deposit')),
                   h('Icon', {
                     props: {
-                      type: params.row.showCharge ? 'arrow-up-b' : 'arrow-down-b'
+                      type: params.row.showCharge
+                        ? 'arrow-up-b'
+                        : 'arrow-down-b'
                     },
                     style: {
                       marginLeft: '4px'
@@ -260,7 +267,11 @@ export default {
                 'span',
                 {
                   style: {
-                    color: params.row.withdraw ? (this.assetListData[params.index].showCash ? '#419cf6' : '') : '#999',
+                    color: params.row.withdraw
+                      ? this.assetListData[params.index].showCash
+                        ? '#419cf6'
+                        : ''
+                      : '#999',
                     cursor: params.row.withdraw ? 'pointer' : 'not-allowed',
                     marginRight: '30px'
                   },
@@ -316,13 +327,12 @@ export default {
                     click: () => {
                       if (params.row.trade) {
                         var token = params.row.token
-                        var pair = ''
-                        if (token === 'USDT') {
-                          pair = 'btc_usdt'
-                        } else {
-                          pair = token.toLowerCase() + '_usdt'
-                        }
-                        this.toTrade(pair)
+                        var pair = 'btc_usdt'
+
+                        var matchs = new RegExp(
+                          '[^,]*' + token + '/[^,]+'
+                        ).exec(localStorage.getItem('pairs'))
+                        this.toTrade(matchs ? matchs[0] : pair)
                       }
                     }
                   }
@@ -395,30 +405,38 @@ export default {
       return this.$store.state.activeLang
     },
     fromList() {
-      return [{
-        label: this.$t('userCenter.asset.transfer.account_available'),
-        value: 'master'
-      },
-      {
-        label: this.$t('userCenter.asset.transfer.exchange_available'),
-        value: 'trade'
-      }];
+      return [
+        {
+          label: this.$t('userCenter.asset.transfer.account_available'),
+          value: 'master'
+        },
+        {
+          label: this.$t('userCenter.asset.transfer.exchange_available'),
+          value: 'trade'
+        }
+      ]
     },
     toList() {
-      return [{
-        label: this.$t('userCenter.asset.transfer.account_available'),
-        value: 'master'
-      },
-      {
-        label: this.$t('userCenter.asset.transfer.exchange_available'),
-        value: 'trade'
-      }]
-    },
+      return [
+        {
+          label: this.$t('userCenter.asset.transfer.account_available'),
+          value: 'master'
+        },
+        {
+          label: this.$t('userCenter.asset.transfer.exchange_available'),
+          value: 'trade'
+        }
+      ]
+    }
   },
   watch: {
     getActiveLang(val) {
       if (val === 'cn') {
-        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+        this.balanceTotal = NP.times(
+          this.BTCBalance,
+          this.btcPrice,
+          this.usdtPrice
+        )
         this.balanceTotal = NP.round(this.balanceTotal, 2)
       } else {
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
@@ -438,11 +456,16 @@ export default {
     //     }
     //   }
     // },
-    $store () {
+    $store() {
       // console.log(1111);
     },
-    btcPrice () {
-      if (isNaN(this.btcPrice) || this.btcPrice === null || this.usdtPrice === null || isNaN(this.usdtPrice)) {
+    btcPrice() {
+      if (
+        isNaN(this.btcPrice) ||
+        this.btcPrice === null ||
+        this.usdtPrice === null ||
+        isNaN(this.usdtPrice)
+      ) {
         return
       }
       if (isNaN(this.BTCBalance) || this.BTCBalance === null) {
@@ -452,11 +475,15 @@ export default {
       console.log('this.btcPrice = ' + this.btcPrice)
       console.log('this.usdtPrice =' + this.usdtPrice)
 
-      console.log(this.$store.state.activeLang);
+      console.log(this.$store.state.activeLang)
 
       // 根据中英文计算
       if (this.$store.state.activeLang === 'cn') {
-        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+        this.balanceTotal = NP.times(
+          this.BTCBalance,
+          this.btcPrice,
+          this.usdtPrice
+        )
       } else {
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
       }
@@ -467,7 +494,7 @@ export default {
         this.balanceTotal = '--'
       }
     },
-    BTCBalance () {
+    BTCBalance() {
       if (isNaN(this.btcPrice) || this.btcPrice === null) {
         return
       }
@@ -479,7 +506,11 @@ export default {
       }
 
       if (this.$store.state.activeLang === 'cn') {
-        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice)
+        this.balanceTotal = NP.times(
+          this.BTCBalance,
+          this.btcPrice,
+          this.usdtPrice
+        )
       } else {
         console.log('BTCBalance : ' + this.BTCBalance)
         console.log('btcPrice : ' + this.btcPrice)
@@ -499,21 +530,17 @@ export default {
     },
 
     getBalance() {
-      ax
-        .get(
-          config.url.user + '/api/account/balanceQuery',
-          getHeader
-        )
+      ax.get(config.url.user + '/api/account/balanceQuery', getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             this.BTCBalance = res.data.result.BTC.available
             this.CNYBalance = res.data.result.CNY.available
           } else {
-            apiError(this, res);
+            apiError(this, res)
           }
         })
         .catch(err => {
-          apiReqError(this, err);
+          apiReqError(this, err)
         })
     },
     /**
@@ -528,12 +555,11 @@ export default {
     getMyAsset() {
       var vu = this
       this.assetListData = []
-      ax
-        .get(config.url.user + '/api/account/assetsList', getHeader)
-        .then(res => {
+      ax.get(config.url.user + '/api/account/assetsList', getHeader).then(
+        res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var obj = {}
-            let btcBalance = 0;
+            let btcBalance = 0
             var result = res.data.result
             for (var key in result) {
               obj.token = key
@@ -550,7 +576,10 @@ export default {
               obj.withdraw_max = vu.tokenObj[key].withdraw_max
               obj.withdraw_min = vu.tokenObj[key].withdraw_min
               vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
-              btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
+              btcBalance = NP.plus(
+                parseFloat(btcBalance),
+                parseFloat(result[key].btc)
+              )
             }
             if (isNaN(btcBalance)) {
               vu.BTCBalance = '--'
@@ -558,30 +587,36 @@ export default {
               vu.BTCBalance = NP.round(btcBalance, 8)
             }
           } else {
-            apiError(vu, res);
+            apiError(vu, res)
           }
-        })
+        }
+      )
     },
     getMyAsset1() {
       var vu = this
-      ax
-        .get(config.url.user + '/api/account/assetsList', getHeader)
-        .then(res => {
+      ax.get(config.url.user + '/api/account/assetsList', getHeader).then(
+        res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var obj = {}
-            let btcBalance = 0;
+            let btcBalance = 0
             var result = res.data.result
             for (var key in result) {
               for (var i = 0; i < vu.assetListData.length; i++) {
                 if (vu.assetListData[i].token === key) {
-                  vu.assetListData[i].account_available = result[key].account_available
+                  vu.assetListData[i].account_available =
+                    result[key].account_available
                   vu.assetListData[i].withdraw_fee = result[key].withdraw_fee
-                  vu.assetListData[i].exchange_available = result[key].exchange_available
-                  vu.assetListData[i].exchange_freeze = result[key].exchange_freeze
+                  vu.assetListData[i].exchange_available =
+                    result[key].exchange_available
+                  vu.assetListData[i].exchange_freeze =
+                    result[key].exchange_freeze
                   vu.$set(vu.assetListData, i, vu.assetListData[i])
                 }
               }
-              btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
+              btcBalance = NP.plus(
+                parseFloat(btcBalance),
+                parseFloat(result[key].btc)
+              )
             }
             if (isNaN(btcBalance)) {
               vu.BTCBalance = '--'
@@ -589,17 +624,17 @@ export default {
               vu.BTCBalance = NP.round(btcBalance, 8)
             }
           } else {
-            apiError(vu, res);
+            apiError(vu, res)
           }
-        })
+        }
+      )
     },
     /**
      * 获取所有币种的属性
      */
     getTokenObj() {
       var vu = this
-      ax
-        .get(config.url.user + '/api/quotation/getSymbolLists', getHeader)
+      ax.get(config.url.user + '/api/quotation/getSymbolLists', getHeader)
         .then(res => {
           if (res.status == '200' && res.data.errorCode == 0) {
             var result = res.data.result
@@ -612,11 +647,11 @@ export default {
               vu.$set(vu.assetListData, index, vu.assetListData[index])
             })
           } else {
-            apiError(vu, res);
+            apiError(vu, res)
           }
         })
         .catch(err => {
-          apiReqError(vu, err);
+          apiReqError(vu, err)
         })
     },
     /**
@@ -625,13 +660,19 @@ export default {
     handleOpera(index, params, exType) {
       // 点击同一 token 两次关闭
       for (var i = 0; i < this.assetListData.length; i++) {
-        if (this.assetListData[i]._expanded && this.assetListData[i].token === params.token) {
-          if ((exType === 'encharge' && this.assetListData[i].showCharge) || (exType === 'getCash' && this.assetListData[i].showCash)) {
-            this.assetListData[i]._expanded = false;
+        if (
+          this.assetListData[i]._expanded &&
+          this.assetListData[i].token === params.token
+        ) {
+          if (
+            (exType === 'encharge' && this.assetListData[i].showCharge) ||
+            (exType === 'getCash' && this.assetListData[i].showCash)
+          ) {
+            this.assetListData[i]._expanded = false
             this.assetListData[i].showCharge = false
             this.assetListData[i].showCash = false
-            this.$set(this.assetListData, index, this.assetListData[index]);
-            return;
+            this.$set(this.assetListData, index, this.assetListData[index])
+            return
           }
         }
       }
@@ -664,7 +705,7 @@ export default {
           this.assetListData[index].showCash = true
           this.$set(this.assetListData, index, this.assetListData[index])
         }
-      }, 10);
+      }, 10)
     },
     /**
      * 划转模态框的显示
@@ -695,15 +736,14 @@ export default {
           vu.transferLoading = true
           if (vu.trabsferModal.to === 'trade') {
             // 转到交易账户
-            ax
-              .get(
-                config.url.user +
-                  '/api/account/toExchange?type=' +
-                  vu.trabsferModal.token +
-                  '&balance=' +
-                  vu.trabsferModal.amount,
-                getHeader
-              )
+            ax.get(
+              config.url.user +
+                '/api/account/toExchange?type=' +
+                vu.trabsferModal.token +
+                '&balance=' +
+                vu.trabsferModal.amount,
+              getHeader
+            )
               .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {
                   vu.getMyAsset()
@@ -714,24 +754,23 @@ export default {
                   vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
                 } else {
                   vu.transferLoading = false
-                  apiError(vu, res);
+                  apiError(vu, res)
                 }
               })
               .catch(err => {
                 vu.transferLoading = false
-                apiReqError(vu, err);
+                apiReqError(vu, err)
               })
           } else if (vu.trabsferModal.to === 'master') {
             // 转到主账户
-            ax
-              .get(
-                config.url.user +
-                  '/api/exchange/toAccount?type=' +
-                  vu.trabsferModal.token +
-                  '&balance=' +
-                  vu.trabsferModal.amount,
-                getHeader
-              )
+            ax.get(
+              config.url.user +
+                '/api/exchange/toAccount?type=' +
+                vu.trabsferModal.token +
+                '&balance=' +
+                vu.trabsferModal.amount,
+              getHeader
+            )
               .then(res => {
                 if (res.status == '200' && res.data.errorCode == 0) {
                   vu.getMyAsset()
@@ -741,12 +780,12 @@ export default {
                   vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
                 } else {
                   vu.transferLoading = false
-                  apiError(vu, res);
+                  apiError(vu, res)
                 }
               })
               .catch(err => {
                 vu.transferLoading = false
-                apiReqError(vu, err);
+                apiReqError(vu, err)
               })
           }
         } else {
@@ -778,15 +817,15 @@ export default {
     /**
      * 获取 USDT 汇率
      */
-    getUsdt () {
+    getUsdt() {
       var vu = this
-      ax.get(config.url.user+'/api/quotation/getUSDCNY').then(res => {
+      ax.get(config.url.user + '/api/quotation/getUSDCNY').then(res => {
         if (res.status == '200' && res.data.errorCode == 0) {
           vu.usdtPrice = res.data.result
           window.localStorage.setItem('exchange-usdt', vu.usdtPrice)
           console.log('usdt 汇率:' + vu.usdtPrice)
         } else {
-          apiError(vu, res);
+          apiError(vu, res)
         }
       })
       // this.usdtPrice = parseFloat(this.usdtPrice)
@@ -794,78 +833,89 @@ export default {
     /**
      * 初始化资产列表
      */
-    initAsset () {
+    initAsset() {
       var vu = this
-      ax
-        .all([
-          ax.get(config.url.user + '/api/quotation/getSymbolLists', getHeader),
-          ax.post(config.url.user + '/api/account/assetsList', getHeader)])
-        .then(ax.spread((tokenListRes, assetListRes)=>{
-          if (tokenListRes.status == '200' &&
+      ax.all([
+        ax.get(config.url.user + '/api/quotation/getSymbolLists', getHeader),
+        ax.post(config.url.user + '/api/account/assetsList', getHeader)
+      ])
+        .then(
+          ax.spread((tokenListRes, assetListRes) => {
+            if (
+              tokenListRes.status == '200' &&
               tokenListRes.data.errorCode == 0 &&
               assetListRes.status == '200' &&
-              assetListRes.data.errorCode == 0) {
-            var obj = {}
-            let btcBalance = 0;
-            var result = assetListRes.data.result
-            var tokenObj = tokenListRes.data.result
-            vu.tokenObj = JSON.parse(JSON.stringify(tokenObj))
-            for (var key in result) {
-              obj.token = key
-              obj.account_available = result[key].account_available
-              obj.withdraw_fee = result[key].withdraw_fee
-              obj.exchange_available = result[key].exchange_available
-              obj.exchange_freeze = result[key].exchange_freeze
-              obj._expanded = false
-              obj.trade = tokenObj[key].trade
-              obj.recharge = tokenObj[key].recharge
-              obj.withdraw = tokenObj[key].withdraw
-              obj.decimal = tokenObj[key].decimal
-              obj.recharge_min = tokenObj[key].recharge_min
-              obj.withdraw_max = vu.tokenObj[key].withdraw_max
-              obj.withdraw_min = tokenObj[key].withdraw_min
-              vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
-              btcBalance = NP.plus(parseFloat(btcBalance), parseFloat(result[key].btc))
-            }
-            if (isNaN(btcBalance)) {
-              vu.BTCBalance = '--'
+              assetListRes.data.errorCode == 0
+            ) {
+              var obj = {}
+              let btcBalance = 0
+              var result = assetListRes.data.result
+              var tokenObj = tokenListRes.data.result
+              vu.tokenObj = JSON.parse(JSON.stringify(tokenObj))
+              for (var key in result) {
+                obj.token = key
+                obj.account_available = result[key].account_available
+                obj.withdraw_fee = result[key].withdraw_fee
+                obj.exchange_available = result[key].exchange_available
+                obj.exchange_freeze = result[key].exchange_freeze
+                obj._expanded = false
+                obj.trade = tokenObj[key].trade
+                obj.recharge = tokenObj[key].recharge
+                obj.withdraw = tokenObj[key].withdraw
+                obj.decimal = tokenObj[key].decimal
+                obj.recharge_min = tokenObj[key].recharge_min
+                obj.withdraw_max = vu.tokenObj[key].withdraw_max
+                obj.withdraw_min = tokenObj[key].withdraw_min
+                vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
+                btcBalance = NP.plus(
+                  parseFloat(btcBalance),
+                  parseFloat(result[key].btc)
+                )
+              }
+              if (isNaN(btcBalance)) {
+                vu.BTCBalance = '--'
+              } else {
+                vu.BTCBalance = NP.round(btcBalance, 8)
+              }
             } else {
-              vu.BTCBalance = NP.round(btcBalance, 8)
+              if (tokenListRes.data.errorCode !== 0) {
+                apiError(vu, tokenListRes)
+              } else if (assetListRes.data.errorCode !== 0) {
+                apiError(vu, assetListRes)
+              }
             }
-          } else {
-            if (tokenListRes.data.errorCode !== 0) {
-              apiError(vu, tokenListRes);
-            } else if (assetListRes.data.errorCode !== 0) {
-              apiError(vu, assetListRes);
-            }
-          }
-        }))
+          })
+        )
         .catch(() => {
-          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'));
+          vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
     },
     /**
      * 初始化BTC价格， 每分钟查询一次，订阅数据到达后清除
      */
-    initBTCPrice () {
+    initBTCPrice() {
       var vu = this
-      ax.get(config.url.user + '/api/v1-b/market/trade_history?market=huobi&symbol=btcusdt&limit=1', getHeader)
-        .then((res) => {
+      ax.get(
+        config.url.user +
+          '/api/v1-b/market/trade_history?market=huobi&symbol=btcusdt&limit=1',
+        getHeader
+      )
+        .then(res => {
           if (res.status == 200 && res.data.code === 0) {
-            var data = res.data.data.length === 0 ? 0 :  res.data.data[0][1]
+            var data = res.data.data.length === 0 ? 0 : res.data.data[0][1]
             vu.btcPrice = data
             console.log('btcPrice : ' + vu.btcPrice)
           } else {
-            apiError(vu, res);
+            apiError(vu, res)
           }
         })
-        .catch((err) => {
-          apiReqError(vu, err);
+        .catch(err => {
+          apiReqError(vu, err)
         })
     }
   },
   mounted() {
-    instance = this;
+    instance = this
     var vu = this
     ws.postData({
       event: 'sub',
@@ -903,13 +953,18 @@ export default {
       vu
     )
     bus.$on('langChange', () => {
-      util.toggleTableHeaderLang(vu.assetListTable, 3, 'userCenter.asset.transfer.', vu)
+      util.toggleTableHeaderLang(
+        vu.assetListTable,
+        3,
+        'userCenter.asset.transfer.',
+        vu
+      )
     })
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
   destroyed() {
-    bus.$off('langChange');
+    bus.$off('langChange')
     clearInterval(this.timer)
     clearInterval(this.initBTCPriceTimer)
     window.removeEventListener('resize', this.handleWindowResize)
@@ -1011,40 +1066,38 @@ export default {
       display: none;
     }
   }
-
-  
 }
 .send-code-down {
-    box-sizing: border-box;
-    min-width: 140px;
-    height: 40px;
-    line-height: 38px;
-    padding: 0 10px;
-    border: 1px solid #999;
+  box-sizing: border-box;
+  min-width: 140px;
+  height: 40px;
+  line-height: 38px;
+  padding: 0 10px;
+  border: 1px solid #999;
+  color: #fff;
+  background-color: #999;
+  text-align: center;
+  border-radius: 0px;
+}
+.send-code-btn {
+  position: relative;
+  // display: inline-block;
+  box-sizing: border-box;
+  min-width: 140px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 0px;
+  padding: 0 10px;
+  border: 1px solid #419aec;
+  color: #419aec;
+  background-color: #fff;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #419aec;
     color: #fff;
-    background-color: #999;
-    text-align: center;
-    border-radius: 0px;
   }
-  .send-code-btn {
-    position: relative;
-    // display: inline-block;
-    box-sizing: border-box;
-    min-width: 140px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 0px;
-    padding: 0 10px;
-    border: 1px solid #419aec;
-    color: #419aec;
-    background-color: #fff;
-    text-align: center;
-    cursor: pointer;
-    &:hover {
-      background-color: #419aec;
-      color: #fff;
-    }
-  }
+}
 .available-box {
   position: relative;
   .available-amount {
