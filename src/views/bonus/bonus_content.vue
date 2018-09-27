@@ -442,35 +442,35 @@ export default {
     background-repeat: no-repeat;
   }
   .lv0-cn {
-    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l0-cn.png');
+    background: url('http://resource.exchain.com/imgs/l0-cn.png');
     .lv;
   }
   .lv1-cn {
-    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l1-cn.png');
+    background: url('http://resource.exchain.com/imgs/l1-cn.png');
     .lv;
   }
   .lv2-cn {
-    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l2-cn.png');
+    background: url('http://resource.exchain.com/imgs/l2-cn.png');
     .lv;
   }
   .lv3-cn {
-    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l3-cn.png');
+    background: url('http://resource.exchain.com/imgs/l3-cn.png');
     .lv;
   }
   .lv0-en {
-    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l0-en.png');
+    background: url('http://resource.exchain.com/imgs/l0-en.png');
     .lv;
   }
   .lv1-en {
-    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l1-en.png');
+    background: url('http://resource.exchain.com/imgs/l1-en.png');
     .lv;
   }
   .lv2-en {
-    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l2-en.png');
+    background: url('http://resource.exchain.com/imgs/l2-en.png');
     .lv;
   }
   .lv3-en {
-    background: url('https://d3bcj1iwrh8aaw.cloudfront.net/imgs/l3-en.png');
+    background: url('http://resource.exchain.com/imgs/l3-en.png');
     .lv;
   }
   .lv-name {

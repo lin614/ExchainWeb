@@ -3,7 +3,7 @@
         <block>
             <Row type="flex" justify="center" align="top" class="menu" slot="inner">
                 <Col span="7">
-                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/logo.png"><p>{{ $t('footer.copyright') }}</p>
+                    <img src="http://resource.exchain.com/imgs/logo.png"><p>{{ $t('footer.copyright') }}</p>
                 </Col>
 
                 <Col span="9">
@@ -44,7 +44,7 @@
                         <Poptip trigger="hover" :style="{ minWidth:0}">
                             <i class=" iconfont icon-weixin"></i>
                             <div slot="content">
-                                <img src='https://d3bcj1iwrh8aaw.cloudfront.net/imgs/wx.png' style="width:120px;height:120px" />
+                                <img src='http://resource.exchain.com/imgs/wx.png' style="width:120px;height:120px" />
                             </div>
                         </Poptip>
                         <!-- <Poptip trigger="hover" :style="{ minWidth:0}">
