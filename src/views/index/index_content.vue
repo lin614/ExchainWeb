@@ -235,6 +235,7 @@ export default {
       vcMarket: [],
       gemMarket: [],
       // inner-tit: [],
+      wsData: [],
       amountPrecision: '',
       marketsDomain: [],
       markets: ''
