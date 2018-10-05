@@ -376,12 +376,19 @@ export default {
               new_password: md5(vu.changePwdModal.password)
             })
             .then(res => {
-              // console.log(res)
               if (res.status == '200' && res.data.errorCode == 0) {
-                // console.log(res.data)
                 vu.changeLoading = false
                 vu.$Message.success(vu.$t('errorMsg.SUCCESS'))
                 vu.showChangePwd = false
+
+                sessionStorage.clear()
+                cookie.remove('PN')
+                cookie.remove('PN', { domain: config.url.domain })
+
+                this.$router.go({
+                  path: '/',
+                  force: true
+                })
               } else {
                 vu.changeLoading = false
                 apiError(vu, res);
