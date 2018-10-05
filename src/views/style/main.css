@@ -95,6 +95,9 @@ body {
 .wap .banner .notice {
   right: calc(50% - 470px);
 }
+.wap .banner .block h2 {
+    width: auto;
+}
 .wap .banner .block .inner {
   width: 680px;
   margin: inherit;
@@ -104,6 +107,14 @@ body {
   width: 680px;
 }
 
+.wap .banner-shortcut {
+    width: 260px;
+    right: calc(50% - 470px);
+}
+
+.wap .banner-shortcut .title {
+    font-size: 12px;
+}
 /* 登录 */
 .wap .login .content .info {
   left: 488px;
