@@ -77,8 +77,10 @@ body {
 }
 
 .wap .headr .ivu-btn {
-  padding: 6px 10px;
+  padding: 6px 8px;
 }
+
+
 
 .wap .block {
   min-width: initial;
@@ -146,7 +148,19 @@ body {
 }
 
 .wap .en .headr .logo {
-    margin-right: 10px;
+    margin-right: 0px;
+}
+
+.wap .en .headr .ivu-btn {
+    padding: 6px 6px;
+}
+
+.wap .bonus_content .my-reward .pa-top {
+    width: 821px;
+}
+
+.wap .bonus_content .my-reward .pa-bottom {
+    width: 821px;
 }
 
 
