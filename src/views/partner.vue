@@ -56,13 +56,12 @@ export default {
 			return (lang === 'cn')
     }
 	},
-	created () {
+    mounted () {
 		this.activeLang = this.isChina()
 		var vu = this
         bus.$on('langChange', () => {
             vu.activeLang = vu.isChina()
 		})
-		console.log(this.activeLang)
     },
     destroyed () {
         bus.$off('langChange');

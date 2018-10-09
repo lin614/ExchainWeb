@@ -450,6 +450,8 @@ export default {
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
     this.uploadPost = config.url.user + '/api/user/userUploadIdentity';
+  },
+  mounted() {
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.formField.resetFields()

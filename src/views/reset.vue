@@ -429,8 +429,9 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     this.resetInfo.code = this.$route.params.code
+    this.initGeetest()
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.resetInfo.resetFields()
@@ -439,9 +440,6 @@ export default {
       this.initGeetest()
     })
     window.addEventListener('keyup', this.onEnter)
-  },
-  mounted() {
-    this.initGeetest()
   },
   destroyed () {
     clearInterval(this.timer)

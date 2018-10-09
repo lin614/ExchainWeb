@@ -464,7 +464,9 @@ export default {
       let source = sessionStorage.getItem('regSource');
       this.regInfo.source = source ? source : '';
     }
-    
+  },
+
+  mounted() {
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.regInfo.resetFields();

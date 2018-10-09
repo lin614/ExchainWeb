@@ -945,6 +945,9 @@ export default {
       'userCenter.asset.transfer.',
       vu
     )
+    this.pageHeight = window.innerHeight - 360
+  },
+  mounted() {
     bus.$on('langChange', () => {
       util.toggleTableHeaderLang(
         vu.assetListTable,
@@ -953,7 +956,6 @@ export default {
         vu
       )
     })
-    this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
   },
   destroyed() {
