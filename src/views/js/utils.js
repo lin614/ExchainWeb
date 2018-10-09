@@ -148,6 +148,7 @@ export const addSymbolsMoreInfo = (symbols) => {
 };
 
 export const calculatePriceChange = (dayClose, price) => {
+    if (parseFloat(dayClose) == 0) return 0;
     return (price - dayClose) / dayClose;
 };
 

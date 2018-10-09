@@ -16,14 +16,14 @@
         <CarouselItem>
           <div :class="'banner_2_' + $t('common.imgLang')">
             <block>
-              <a v-if="$t('common.imgLang') === 'cn'" target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360013309991" title="Exchain种子测试正式开启，千人限量每日瓜分2000 USDT">
+              <a v-if="$t('common.imgLang') === 'cn'" target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360016435571" title="全球首家共享交易平台Exchain公测开启">
                 <div slot="inner" style="height: 380px;">
                   <!-- <h2>{{ $t('banner.title2') }}</h2> -->
                   <!-- <hr/> -->
                   <!-- <p class="banner-descript2" v-html="$t('banner.descript2')"></p> -->
                 </div>
               </a>
-              <a v-if="$t('common.imgLang') === 'en'" target="_blank" href="https://support.exchain.com/hc/en-us/articles/360013309991" title="Instructions For Exchain Special User Test">
+              <a v-if="$t('common.imgLang') === 'en'" target="_blank" href="https://support.exchain.com/hc/en-us/articles/360016435571" title="The First Global Sharing Digital Assets Trading Platform Exchain Launched">
                 <div slot="inner" style="height: 380px;">
                 </div>
               </a>

@@ -471,12 +471,30 @@ export default {
       if (isNaN(this.BTCBalance) || this.BTCBalance === null) {
         return
       }
-      console.log('this.BTCBalance = ' + this.BTCBalance)
-      console.log('this.btcPrice = ' + this.btcPrice)
-      console.log('this.usdtPrice =' + this.usdtPrice)
 
-      console.log(this.$store.state.activeLang)
+      this.getBalanceTotal();      
+    },
+    BTCBalance() {
+      
+      if (isNaN(this.btcPrice) || this.btcPrice === null) {
+        return
+      }
+      if (isNaN(this.BTCBalance) || this.BTCBalance === null) {
+        return
+      }
+      if (isNaN(this.usdtPrice) || this.usdtPrice === null) {
+        return
+      }
 
+      
+    }
+  },
+  methods: {
+    // 获取资产法币估值
+    getBalanceTotal() {
+      if (this.BTCBalance === '--' || this.btcPrice === null || this.usdtPrice === null) {
+        return;
+      }
       // 根据中英文计算
       if (this.$store.state.activeLang === 'cn') {
         this.balanceTotal = NP.times(
@@ -488,43 +506,12 @@ export default {
         this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
       }
 
-      console.log(this.balanceTotal)
       this.balanceTotal = NP.round(this.balanceTotal, 2)
       if (isNaN(this.balanceTotal)) {
         this.balanceTotal = '--'
       }
     },
-    BTCBalance() {
-      if (isNaN(this.btcPrice) || this.btcPrice === null) {
-        return
-      }
-      if (isNaN(this.BTCBalance) || this.BTCBalance === null) {
-        return
-      }
-      if (isNaN(this.usdtPrice) || this.usdtPrice === null) {
-        return
-      }
 
-      if (this.$store.state.activeLang === 'cn') {
-        this.balanceTotal = NP.times(
-          this.BTCBalance,
-          this.btcPrice,
-          this.usdtPrice
-        )
-      } else {
-        console.log('BTCBalance : ' + this.BTCBalance)
-        console.log('btcPrice : ' + this.btcPrice)
-        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
-      }
-
-      console.log(this.balanceTotal)
-      this.balanceTotal = NP.round(this.balanceTotal, 2)
-      if (isNaN(this.balanceTotal)) {
-        this.balanceTotal = '--'
-      }
-    }
-  },
-  methods: {
     copyAmount(value) {
       this.trabsferModal.amount = parseFloat(value)
     },
@@ -814,22 +801,7 @@ export default {
         this.trabsferModal.from = 'master'
       }
     },
-    /**
-     * 获取 USDT 汇率
-     */
-    getUsdt() {
-      var vu = this
-      ax.get(config.url.user + '/api/quotation/getUSDCNY').then(res => {
-        if (res.status == '200' && res.data.errorCode == 0) {
-          vu.usdtPrice = res.data.result
-          window.localStorage.setItem('exchange-usdt', vu.usdtPrice)
-          console.log('usdt 汇率:' + vu.usdtPrice)
-        } else {
-          apiError(vu, res)
-        }
-      })
-      // this.usdtPrice = parseFloat(this.usdtPrice)
-    },
+    
     /**
      * 初始化资产列表
      */
@@ -877,6 +849,7 @@ export default {
               } else {
                 vu.BTCBalance = NP.round(btcBalance, 8)
               }
+              this.getBalanceTotal();
             } else {
               if (tokenListRes.data.errorCode !== 0) {
                 apiError(vu, tokenListRes)
@@ -890,6 +863,25 @@ export default {
           vu.$Message.error(vu.$t('errorMsg.NETWORK_ERROR'))
         })
     },
+
+    /**
+     * 获取 USDT 汇率
+     */
+    getUsdt() {
+      var vu = this
+      ax.get(config.url.user + '/api/quotation/getUSDCNY').then(res => {
+        if (res.status == '200' && res.data.errorCode == 0) {
+          vu.usdtPrice = res.data.result
+          window.localStorage.setItem('exchange-usdt', vu.usdtPrice)
+          console.log('usdt 汇率:' + vu.usdtPrice)
+          this.getBalanceTotal();
+        } else {
+          apiError(vu, res)
+        }
+      })
+      // this.usdtPrice = parseFloat(this.usdtPrice)
+    },
+
     /**
      * 初始化BTC价格， 每分钟查询一次，订阅数据到达后清除
      */
@@ -904,6 +896,7 @@ export default {
           if (res.status == 200 && res.data.code === 0) {
             var data = res.data.data.length === 0 ? 0 : res.data.data[0][1]
             vu.btcPrice = data
+            this.getBalanceTotal();
             console.log('btcPrice : ' + vu.btcPrice)
           } else {
             apiError(vu, res)
@@ -921,7 +914,6 @@ export default {
       event: 'sub',
       channel: 'huobi.market.btcusdt.kline.1min'
     })
-    this.initBTCPrice()
     clearInterval(this.initBTCPriceTimer)
     // this.initBTCPriceTimer = setInterval(vu.initBTCPrice, 60 * 1000)
     bus.$on('wsUpdate', data => {
@@ -938,6 +930,7 @@ export default {
     // this.getTokenObj()
     // this.getMyAsset()
     this.getUsdt()
+    this.initBTCPrice()
     this.initAsset()
     clearInterval(this.timer)
     var vu = this

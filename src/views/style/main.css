@@ -77,8 +77,10 @@ body {
 }
 
 .wap .headr .ivu-btn {
-  padding: 6px 10px;
+  padding: 6px 8px;
 }
+
+
 
 .wap .block {
   min-width: initial;
@@ -95,6 +97,9 @@ body {
 .wap .banner .notice {
   right: calc(50% - 470px);
 }
+.wap .banner .block h2 {
+    width: auto;
+}
 .wap .banner .block .inner {
   width: 680px;
   margin: inherit;
@@ -104,6 +109,14 @@ body {
   width: 680px;
 }
 
+.wap .banner-shortcut {
+    width: 260px;
+    right: calc(50% - 470px);
+}
+
+.wap .banner-shortcut .title {
+    font-size: 12px;
+}
 /* 登录 */
 .wap .login .content .info {
   left: 488px;
@@ -135,7 +148,19 @@ body {
 }
 
 .wap .en .headr .logo {
-    margin-right: 10px;
+    margin-right: 0px;
+}
+
+.wap .en .headr .ivu-btn {
+    padding: 6px 6px;
+}
+
+.wap .bonus_content .my-reward .pa-top {
+    width: 821px;
+}
+
+.wap .bonus_content .my-reward .pa-bottom {
+    width: 821px;
 }
 
 

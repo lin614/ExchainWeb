@@ -29,7 +29,7 @@
             </Row>
             <Row type="flex" :gutter="16" v-for="p in list" :key="p.user">
               <Col span="8">
-              <p class="earn">{{p.userId}}
+              <p class="earn">{{p.email}}
               </p>
               </Col>
               <Col span="8">
