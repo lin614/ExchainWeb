@@ -64,7 +64,7 @@
                         <p class="p1">
                           <span>{{p.name}}：</span>{{p.say1}}。</p>
                         <p class="p2">{{p.sub}}</p>
-                        <p class="p3">{{p.say2}}</p>
+                        <p class="p3" v-html="p.say2"></p>
                         <img class="qrcode" :src="imgPath+p.qrcode" v-if="p.qrcode">
                         <a class="link" target="_blank" :href="p.url" v-if="p.url">{{p.url}}</a>
                       </div>
