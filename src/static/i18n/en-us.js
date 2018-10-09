@@ -446,6 +446,8 @@ module.exports = {
     toLogin: '',
     login: 'Login',
     sendCode: 'Get code',
+    readed: "I've read and accept",
+    protocol: 'the terms and conditions',
     emailTip: 'Please check your Spam if you do not receive code',
     // info1: '验证邮件可能会被误判为垃圾邮件，请注意查收。',
     // info2: '请妥善保存您的 Exchain 账号及登录密码。',
@@ -545,6 +547,7 @@ module.exports = {
     USER_EXISTED: 'User exist',
     REQ_LIMIT: 'Request limited, please try later',
     USERNAME_OR_PWD_ERR: 'Username or password error',
+    PROTOCOL_BLANK: 'Please read and agree to our terms & conditions.',
     // 重置密码
     RESET_SUCC: 'reset password success',
     // 行为验证相关

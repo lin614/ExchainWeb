@@ -35,6 +35,13 @@
                   <Input v-model="regInfo.code" type="text" placeholder=""></Input>
                 </FormItem>
 
+                <FormItem prop="protocol">
+                  <Checkbox v-model="regInfo.protocol">
+                    {{$t('register.readed')}}
+                    <router-link class="login" to="/cont" target="_blank">{{$t('register.protocol')}}</router-link>
+                  </Checkbox>
+                </FormItem>
+
                 <FormItem>
                   <Button class="btn-large" type="primary" ref="regUser"><Spin v-show="regLoading" :fix="true"></Spin>{{$t('register.registerBtn')}}</Button> {{$t('register.toLogin')}}
                   <router-link class="login" to="/login">{{$t('register.login')}}</router-link>
@@ -76,7 +83,8 @@ export default {
         source: '',
         pwd: '',
         pwd2: '',
-        code: ''
+        code: '',
+        protocol: false
       },
       sense: null,
       geettestFlag: '',
@@ -157,7 +165,18 @@ export default {
             },
             trigger: 'blur'
           }
-        ]
+        ],
+        protocol: [
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('errorMsg.PROTOCOL_BLANK'))
+              }
+              callback()
+            },
+            trigger: 'change'
+          }
+        ],
       }
     }
   },
@@ -539,6 +558,11 @@ export default {
   }
   .btn-large {
     position: relative;
+  }
+  .ivu-checkbox-inner {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
   }
 }
 </style>

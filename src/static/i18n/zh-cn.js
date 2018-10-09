@@ -448,6 +448,8 @@ module.exports = {
     toLogin: '已有账户？请',
     login: '登录',
     sendCode: '发送验证码',
+    readed: '我已阅读并同意',
+    protocol: '用户协议',
     emailTip: '如长时间未收到，请检查垃圾箱',
     info1: '验证邮件可能会被误判为垃圾邮件，请注意查收。',
     info2: '请妥善保存您的 Exchain 账号及登录密码。',
@@ -545,6 +547,7 @@ module.exports = {
     USER_EXISTED: '用户已存在',
     REQ_LIMIT: '限制请求，请稍候再试',
     USERNAME_OR_PWD_ERR: '用户名或密码错误',
+    PROTOCOL_BLANK: '请阅读并同意用户协议',
     // 重置密码
     RESET_SUCC: '重置密码成功',
     // 行为验证相关
