@@ -6,9 +6,9 @@
                 <Card icon="compose" slot="inner">
                     <div class="hd">
                         <div>
-                            <img src='http://resource.exchain.com/imgs/p-1.png'></img>
+                            <img src='https://d3bcj1iwrh8aaw.cloudfront.net/imgs/p-1.png'></img>
                             <span>{{ $t('partnerPage.title') }}</span>
-                            <img src='http://resource.exchain.com/imgs/p-1.png'></img>
+                            <img src='https://d3bcj1iwrh8aaw.cloudfront.net/imgs/p-1.png'></img>
                         </div>
                     </div>
 
@@ -72,7 +72,7 @@ export default {
 <style lang="less">
 @import url(./style/config.less);
 .partner {
-  background: url(http://resource.exchain.com/imgs/pbg.png);
+  background: url(https://d3bcj1iwrh8aaw.cloudfront.net/imgs/pbg.png);
   background-position: top -50px center;
   background-repeat: no-repeat;
   //   background-size: cover;
@@ -109,7 +109,7 @@ export default {
   }
 }
 .partner-en {
-	background: url(http://resource.exchain.com/imgs/pbg-en.jpg);
+	background: url(https://d3bcj1iwrh8aaw.cloudfront.net/imgs/pbg-en.jpg);
 	background-position: top -50px center;
 	// background-size: 100%;
 	background-repeat: no-repeat;

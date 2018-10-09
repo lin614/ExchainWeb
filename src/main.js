@@ -184,7 +184,7 @@ const store = new Vuex.Store({
         kycphoneStatus: '0',
         idCardStatus: '0',
         marketPrecision: '',
-        cdn:'http://resource.exchain.com'
+        cdn:'https://d3bcj1iwrh8aaw.cloudfront.net'
     },
     mutations: {
         setActiveLang(s, data) {

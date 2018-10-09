@@ -925,6 +925,15 @@ export default {
         }
       }
     })
+    bus.$on('langChange', () => {
+      util.toggleTableHeaderLang(
+        vu.assetListTable,
+        3,
+        'userCenter.asset.transfer.',
+        vu
+      )
+    })
+    window.addEventListener('resize', this.handleWindowResize)
   },
   created() {
     // this.getTokenObj()
@@ -938,7 +947,7 @@ export default {
     //   console.log('---------------------- try -------------------')
     //   vu.getMyAsset1()
     // }, 5000)
-    var vu = this
+    
     util.toggleTableHeaderLang(
       vu.assetListTable,
       3,
@@ -947,17 +956,7 @@ export default {
     )
     this.pageHeight = window.innerHeight - 360
   },
-  mounted() {
-    bus.$on('langChange', () => {
-      util.toggleTableHeaderLang(
-        vu.assetListTable,
-        3,
-        'userCenter.asset.transfer.',
-        vu
-      )
-    })
-    window.addEventListener('resize', this.handleWindowResize)
-  },
+
   destroyed() {
     bus.$off('langChange')
     clearInterval(this.timer)

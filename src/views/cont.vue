@@ -6,7 +6,7 @@
                 <crd slot="inner">
                     <span slot="title">Terms of use</span>
                     <div class=" content">
-                        <img src="http://resource.exchain.com/imgs/a.jpg" />
+                        <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/a.jpg" />
                     </div>
                 </crd>
             </block>
