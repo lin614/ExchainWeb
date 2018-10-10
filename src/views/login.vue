@@ -232,7 +232,7 @@ export default {
         id: data.id,
         lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',     
         onError:function(err){
-            console.log('gt error', err)
+            etLog('gt error', err)
         }
       }, sense => {
         vu.sense = sense;
@@ -245,10 +245,10 @@ export default {
           let params = {geetest_challenge: data.challenge}
           vu.loginFn(params)
         }).onClose(function(){
-          console.log('close')
+          etLog('close')
           vu.loginLoading = false
         }).onError(function(err){
-          console.log(err);
+          etLog(err);
           if(err && err.code === '1001'){
               submit({})
           }

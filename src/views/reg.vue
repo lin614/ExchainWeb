@@ -272,7 +272,7 @@ export default {
       ax
         .post(config.url.user + '/api/user/verifyRegister', params)
         .then(function(res) {
-          console.log(res)
+          etLog(res)
           if (res.status == '200' && res.data.errorCode == 0) {
             sessionStorage.removeItem('regInviteCode');
             sessionStorage.removeItem('regSource');
@@ -325,7 +325,7 @@ export default {
         id: data.id,
         lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',
         onError:function(err){
-            console.log('gt error', err)
+            etLog('gt error', err)
         }
       }, sense => {
         vu.sense = sense;
@@ -346,9 +346,9 @@ export default {
           }
         }).onClose(function(){
           vu.regLoading = false
-          console.log('close')
+          etLog('close')
         }).onError(function(err){
-          console.log(err);
+          etLog(err);
           if(err && err.code === '1001'){
               submit({})
           }
@@ -372,7 +372,7 @@ export default {
           vu.geettest = captchaObj
           captchaObj
             .onReady(function() {
-              console.log('onready')
+              etLog('onready')
               vu.geetOnReady = true
             })
             .onSuccess(function() {

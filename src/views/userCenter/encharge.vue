@@ -108,7 +108,6 @@ export default {
   },
   beforeDestroy () {
     this.no_encharge = false
-    // console.log(1111);
   }
 }
 </script>

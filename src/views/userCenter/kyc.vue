@@ -238,7 +238,7 @@ export default {
   },
   computed: {
     kycHeaders () {
-      console.log(cookie.get('PN', { domain: config.url.domain }))
+      etLog(cookie.get('PN', { domain: config.url.domain }))
       return {
         'X-EXCHAIN-PN': cookie.get('PN', { domain: config.url.domain })
       }
@@ -348,10 +348,6 @@ export default {
           var vu = this
 
           this.btnLoading = true;
-      
-          // console.log('vu.files.front : ' + vu.files.front)
-          // console.log('vu.files.back : ' + vu.files.back)
-          // console.log('vu.files.hold : ' + vu.files.hold)
           ax.post(config.url.user+'/api/user/userKycRequest', {
             type: 'pid',
             countryCode: vu.formField.nationality,
@@ -394,10 +390,8 @@ export default {
       // var result = res.result.split('/')
       // var result_ = result[result.length - 1]
       this.files.front = res.result.ext
-      // console.log(file)
       this.formField.frontImg = res.result.front
       // this.$set(this.formField, 'frontImg', res.result)
-      // console.log(this.formField.frontImg)
     },
     /**
      * 正面上传文件失败，指服务器拒绝之类的问题

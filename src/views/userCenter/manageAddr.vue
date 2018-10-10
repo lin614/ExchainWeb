@@ -166,7 +166,7 @@ export default {
               vu.tokenList.push(JSON.parse(JSON.stringify(obj)))
               vu.addrListTable[0].filters.push(JSON.parse(JSON.stringify(obj)))
             }
-            console.log(vu.tokenList)
+            etLog(vu.tokenList)
           } else {
             apiError(vu, res);
           }

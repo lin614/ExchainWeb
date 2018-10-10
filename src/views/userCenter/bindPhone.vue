@@ -315,7 +315,7 @@ export default {
               sessionStorage.setItem('bindPhone', 'unbind')
             }
             sessionStorage.setItem('email', res.data.result.email)
-            console.log(res.data.result)
+            etLog(res.data.result)
           } else {
             apiError(vu, res)
           }
