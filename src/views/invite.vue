@@ -89,7 +89,6 @@ export default {
           pageSize: vu.size
         })
         .then(res => {
-          // console.log(res)
           if (res.status == '200' && res.data.meta.code == '0') {
             var data = res.data.data
             vu.list = data.inviteList

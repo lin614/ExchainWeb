@@ -163,7 +163,7 @@ export default {
         .then(res => {
           if (typeof res.data == 'object') {
             vu.con = res.data
-            console.log(vu.con)
+            etLog(vu.con)
           }
         })
     }

@@ -296,7 +296,7 @@ export default {
         id: data.id,
         lang: vu.$t('common.lang') === 'cn' ? 'zh-cn' : 'en',
         onError:function(err){
-            console.log('gt error', err)
+            etLog('gt error', err)
         }
       }, sense => {
         vu.sense = sense;
@@ -316,10 +316,10 @@ export default {
             vu.sendEmail(params)
           }
         }).onClose(function(){
-          console.log('close')
+          etLog('close')
           vu.resetLoading = false
         }).onError(function(err){
-          console.log(err);
+          etLog(err);
           if(err && err.code === '1001'){
               submit({})
           }
@@ -339,7 +339,7 @@ export default {
         }, function (captchaObj) {
           vu.geettest = captchaObj
           captchaObj.onReady(function(){
-            console.log('onready')
+            etLog('onready')
             vu.geetOnReady = true
           }).onSuccess(function(){
             if (vu.geettestFlag === 'SUBMIT_DATA') {

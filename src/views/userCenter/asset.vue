@@ -457,7 +457,6 @@ export default {
     //   }
     // },
     $store() {
-      // console.log(1111);
     },
     btcPrice() {
       if (
@@ -873,7 +872,7 @@ export default {
         if (res.status == '200' && res.data.errorCode == 0) {
           vu.usdtPrice = res.data.result
           window.localStorage.setItem('exchange-usdt', vu.usdtPrice)
-          console.log('usdt 汇率:' + vu.usdtPrice)
+          etLog('usdt 汇率:' + vu.usdtPrice)
           this.getBalanceTotal();
         } else {
           apiError(vu, res)
@@ -897,7 +896,7 @@ export default {
             var data = res.data.data.length === 0 ? 0 : res.data.data[0][1]
             vu.btcPrice = data
             this.getBalanceTotal();
-            console.log('btcPrice : ' + vu.btcPrice)
+            etLog('btcPrice : ' + vu.btcPrice)
           } else {
             apiError(vu, res)
           }
@@ -917,7 +916,7 @@ export default {
     clearInterval(this.initBTCPriceTimer)
     // this.initBTCPriceTimer = setInterval(vu.initBTCPrice, 60 * 1000)
     bus.$on('wsUpdate', data => {
-      console.log(data)
+      etLog(data)
       if (data.data) {
         if (data.channel === 'huobi.market.btcusdt.kline.1min') {
           clearInterval(vu.initBTCPriceTimer)
@@ -944,7 +943,6 @@ export default {
     clearInterval(this.timer)
     var vu = this
     // this.timer = setInterval(() => {
-    //   console.log('---------------------- try -------------------')
     //   vu.getMyAsset1()
     // }, 5000)
     

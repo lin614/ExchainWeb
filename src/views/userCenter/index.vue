@@ -399,7 +399,6 @@ export default {
               apiReqError(vu, err);
             })
         } else {
-          // console.log(4)
           vu.changeLoading = false
         }
       })
