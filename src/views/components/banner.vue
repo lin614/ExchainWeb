@@ -2,21 +2,29 @@
   <div @mouseover="pause" @mouseout="play">
     <block class="banner">
       <Carousel v-model="setting.value" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots" :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow">
-        <!-- <CarouselItem>
+        <CarouselItem>
           <div class="banner_1">
             <block>
+              <div slot="inner">
+                <h2>{{ $t('banner.title') }}</h2>
+                <hr/>
+                <p class="banner-descript" v-html="$t('banner.descript')"></p>
+              </div>
             </block>
           </div>
-        </CarouselItem> -->
-        <CarouselItem v-for="(item, index) in infos" :key="index">
+        </CarouselItem>
+        <CarouselItem>
           <div :class="'banner_2_' + $t('common.imgLang')">
-            <block :style="'background:url(' + item.bgUrl + '); background-position: center;'">
-              <div v-if="item.url === ''" slot="inner" style="height: 380px;">
-                <img :src="item.imgUrl" :alt="item.title">
-              </div>
-              <a v-if="item.url !== ''" target="_blank" :href="item.url" :title="item.title">
+            <block>
+              <a v-if="$t('common.imgLang') === 'cn'" target="_blank" href="https://support.exchain.com/hc/zh-cn/articles/360016435571" title="全球首家共享交易平台Exchain公测开启">
                 <div slot="inner" style="height: 380px;">
-                  <img :src="item.imgUrl" :alt="item.title">
+                  <!-- <h2>{{ $t('banner.title2') }}</h2> -->
+                  <!-- <hr/> -->
+                  <!-- <p class="banner-descript2" v-html="$t('banner.descript2')"></p> -->
+                </div>
+              </a>
+              <a v-if="$t('common.imgLang') === 'en'" target="_blank" href="https://support.exchain.com/hc/en-us/articles/360016435571" title="The First Global Sharing Digital Assets Trading Platform Exchain Launched">
+                <div slot="inner" style="height: 380px;">
                 </div>
               </a>
             </block>
@@ -29,7 +37,6 @@
 </template>
 
 <script>
-import ax from 'axios'
 import block from './block'
 import shortcut from './shortcut'
 export default {
@@ -37,11 +44,10 @@ export default {
   components: { block, shortcut },
   data() {
     return {
-      infos: [],
       setting: {
         value: 0,
         autoplay: true,
-        autoplaySpeed: 150000,
+        autoplaySpeed: 5000,
         loop: true,
         dots: 'inside',
         radiusDot: false,
@@ -50,33 +56,12 @@ export default {
       }
     }
   },
-  computed: {
-    lan() {
-      return this.$i18n.locale
-    }
-  },
   methods: {
     pause() {
       this.setting.autoplay = false
     },
     play() {
       this.setting.autoplay = true
-    },
-    getInfos() {
-      ax
-        .get('/static/banner/banner_' + this.lan + '.json')
-        .then(res => {
-          this.infos = res.data;
-          etLog(this.infos);
-        });
-    }
-  },
-  mounted() {
-    this.getInfos()
-  },
-  watch: {
-    lan(n, o) {
-      this.getInfos()
     }
   }
 }
@@ -93,10 +78,6 @@ export default {
     background-color: @banner-bg-color;
     background-repeat: no-repeat;
     background-position: center center;
-    .inner {
-      width: 1200px;
-      margin: 0px auto;
-    }
     h2 {
       width: 700px;
       padding-top: 50px;

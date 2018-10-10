@@ -80,6 +80,7 @@ export default {
       .get(config.url.user + '/api/quotation/getQuantAmount', getHeader)
       .then(res => {
         if (res.status == 200 && res.data.errorCode == '0') {
+          // console.log(res)
           this.valume = res.data.result.total
         } else {
           javaApiReqError(this, res)
@@ -90,6 +91,7 @@ export default {
     //   .get(config.url.fee + '/api/exet/stats/etStandardCirculate', getHeader)
     //   .then(res => {
     //     if (res.status == 200 && res.data.meta.code == '0') {
+    //       // console.log(res)
     //       this.etvalue = res.data.data.etCirculate
     //     } else {
     //       javaApiReqError(this, res)
@@ -100,6 +102,7 @@ export default {
       .get(config.url.fee + '/api/exet/stats/etCirculate', getHeader)
       .then(res => {
         if (res.status == 200 && res.data.meta.code == '0') {
+          // console.log(res)
           this.etnum = res.data.data.etCirculate
         } else {
           javaApiReqError(this, res)
