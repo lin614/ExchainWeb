@@ -327,10 +327,11 @@ module.exports = {
       btnText: 'Change',
       standard: {
         title: 'Handheld photo standard',
-        text1: 'the head is clear;',
-        text2: 'Clear documents;',
-        text3: 'Contain EXCHAIN words + application date;',
-        text4: 'Completely display your arm holding the document;'
+        text1: 'White Background;',
+        text2: 'The face on the image is clear;',
+        text3: 'Clear photo ID documents;',
+        text4: 'Show next to the photo ID: a paper with hand write word ‘EXCHAIN’ + application date + registered email address;',
+        text5: 'Completely display your arm holding the document;'
       },
       submit: 'Submit'
     },

@@ -116,6 +116,7 @@
                     {{$t('userCenter.kyc.standard.text2')}}<br/>
                     {{$t('userCenter.kyc.standard.text3')}}<br/>
                     {{$t('userCenter.kyc.standard.text4')}}<br/>
+                    {{$t('userCenter.kyc.standard.text5')}}<br/>
                     <span style="font-family: SimSun; color: #ed3f14;">*</span><span style="color: #ed3f14;">{{$t('errorMsg.IMAGE_TOO_LARGE')}}</span>
                   </p>
                 </div>
@@ -545,7 +546,9 @@ export default {
           color:rgba(19,20,24,1);
         }
         .sample-txt3 {
+          width: 430px;
           margin-top: -5px;
+          line-height: 28px;
         }
       }
       .passport .sample .sample-img-wrap{
