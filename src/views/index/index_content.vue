@@ -177,7 +177,6 @@ export default {
                 },
                 on: {
                   click: () => {
-                    // console.log(params)
                     if (params.row.parm_) {
                       vu.toTrade(params.row.parm_)
                     }
@@ -269,7 +268,7 @@ export default {
         if (res.status == '200' && res.data.errorCode == 0) {
           vu.usdt = res.data.result
           window.localStorage.setItem('exchange-usdt', vu.usdt)
-          console.log('usdt 汇率:' + vu.usdt)
+          etLog('usdt 汇率:' + vu.usdt)
         } else {
           apiError(vu, res)
         }

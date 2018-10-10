@@ -35,7 +35,7 @@ import eventManager from './eventBus'
 				selfDomain: ""
 			},
 			_create: function() {
-				console.log(`_create`);
+				etLog(`_create`);
 				var e = this;
 				this._super(), this.cachedData = null, this.chartState = _.isEmpty(this.options.initialState) ? this.options.defaultState : this.options.initialState, this.$configurator = t("#configurator").data("blockConfigurator"), this.$updater = t(".updater").data("blockUpdater"), this._rendered = !1, this._sizeCache = {}, this.connectionEstablished = !1, this.loadingDone = !0, this.socketBehaviorRunning = !1, this._timer(), this.mobile = !1, this._currentEMAs = {}, this.period = this.options.periods[void 0 !== t.cookie("hitbtcPeriod") ? t.cookie("hitbtcPeriod") : "D1"];
 				var i = this._getWidth(),

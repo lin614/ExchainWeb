@@ -21,7 +21,7 @@ const heartBeat = (WS) => {
     };
     setInterval(() => {
         WS.send(JSON.stringify(params));
-    }, 50 * 1000);
+    }, 25 * 1000);
 };
 
 export default (url = DEFAULT_URL) => {
@@ -31,11 +31,11 @@ export default (url = DEFAULT_URL) => {
     }
     const WS = new WebSocket(url);
     WS.onopen = (e) => {
-        console.log('WebSocket open');
+        etLog('WebSocket open');
     };
 
     WS.onclose = (e) => {
-        console.log(`${url} onclose: ${e}`);
+        etLog(`${url} onclose: ${e}`);
         window.checkNet = setInterval(function () {
             if (navigator.onLine) {
                 window.checkNet = null
@@ -45,15 +45,14 @@ export default (url = DEFAULT_URL) => {
     };
 
     WS.onerror = (e) => {
-        console.log(`${url} onerror: ${e}`);
+        etLog(`${url} onerror: ${e}`);
     };
 
     WS.onmessage = (e) => {
         let data = decode(e.data);
-        // console.log(e)
         let msg = JSON.parse(data);
-        console.log('onmessage', msg.channel)
-        console.log('onmessage', msg.data)
+        etLog('onmessage', msg.channel)
+        etLog('onmessage', msg.data)
         if (msg.status === 0) {
             EventBus.$emit("wsUpdate", msg);
         }

@@ -33,6 +33,11 @@ global.bus = bus
 global.apiError = apiError;
 global.apiReqError = apiReqError;
 global.javaApiReqError = javaApiReqError;
+global.etLog = function (data) {
+    if (localStorage.showConsoleLog) {
+        console.log(data);
+    }
+}
 
 import './static/icons/iconfont.css'
 import './views/style/main.css'
@@ -138,10 +143,6 @@ const i18n = new VueI18n({
     messages
 })
 
-// console.log('i18n', i18n);
-
-
-
 Vue.prototype.toTrade = function (pair) {
     pair = pair ? pair : 'btc_usdt'
     cookie.set('pair', pair, {
@@ -153,7 +154,6 @@ Vue.prototype.toTrade = function (pair) {
 }
 
 router.beforeEach((to, from, next) => {
-    // console.log(to)
     if (!to.meta.noNeedLogin && cookie.get('PN', {
             domain: config.url.domain
         }) == null) {
