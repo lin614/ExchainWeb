@@ -20,12 +20,12 @@ rm('dist', err => {
       }) + '\n\n')
   
       if (stats.hasErrors()) {
-        etLog(chalk.red('  打包错误.\n'))
+        console.log(chalk.red('  打包错误.\n'))
         process.exit(1)
       }
   
-      etLog(chalk.cyan(' 打包完成.\n'))
-      etLog(chalk.yellow(
+      console.log(chalk.cyan(' 打包完成.\n'))
+      console.log(chalk.yellow(
         '  Tip: built files are meant to be served over an HTTP server.\n' +
         '  Opening index.html over file:// won\'t work.\n'
       ))
