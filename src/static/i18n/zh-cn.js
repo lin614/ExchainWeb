@@ -79,7 +79,7 @@ module.exports = {
       currentDay: '24小时成交额',
       etMarketValue: 'ET总市值',
       etCirculation: 'ET总流通量',
-      freeTitle: '限时免费期',
+      freeTitle: '限时免费期 (GMT+8)',
       freeUnit: '天'
     },
     markets: {
