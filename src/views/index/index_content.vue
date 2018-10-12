@@ -4,7 +4,6 @@
 
       <crd potColor="#50b08c">
         <span slot="title">{{ $t('index.markets.mainBoard.title') }}</span>
-
         <Table size="large" :columns="col1" :data="mainMarket"></Table>
       </crd>
 
@@ -406,9 +405,9 @@ export default {
 
             // 中英文模式价格显示
             if (this.$t('common.lang') === 'cn') {
-              legalMoney = parseFloat(legalMoney * this.usdt).toFixed(2)
+              legalMoney = parseFloat(legalMoney * this.usdt).toFixed(4)
             } else {
-              legalMoney = parseFloat(legalMoney).toFixed(2)
+              legalMoney = parseFloat(legalMoney).toFixed(4)
             }
 
             // 对应法币价格
@@ -523,9 +522,9 @@ export default {
 
           // 中英文模式价格显示
           if (this.$t('common.lang') === 'cn') {
-            legalMoney = parseFloat(legalMoney * this.usdt).toFixed(2)
+            legalMoney = parseFloat(legalMoney * this.usdt).toFixed(4)
           } else {
-            legalMoney = parseFloat(legalMoney).toFixed(2)
+            legalMoney = parseFloat(legalMoney).toFixed(4)
           }
 
           // 对应法币价格

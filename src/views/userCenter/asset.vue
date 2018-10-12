@@ -90,7 +90,9 @@ import encharge from './encharge'
 import getCash from './getCash'
 import manageAddr from './manageAddr'
 import cookie from 'js-cookie'
+import {scientificNotation2Number} from "..//js/utils/money.js";
 import NP from 'number-precision'
+
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
@@ -432,14 +434,10 @@ export default {
   watch: {
     getActiveLang(val) {
       if (val === 'cn') {
-        this.balanceTotal = NP.times(
-          this.BTCBalance,
-          this.btcPrice,
-          this.usdtPrice
-        )
-        this.balanceTotal = NP.round(this.balanceTotal, 2)
+        this.balanceTotal = scientificNotation2Number(NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice))
+        this.balanceTotal = scientificNotation2Number(NP.round(this.balanceTotal, 2))
       } else {
-        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
+        this.balanceTotal = scientificNotation2Number(NP.times(this.BTCBalance, this.btcPrice))
       }
     },
     // tokenObj() {
@@ -483,6 +481,7 @@ export default {
       if (isNaN(this.usdtPrice) || this.usdtPrice === null) {
         return
       }
+      this.getBalanceTotal();
     }
   },
   methods: {
@@ -493,16 +492,12 @@ export default {
       }
       // 根据中英文计算
       if (this.$store.state.activeLang === 'cn') {
-        this.balanceTotal = NP.times(
-          this.BTCBalance,
-          this.btcPrice,
-          this.usdtPrice
-        )
+        this.balanceTotal = scientificNotation2Number(NP.times(this.BTCBalance, this.btcPrice, this.usdtPrice))
       } else {
-        this.balanceTotal = NP.times(this.BTCBalance, this.btcPrice)
+        this.balanceTotal = scientificNotation2Number(NP.times(this.BTCBalance, this.btcPrice))
       }
 
-      this.balanceTotal = NP.round(this.balanceTotal, 2)
+      this.balanceTotal = scientificNotation2Number(NP.round(this.balanceTotal, 2))
       if (isNaN(this.balanceTotal)) {
         this.balanceTotal = '--'
       }
@@ -512,20 +507,6 @@ export default {
       this.trabsferModal.amount = parseFloat(value)
     },
 
-    getBalance() {
-      ax.get(config.url.user + '/api/account/balanceQuery', getHeader)
-        .then(res => {
-          if (res.status == '200' && res.data.errorCode == 0) {
-            this.BTCBalance = res.data.result.BTC.available
-            this.CNYBalance = res.data.result.CNY.available
-          } else {
-            apiError(this, res)
-          }
-        })
-        .catch(err => {
-          apiReqError(this, err)
-        })
-    },
     /**
      * 屏幕
      */
@@ -567,7 +548,7 @@ export default {
             if (isNaN(btcBalance)) {
               vu.BTCBalance = '--'
             } else {
-              vu.BTCBalance = NP.round(btcBalance, 8)
+              vu.BTCBalance = scientificNotation2Number(NP.round(btcBalance, 8))
             }
           } else {
             apiError(vu, res)
@@ -575,43 +556,7 @@ export default {
         }
       )
     },
-    getMyAsset1() {
-      var vu = this
-      ax.get(config.url.user + '/api/account/assetsList', getHeader).then(
-        res => {
-          if (res.status == '200' && res.data.errorCode == 0) {
-            var obj = {}
-            let btcBalance = 0
-            var result = res.data.result
-            for (var key in result) {
-              for (var i = 0; i < vu.assetListData.length; i++) {
-                if (vu.assetListData[i].token === key) {
-                  vu.assetListData[i].account_available =
-                    result[key].account_available
-                  vu.assetListData[i].withdraw_fee = result[key].withdraw_fee
-                  vu.assetListData[i].exchange_available =
-                    result[key].exchange_available
-                  vu.assetListData[i].exchange_freeze =
-                    result[key].exchange_freeze
-                  vu.$set(vu.assetListData, i, vu.assetListData[i])
-                }
-              }
-              btcBalance = NP.plus(
-                parseFloat(btcBalance),
-                parseFloat(result[key].btc)
-              )
-            }
-            if (isNaN(btcBalance)) {
-              vu.BTCBalance = '--'
-            } else {
-              vu.BTCBalance = NP.round(btcBalance, 8)
-            }
-          } else {
-            apiError(vu, res)
-          }
-        }
-      )
-    },
+    
     /**
      * 获取所有币种的属性
      */
@@ -843,7 +788,7 @@ export default {
               if (isNaN(btcBalance)) {
                 vu.BTCBalance = '--'
               } else {
-                vu.BTCBalance = NP.round(btcBalance, 8)
+                vu.BTCBalance = scientificNotation2Number(NP.round(btcBalance, 8)) 
               }
               this.getBalanceTotal();
             } else {
@@ -932,16 +877,11 @@ export default {
     window.addEventListener('resize', this.handleWindowResize)
   },
   created() {
-    // this.getTokenObj()
-    // this.getMyAsset()
     this.getUsdt()
     this.initBTCPrice()
     this.initAsset()
     clearInterval(this.timer)
     var vu = this
-    // this.timer = setInterval(() => {
-    //   vu.getMyAsset1()
-    // }, 5000)
     
     util.toggleTableHeaderLang(
       vu.assetListTable,

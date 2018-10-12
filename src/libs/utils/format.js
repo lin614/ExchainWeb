@@ -1,3 +1,5 @@
+import {scientificNotation2Number} from '../../views/js/utils/money'
+
 export const formatMarketPrecision = (number, market, type, vu) => {
     if (typeof number === 'undefined' || typeof market === 'undefined' || isNaN(parseFloat(number))) {
         return '';
@@ -38,7 +40,7 @@ export const formatMarketPrecision = (number, market, type, vu) => {
                 str = str + s;
                 }
             }
-            return str;
+            return scientificNotation2Number(str);
         }
     } 
 }
