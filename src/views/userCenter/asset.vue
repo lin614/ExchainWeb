@@ -474,7 +474,6 @@ export default {
       this.getBalanceTotal();      
     },
     BTCBalance() {
-      
       if (isNaN(this.btcPrice) || this.btcPrice === null) {
         return
       }
@@ -484,8 +483,6 @@ export default {
       if (isNaN(this.usdtPrice) || this.usdtPrice === null) {
         return
       }
-
-      
     }
   },
   methods: {

@@ -14,11 +14,12 @@
               <div v-if="item.url === ''" slot="inner" style="height: 380px;">
                 <img :src="item.imgUrl" :alt="item.title">
               </div>
-              <a v-if="item.url !== ''" target="_blank" :href="item.url" :title="item.title">
-                <div slot="inner" style="height: 380px;">
+              
+              <div v-if="item.url !== ''" slot="inner" style="height: 380px;">
+                <a target="_blank" :href="item.url" :title="item.title">
                   <img :src="item.imgUrl" :alt="item.title">
-                </div>
-              </a>
+                </a>
+              </div>
             </block>
           </div>
         </CarouselItem>
