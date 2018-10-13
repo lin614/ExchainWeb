@@ -6,7 +6,7 @@
           <span slot="title">KYC</span>
           <div class="kyc-main">
             <Form class="form-box" ref="formField" :model="formField" :rules="rules" label-position="top">
-              <FormItem  class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.nationality')" prop="nationality">
+              <FormItem class="form-item ivu-form-item-required" :label="$t('userCenter.kyc.nationality')" prop="nationality">
                 <Select :label-in-value="true" v-model="formField.nationality" style="width:100%;height: 50px;" @on-change="changeNationality">
                   <Option v-for="(item, index) in nationalityList" :value="index" :key="index">{{ item }}</Option>
                 </Select>
@@ -20,58 +20,38 @@
                 <Input v-model="formField.familyName" :placeholder="$t('userCenter.kyc.familyName')"></Input>
               </FormItem>
 
-              <FormItem class="form-item ivu-form-item-required" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')" prop="idcardNo" v-if="formField.nationality !== ''">
+              <FormItem class="form-item ivu-form-item-required" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')" prop="idcardNo">
                 <Input v-model="formField.idcardNo" :placeholder="formField.nationality === 'CN' ? $t('userCenter.kyc.idcardNo') : $t('userCenter.kyc.passportNo')"></Input>
               </FormItem>
 
-              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-front': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')" prop="frontImg" v-if="formField.nationality !== ''">
-                <Upload
-                  :before-upload="handleUpload"
-                  :on-success="handleFrontSuccess"
-                  :on-format-error="handleFormatErr"
-                  :on-error="handleFrontUploadErr"
-                  :action="uploadPost"
-                  :data="{type: 'pid', idCardSide: 'front'}"
-                  :format="['jpg','jpeg','png']"
-                  :headers="kycHeaders"
-                  accept="image"
-                  :show-upload-list="false">
+              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-front': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')" prop="frontImg" v-if="showUp">
+                <Upload :before-upload="handleUpload" :on-success="handleFrontSuccess" :on-format-error="handleFormatErr" :on-error="handleFrontUploadErr" :action="uploadPost" :data="{type: 'pid', idCardSide: 'front'}" :format="['jpg','jpeg','png']" :headers="kycHeaders" accept="image" :show-upload-list="false">
                   <div style="padding: 20px 0;">
-                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
-                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
-                      <p class="tip" v-if="!files.front">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')}}</p>
-                      <p class="after-tip" v-if="files.front">{{$t('userCenter.kyc.btnText')}}</p>
-                      <img class="uploaded-img" v-if="files.front" :src="formField.frontImg" alt="">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
+                    <p class="tip" v-if="!files.front">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.front') : $t('userCenter.kyc.passportFront')}}</p>
+                    <p class="after-tip" v-if="files.front">{{$t('userCenter.kyc.btnText')}}</p>
+                    <img class="uploaded-img" v-if="files.front" :src="formField.frontImg" alt="">
                   </div>
                 </Upload>
-                
+
                 <div class="sample">
                   <div class="sample-img-wrap">
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-id-front.png" alt="kyc-id-front" v-if="formField.nationality === 'CN'">
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-front.png" alt="kyc-passport-front" v-if="formField.nationality !== 'CN'">
                   </div>
-                  <p class="sample-txt">{{$t('userCenter.kyc.notice')}}<br/><span style="font-family: SimSun; color: #ed3f14;">*</span><span style="color: #ed3f14;">{{$t('errorMsg.IMAGE_TOO_LARGE')}}</span></p>
+                  <p class="sample-txt">{{$t('userCenter.kyc.notice')}}<br /><span style="font-family: SimSun; color: #ed3f14;">*</span><span style="color: #ed3f14;">{{$t('errorMsg.IMAGE_TOO_LARGE')}}</span></p>
                 </div>
               </FormItem>
 
-              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-back': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')" prop="backImg" v-if="formField.nationality !== ''">
-                <Upload
-                  :before-upload="handleUpload"
-                  :on-success="handleBackSuccess"
-                  :on-format-error="handleFormatErr"
-                  :on-error="handleBackUploadErr"
-                  :action="uploadPost"
-                  :data="{type: 'pid', idCardSide: 'back'}"
-                  :format="['jpg','jpeg','png']"
-                  :headers="kycHeaders"
-                  accept="image"
-                  :show-upload-list="false">
+              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-back': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')" prop="backImg" v-if="showUp">
+                <Upload :before-upload="handleUpload" :on-success="handleBackSuccess" :on-format-error="handleFormatErr" :on-error="handleBackUploadErr" :action="uploadPost" :data="{type: 'pid', idCardSide: 'back'}" :format="['jpg','jpeg','png']" :headers="kycHeaders" accept="image" :show-upload-list="false">
                   <div style="padding: 20px 0">
-                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
-                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
-                      <p class="tip" v-if="!files.back">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')}}</p>
-                      <p class="after-tip" v-if="files.back">{{$t('userCenter.kyc.btnText')}}</p>
-                      <img class="uploaded-img" v-if="files.back" :src="formField.backImg" alt="">                      
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
+                    <p class="tip" v-if="!files.back">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.back') : $t('userCenter.kyc.passportBack')}}</p>
+                    <p class="after-tip" v-if="files.back">{{$t('userCenter.kyc.btnText')}}</p>
+                    <img class="uploaded-img" v-if="files.back" :src="formField.backImg" alt="">
                   </div>
                 </Upload>
 
@@ -80,28 +60,18 @@
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-id-back.png" alt="kyc-id-back" v-if="formField.nationality === 'CN'">
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-back.png" alt="kyc-passport-back" v-if="formField.nationality !== 'CN'">
                   </div>
-                  <p class="sample-txt">{{$t('userCenter.kyc.notice')}}<br/><span style="font-family: SimSun; color: #ed3f14;">*</span><span style="color: #ed3f14;">{{$t('errorMsg.IMAGE_TOO_LARGE')}}</span></p>
+                  <p class="sample-txt">{{$t('userCenter.kyc.notice')}}<br /><span style="font-family: SimSun; color: #ed3f14;">*</span><span style="color: #ed3f14;">{{$t('errorMsg.IMAGE_TOO_LARGE')}}</span></p>
                 </div>
               </FormItem>
 
-              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-hold': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')" prop="holdImg" v-if="formField.nationality !== ''">
-                <Upload
-                  :before-upload="handleUpload"
-                  :on-success="handleHoldSuccess"
-                  :on-format-error="handleFormatErr"
-                  :on-error="handleHoldUploadErr"
-                  :action="uploadPost"
-                  :data="{type: 'pid', idCardSide: 'hold'}"
-                  :format="['jpg','jpeg','png']"
-                  :headers="kycHeaders"
-                  accept="image"
-                  :show-upload-list="false">
+              <FormItem class="ivu-form-item-required" :class="{'form-item form-item-hold': true, 'passport': formField.nationality !== 'CN'}" :label="formField.nationality === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')" prop="holdImg" v-if="showUp">
+                <Upload :on-progress="progressUpload" ref="upload" :before-upload="handleUpload" :on-success="handleHoldSuccess" :on-format-error="handleFormatErr" :on-error="handleHoldUploadErr" :action="uploadPost" :data="{type: 'pid', idCardSide: 'hold'}" :format="['jpg','jpeg','png']" :headers="kycHeaders" accept="image" :show-upload-list="false">
                   <div style="padding: 20px 0">
-                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
-                      <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
-                      <p class="tip" v-if="!files.hold">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')}}</p>
-                      <p class="after-tip" v-if="files.hold">{{$t('userCenter.kyc.btnText')}}</p>
-                       <img class="uploaded-img" v-if="files.hold" :src="formField.holdImg" alt="">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-idcard-upload.png" alt="upload" v-if="formField.nationality === 'CN'">
+                    <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-upload.png" alt="upload" v-if="formField.nationality !== 'CN'">
+                    <p class="tip" v-if="!files.hold">{{$t('userCenter.kyc.pleaseUpload')}}{{formField.nationality === 'CN' ? $t('userCenter.kyc.hold') : $t('userCenter.kyc.passportHold')}}</p>
+                    <p class="after-tip" v-if="files.hold">{{$t('userCenter.kyc.btnText')}}</p>
+                    <img class="uploaded-img" v-if="files.hold" :src="formField.holdImg" alt="">
                   </div>
                 </Upload>
 
@@ -111,12 +81,12 @@
                     <img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/kyc-passport-hold.png" alt="kyc-passport-hold" v-if="formField.nationality !== 'CN'">
                   </div>
                   <p class="sample-txt sample-txt3">
-                    {{$t('userCenter.kyc.standard.title')}}<br/>
-                    {{$t('userCenter.kyc.standard.text1')}}<br/>
-                    {{$t('userCenter.kyc.standard.text2')}}<br/>
-                    {{$t('userCenter.kyc.standard.text3')}}<br/>
-                    {{$t('userCenter.kyc.standard.text4')}}<br/>
-                    {{$t('userCenter.kyc.standard.text5')}}<br/>
+                    {{$t('userCenter.kyc.standard.title')}}<br />
+                    {{$t('userCenter.kyc.standard.text1')}}<br />
+                    {{$t('userCenter.kyc.standard.text2')}}<br />
+                    {{$t('userCenter.kyc.standard.text3')}}<br />
+                    {{$t('userCenter.kyc.standard.text4')}}<br />
+                    {{$t('userCenter.kyc.standard.text5')}}<br />
                     <span style="font-family: SimSun; color: #ed3f14;">*</span><span style="color: #ed3f14;">{{$t('errorMsg.IMAGE_TOO_LARGE')}}</span>
                   </p>
                 </div>
@@ -134,17 +104,21 @@
 </template>
 
 <script>
-import page from "../components/page"
-import crd from "../components/crd.vue"
+import page from '../components/page'
+import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
+import { Buffer } from 'buffer'
+import jimp from 'jimp'
+import Axios from 'axios'
+
 export default {
   name: 'kyc',
-  data () {
+  data() {
     return {
       pageHeight: 0,
-      uploadPost:'',
+      uploadPost: '',
       curLanguage: '',
       nationalityCNName: [],
       nationalityENName: [],
@@ -152,7 +126,7 @@ export default {
       oldNationlity: '',
       btnLoading: false,
       formField: {
-        nationality: '',
+        nationality: 'CN',
         firstName: '',
         familyName: '',
         idcardNo: '',
@@ -229,7 +203,7 @@ export default {
             trigger: 'blur'
           }
         ]
-      },
+      }
     }
   },
   components: {
@@ -237,7 +211,7 @@ export default {
     page
   },
   computed: {
-    kycHeaders () {
+    kycHeaders() {
       etLog(cookie.get('PN', { domain: config.url.domain }))
       return {
         'X-EXCHAIN-PN': cookie.get('PN', { domain: config.url.domain })
@@ -245,82 +219,96 @@ export default {
     },
     getActiveLang() {
       return this.$store.state.activeLang
+    },
+    showUp() {
+      return (
+        this.formField.nationality &&
+        this.formField.firstName &&
+        this.formField.familyName &&
+        this.formField.idcardNo
+      )
     }
   },
   watch: {
     getActiveLang(val) {
-      let that = this;
-      this.curLanguage = val;
-      this.nationalityList = val === 'cn' ? this.nationalityCNName : this.nationalityENName;
+      let that = this
+      this.curLanguage = val
+      this.nationalityList =
+        val === 'cn' ? this.nationalityCNName : this.nationalityENName
       this.formField.nationality = ''
-      this.$refs.formField.resetFields();
+      this.$refs.formField.resetFields()
       setTimeout(() => {
         that.formField.nationality = ''
-      }, 50);
+      }, 50)
     }
   },
   methods: {
     changeNationality(e) {
       // e 有值才执行
-      if (e && this.oldNationlity !== '' && this.oldNationlity !== e.value && (this.oldNationlity === 'CN' || e.value === 'CN')) {
-        this.files.front = '';
-        this.files.back = '';
-        this.files.hold = '';
-        
-        this.oldNationlity = this.formField.nationality;
-        
-        this.$refs.formField.resetFields();
-        this.formField.nationality = this.oldNationlity;
+      if (
+        e &&
+        this.oldNationlity !== '' &&
+        this.oldNationlity !== e.value &&
+        (this.oldNationlity === 'CN' || e.value === 'CN')
+      ) {
+        this.files.front = ''
+        this.files.back = ''
+        this.files.hold = ''
+
+        this.oldNationlity = this.formField.nationality
+
+        this.$refs.formField.resetFields()
+        this.formField.nationality = this.oldNationlity
       }
     },
 
-    getNationalityByCN () {
+    getNationalityByCN() {
       var vu = this
       ax.post(config.url.user + '/api/user/getCountryList', {
         code: 'zh_CN'
       })
-      .then((res) => {
-        if (res.status === 200 && res.data.errorCode === 0) {
-          this.nationalityCNName = res.data.result
-          if (this.$store.state.activeLang === 'cn') {
-            this.nationalityList = this.nationalityCNName;
+        .then(res => {
+          if (res.status === 200 && res.data.errorCode === 0) {
+            this.nationalityCNName = res.data.result
+            if (this.$store.state.activeLang === 'cn') {
+              this.nationalityList = this.nationalityCNName
+            }
+          } else {
+            apiError(vu, res)
           }
-        } else {
-          apiError(vu, res);
-        }
-      })
-      .catch((err) => {
-        apiReqError(vu, err);
-      });
+        })
+        .catch(err => {
+          apiReqError(vu, err)
+        })
     },
 
-    getNationalityByEN () {
+    getNationalityByEN() {
       var vu = this
       ax.post(config.url.user + '/api/user/getCountryList', {
         code: 'en_US'
       })
-      .then((res) => {
-        if (res.status === 200 && res.data.errorCode === 0) {
-          this.nationalityENName = res.data.result;
-          if (this.$store.state.activeLang === 'en') {
-            this.nationalityList = this.nationalityENName;
+        .then(res => {
+          if (res.status === 200 && res.data.errorCode === 0) {
+            this.nationalityENName = res.data.result
+            if (this.$store.state.activeLang === 'en') {
+              this.nationalityList = this.nationalityENName
+            }
+          } else {
+            apiError(vu, res)
           }
-        } else {
-          apiError(vu, res);
-        }
-      })
-      .catch((err) => {
-        apiReqError(vu, err);
-      });
+        })
+        .catch(err => {
+          apiReqError(vu, err)
+        })
     },
-
-    handleWindowResize () {
+    async progressUpload(event, file, fileList) {},
+    handleWindowResize() {
       this.pageHeight = window.innerHeight - 360
     },
     /**
      * 提交
      */
-    handleSubmit (form) {
+    handleSubmit(form) {
       this.$refs[form].validate(valid => {
         if (valid) {
           if (!this.files.front) {
@@ -347,35 +335,40 @@ export default {
           }
           var vu = this
 
-          this.btnLoading = true;
-          ax.post(config.url.user+'/api/user/userKycRequest', {
-            type: 'pid',
-            countryCode: vu.formField.nationality,
-            name: vu.formField.familyName + vu.formField.firstName,
-            idCardNumber: vu.formField.idcardNo,
-            idCardFrontUrl: vu.files.front,
-            idCardBackUrl: vu.files.back,
-            idCardHoldUrl: vu.files.hold
-          }, getHeader)
-          .then((res) => {
-            this.btnLoading = false;
-            if (res.status === 200 && res.data.errorCode === 0) {
-              vu.$router.push('/usercenter')
-              vu.$Message.success(vu.$t('errorMsg.KYC_SUBMIT'))
-            } else {
-              apiError(vu, res);
-            }
-          })
-          .catch((err) => {
-            this.btnLoading = false;
-            apiReqError(vu, err);
-          })
+          this.btnLoading = true
+
+          ax.post(
+            config.url.user + '/api/user/userKycRequest',
+            {
+              type: 'pid',
+              countryCode: vu.formField.nationality,
+              name: vu.formField.familyName + vu.formField.firstName,
+              idCardNumber: vu.formField.idcardNo,
+              idCardFrontUrl: vu.files.front,
+              idCardBackUrl: vu.files.back,
+              idCardHoldUrl: vu.files.hold
+            },
+            getHeader
+          )
+            .then(res => {
+              this.btnLoading = false
+              if (res.status === 200 && res.data.errorCode === 0) {
+                vu.$router.push('/usercenter')
+                vu.$Message.success(vu.$t('errorMsg.KYC_SUBMIT'))
+              } else {
+                apiError(vu, res)
+              }
+            })
+            .catch(err => {
+              this.btnLoading = false
+              apiReqError(vu, err)
+            })
         }
-      });
+      })
     },
 
-    handleUpload (file) {
-      const isLt2M = (file.size / 1024 / 1024 <= 2)
+    handleUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 <= 2
 
       if (!isLt2M) {
         this.$Message.error(this.$t('errorMsg.IMAGE_TOO_LARGE'))
@@ -386,7 +379,7 @@ export default {
     /**
      * 证件正面上传成功处理
      */
-    handleFrontSuccess (res, file, fileList) {
+    handleFrontSuccess(res, file, fileList) {
       // var result = res.result.split('/')
       // var result_ = result[result.length - 1]
       this.files.front = res.result.ext
@@ -396,13 +389,13 @@ export default {
     /**
      * 正面上传文件失败，指服务器拒绝之类的问题
      */
-    handleFrontUploadErr () {
+    handleFrontUploadErr() {
       this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
     },
     /**
      * 证件反面上传成功处理
      */
-    handleBackSuccess (res, file, fileList) {
+    handleBackSuccess(res, file, fileList) {
       // var result = res.result.split('/')
       // var result_ = result[result.length - 1]
       this.files.back = res.result.ext
@@ -412,39 +405,54 @@ export default {
     /**
      * 反面上传失败
      */
-    handleBackUploadErr () {
+    handleBackUploadErr() {
       this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
     },
     /**
      * 手持证件照片上传成功处理
      */
-    handleHoldSuccess (res, file, fileList) {
-      // var result = res.result.split('/')
-      // var result_ = result[result.length - 1]
+    async handleHoldSuccess(res, file, fileList) {
       this.files.hold = res.result.ext
       this.formField.holdImg = res.result.hold
-      // this.$set(this.formField, 'holdImg', res.result)
+      // var data = await Buffer.from(
+      //   res.result.hold.replace(/^data:image\/\w+;base64,/, ''),
+      //   'base64'
+      // )
+
+      // var img = await jimp.read(data)
+      // var img2 = await img.resize(500, jimp.AUTO)
+      // var cc = img2.getWidth()
+      var res = await Axios.post(
+        config.url.user + '/api/user/userIdentity',
+        {
+          name: this.formField.familyName + this.formField.firstName,
+          idCardNumber: this.formField.idcardNo,
+          type: 'pid'
+        },
+        getHeader
+      )
+      debugger
     },
     /**
      * 手持上传失败
      */
-    handleHoldUploadErr () {
+    handleHoldUploadErr() {
       this.$Message.error(this.$t('errorMsg.NETWORK_ERROR'))
     },
     /**
      * 错误的文件后缀
      */
-    handleFormatErr () {
+    handleFormatErr() {
       this.$Message.error(this.$t('errorMsg.FORMAT_ERROR'))
     }
   },
-  created () {
-    this.curLanguage = this.$store.state.activeLang;
-    this.getNationalityByCN();
-    this.getNationalityByEN();
+  created() {
+    this.curLanguage = this.$store.state.activeLang
+    this.getNationalityByCN()
+    this.getNationalityByEN()
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
-    this.uploadPost = config.url.user + '/api/user/userUploadIdentity';
+    this.uploadPost = config.url.user + '/api/user/userUploadIdentity'
   },
   mounted() {
     var vu = this
@@ -452,139 +460,137 @@ export default {
       vu.$refs.formField.resetFields()
     })
   },
-  destroyed () {
-    bus.$off('langChange');
+  destroyed() {
+    bus.$off('langChange')
     window.removeEventListener('resize', this.handleWindowResize)
   }
 }
 </script>
 
 <style lang="less">
-  .kyc-cont {
-    font-size: 14px;
-    .kyc-main {
-      padding: 60px;
-      .form-box {
-        .form-item {
-          width: 420px;
-          &.fl {
-            float: left;
-          }
-          &.family-name {
-            margin-left: 50px;
-          }
-          .label {
-            color: #000;
-          }
-          .ipt-box {
-            .ipt {
-              width: 100%;
-            }
-          }
-        }
-      }
-      .ivu-upload-select {
-        position: relative;
-        width: 280px;
-        height: 180px;
-        padding-top: 25px;
-        background: rgba(245,248,253,1);
-        border-radius: 0px;
-        text-align: center;
-        cursor: pointer;
-        img {
-          display: inline-block;
-        }
-      }
-      
-      .uploaded-img{
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 280px;
-        height: 180px;
-        border-radius: 0px;
-      }
-      .ivu-upload .tip {
-        font-size: 16px;
-      }
-      .ivu-upload .after-tip {
-        position: relative;
-        z-index: 1;
-        font-size: 16px;
-        font-weight: 600;
-        color: rgba(89,153,229,1);
-        cursor: pointer;
-      } 
-      .sample {
-        position: absolute;
-        top: 0px;
-        left: 320px;
-        width: 750px;
-        .sample-img-wrap {
+.kyc-cont {
+  font-size: 14px;
+  .kyc-main {
+    padding: 60px;
+    .form-box {
+      .form-item {
+        width: 420px;
+        &.fl {
           float: left;
-          width: 280px;
-          height: 180px;
-          text-align: center;
-          background: rgba(245,248,253,1);
-          border-radius: 0px;
-          img {
-            display: inline;
+        }
+        &.family-name {
+          margin-left: 50px;
+        }
+        .label {
+          color: #000;
+        }
+        .ipt-box {
+          .ipt {
+            width: 100%;
           }
-        }
-        .sample-txt {
-          float: left;
-          margin-top: 65px;
-          margin-left: 40px;
-          font-size:14px;
-          color:rgba(19,20,24,1);
-        }
-        .sample-txt3 {
-          width: 430px;
-          margin-top: -5px;
-          line-height: 28px;
-        }
-      }
-      .passport .sample .sample-img-wrap{
-        background: #faf0f0;
-      }
-      .submit {
-        width: 280px;
-      }
-      .passport {
-        .ivu-upload-select {
-          background: #faf0f0;
-        }
-        .after-tip {
-          color: #faf0f0;
-        }
-      }
-      .form-item-front {
-        .sample .sample-img-wrap img {
-          margin-top: 1px;
-        }
-        &.passport .sample .sample-img-wrap img {
-          margin-top: 19px;
-        }
-      }
-      .form-item-back {
-        .sample .sample-img-wrap img {
-          margin-top: 14px;
-        }
-        &.passport .sample .sample-img-wrap img {
-          margin-top: 19px;
-        }
-      }
-      .form-item-hold {
-        .sample .sample-img-wrap img {
-          margin-top: 7px;
-        }
-        &.passport .sample .sample-img-wrap img {
-          margin-top: 7px;
         }
       }
     }
+    .ivu-upload-select {
+      position: relative;
+      width: 280px;
+      height: 180px;
+      padding-top: 25px;
+      background: rgba(245, 248, 253, 1);
+      border-radius: 0px;
+      text-align: center;
+      cursor: pointer;
+      img {
+        display: inline-block;
+      }
+    }
+
+    .uploaded-img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 280px;
+      height: 180px;
+      border-radius: 0px;
+    }
+    .ivu-upload .tip {
+      font-size: 16px;
+    }
+    .ivu-upload .after-tip {
+      position: relative;
+      z-index: 1;
+      font-size: 16px;
+      font-weight: 600;
+      color: rgba(89, 153, 229, 1);
+      cursor: pointer;
+    }
+    .sample {
+      position: absolute;
+      top: 0px;
+      left: 320px;
+      width: 750px;
+      .sample-img-wrap {
+        float: left;
+        width: 280px;
+        height: 180px;
+        text-align: center;
+        background: rgba(245, 248, 253, 1);
+        border-radius: 0px;
+        img {
+          display: inline;
+        }
+      }
+      .sample-txt {
+        float: left;
+        margin-top: 65px;
+        margin-left: 40px;
+        font-size: 14px;
+        color: rgba(19, 20, 24, 1);
+      }
+      .sample-txt3 {
+        width: 430px;
+        margin-top: -5px;
+        line-height: 28px;
+      }
+    }
+    .passport .sample .sample-img-wrap {
+      background: #faf0f0;
+    }
+    .submit {
+      width: 280px;
+    }
+    .passport {
+      .ivu-upload-select {
+        background: #faf0f0;
+      }
+      .after-tip {
+        color: #faf0f0;
+      }
+    }
+    .form-item-front {
+      .sample .sample-img-wrap img {
+        margin-top: 1px;
+      }
+      &.passport .sample .sample-img-wrap img {
+        margin-top: 19px;
+      }
+    }
+    .form-item-back {
+      .sample .sample-img-wrap img {
+        margin-top: 14px;
+      }
+      &.passport .sample .sample-img-wrap img {
+        margin-top: 19px;
+      }
+    }
+    .form-item-hold {
+      .sample .sample-img-wrap img {
+        margin-top: 7px;
+      }
+      &.passport .sample .sample-img-wrap img {
+        margin-top: 7px;
+      }
+    }
   }
-
-
+}
 </style>
