@@ -666,5 +666,50 @@ module.exports = {
     '901': 'Admin Not Exist', // 管理员不存在
     '902': 'Admin Login Failed', // 管理员登录失败
     '903': '管理员未登录' // 管理员未登录
+  },
+
+  // 百度API错误
+  baiduApiError: {
+    '4': 'Open api request limit reached',
+    '6': 'no permission to access data',
+    '17':	'Open api daily request limit reached',
+    '18':	'Open api qps request limit reached',
+    '19':	'Open api total request limit reached',
+    '100': 'Invalid parameter',
+    '110': 'Access token invalid or no longer valid	Access',
+    '111': 'Access token expired Access',
+    '216100': 'invalid param',
+    '216101': 'not enough param',
+    '216102': 'service not support',
+    '216103': 'param too long',
+    '216110': 'appid not exist',
+    '216111': 'invalid userid',
+    '216200': 'empty image',
+    '216201': 'image format error',
+    '216202': 'image size error',
+    '216300': 'db error',
+    '216400': 'backend error',
+    '216402': 'face not found',
+    '216500': 'unknown error',
+    '216611': 'user not exist',
+    '216613': 'fail to delete user record',
+    '216614': 'not enough images',
+    '216615': 'fail to process images',
+    '216616': 'image existed',
+    '216617': 'fail to add user',
+    '216618': 'no user in group',
+    '216631': 'request add user overlimit',
+    '216501': 'face not found',
+    '216600': 'id number format error',
+    '216601': 'id number and name not match or id number not exist',
+    '216602': 'face is blocked',
+    '216603': 'face light is not good',
+    '216604': 'face is incomplete',
+    '216605': 'Face confidence is low, and quality detection is not passed',
+    '216606': 'face is fuzzy',
+    '216607': 'police picture is none or low quality',
+    '216608': 'face liveness check fail',
+    '216609': 'The left and right angles of the human face are too large',
+    '216610': 'Face elevation angle is too large'
   }
 }

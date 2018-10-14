@@ -100,6 +100,14 @@
         </crd>
       </div>
     </div>
+
+    <Modal
+        v-model="modelShow"
+        title="Error"
+        @on-ok="modelOk"
+        @on-cancel="modelCancel">
+        <p>{{$t(`baiduApiError.${modelErrorCode}`)}}</p>
+    </Modal>
   </page>
 </template>
 
@@ -112,6 +120,9 @@ import cookie from 'js-cookie'
 import { Buffer } from 'buffer'
 import jimp from 'jimp'
 import Axios from 'axios'
+import {
+    baiduApiError
+} from '../../libs/utils/apiError.js'
 
 export default {
   name: 'kyc',
@@ -125,6 +136,8 @@ export default {
       nationalityList: [],
       oldNationlity: '',
       btnLoading: false,
+      modelShow: false,
+      modelErrorCode: 0,
       formField: {
         nationality: 'CN',
         firstName: '',
@@ -431,7 +444,16 @@ export default {
         },
         getHeader
       )
-      debugger
+      if (res.status == '200' && res.data.errorCode !== 0) {
+        this.modelErrorCode = res.data.errorCode;
+        this.modelShow = true;
+      }
+    },
+    modelOk() {
+      this.modelShow = false;
+    },
+    modelCancel() {
+      this.modelShow = false;
     },
     /**
      * 手持上传失败
@@ -450,6 +472,9 @@ export default {
     this.curLanguage = this.$store.state.activeLang
     this.getNationalityByCN()
     this.getNationalityByEN()
+    if (localStorage.idCardStatus == '1' || localStorage.idCardStatus == '2') {
+      this.$router.push('/usercenter/kyc')
+    }
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
     this.uploadPost = config.url.user + '/api/user/userUploadIdentity'
