@@ -106,6 +106,7 @@
         title="Error"
         @on-ok="modelOk"
         @on-cancel="modelCancel">
+        $t('userCenter.kyc.firstName')
         <p>{{$t(`baiduApiError.${modelErrorCode}`)}}</p>
     </Modal>
   </page>
@@ -118,7 +119,7 @@ import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
 import { Buffer } from 'buffer'
-import jimp from 'jimp'
+// import jimp from 'jimp'
 import Axios from 'axios'
 import {
     baiduApiError
@@ -444,8 +445,10 @@ export default {
         },
         getHeader
       )
-      if (res.status == '200' && res.data.errorCode !== 0) {
-        this.modelErrorCode = res.data.errorCode;
+      if (res.status == '200' && res.data.errorCode === 206) {
+        apiError(this, res);
+      } else if (res.status == '200' && res.data.errorCode === 223) {
+        this.modelErrorCode = res.data.result.errorCode;
         this.modelShow = true;
       }
     },

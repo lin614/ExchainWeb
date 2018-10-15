@@ -672,6 +672,7 @@ module.exports = {
   baiduApiError: {
     '4': 'Open api request limit reached',
     '6': 'no permission to access data',
+    '14': 'IAM Certification failed',
     '17':	'Open api daily request limit reached',
     '18':	'Open api qps request limit reached',
     '19':	'Open api total request limit reached',
@@ -710,6 +711,95 @@ module.exports = {
     '216607': 'police picture is none or low quality',
     '216608': 'face liveness check fail',
     '216609': 'The left and right angles of the human face are too large',
-    '216610': 'Face elevation angle is too large'
+    '216610': 'Face elevation angle is too large',
+
+    // '222001'	param[] is null	必要参数未传入
+    // '222002'	param[start] format error	参数格式错误
+    // '222003'	param[length] format error	参数格式错误
+    // '222004'	param[op_app_id_list] format error	参数格式错误
+    // '222005'	param[group_id_list] format error	参数格式错误
+    // '222006'	group_id format error	参数格式错误
+    // '222007'	uid format error	参数格式错误
+    // '222008'	face_id format error	参数格式错误
+    // '222009'	quality_conf format error	参数格式错误
+    // '222010'	user_info format error	参数格式错误
+    // '222011'	param[uid_list] format error	参数格式错误
+    // '222012'	param[op_app_id] format error	参数格式错误
+    // '222013'	param[image] format error	参数格式错误
+    // '222014'	param[app_id] format error	参数格式错误
+    // '222015'	param[image_type] format error	参数格式错误
+    // 222016	param[max_face_num] format error	参数格式错误
+    // 222017	param[face_field] format error	参数格式错误
+    // 222018	param[user_id] format error	参数格式错误
+    // 222019	param[quality_control] format error	参数格式错误
+    // 222020	param[liveness_control] format error	参数格式错误
+    // 222021	param[max_user_num] format error	参数格式错误
+    // 222022	param[id_card_number] format error	参数格式错误
+    // 222023	param[name] format error	参数格式错误
+    // 222024	param[face_type] format error	参数格式错误
+    // 222025	param[face_token] format error	参数格式错误
+    // 222026	param[max_star_num] format error	参数格式错误
+    // 222201	network not available	服务端请求失败
+    // 222202	pic not has face	图片中没有人脸
+    // 222203	image check fail	无法解析人脸
+    // 222204	image_url_download_fail	从图片的url下载图片失败
+    // 222205	network not availablel	服务端请求失败
+    // 222206	rtse service return fail	服务端请求失败
+    // 222207	match user is not found	未找到匹配的用户
+    // 222208	the number of image is incorrect	图片的数量错误
+    // 222209	face token not exist	face token不存在
+    // 222300	add face fail	人脸图片添加失败
+    // 222301	get face fail	获取人脸图片失败
+    // 222302	system error	服务端请求失败
+    // 222303	get face fail	获取人脸图片失败
+    // 223100	group is not exist	操作的用户组不存在
+    // 223101	group is already exist	该用户组已存在
+    // 223102	user is already exist	该用户已存在
+    // 223103	user is not exist	找不到该用户
+    // 223104	group_list is too large	group_list包含组数量过多
+    // 223105	face is already exist	该人脸已存在
+    // 223106	face is not exist	该人脸不存在
+    // 223110	uid_list is too large	uid_list包含数量过多
+    // 223111	dst group is not exist	目标用户组不存在
+    // 223112	quality_conf format error	quality_conf格式不正确
+    // 223113	face is covered	人脸有被遮挡
+    // 223114	face is fuzzy	人脸模糊
+    // 223115	face light is not good	人脸光照不好
+    // 223116	incomplete face	人脸不完整
+    // 223117	app_list is too large	app_list包含app数量过多
+    // 223118	quality control error	质量控制项错误
+    // 223119	liveness control item error	活体控制项错误
+    // 223120	liveness check fail	活体检测未通过
+    // 223121	left eye is occlusion	质量检测未通过 左眼遮挡程度过高
+    // 223122	right eye is occlusion	质量检测未通过 右眼遮挡程度过高
+    // 223123	left cheek is occlusion	质量检测未通过 左脸遮挡程度过高
+    // 223124	right cheek is occlusion	质量检测未通过 右脸遮挡程度过高
+    // 223125	chin contour is occlusion	质量检测未通过 下巴遮挡程度过高
+    // 223126	nose is occlusion	质量检测未通过 鼻子遮挡程度过高
+    // 223127	mouth is occlusion	质量检测未通过 嘴巴遮挡程度过高
+    // 222350	police picture is none or low quality	公安网图片不存在或质量过低
+    // 222351	id number and name not match or id number not exist	身份证号与姓名不匹配或该身份证号不存在
+    // 222352	name format error	身份证名字格式错误
+    // 222353	id number format error	身份证号码格式错误
+    // 222354	id number not exist	公安库里不存在此身份证号
+    // 222355	police picture not exist	身份证号码正确，公安库里没有对应的照片
+    // 222360	invalid name or id number	身份证号码或名字非法（公安网校验不通过）
+    // 222901	system busy	系统繁忙
+    // 222902	system busy	系统繁忙
+    // 222903	system busy	系统繁忙
+    // 222904	system busy	系统繁忙
+    // 222905	system busy	系统繁忙
+    // 222906	system busy	系统繁忙
+    // 222907	system busy	系统繁忙
+    // 222908	system busy	系统繁忙
+    // 222909	system busy	系统繁忙
+    // 222910	system busy	系统繁忙
+    // 222911	system busy	系统繁忙
+    // 222912	system busy	系统繁忙
+    // 222913	system busy	系统繁忙
+    // 222914	system busy	系统繁忙
+    // 222915	system busy	系统繁忙
+    // 222916	system busy	系统繁忙
+    // 222361	system busy	系统繁忙
   }
 }
