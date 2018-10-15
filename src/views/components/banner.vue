@@ -65,7 +65,7 @@ export default {
     },
     getInfos() {
       ax
-        .get('/static/banner/banner_' + this.lan + '.json')
+        .get('/dist/static/banner/banner_' + this.lan + '.json')
         .then(res => {
           this.infos = res.data;
           etLog(this.infos);

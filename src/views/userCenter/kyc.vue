@@ -103,7 +103,7 @@
 
     <Modal
         v-model="modelShow"
-        title="Error"
+        :title="formField.nationality === 'CN' ? $t('userCenter.kyc.holdErrorTip') : $t('userCenter.kyc.passportHoldErrorTip')"
         @on-ok="modelOk"
         @on-cancel="modelCancel">
         <p>{{$t(`baiduApiError.${modelErrorCode}`)}}</p>
@@ -137,7 +137,7 @@ export default {
       oldNationlity: '',
       btnLoading: false,
       modelShow: false,
-      modelErrorCode: 0,
+      modelErrorCode: '',
       formField: {
         nationality: 'CN',
         firstName: '',
@@ -314,7 +314,7 @@ export default {
           apiReqError(vu, err)
         })
     },
-    async progressUpload(event, file, fileList) {},
+    progressUpload(event, file, fileList) {},
     handleWindowResize() {
       this.pageHeight = window.innerHeight - 360
     },
@@ -345,6 +345,9 @@ export default {
               this.$Message.error(this.$t('errorMsg.PASSPORT_HOLD_BLANK'))
             }
             return
+          } else if (this.modelErrorCode !== '') {
+            this.modelShow = true;
+            return;
           }
           var vu = this
 
@@ -424,30 +427,27 @@ export default {
     /**
      * 手持证件照片上传成功处理
      */
-    async handleHoldSuccess(res, file, fileList) {
+    handleHoldSuccess(res, file, fileList) {
       this.files.hold = res.result.ext
       this.formField.holdImg = res.result.hold
-      // var data = await Buffer.from(
-      //   res.result.hold.replace(/^data:image\/\w+;base64,/, ''),
-      //   'base64'
-      // )
-
-      // var img = await jimp.read(data)
-      // var img2 = await img.resize(500, jimp.AUTO)
-      // var cc = img2.getWidth()
-      var res = await Axios.post(
-        config.url.user + '/api/user/userIdentity',
-        {
+      ax.post(config.url.user + '/api/user/userIdentity', {
           name: this.formField.familyName + this.formField.firstName,
           idCardNumber: this.formField.idcardNo,
           type: 'pid'
         },
-        getHeader
-      )
-      if (res.status == '200' && res.data.errorCode !== 0) {
-        this.modelErrorCode = res.data.errorCode;
-        this.modelShow = true;
-      }
+        getHeader)
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode === 206) {
+            this.modelErrorCode = '';
+            apiError(this, res);
+          } else if (res.status == '200' && res.data.errorCode === 223) {
+            this.modelErrorCode = res.data.result.errorCode;
+            this.modelShow = true;
+          }
+        })
+        .catch(err => {
+          apiReqError(vu, err)
+        })
     },
     modelOk() {
       this.modelShow = false;
@@ -472,8 +472,8 @@ export default {
     this.curLanguage = this.$store.state.activeLang
     this.getNationalityByCN()
     this.getNationalityByEN()
-    if (localStorage.idCardStatus == '1' || localStorage.idCardStatus == '2') {
-      this.$router.push('/usercenter/kyc')
+    if (sessionStorage.idCardStatus == '1' || sessionStorage.idCardStatus == '2') {
+      this.$router.push('/usercenter')
     }
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
@@ -483,6 +483,9 @@ export default {
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.formField.resetFields()
+      setTimeout(() => {
+        vu.formField.nationality = 'CN'
+      }, 100);
     })
   },
   destroyed() {
