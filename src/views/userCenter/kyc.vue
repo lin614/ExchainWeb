@@ -471,7 +471,7 @@ export default {
     this.getNationalityByCN()
     this.getNationalityByEN()
     if (sessionStorage.idCardStatus == '1' || sessionStorage.idCardStatus == '2') {
-      // this.$router.push('/usercenter')
+      this.$router.push('/usercenter')
     }
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
