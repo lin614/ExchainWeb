@@ -103,7 +103,7 @@
 
     <Modal
         v-model="modelShow"
-        title="Error"
+        :title="formField.nationality === 'CN' ? $t('userCenter.kyc.hold') + '的问题' : 'Error tip of ' + $t('userCenter.kyc.passportHold')"
         @on-ok="modelOk"
         @on-cancel="modelCancel">
         <p>{{$t(`baiduApiError.${modelErrorCode}`)}}</p>
@@ -471,7 +471,7 @@ export default {
     this.getNationalityByCN()
     this.getNationalityByEN()
     if (sessionStorage.idCardStatus == '1' || sessionStorage.idCardStatus == '2') {
-      this.$router.push('/usercenter')
+      // this.$router.push('/usercenter')
     }
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
