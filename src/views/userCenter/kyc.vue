@@ -117,8 +117,8 @@ import crd from '../components/crd.vue'
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
-import { Buffer } from 'buffer'
-import jimp from 'jimp'
+// import { Buffer } from 'buffer'
+// import jimp from 'jimp'
 import Axios from 'axios'
 import {
     baiduApiError

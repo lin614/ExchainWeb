@@ -5,6 +5,9 @@
       <div class="logo">
         <router-link to="/"><img src="https://d3bcj1iwrh8aaw.cloudfront.net/imgs/logo.png"></router-link>
       </div>
+      <router-link to="/otc" v-if="activeLang=='cn'">
+        <Button class="menu" type="text">法币</Button>
+      </router-link>
       <Button class="menu" type="text" @click="toTrade()">{{ $t("header.exchange") }}</Button>
       <router-link to="/et">
         <Button class="menu" type="text">{{ $t("header.et") }}</Button>
@@ -44,10 +47,7 @@
           <Button type="text">{{ $t("header.myAsset") }}</Button>
         </router-link>
 
-        <Dropdown @on-visible-change="handleUserShowChange"
-                  class="lan"
-                  v-if="isLogin"
-                  @on-click="toLink">
+        <Dropdown @on-visible-change="handleUserShowChange" class="lan" v-if="isLogin" @on-click="toLink">
           <Button type="text">
             <Icon type="person"></Icon>
             {{email}}
@@ -154,7 +154,7 @@ export default {
       ax.get(config.url.user + '/api/user/logout', getHeader).then(res => {
         if (res.status === 200 && res.data.meta.code === 0) {
         } else {
-          apiError(this, res);
+          apiError(this, res)
         }
       })
       sessionStorage.clear()
@@ -178,15 +178,14 @@ export default {
       this.$store.commit('setActiveLang', name)
       bus.$emit('langChange')
     },
-    handleUserShowChange (visible) {
+    handleUserShowChange(visible) {
       this.showUserCenter = visible
     },
-    handleLangShowChange (visible) {
+    handleLangShowChange(visible) {
       this.showLanguage = visible
     }
   },
-  mounted() {
-  }
+  mounted() {}
 }
 </script>
 

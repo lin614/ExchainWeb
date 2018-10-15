@@ -136,6 +136,12 @@ const routers = [{
         },
         component: (resolve) => require(['./views/userCenter/bindPhone.vue'], resolve)
     }, {
+        path: '/otc',
+        meta: {
+            title: ''
+        },
+        component: (resolve) => require(['./views/otc.vue'], resolve)
+    }, {
         path: '*',
         meta: {
             title: ''
