@@ -103,7 +103,7 @@
 
     <Modal
         v-model="modelShow"
-        :title="formField.nationality === 'CN' ? $t('userCenter.kyc.hold') + '的问题' : 'Error tip of ' + $t('userCenter.kyc.passportHold')"
+        :title="formField.nationality === 'CN' ? $t('userCenter.kyc.holdErrorTip') : $t('userCenter.kyc.passportHoldErrorTip')"
         @on-ok="modelOk"
         @on-cancel="modelCancel">
         <p>{{$t(`baiduApiError.${modelErrorCode}`)}}</p>
@@ -481,6 +481,9 @@ export default {
     var vu = this
     bus.$on('langChange', () => {
       vu.$refs.formField.resetFields()
+      setTimeout(() => {
+        vu.formField.nationality = 'CN'
+      }, 100);
     })
   },
   destroyed() {
