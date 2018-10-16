@@ -68,7 +68,7 @@
             </block>
             <block>
                 <crd slot="inner">
-                    <span slot="title">认证商家（交易时间：GMT+8 10:00 —— 17:00）</span>
+                    <span slot="title">认证商家（充值时间：GMT+8 10:00 —— 17:00）</span>
                     <div class=" content">
                         <div class="lv-text">
                             <Row>
@@ -80,10 +80,10 @@
                                 <Col span="16">
                                 <div class="info">
                                     <h3>说明: </h3>
-                                    <p>1、当前平台仅支持法币购买USDT，<br />
+                                    <p>1、当前平台仅支持法币购买USDT，周末及法定假日无法充值<br />
                                         2、如果遇到充值不到账的情况，请联系客服，客服微信: Exchain5<br />
-                                        3、请勿在非交易时间内付款，否则无法充值到账<br />
-                                        4、单笔交易限额不得小于500CNY，否则无法充值到账<br />
+                                        3、请勿在非充值时间内付款，否则无法充值到账<br />
+                                        4、单笔限额不得小于500CNY，否则无法充值到账<br />
                                         5、请勿在转账时添加任何备注
                                     </p>
                                 </div>
