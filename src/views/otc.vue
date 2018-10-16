@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="block">
                                     <div class="circ">
-                                        <div class="item ">转账欲购买金额<br />(如:1000CNY)</div>
+                                        <div class="item ">转账购买金额<br />(如:1000CNY)</div>
                                     </div>
                                 </div>
                                 <div class="block">
@@ -83,7 +83,7 @@
                                     <p>1、当前平台仅支持法币购买USDT，<br />
                                         2、如果遇到充值不到账的情况，请联系客服，客服微信: Exchain5<br />
                                         3、请勿在非交易时间内付款，否则无法充值到账<br />
-                                        4、单笔交易限额不得小于100CNY，否则无法充值到账<br />
+                                        4、单笔交易限额不得小于500CNY，否则无法充值到账<br />
                                         5、请勿在转账时添加任何备注
                                     </p>
                                 </div>
