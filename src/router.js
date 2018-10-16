@@ -138,8 +138,7 @@ const routers = [{
     }, {
         path: '/otc',
         meta: {
-            title: '',
-            noNeedLogin: true
+            title: ''
         },
         component: (resolve) => require(['./views/otc.vue'], resolve)
     }, {
