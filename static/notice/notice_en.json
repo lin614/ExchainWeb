@@ -1,16 +1,16 @@
 [{
-        "title": "Latest News",
-        "subTitle": "New release－Exchain Launch",
-        "url": "https://support.exchain.com/hc/en-us/articles/360017407812-World-s-First-Shared-Trading-Platform-Exchain-Launches-Public-Beta-Test-From-PRNewwire"
-    },
-    {
-        "title": "Exchain Sound",
-        "subTitle": "A Shared, Co-owned, Co-governed Exchain",
-        "url": "/sound/1"
-    },
-    {
-        "title": "Guide For Beginner",
-        "subTitle": "How to buy digital assets on Exchain",
-        "url": "https://support.exchain.com/hc/en-us/articles/360013213691-Instructions-For-Exchain-Special-User-Test"
-    }
+    "title": "Latest News",
+    "subTitle": "Exchain Upgrades Announcement",
+    "url": "https://support.exchain.com/hc/en-us/articles/360017991612-Exchain-Upgrades-Announcement"
+},
+{
+    "title": "Exchain Sound",
+    "subTitle": "A Shared, Co-owned, Co-governed Exchain",
+    "url": "/sound/1"
+},
+{
+    "title": "Guide For Beginner",
+    "subTitle": "How to buy digital assets on Exchain",
+    "url": "https://support.exchain.com/hc/en-us/articles/360013213691-Instructions-For-Exchain-Special-User-Test"
+}
 ]

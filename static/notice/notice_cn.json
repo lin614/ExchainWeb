@@ -1,16 +1,16 @@
 [{
-        "title": "最新公告",
-        "subTitle": "金色财经最新报道－Exchain公测开启",
-        "url": "https://support.exchain.com/hc/zh-cn/articles/360017406292-最新报道-共享交易所Exchain开启公测-限时免手续费-金色财经"
-    },
-    {
-        "title": "Exchain听你说",
-        "subTitle": "共享、共有、共治Exchain",
-        "url": "/sound/1"
-    },
-    {
-        "title": "新手教学",
-        "subTitle": "图文指导Exchain使用流程",
-        "url": "https://support.exchain.com/hc/zh-cn/articles/360013213691"
-    }
+    "title": "最新公告",
+    "subTitle": "Exchain交易所停服升级公告",
+    "url": "https://support.exchain.com/hc/zh-cn/articles/360017991612-Exchain交易所停服升级公告"
+},
+{
+    "title": "Exchain听你说",
+    "subTitle": "共享、共有、共治Exchain",
+    "url": "/sound/1"
+},
+{
+    "title": "新手教学",
+    "subTitle": "图文指导Exchain使用流程",
+    "url": "https://support.exchain.com/hc/zh-cn/articles/360013213691"
+}
 ]
