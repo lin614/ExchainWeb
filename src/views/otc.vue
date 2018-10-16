@@ -68,7 +68,7 @@
             </block>
             <block>
                 <crd slot="inner">
-                    <span slot="title">认证商家 (10:00 —— 17:00)</span>
+                    <span slot="title">认证商家（交易时间：GMT+8 10:00 —— 17:00）</span>
                     <div class=" content">
                         <div class="lv-text">
                             <Row>
