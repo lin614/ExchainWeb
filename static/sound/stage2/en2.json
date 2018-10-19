@@ -1,0 +1,116 @@
+{
+    "banner": "banner-en.jpg",
+    "title1": "Thanks",
+    "content1": " <p>Exchain public beta has launched for 2 weeks, with an increasing number of users joining us to build the platform together. Exchain Sounds also received various useful suggestions from both old and new friends. We will insist on “co-owned, shared, co-governed, transparent and open”, taking users’ needs as the core, to build an exchange belongs to everyone.  </p>",
+    "title2": "Users’ Sound",
+    "content2": [{
+            "name": "A Xuan",
+            "say1": "I’m a senior stock buyer but junior Cryptocurrency buyer. As a newbie to join the market, I need more information as my weapon.",
+            "sub": "Listen to me, to build Exchain together:",
+            "say2": "Time format of K-line is 24hour, however when I mouse over to the line, it shows 12hours time format, which is a little bit confusing to me. For people like me, I’m quite familiar with stock market trading, K-line is the first thing to catch my eyes. Hope Exchain can optimize it.",
+            "img": "user1.jpg"
+        }, {
+            "name": "Backpacker",
+            "say1": " I’m an unlucky investor in digital assets trading market for three years. I hope I can have “sharp-eyes” to identify qualified projects. ",
+            "sub": "Listen to me, to build Exchain together:",
+            "say2": "I “hate” the KYC process, it made me suffer to finish the whole process. Of course it is kind of my fault. I understand that KYC is quite important to identify the real users, to keep the equivalent rights. However, for the normal users, KYC is related to how fast I can withdrawal the money. I suggest Exchain to improve the process, providing a easier and faster KYC.",
+            "img": "user2.jpg"
+        },
+        {
+            "name": "Zhixin",
+            "say1": "I’m the “old aunt” for most cryptal currency buyers. I was also deceived by fraud. Now I have decided to make the real value investment.",
+            "sub": "Listen to me, to build Exchain together:",
+            "say2": "The transaction process is sooooo complex. I learned how to trade via exchange platform, but I don't know how to buy the digital coin with cash. It would be better if the payment as easy as using Wechat payment. So, please consider the feeling of our “old people”, launch easy OTC function. I will definitely share to my friends.",
+            "img": "user3.jpg"
+        }
+    ],
+    "title3": "More user advises",
+    "content3": [{
+        "name": "Libai",
+        "say": "“KYC KYC KYC”, please improve it ASAP",
+        "img": "user4.jpg"
+    }, {
+        "name": "A0001 Kaishao",
+        "say": "One suggestion, you should lengthen the period of login validity. Otherwise, I have to re-login every two hours.",
+        "img": "user5.jpg"
+    }, {
+        "name": "Tu Luo Bolie",
+        "say": "I just tried your withdrawal process with a small number of withdrawal. I feel the the double verification (SMS+Email) is inefficient. Why don't try Google verification, and open the auto-withdrawal mode when the amount is less than 5000 USD. It will simplify the process.",
+        "img": "user6.jpg"
+    }, {
+        "name": "Xiaorui",
+        "say": "I have a suggestion: when I switch to other page, could you add a price on the page window tag?",
+        "img": "user7.jpg"
+    }, {
+        "name": "Da Mai Na tie",
+        "say": "I feel the website stuck when using 360 or QQ browser. I will suggest your tech team to optimize the compatibility with different browsers.",
+        "img": "user8.jpg"
+    }],
+    "title4": "Media Professionals’ Sound",
+    "content4": [{
+        "name": "Exchange Info Station",
+        "say1": "Community media focusing on digital exchange platform. Providing fastest, procession and exclusive info and deep interpretation",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "The appearance of Exchain has brought a lot of surprises to the market. The concept of shared, co-owned, co-governance and transparency is a powerful impact on the current industry's general lack of awe. What is more valuable is that Exchain has truly practiced its own ideas. It is not easy to launch a exchange with transaction as shareholding, free transaction fee, partnership, and project listing free. However, while Exchain is striding forward, it also needs to put more efforts to some experience problems. For example, some pages load too long. After several times, it is difficult to load some pages (not transaction pages). In addition, UI design and Exchain innovation feels a little out of place, the style and theme are not clear to identify. The future of Exchain is expected, and we hope Exchain to continue to maintain the initial focus, provide more quality targets, introduce more innovative services, and respect the market!",
+        "img": "media1.jpg",
+        "qrcode": "media1-qrcode.jpg",
+        "url": ""
+    }, {
+        "name": "Bitcoin Luwang",
+        "say1": "Well-known finance blogger",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "Exchain is an exchange that is truly considered by users from the perspective of users, from innovative trading shares, sharing platform 100% income, and super partners.Build a bridge of communication between platform and the users, and realize the value system of sharing and building.",
+        "img": "media2.jpg",
+        "qrcode": "media2-qrcode.jpg",
+        "url": ""
+    }, {
+        "name": "Bixiaobai",
+        "say1": "The professional blockchain ecological information big data platform, has 175,000 effective data, including more than 1,400 projects, more than 1,100 media, and more than 100 capital information, providing users with data mining analysis, resource matching and other services",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "The website interface is refreshing and the trading experience is smooth, praise! But I hope to optimize the compatibility of different browsers, and reduce the situation that the image is not displayed or the click is not responding because of the browser.",
+        "img": "media3.jpg",
+        "qrcode": "",
+        "url": "www.bixiaobai.com"
+    }, {
+        "name": "Bitcoin Mr. Bencong",
+        "say1": "Well-known blockchain blogger",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "Most of today's exchanges are for quick profit, and the interests and experiences of users are only at the level of white paper. Exchain's main concept of sharing and co-governing, and the real implementation of free transaction fee, trading as shareholders, is simply  the conscience of the industry. As the first batch of users of Exchain, I have already held ET and looks forward to the future development of Exchain trading platform.",
+        "img": "media4.jpg",
+        "qrcode": "media4-qrcode.jpg",
+        "url": ""
+    }],
+    "title5": "Project Parties‘ Sound",
+    "content5": [{
+        "name": "WaykiChain",
+        "say1": "is a smart contract platform that supports Turing devices. It adopts DPOS consensus mechanism, sets up11 voting nodes, and generates a new block every 10 seconds.",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "First of all, the new logo makes we feel completely new. It is honored to be the first project party listing on Exchain, we hope to grow and develop along with Exchain. It is recommended that KYC's review process should be more efficient, also add functions such as OTC as soon as possible. WaykiChain community will support it!",
+        "img": "project2.jpg",
+        "qrcode": "",
+        "url": "http://waykichain.com"
+    }],
+    "title6": "Exchain Improvements",
+    "content6": [{
+            "sub": "OTC Function",
+            "url": "/exchange",
+            "detail": [
+                "Verified seller", " 10 am to 5 pm on working day", "Deposit USDT with market price", "No deposit fee"
+            ]
+        },
+        {
+            "sub": "Improve Experience",
+            "url": "/partner",
+            "detail": [
+                "Simplify KYC process", "Optimize price accuracy to 4 decimal places", "More accurate indication of K line…"
+            ]
+        }
+    ],
+    "others": {
+        "button": "Share your suggestion",
+        "link": "https://support.exchain.com/hc/en-us/requests/new",
+        "join": "Join Exchain Community: https://t.me/Exchain_cn:",
+        "joinUrl": "https://t.me/Exchain_cn",
+        "exchainQrcode": "exchain-qrcode.png"
+    }
+}
