@@ -2,8 +2,8 @@
   <page :class="'page_content-padding sound-page ' + $t('common.lang')">
     <div class="sound">
       <block>
-        <div class="banner">
-          <img :src="imgPath+con.banner">
+        <div class="banner" :style="{backgroundImage:'url('+imgPath+con.banner+')'}">
+          <!-- <img :src="imgPath+con.banner"> -->
         </div>
 
         <div slot="inner">
@@ -21,7 +21,7 @@
 
               <li>
                 <h1 class="inner-tit green">
-                   <span>{{con.title2}}</span>
+                  <span>{{con.title2}}</span>
                 </h1>
                 <div class="cnt">
                   <ul class="big-user-group">
@@ -152,20 +152,18 @@ export default {
   methods: {
     getCon() {
       var vu = this
-      ax
-        .get(
-          '/dist/static/sound/stage' +
-            vu.$route.params.stage +
-            '/' +
-            vu.lan +
-            '.json'
-        )
-        .then(res => {
-          if (typeof res.data == 'object') {
-            vu.con = res.data
-            etLog(vu.con)
-          }
-        })
+      ax.get(
+        '/dist/static/sound/stage' +
+          vu.$route.params.stage +
+          '/' +
+          vu.lan +
+          '.json'
+      ).then(res => {
+        if (typeof res.data == 'object') {
+          vu.con = res.data
+          etLog(vu.con)
+        }
+      })
     }
   },
   watch: {
@@ -188,7 +186,9 @@ export default {
   }
   .banner {
     height: 400px;
-    background: #084794;
+    background-repeat: no-repeat;
+    background-position: center center;
+    // background: #084794;
     text-align: center;
     img {
       margin: 0 auto;

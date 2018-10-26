@@ -1,16 +1,16 @@
 [{
-    "title": "Latest News",
-    "subTitle": "Exchain Launched OTC Function On Chinese Version",
-    "url": "https://support.exchain.com/hc/en-us/articles/360018368511-Exchain-Launched-OTC-Function-On-Chinese-Version"
-},
-{
-    "title": "Exchain Sound",
-    "subTitle": "A Shared, Co-owned, Co-governed Exchain",
-    "url": "/sound/1"
-},
-{
-    "title": "Guide For Beginner",
-    "subTitle": "How to buy digital assets on Exchain",
-    "url": "https://support.exchain.com/hc/en-us/articles/360013213691-Instructions-For-Exchain-Special-User-Test"
-}
+        "title": "Latest News",
+        "subTitle": "Exchain Launched OTC On Chinese Version",
+        "url": "https://support.exchain.com/hc/en-us/articles/360018368511-Exchain-Launched-OTC-Function-On-Chinese-Version"
+    },
+    {
+        "title": "Exchain Sound",
+        "subTitle": "Season Two, great ideas from you",
+        "url": "/sound/2"
+    },
+    {
+        "title": "Guide For Beginner",
+        "subTitle": "How to buy digital assets on Exchain",
+        "url": "https://support.exchain.com/hc/en-us/articles/360013213691-Instructions-For-Exchain-Special-User-Test"
+    }
 ]
