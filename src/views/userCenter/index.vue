@@ -23,6 +23,7 @@
               <router-link v-if="idCardStatus === '3'" to="/usercenter/kyc" class="to-kyc">
                 {{ $t('userCenter.index.baseInfo.kycRefused') }} >
               </router-link>
+              <span v-if="idCardStatus === '3'" style="margin-left: 5px;"> ({{ $t('userCenter.index.baseInfo.reasonForRejection') }}: {{kycRejectedReason}})</span>
             </div>
             <div class="basic-btm">
               <span class="recent-time">{{ $t('userCenter.index.baseInfo.recentLoginTime') }} : {{mtime ? mtime : userMtime}}（GMT+8）</span>
@@ -206,6 +207,7 @@ export default {
       bind: false,
       userNum: '',
       idCardStatus: '',
+      kycRejectedReason: '',
       levelName: '',
       recentUserCol: [
         {
@@ -339,6 +341,7 @@ export default {
           if (res.status === 200 && res.data.errorCode === 0) {
             sessionStorage.setItem('idCardStatus', res.data.result.idCardStatus)
             vu.idCardStatus = res.data.result.idCardStatus + ''
+            vu.kycRejectedReason = res.data.result.kycRejectedReason
             if (res.data.result.phone) {
               vu.bind = true
               sessionStorage.setItem('bindPhone', 'bind')

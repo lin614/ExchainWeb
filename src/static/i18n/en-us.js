@@ -220,7 +220,8 @@ module.exports = {
         kycChecking: 'kyc Auditing',
         kycChecked: 'kyc Audited',
         kycRefused: 'kyc Reject',
-        recentLoginTime: 'Recent log in time'
+        recentLoginTime: 'Recent log in time',
+        reasonForRejection : 'reason for rejection'
       },
       safeSetting: {
         title: 'Security Settings',

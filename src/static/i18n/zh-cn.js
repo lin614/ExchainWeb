@@ -220,7 +220,8 @@ module.exports = {
         kycChecking: 'kyc 审核中',
         kycChecked: 'kyc 已审核',
         kycRefused: 'kyc 驳回',
-        recentLoginTime: '最近登陆时间'
+        recentLoginTime: '最近登陆时间',
+        reasonForRejection: '驳回理由'
       },
       safeSetting: {
         title: '安全设置',
