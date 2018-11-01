@@ -73,6 +73,9 @@ export default {
   .title {
     color: #fff;
     font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 </style>
