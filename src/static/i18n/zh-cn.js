@@ -169,6 +169,8 @@ module.exports = {
     wechat: '客服微信',
     telegram: '电报群',
     inviteType: '邀请方式',
+    QRCode: '专属二维码海报：',
+    selectPoster: '选择我的专属海报',
     inviteCode: '我的专属邀请码：',
     copyInviteCode: '复制邀请码',
     inviteLink: '我的专属邀请链接：',
@@ -183,6 +185,10 @@ module.exports = {
     time: '时间',
     status: '状态',
     toMore: '查看更多',
+    poster: {
+      title: '挑选海报 下载发给好友',
+      download: '下载',
+    },
     inviteRankingList: {
       title: '邀请榜单',
       more: '完整榜单',

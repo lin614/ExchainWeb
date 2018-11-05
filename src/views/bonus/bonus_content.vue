@@ -54,26 +54,33 @@
 
           <div class="content">
             <Row type="flex" :gutter="16">
-              <Col span="8">
-              <div class="invistyle">
-                <p>{{$t('bonus.inviteCode')}}</p>
-                <div>
-                  <input id="foo" :value="code" disabled>
-                  <!-- <span>{{code}}</span> -->
-                  <a type="text" id="btnCode" :data-clipboard-text="code" @click="handleCopy('#btnCode')">{{$t('bonus.copyInviteCode')}}</a>
+              <Col span="6">
+                <div class="invistyle qr-code">
+                  <p>{{$t('bonus.QRCode')}}</p>
+                  <Button class="primary" :disabled="qrcodeBtnDisable" @click="selectPoster">{{$t('bonus.selectPoster')}}</Button>
                 </div>
-              </div>
               </Col>
 
-              <Col span="16">
-              <div class="invistyle">
-                <p>{{$t('bonus.inviteLink')}}</p>
-                <div>
-                  <input id="foo2" :value="link" disabled>
-                  <!-- <span> {{link}} </span> -->
-                  <a type="text" id="btnLink" :data-clipboard-text="link" @click="handleCopy('#btnLink')">{{$t('bonus.copyInviteLink')}}</a>
+              <Col span="6">
+                <div class="invistyle">
+                  <p>{{$t('bonus.inviteCode')}}</p>
+                  <div>
+                    <input id="foo" :value="code" disabled>
+                    <!-- <span>{{code}}</span> -->
+                    <a type="text" id="btnCode" :data-clipboard-text="code" @click="handleCopy('#btnCode')">{{$t('bonus.copyInviteCode')}}</a>
+                  </div>
                 </div>
-              </div>
+              </Col>
+
+              <Col span="12">
+                <div class="invistyle">
+                  <p>{{$t('bonus.inviteLink')}}</p>
+                  <div>
+                    <input id="foo2" :value="link" disabled>
+                    <!-- <span> {{link}} </span> -->
+                    <a type="text" id="btnLink" :data-clipboard-text="link" @click="handleCopy('#btnLink')">{{$t('bonus.copyInviteLink')}}</a>
+                  </div>
+                </div>
               </Col>
             </Row>
           </div>
@@ -196,6 +203,22 @@
           </div>
         </div>
 
+        <!-- 修改密码框 -->
+        <Modal v-model="posterModal" class-name="change-pwd-model poster-modal" :closable="false">
+          <crd potColor="#4399e9">
+            <span slot="title">{{ $t('bonus.poster.title') }}</span>
+            <div class="form-box">
+              <img v-if="posterImg !== ''" :src="posterImg" style="margin:0 auto; width:300px; margin:0 auto;">
+            </div>
+          </crd>
+
+          <div slot="footer">
+            <div class="model-btn-wrap clearfix">
+              <Button class="model-btn primary" @click="downloadImage">{{ $t('bonus.poster.download') }}</Button>
+            </div>
+          </div>
+        </Modal>
+
       </div>
     </block>
   </div>
@@ -208,6 +231,8 @@ import ClipboardJS from 'clipboard'
 import ax from 'axios'
 import config from '../../config/config.js'
 import cookie from 'js-cookie'
+import qrCode from 'qrcode'
+
 ax.defaults.headers.post['X-EXCHAIN-PN'] = cookie.get('PN', {
   domain: config.url.domain
 })
@@ -239,6 +264,11 @@ export default {
       },
       inviteRecordMsg: null,
       userUSDTMsg: null,
+      posterModal: false,
+      posterImg: '',
+      ele: null,
+      ctx: null,
+      qrcodeBtnDisable: true
     }
   },
   created() {
@@ -271,6 +301,70 @@ export default {
     bus.$off('langChange');
   },
   methods: {
+    /**
+     * 选择海报
+     */
+    selectPoster () {
+      this.posterModal = true
+      this.getPoster();
+    },
+
+    /**
+     * 制作海报
+     */
+    getPoster () {
+      this.ele = document.createElement('canvas');
+      this.ele.width = 750;
+      this.ele.height = 1334;
+      this.ctx = this.ele.getContext('2d');
+      this.ctx.rect(0, 0, this.ele.width, this.ele.height);
+      this.ctx.fillStyle = 'transparent';
+      this.ctx.fill();
+      // 绘制图片
+      this.drawImage();
+    },
+
+    /**
+     * 绘制图片
+     */
+    drawImage () {
+      let that = this
+      var img = new Image;
+      img.crossOrigin = 'Anonymous'; //解决跨域
+      img.src = `/dist/dist/static/img/poster-bg-${this.$t('common.lang')}.jpg`;
+      img.onload = function() {
+        that.ctx.drawImage(img, 0, 0, that.ele.width, that.ele.height);
+        qrCode.toDataURL(that.link).then(res => {
+          var img2 = new Image();
+          img2.crossOrigin = 'Anonymous'; //解决跨域
+          img2.src = res;
+          img2.onload = function() {
+            that.ctx.drawImage(img2, 550, 1150, 150, 150);
+            that.posterImg = that.ele.toDataURL("image/png");
+          }
+        })
+        .catch(err => {
+          console.error(err)
+        })
+        
+      }
+    },
+
+    /**
+     * 下载图片
+     */
+    downloadImage () {
+      var imgData = this.ele.toDataURL("image/png");
+      imgData = imgData.replace('image/png','image/octet-stream');
+
+      var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+      save_link.href = imgData;
+      save_link.download = 'exchain.png';
+  
+      var event = document.createEvent('MouseEvents');
+      event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      save_link.dispatchEvent(event);
+    },
     /**
      * 获取用户等级
      */
@@ -305,6 +399,7 @@ export default {
           if (res.status === 200 && res.data.meta.code === 0) {
             this.code = res.data.data.code
             this.link = location.protocol + '//www.exchain.com/reg/' + this.code
+            this.qrcodeBtnDisable = false
           }
         })
         .catch(err => {
@@ -535,12 +630,24 @@ export default {
         }
         a {
           line-height: 50px;
-          margin-right: 16px;
+          margin-right: 14px;
           float: right;
         }
       }
       #foo2 {
-        width: 530px;
+        width: 440px;
+      }
+    }
+
+    .qr-code {
+      button {
+        background-color: #419aec;
+        border: 1px solid #419aec;
+        color: #fff;
+        width: 100%;
+        height: 48px;
+        border-radius: 0px;
+        margin-top: 15px;
       }
     }
   }
@@ -824,7 +931,13 @@ export default {
     }
   }
 }
-
+.poster-modal .model-btn{
+  margin: 20px auto 0px;
+  display: block;
+}
+.poster-modal .form-box {
+  height: 534px;
+}
 
 
 </style>

@@ -169,6 +169,8 @@ module.exports = {
     wechat: 'Customer Service WeChat',
     telegram: 'Telegram',
     inviteType: 'Invitation',
+    QRCode: 'Exclusive QR code poster: ',
+    selectPoster: 'Choose my exclusive poster',
     inviteCode: 'My unique referral code:',
     copyInviteCode: 'Copy',
     inviteLink: 'My unique referral link:',
@@ -183,6 +185,10 @@ module.exports = {
     time: 'Time',
     status: 'Status',
     toMore: 'View More',
+    poster: {
+      title: 'Choose poster, download and send to friends',
+      download: 'Download'
+    },
     inviteRankingList: {
       title: 'Invitation Program',
       more: 'Ranking Full List',
