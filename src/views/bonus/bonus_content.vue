@@ -331,7 +331,7 @@ export default {
       let that = this
       var img = new Image;
       img.crossOrigin = 'Anonymous'; //解决跨域
-      img.src = `/dist/dist/static/img/poster-bg-${this.$t('common.lang')}.jpg`;
+      img.src = `/dist/static/img/poster-bg-${this.$t('common.lang')}.jpg`;
       img.onload = function() {
         that.ctx.drawImage(img, 0, 0, that.ele.width, that.ele.height);
         qrCode.toDataURL(that.link).then(res => {

@@ -1,0 +1,120 @@
+{
+    "banner": "banner-en.jpg",
+    "title1": "Thanks",
+    "content1": " <p>It is the 3rd season of Exchain Sound, we are continue to upgrade Exchain website according to your suggestions. In addition to the suggestions from everyone, we also invited the 'CryptoCurrency Sherlock Holmes' to deeply analyze the various airdrops and candy games in digital currency industry, and teach you how to make money smartly and avoid stepping on the thunder. Exchain Sound will continue to enrich the content, to build a platform for a shared, co-owned and co-governed platform with each user.</p>",
+    "title2": "Users’ Sound",
+    "content2": [{
+            "name": "CryptoCurrency Sherlock Holmes",
+            "say1": "I am the stock market Conan, but also the digital currency market Holmes. Don't let public opinion and emotions to influence your judgment. After the analysis, value investment has just begun.",
+            "sub": "Listen to me, to build Exchain together:",
+            "say2": "<p>If the transaction is a watershed of rationality, then the exchange is the touchstone of humanity. Profit-seeking speculation is not sustainable, and I chose to look forward to a new era of value investing with Exchain.</p><p>Practice the correct posture of participating airdrops and candy with “Cryptocurrency Sherlock Holmes”.</p><p>Airdrop candy! wool!</p><p>Are you surprised when relaxing?</p><p>Whether you are a beginner, or senior player, you are quite familiar to airdrops. However, for many airdrop projects, people say that it is difficult to distinguish the authenticity. It can be said that Taohuatan is a thousand feet deep, and it is not as deep as an airdrop.</p><p>Few days earlier, there was always a mysterious young lady who connected me with my WeChat. The starting style is no longer a feeling of injury asking for comfort, or selling tea or stockpile products for sale, but secretly telling you that there is a very good airdrop project, she said “Get on the train.”</p><p>Looking at those messages, I instinctively suspected to be a scam, as same as many friends can also discern. First of all, the mysterious lady’s WeChat avatar, 99% is a plastic surgery face. And secondly, they are basically to ask your wallet info such as account password, private key, or KYC information. Such scams are not difficult to discern and there are fewer rollovers.</p><p>But recently, there has also been a variant of airdrop scams on the Internet with many victims. Driven by the chivalrous spirit of unstoppable power of Holmes, I came to expose this scam.</p><p>The scammer usually pretends to be the official staff of a wallet. After changing the user name and avatar info of the corresponding wallet, they start to post messages in forums, Moment, Telegram and other channels. The title is generally 'official airdrops, will end soon ', 'X-month XX official latest airdrop summary', 'welfare! Quickly catch the airdrop. There are red envelopes inside ','2018 airdrop wool summary' and the like.</p><p>In fact, not only can these messages not be found on the corresponding wallet official website, but also those airdrop coins, which are also writing innovative coins, read as air coins.</p><p>But there are always friends who will ask, what if you missed a hundred million?</p><p>Then, let's do a simple analysis from the content. The content is generally divided into four parts, and the lazy ones will shorten the content to only the second or third part.</p><p>Part I – Warm-up before deception: Briefly describe the preparations and instructions for the airdrop.</p><p>Part II – Pseudo-Dragon Ball: A batch of ERC20 air coins disguised as “wool”. In order to increase credibility, there will be some information such as project party, business model, whether listed on exchange, and future increase prediction. Although coins is available in seconds, it can be found that these digital coins not only mock the name of other real coins, such as the BTU of BTC, but there is actually no real project.</p><p>Part III – Pseudo-Dragon: After the second part of the air coin content is ready, the setter should start the scam. The content is roughly transfer a bit of mainstream digital currency to an address, which will trigger a smart contract and get some innovative currency. From the literal description, there are some price differences that induce readers to further release their vigilance. But in fact, the so-called smart contract will not trigger at all, because it is not written. At the same time, due to the characteristics of anonymity, and the regulatory and legal vacuum in this area needs to be improved. It is very difficult to trace and defend legal rights. The real rich people can go check with them.</p><p>Part IV – “Catch you”: Using the words “ending soon” and the date, operation instructions and other supplementary content as a “friendly reminder”, scammers will let you generate the feeling of “must participate, or you will regret forever.”This is exactly the same as those who fraud to the elderly to induce them to buy invalid health products.</p><p>As popular as an airdrop, there is also happens in exchange. Although it is a bull market, the exchange is a top1 project in 2018. Unlike those who have many tricks, Exchain Halloween airdrops are both sincere and interesting. Many of digital currency users have already achieved considerable returns while playing the game. Don’t worry about the missed coins, there will be more interesting and fun activities waiting for you to participate.</p><p>Halloween is over, accompanied by the cold autumn rain. Although the bear market continues, it is still hopes. There may be naïve new users, or experienced players. In the complex industry, there are both devils and supporters.</p><p>I hope that through this article, you can train a pair of sharp eyes, sharing your sincere with no tricks.</p><p>Let share, co-own and co-govern with Exchain to share the beauty of Crypto currency future.</p>",
+            "img": "user1.jpg"
+        }, {
+            "name": "Backpacker",
+            "say1": " I’m an unlucky investor in digital assets trading market for three years. I hope I can have “sharp-eyes” to identify qualified projects. ",
+            "sub": "Listen to me, to build Exchain together:",
+            "say2": "In the status of withdrawal, you could consider adding the undo button to cancel the withdrawal. The crypto currency market is changing too fast, and I hope that the function of Exchain could help me to keep up with this change.",
+            "img": "user2.jpg"
+        },
+        {
+            "name": "Zhixin",
+            "say1": "I’m the “old aunt” for most cryptal currency buyers. I was also deceived by fraud. Now I have decided to make the real value investment.",
+            "sub": "Listen to me, to build Exchain together:",
+            "say2": "I hope that there will be more mainstream digital currencies, or have some fund products. It will reduce our risk and allow some people who don’t know how to do “short-term trade” to make some long-term investment.",
+            "img": "user3.jpg"
+        }
+    ],
+    "title3": "More user advises",
+    "content3": [{
+        "name": "Bro Peng",
+        "say": "The platform needs to be optimized more, such as there is no reason indication of KYC rejection.",
+        "img": "user4.jpg"
+    }, {
+        "name": "Yayaya",
+        "say": "I have been looking for customer service window for many time. Could you make the window of the customer service system more obvious, otherwise I really feel upsets when couldn't find the entrance. ",
+        "img": "user5.jpg"
+    }, {
+        "name": "No chives dumpling",
+        "say": "If you don't log in now, you can't open the trading page. I highly recommend to modify the function. It will be much more convenient if users can see the trading page without login.",
+        "img": "user6.jpg"
+    }, {
+        "name": "55 Winds",
+        "say": "I’m looking forward to forum launching. So that I can post my opinion of many cryptocurrencies.",
+        "img": "user7.jpg"
+    }],
+    "title4": "Media Professionals’ Sound",
+    "content4": [{
+        "name": "BTC Investment Queen",
+        "say1": "amous blogger of blockchain，Key Opinion Leader.",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "I like the 'Exchain Sound' section. It is very interesting to collect everybody's view, and push the fairness of transaction! Hope to improve the experience, and optimize the website to adapt to more browsers",
+        "img": "media1.jpg",
+        "qrcode": "media1-qrcode.jpg",
+        "url": ""
+    }, {
+        "name": "ChainerTime",
+        "say1": "The leading Fintech brand commercial media in China, the first block chain video media, is committed to creating resource and traffic entrance through high-quality blockchain IP and content. Also providing shaping, professional whole-case marketing and PR solutions for blockchain clients. Now we have token pictures or films of high-quality blockchain enterprises and projects, such as Keyin Capital, ONO, Carmel Town, Sea Block Chain Forum, 920 Digital Expo",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "Exchain is the world's first shared exchange, and 'Exchain Sound' provides opportunity for everyone to interact with the platform, make recommendations, and become a co-builder of the platform.",
+        "img": "media2.jpg",
+        "qrcode": "media2-qrcode.jpg",
+        "url": ""
+    }, {
+        "name": "XiaojiuBlockchain",
+        "say1": "Interesting, colorful, short blockchain relevant video that everyone can understand.",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "Exchain's 'Information Disclosure' section presents project information from token circulation, progress, technology and other aspects. And all information comes from third-party platform, which provides an open, objective and comprehensive decision-making assistance for user investment.",
+        "img": "media3.jpg",
+        "qrcode": "media3-qrcode.jpg",
+        "url": ""
+    }, {
+        "name": "Block Novice Village",
+        "say1": "3 minutes’ animation lets you zero threshold entry block chain",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "For users, Exchain can enable users to become dividend payout recipients. For the project side, it will be free of charge to meet the above standard. At present, there are still few currencies on the line, and it is recommended to increase currencies as soon as possible.",
+        "img": "media4.jpg",
+        "qrcode": "media4-qrcode.jpg",
+        "url": ""
+}, {
+        "name": "ChainerGameTalk",
+        "say1": "First media of Block chain game evaluation",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "The user interface is simple and generous, and interactive experience is good. The first three months free of trading fee is very friendly to new users. Among them, it is suggested that the corresponding currency price should be displayed directly above the K-line chart, so that the user can assess the investment amount conveniently.",
+        "img": "media5.jpg",
+        "qrcode": "media5-qrcode.jpg",
+        "url": ""
+    }],
+    "title5": "Project Parties‘ Sound",
+    "content5": [{
+        "name": "WaykiChain",
+        "say1": "is a smart contract platform that supports Turing devices. It adopts DPOS consensus mechanism, sets up11 voting nodes, and generates a new block every 10 seconds.",
+        "sub": "Listen to me, to build Exchain together:",
+        "say2": "WaykiChain has been witnessing the development of Exchain. Congratulations on the opening of the OTC, and user experience is more convenient, and the KYC is also smoother. We hope that Exchain will complete the WICC mapping as soon as possible, so that WaykiChain users can experience it more comfortably.",
+        "img": "project2.jpg",
+        "qrcode": "",
+        "url": "http://waykichain.com"
+    }],
+    "title6": "Exchain Improvements",
+    "content6": [{
+            "sub": "Flexible rick control system",
+            "url": "/exchange",
+            "detail": [
+                "Optimize the KYC process, indicate the reason for rejection", "1New backend risk control system to improve the efficiency", "Optimize the operation system to ensure the real user benefits"
+            ]
+        },
+        {
+            "sub": "Improve Experience",
+            "url": "/partner",
+            "detail": [
+                "Launch financial system 2.0, improves financial processing efficiency", "Upgrade database, improves trading system computing speed", "Optimize married deal processing function..."
+            ]
+        }
+    ],
+    "others": {
+        "button": "Share your suggestion",
+        "link": "https://support.exchain.com/hc/en-us/requests/new",
+        "join": "Join Exchain Community: https://t.me/Exchain_cn:",
+        "joinUrl": "https://t.me/Exchain_cn",
+        "exchainQrcode": "exchain-qrcode.png"
+    }
+}

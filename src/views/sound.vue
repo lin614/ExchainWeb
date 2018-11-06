@@ -31,7 +31,7 @@
                         <p class="p1">
                           <span>{{p.name}}：</span>{{p.say1}}</p>
                         <p class="p2">{{p.sub}}</p>
-                        <p class="p3">{{p.say2}}</p>
+                        <p class="p3" v-html="p.say2"></p>
                       </div>
                     </li>
                   </ul>
@@ -375,6 +375,7 @@ export default {
             margin-bottom: 30px;
           }
           .qrcode {
+            width: 94px;
             margin: 10px 0px 30px;
           }
         }
