@@ -140,14 +140,14 @@ export default {
           }
         },
         {
-          title: this.$t('index.markets.rowName.volume'),
-          key: 'volume',
+          title: this.$t('index.markets.rowName.amount'),
+          key: 'amount',
           render: function(h, arg) {
             return h(
               'span',
               {},
               formatMarketPrecision(
-                arg.row.volume,
+                arg.row.amount,
                 arg.row.name,
                 'amount',
                 instance
@@ -186,68 +186,7 @@ export default {
           }
         }
       ],
-      mainMarket: [
-        // {
-        //   name: 'BTC/USDT', // 交易对
-        //   parm: 'btcusdt', // 交易对
-        //   parm_: 'btc_usdt', // 交易对
-        //   close: '-', // 最新价
-        //   closeshow: '', // 最新价
-        //   priceChange: '-', // 24小时波动
-        //   high: '-', // 最高价
-        //   low: '-', // 最低价
-        //   volume: '-', // 交易量
-        //   LastDayPrice: '' // 昨天收盘价
-        // },
-        // {
-        //   name: 'ETH/USDT', // 交易对
-        //   parm: 'ethusdt', // 交易对
-        //   parm_: 'eth_usdt', // 交易对
-        //   close: '-', // 最新价
-        //   closeshow: '', // 最新价
-        //   priceChange: '-', // 24小时波动
-        //   high: '-', // 最高价
-        //   low: '-', // 最低价
-        //   volume: '-', // 交易量
-        //   LastDayPrice: '' // 昨天收盘价
-        // },
-        // {
-        //   name: 'BCH/USDT', // 交易对
-        //   parm: 'bchusdt', // 交易对
-        //   parm_: 'bch_usdt', // 交易对
-        //   close: '-', // 最新价
-        //   closeshow: '', // 最新价
-        //   priceChange: '-', // 24小时波动
-        //   high: '-', // 最高价
-        //   low: '-', // 最低价
-        //   volume: '-', // 交易量
-        //   LastDayPrice: '' // 昨天收盘价
-        // },
-        // {
-        //   name: 'ETH/BTC', // 交易对
-        //   parm: 'ethbtc', // 交易对
-        //   parm_: 'eth_btc', // 交易对
-        //   close: '-', // 最新价
-        //   closeshow: '', // 最新价
-        //   priceChange: '-', // 24小时波动
-        //   high: '-', // 最高价
-        //   low: '-', // 最低价
-        //   volume: '-', // 交易量
-        //   LastDayPrice: '' // 昨天收盘价
-        // },
-        // {
-        //   name: 'BCH/BTC', // 交易对
-        //   parm: 'bchbtc', // 交易对
-        //   parm_: 'bch_btc', // 交易对
-        //   close: '-', // 最新价
-        //   closeshow: '', // 最新价
-        //   priceChange: '-', // 24小时波动
-        //   high: '-', // 最高价
-        //   low: '-', // 最低价
-        //   volume: '-', // 交易量
-        //   LastDayPrice: '' // 昨天收盘价
-        // }
-      ],
+      mainMarket: [],
       invMarket: [],
       vcMarket: [],
       gemMarket: [],
@@ -320,7 +259,7 @@ export default {
               priceChange: '-', // 24小时波动
               high: '-', // 最高价
               low: '-', // 最低价
-              volume: '-', // 交易量
+              amount: '-', // 交易量
               LastDayPrice: '' // 昨天收盘价
             }
 
@@ -502,7 +441,7 @@ export default {
           info.high = market.data[0][2] ? market.data[0][2] : '-' // 高
           info.low = market.data[0][3] //低
           info.close = market.data[0][4] ? market.data[0][4] : '-' // 最新价
-          info.volume = market.data[0][5] ? market.data[0][5] : '-' // 成交量
+          info.amount = market.data[0][5] ? market.data[0][5] : '-' // 成交量
           info.LastDayPrice = market.data[0][1] // 昨天收盘价
 
           // 24h波动
