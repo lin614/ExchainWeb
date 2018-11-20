@@ -7,7 +7,9 @@
             <span>{{ $t('userCenter.asset.title') }}</span>
             <router-link to="/usercenter/financeRecord" class="fr">{{$t('userCenter.financeRecord.title')}}</router-link>
           </div>
+          
           <div class="card-main clearfix">
+            
             <div class="card-main-hd">
               <div class="asset-amount fl">
                 <!-- <span class="asset-amount-title">{{ $t('userCenter.asset.title') }}</span> -->
@@ -20,6 +22,14 @@
                 <!-- <router-link to="/usercenter/manageaddr" class="manage-addr-btn opera-box-btn fr">{{ $t('userCenter.asset.withdrawAddress') }}</router-link> -->
               </div>
             </div>
+
+            <div class="hide-asset">
+              <Checkbox v-model="hideAsset">{{ $t('userCenter.asset.hideAsset') }}</Checkbox>
+              <Tooltip :content="$t('userCenter.asset.hideAssetTip')" placement="top">
+                <Icon type="ios-information-outline"></Icon>
+              </Tooltip>
+            </div>
+
             <Table :columns="assetListTable" :data="assetListData" :disabled-hover="true"></Table>
           </div>
 
@@ -129,6 +139,7 @@ export default {
       showColor: '',
       usdtPrice: null,
       btcPrice: null,
+      hideAsset: null,
       trabsferModal: {
         token: '',
         from: '',
@@ -385,6 +396,7 @@ export default {
         }
       ],
       assetListData: [],
+      assetListDataFilter: [],
       transferTokenList: [
         {
           label: 'BTC',
@@ -438,6 +450,19 @@ export default {
         this.balanceTotal = scientificNotation2Number(NP.round(this.balanceTotal, 2))
       } else {
         this.balanceTotal = scientificNotation2Number(NP.times(this.BTCBalance, this.btcPrice))
+      }
+    },
+    hideAsset () {
+      let data = [];
+      if (this.hideAsset) {
+        for (var i = 0; i < this.assetListDataFilter.length; i++) {
+          if (this.assetListDataFilter[i].btc > 0.0001) {
+            data.push(this.assetListDataFilter[i])
+          }
+        }
+        this.assetListData = util.deepClone(data);
+      } else {
+        this.assetListData = util.deepClone(this.assetListDataFilter);
       }
     },
     // tokenObj() {
@@ -528,6 +553,7 @@ export default {
             for (var key in result) {
               obj.token = key
               obj.account_available = result[key].account_available
+              obj.btc = result[key].btc
               obj.withdraw_fee = result[key].withdraw_fee
               obj.exchange_available = result[key].exchange_available
               obj.exchange_freeze = result[key].exchange_freeze
@@ -539,7 +565,9 @@ export default {
               obj.recharge_min = vu.tokenObj[key].recharge_min
               obj.withdraw_max = vu.tokenObj[key].withdraw_max
               obj.withdraw_min = vu.tokenObj[key].withdraw_min
-              vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
+              obj.show = false
+              vu.assetListDataFilter.push(JSON.parse(JSON.stringify(obj)))
+              vu.assetListData = util.deepClone(vu.assetListDataFilter)
               btcBalance = NP.plus(
                 parseFloat(btcBalance),
                 parseFloat(result[key].btc)
@@ -768,6 +796,7 @@ export default {
               for (var key in result) {
                 obj.token = key
                 obj.account_available = result[key].account_available
+                obj.btc = result[key].btc
                 obj.withdraw_fee = result[key].withdraw_fee
                 obj.exchange_available = result[key].exchange_available
                 obj.exchange_freeze = result[key].exchange_freeze
@@ -779,7 +808,9 @@ export default {
                 obj.recharge_min = tokenObj[key].recharge_min
                 obj.withdraw_max = vu.tokenObj[key].withdraw_max
                 obj.withdraw_min = tokenObj[key].withdraw_min
-                vu.assetListData.push(JSON.parse(JSON.stringify(obj)))
+                obj.show = false
+                vu.assetListDataFilter.push(JSON.parse(JSON.stringify(obj)))
+                vu.assetListData = util.deepClone(vu.assetListDataFilter)
                 btcBalance = NP.plus(
                   parseFloat(btcBalance),
                   parseFloat(result[key].btc)
@@ -994,6 +1025,10 @@ export default {
     .ivu-table-cell-expand {
       display: none;
     }
+  }
+  .hide-asset{
+    text-align: right;
+    margin-top: 10px;
   }
 }
 .send-code-down {

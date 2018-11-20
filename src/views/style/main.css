@@ -224,3 +224,11 @@ body {
     height: calc(100% - 96px);
     background: #bfa68c;
 }
+
+.entrust-cont .ivu-table-cell {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.entrust-cont .page-wrap {
+    padding: 20px 0px;
+}

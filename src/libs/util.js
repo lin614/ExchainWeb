@@ -130,7 +130,7 @@ util.deepClone = (source) => {
       if (source.hasOwnProperty(keys)) {
         if (source[keys] && typeof source[keys] === 'object') {
           targetObj[keys] = source[keys].constructor === Array ? [] : {}
-          targetObj[keys] = objectTools.deepClone(source[keys])
+          targetObj[keys] = util.deepClone(source[keys])
         } else {
           targetObj[keys] = source[keys]
         }

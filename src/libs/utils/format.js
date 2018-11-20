@@ -19,6 +19,10 @@ export const formatMarketPrecision = (number, market, type, vu) => {
                 length = marketPrecision[o].amount_precision;
             } else if (type === 'price'){
                 length = marketPrecision[o].price_precision;
+            } else {
+                let tmp1 = marketPrecision[o].amount_precision;
+                let tmp2 = marketPrecision[o].price_precision;
+                length = tmp1 > tmp2 ? tmp1 : tmp2
             }
             
             var str = '';

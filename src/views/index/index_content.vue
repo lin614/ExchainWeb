@@ -454,6 +454,7 @@ export default {
               .toNumber()
             info.priceChange = (wave * 100).toFixed(2) + '%'
           }
+          debugger
 
           // 法币计算
           // 非 [*/USDT] 的交易对，转换成按USDT计价

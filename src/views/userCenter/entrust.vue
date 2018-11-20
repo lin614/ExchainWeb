@@ -7,11 +7,23 @@
           <div class="entrust-tab">
             <div class="entrust-tab-item fl" @click="handleTabClick('current')" :class="currentTab === 'current' ? 'tab-active' : ''">{{ $t('userCenter.entrust.currentOrder') }}</div>
             <div class="entrust-tab-item fl" @click="handleTabClick('history')" :class="currentTab === 'history' ? 'tab-active' : ''">{{ $t('userCenter.entrust.historyOrder') }}</div>
+            <div class="entrust-tab-item fl" @click="handleTabClick('historyRecord')" :class="currentTab === 'historyRecord' ? 'tab-active' : ''">{{ $t('userCenter.entrust.historyRecord') }}</div>
+
+            <div class="fl search" v-if="currentTab !== 'current'">
+              <span>{{ $t('userCenter.entrust.selectMonth') }}：</span>
+              <DatePicker :value="month" @on-change="handleChange" type="month" placeholder="Select month" :options="options4" style="width: 200px"></DatePicker>
+              <Button type="primary" @click="searchData">搜索</Button>
+            </div>
           </div>
+
           <Table v-if="currentTab === 'current'" :columns="columns1" :data="curData"></Table>
-          <Page v-if="(currentTab === 'current') && showCurPage" @on-change="handleCurPageChange" :total="curTotal"></Page>
           <Table v-if="currentTab === 'history'" :columns="columns2" :data="hisData"></Table>
-          <Page v-if="(currentTab === 'history') && showHisPage" @on-change="handleHisPageChange" :total="hisTotal"></Page>
+          <Table v-if="currentTab === 'historyRecord'" :columns="columns3" :data="hisData"></Table>
+
+          <div v-if="page.show" class="page-wrap">
+            <Page @on-change="changePage" :total="page.total"></Page>
+          </div>
+          
         </crd>
       </div>
     </div>
@@ -25,37 +37,55 @@ import ax from 'axios'
 import config from '../../config/config.js'
 import util from '../../libs/util.js'
 import cookie from 'js-cookie'
+import tradeDetail from './entrust-detail'
+import { formatMarketPrecision } from '../../libs/utils/format.js'
+
 export default {
   name: 'entrust',
   data() {
     var vu = this
     return {
+      month: null,
       pageHeight: 0,
       currentTab: 'current',
-      showCurPage: false,
-      showHisPage: false,
-      curPage: 1,
-      curSize: 10,
-      curTotal: 0,
-      hisPage: 1,
-      hisSize: 10,
-      hisTotal: 0,
+      page: {
+        cur: 1,
+        size: 10,
+        total: 0,
+        show: false
+      },
+      options4: {
+        disabledDate (date) {
+          return date && date.valueOf() < 1538323200000 || date.valueOf() > Date.now();
+        }
+      },
       columns1: [
         {
-          title: this.$t('userCenter.entrust.ctime'),
+          title: this.$t('userCenter.entrust.createTime'),
           key: 'ctime',
-          width: 200
+          width: 130
+        },
+        {
+          title: this.$t('userCenter.entrust.txType'),
+          key: 'txType',
+          width: 100,
+          render: function(h, params) {
+            return h(
+              'span',
+              vu.$t('userCenter.entrust.coinTxType')
+            )
+          }
         },
         {
           title: this.$t('userCenter.entrust.market'),
-          key: 'market'
+          key: 'market',
+          width: 100
         },
         {
           title: this.$t('userCenter.entrust.side'),
           key: 'side',
-          width: 100,
+          width: 50,
           render: function(h, params) {
-            // var vu = this
             return h(
               'div',
               {
@@ -71,19 +101,87 @@ export default {
         },
         {
           title: this.$t('userCenter.entrust.price'),
-          key: 'price'
+          key: 'price',
+          width: 125,
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.price,
+                params.row.market,
+                'price',
+                vu
+              )
+            )
+          }
         },
         {
-          title: this.$t('userCenter.entrust.amount'),
-          key: 'amount'
+          title: this.$t('userCenter.entrust.entrustNum'),
+          key: 'entrustNum',
+          width: 125,
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.amount,
+                params.row.market,
+                'amount',
+                vu
+              )
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.entrustSumAmount'),
+          width: 140,
+          key: 'entrustSumAmount',
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.price * params.row.amount,
+                params.row.market,
+                'special',
+                vu
+              )
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.transactionNumed'),
+          width: 140,
+          key: 'transactionNumed',
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.transactionNumed,
+                params.row.market,
+                'amount',
+                vu
+              )
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.unTransactionNum'),
+          width: 140,
+          key: 'unTransactionNum',
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.unTransactionNum,
+                params.row.market,
+                'amount',
+                vu
+              )
+            )
+          }
         },
         {
           title: this.$t('userCenter.entrust.closeRate'),
           key: 'closeRate'
-        },
-        {
-          title: this.$t('userCenter.entrust.averPrice'),
-          key: 'averPrice'
         },
         {
           title: this.$t('userCenter.entrust.opera'),
@@ -121,18 +219,29 @@ export default {
         {
           title: this.$t('userCenter.entrust.ctime'),
           key: 'ctime',
-          width: 200
+          width: 135
+        },
+        {
+          title: this.$t('userCenter.entrust.txType'),
+          key: 'txType',
+          width: 100,
+          render: function(h, params) {
+            return h(
+              'span',
+              vu.$t('userCenter.entrust.coinTxType')
+            )
+          }
         },
         {
           title: this.$t('userCenter.entrust.market'),
-          key: 'market'
+          key: 'market',
+          width: 100,
         },
         {
           title: this.$t('userCenter.entrust.side'),
           key: 'side',
-          width: 100,
+          width: 50,
           render: function(h, params) {
-            // var vu = this
             return h(
               'div',
               {
@@ -148,20 +257,74 @@ export default {
         },
         {
           title: this.$t('userCenter.entrust.price'),
-          key: 'price'
+          key: 'price',
+          width: 125,
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.price,
+                params.row.market,
+                'price',
+                vu
+              )
+            )
+          }
         },
         {
-          title: this.$t('userCenter.entrust.amount'),
-          key: 'amount'
+          title: this.$t('userCenter.entrust.entrustNum'),
+          key: 'entrustNum',
+          width: 140,
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.amount,
+                params.row.market,
+                'amount',
+                vu
+              )
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.transactionNumed'),
+          key: 'transactionNumed',
+          width: 185,
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.amount_deal,
+                params.row.market,
+                'amount',
+                vu
+              )
+            )
+          }
         },
         {
           title: this.$t('userCenter.entrust.closeRate'),
           key: 'closeRate'
         },
         {
-          title: this.$t('userCenter.entrust.averPrice'),
-          key: 'averPrice'
+          title: this.$t('userCenter.entrust.status.status'),
+          key: 'status.status',
+          render: function(h, params) {
+            return h(
+              'span',
+              params.row.status == 2 ? vu.$t('userCenter.entrust.status.close') : vu.$t('userCenter.entrust.status.cancel')
+            )
+          }
         },
+        // {
+        //   title: this.$t('userCenter.entrust.closeRate'),
+        //   key: 'closeRate'
+        // },
+        // {
+        //   title: this.$t('userCenter.entrust.averPrice'),
+        //   key: 'averPrice'
+        // },
         {
           title: this.$t('userCenter.entrust.opera'),
           key: 'opera',
@@ -182,13 +345,142 @@ export default {
                     },
                     on: {
                       click: () => {
-                        this.cancelOrder(params.row)
+                        this.handleOpera(params.index, params.row, 'tradeDetail')
                       }
                     }
                   },
-                  ''
+                  this.$t('userCenter.entrust.detail')
                 )
               ]
+            )
+          }
+        },
+        {
+          type: 'expand',
+          width: 1,
+          render: (h, params) => {
+            return h(
+              'div',
+              {
+                style: {
+                  width: '100%',
+                  backgroundColor: 'rgb(247, 247, 247)'
+                }
+              },
+              [
+                h(tradeDetail, {
+                  props: {
+                    showCharge: this.showCharge,
+                    params: params.row
+                  }
+                })
+              ]
+            )
+          }
+        }
+      ],
+      columns3: [
+        {
+          title: this.$t('userCenter.entrust.transactionTime'),
+          key: 'transactionTime',
+          width: 200,
+          render: function(h, params) {
+            return h(
+              'span',
+              params.row.time
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.txType'),
+          key: 'txType',
+          width: 100,
+          render: function(h, params) {
+            return h(
+              'span',
+              vu.$t('userCenter.entrust.coinTxType')
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.market'),
+          key: 'market'
+        },
+        {
+          title: this.$t('userCenter.entrust.side'),
+          key: 'side',
+          width: 100,
+          render: function(h, params) {
+            return h(
+              'div',
+              {
+                style: {
+                  color: ((params.row.side + '') === '1') ? 'green' : 'red'
+                }
+              },
+              ((params.row.side + '') === '1')
+                ? vu.$t('userCenter.entrust.buy')
+                : vu.$t('userCenter.entrust.sell')
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.price'),
+          key: 'price',
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.price,
+                params.row.market,
+                'price',
+                vu
+              )
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.transactionNum'),
+          key: 'transactionNum',
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.amount,
+                params.row.market,
+                'amount',
+                vu
+              )
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.transactionAmount'),
+          key: 'transactionAmount',
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.price * params.row.amount,
+                params.row.market,
+                'special',
+                vu
+              )
+            )
+          }
+        },
+        {
+          title: this.$t('userCenter.entrust.fee'),
+          key: 'fee',
+          render: function(h, params) {
+            return h(
+              'div',
+              formatMarketPrecision(
+                params.row.fee,
+                params.row.market,
+                'price',
+                vu
+              )
             )
           }
         }
@@ -202,15 +494,54 @@ export default {
     page
   },
   methods: {
+    /**
+     * 充值和提现点击操作
+     */
+    handleOpera(index, params, exType) {
+      if (this.hisData[index]._expanded) {
+        this.hisData[index]._expanded = false
+      } else {
+        for (var i = 0; i < this.hisData.length; i++) {
+          this.hisData[i]._expanded = false
+        }
+        this.hisData[index]._expanded = true
+      }
+      this.$set(this.hisData, index, this.hisData[index])
+    },
+    searchData() {
+      if (this.currentTab === 'history') {
+        this.getHisData()
+      } else {
+        this.getHistoryRecord()
+      }
+    },
+    handleChange (date) {
+      if (date === '') {
+        this.month = null
+      } else {
+        var data = date.split('-');
+        data[1] = data[1].length === 1 ? '0' + data[1] : data[1]
+        this.month = data[0] + data[1];
+      }
+    },
     handleWindowResize() {
       this.pageHeight = window.innerHeight - 360
     },
     handleTabClick(type) {
+      this.month = null
+      this.page = {
+        cur: 1,
+        size: 10,
+        total: 0,
+        show: false
+      }
       this.currentTab = type
       if (type === 'current') {
         this.getCurData()
-      } else {
+      } else if (type === 'history') {
         this.getHisData()
+      } else {
+        this.getHistoryRecord()
       }
     },
     /**
@@ -222,7 +553,7 @@ export default {
         .get(
           config.url.user +
             '/api/order/lists?status=1&method=active&t' +
-            new Date().getTime() + '&page=' + vu.curPage + '&size=' + vu.curSize,
+            new Date().getTime() + '&page=' + vu.page.cur + '&size=' + vu.page.size,
           getHeader
         )
         .then(res => {
@@ -232,15 +563,17 @@ export default {
               let amount_deal = parseFloat(data[i].amount_deal)
               let amount = parseFloat(data[i].amount)
               let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
-              data[i].closeRate = rate.toFixed(2)
+              data[i].closeRate = rate.toFixed(2) + '%'
               data[i].cancelOrderLoading = false;
-              vu.curData = data
+              data[i].transactionNumed = data[i].amount_deal
+              data[i].unTransactionNum = data[i].amount_no_deal
             }
-            vu.curTotal = res.data.result.total * 1
-            if (Math.ceil(vu.curTotal / vu.curSize) > 1) {
-              this.showCurPage = true
+            vu.curData = data
+            vu.page.total = res.data.result.total * 1
+            if (Math.ceil(vu.page.total / vu.page.size) > 1) {
+              this.page.show = true
             } else {
-              this.showCurPage = false
+              this.page.show = false
             }
             if (data.length === 0) {
               vu.curData = []
@@ -254,17 +587,13 @@ export default {
      * 获取成交历史
      */
     getHisData() {
-      let params = {
-        status: 2,
-        method: 'history',
-        t: new Date().getTime()
-      }
       var vu = this
+      var params = this.month ? '&month=' + this.month : ''
       ax
         .get(
           config.url.user +
             '/api/order/lists?method=history&t' +
-            new Date().getTime() + '&page=' + vu.hisPage + '&size=' + vu.hisSize,
+            new Date().getTime() + '&page=' + vu.page.cur + '&size=' + vu.page.size + params,
           getHeader
         )
         .then(res => {
@@ -275,13 +604,49 @@ export default {
               let amount = parseFloat(data[i].amount)
               let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
               data[i].closeRate = rate.toFixed(2)
-              vu.hisData = data
+              data[i]._expanded = false
             }
-            vu.hisTotal = res.data.result.total * 1
-            if (Math.ceil(vu.hisTotal / vu.hisSize) > 1) {
-              this.showHisPage = true
+            vu.hisData = data
+            vu.page.total = res.data.result.total * 1
+            if (Math.ceil(vu.page.total / vu.page.size) > 1) {
+              this.page.show = true
             } else {
-              this.showHisPage = false
+              this.page.show = false
+            }
+          } else {
+            apiError(vu, res);
+          }
+        })
+    },
+    /**
+     * 获取历史委托
+     */
+    getHistoryRecord() {
+      var vu = this
+      var params = this.month ? '&month=' + this.month : ''
+      ax
+        .get(
+          config.url.user +
+            '/api/order/dealDetailLists?&t' +
+            new Date().getTime() + '&page=' + vu.page.cur + '&size=' + vu.page.size + params,
+          getHeader
+        )
+        .then(res => {
+          if (res.status == '200' && res.data.errorCode == 0) {
+            let data = res.data.result.data
+            for (let i = 0; i < data.length; i++) {
+              let amount_deal = parseFloat(data[i].amount_deal)
+              let amount = parseFloat(data[i].amount)
+              let rate = vu.accMul(vu.accDiv(amount_deal, amount), 100)
+              data[i].closeRate = rate.toFixed(2)
+              data[i]._expanded = false
+            }
+            vu.hisData = data
+            vu.page.total = res.data.result.total * 1
+            if (Math.ceil(vu.page.total / vu.page.size) > 1) {
+              this.page.show = true
+            } else {
+              this.page.show = false
             }
           } else {
             apiError(vu, res);
@@ -362,30 +727,39 @@ export default {
         })
     },
     /**
-     * 当前委托页码改变
+     * 分页
      */
-    handleCurPageChange (e) {
-      this.curPage = e
-      this.getCurData()
-    },
-    /**
-     * 成交历史页码改变
-     */
-    handleHisPageChange(e) {
-      this.hisPage = e
-      this.getHisData()
+    changePage (e) {
+      this.page.cur = e
+      if (this.currentTab === 'current') {
+        this.getCurData()
+      } else if (this.currentTab === 'history') {
+        this.getHisData()
+      } else {
+        this.getHistoryRecord()
+      }
     }
   },
+
   mounted() {
     var vu = this
-    util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
-    util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
+    util.toggleTableHeaderLang(vu.columns1, 10, 'userCenter.entrust.', vu)
+    util.toggleTableHeaderLang(vu.columns2, 9, 'userCenter.entrust.', vu)
+    util.toggleTableHeaderLang(vu.columns3, 7, 'userCenter.entrust.', vu)
     bus.$on('langChange', () => {
-      util.toggleTableHeaderLang(vu.columns1, 7, 'userCenter.entrust.', vu)
-      util.toggleTableHeaderLang(vu.columns2, 7, 'userCenter.entrust.', vu)
+      util.toggleTableHeaderLang(vu.columns1, 10, 'userCenter.entrust.', vu)
+      util.toggleTableHeaderLang(vu.columns2, 9, 'userCenter.entrust.', vu)
+      util.toggleTableHeaderLang(vu.columns3, 7, 'userCenter.entrust.', vu)
     })
+    this.getCurData()
   },
   created() {
+    ax.get(config.url.user + '/api/exchange/getMarketInfo').then(res => {
+      if (res.data.errorCode === 0) {
+        let data = res.data.result
+        this.$store.commit('setMarketPrecision', data)
+      }
+    });
     global.getHeader = (() => {
         return {
             headers: {
@@ -397,7 +771,6 @@ export default {
     })()
     this.pageHeight = window.innerHeight - 360
     window.addEventListener('resize', this.handleWindowResize)
-    this.getCurData()
   },
   destroyed() {
     bus.$off('langChange');
@@ -406,7 +779,8 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+
 .entrust-cont {
   div {
     box-sizing: border-box;
@@ -433,7 +807,7 @@ export default {
     // border-top: 1px solid #e9eaec;
     border-bottom: 1px solid #e9eaec;
     .entrust-tab-item {
-      width: 130px;
+      padding: 0px 20px;
       height: 48px;
       line-height: 48px;
       text-align: center;
@@ -487,6 +861,9 @@ export default {
   }
   .ivu-page {
     text-align: center;
+  }
+  .search {
+    margin: 5px 100px;
   }
 }
 </style>

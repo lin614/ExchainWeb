@@ -1,4 +1,3 @@
-
 <template>
     <page class="page_content-padding">
         <div class="cont">

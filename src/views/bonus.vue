@@ -1,4 +1,3 @@
-
 <template>
   <page class="page_content-padding">
     <bonus_content></bonus_content>

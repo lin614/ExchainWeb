@@ -4,7 +4,8 @@ module.exports = {
     imgLang: 'cn',
     legalMoney: '￥',
     confirm: '确认',
-    cancel: '取消'
+    cancel: '取消',
+    noData: '暂无数据'
   },
   name: {
     loadingData: '数据加载中',
@@ -263,6 +264,8 @@ module.exports = {
       legalTender: '￥',
       withdrawAddress: '提现地址管理',
       notice: '种子测试期间当前估值不包含 ET ',
+      hideAsset: '隐藏小额资产',
+      hideAssetTip: '小于 0.001 BTC',
       withdrawModal: {
         title: '安全验证',
         phone: '手机号',
@@ -381,20 +384,38 @@ module.exports = {
     entrust: {
       title: '委托管理',
       currentOrder: '当前委托',
-      historyOrder: '成交历史',
-      ctime: '时间',
-      market: '市场',
-      side: '类型',
+      historyOrder: '历史委托',
+      historyRecord: '历史成交',
+      ctime: '挂单时间',
+      market: '交易对',
+      entrustSumAmount: '委托总额',
+      entrustNum: '委托数量',
+      transactionNumed: '已成交数量',
+      unTransactionNum: '未成交数量',
+      side: '方向',
       price: '价格',
       amount: '数量',
       closeRate: '成交率(%)',
       averPrice: '成交均价',
       opera: '操作',
-      detail: '详情',
       limitPrice: '限价买入',
-      sell: '卖',
-      buy: '买',
-      cancelOrder: '撤单'
+      sell: '卖出',
+      buy: '买入',
+      cancelOrder: '撤单',
+      createTime: '挂单时间',
+      transactionTime: '成交时间',
+      transactionNum: '成交数量',
+      transactionAmount: '成交额',
+      fee: '手续费',
+      txType: '交易类型',
+      coinTxType: '币币交易',
+      selectMonth: '选择月份',
+      detail: '查看交易详情',
+      status: {
+        status: '状态',
+        close: '已成交',
+        cancel: '已撤销'
+      }
     },
 
     bindPhone: {

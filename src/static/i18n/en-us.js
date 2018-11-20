@@ -4,7 +4,8 @@ module.exports = {
     imgLang: 'en',
     legalMoney: '$',
     confirm: 'Confirm',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    noData: 'No Data'
   },
   name: {
     loadingData: 'Loading',
@@ -262,6 +263,8 @@ module.exports = {
       estimatedValue: 'Estimated Value',
       withdrawAddress: 'Withdraw Address',
       legalTender: '$',
+      hideAsset: 'Hide small assets',
+      hideAssetTip: 'less than 0.001 BTC',
       notice: 'current asset valuation doesn\'t include ET during the simulated trading period',
       withdrawModal: {
         title: 'Security Authentication',
@@ -381,20 +384,38 @@ module.exports = {
     entrust: {
       title: 'Order management',
       currentOrder: 'Current order',
-      historyOrder: 'History order',
+      historyOrder: 'Historical orders',
+      historyRecord: 'Historical completed orders',
       ctime: 'Time',
       market: 'Pair',
+      entrustSumAmount: 'Total amount of orders',
+      entrustNum: 'Number of orders',
+      transactionNumed: 'Number of completed orders',
+      unTransactionNum: 'Number of failed orders',
       side: 'Type',
       price: 'Price',
       amount: 'Amount',
       closeRate: 'Filled(%)',
       averPrice: 'Average price',
-      detail: 'Detail',
       limitPrice: 'Limit price',
       sell: 'Sell',
       buy: 'Buy',
       opera: 'Action',
-      cancelOrder: 'Cancel'
+      cancelOrder: 'Cancel',
+      createTime: 'Time of pending',
+      transactionTime: 'Time of transaction',
+      transactionNum: 'Number of transactions',
+      transactionAmount: 'Turnover',
+      fee: 'Fee',
+      txType: 'Trading types',
+      coinTxType: 'Exchange',
+      selectMonth: 'Select',
+      detail: 'Detail',
+      status: {
+        status: 'Status',
+        close: 'Completed',
+        cancel: 'Withdrew'
+      }
     },
     bindPhone: {
       bindPhone: 'Link Mobile Number',
