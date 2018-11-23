@@ -5,6 +5,7 @@ module.exports = {
     legalMoney: '$',
     confirm: 'Confirm',
     cancel: 'Cancel',
+    search: 'Search',
     noData: 'No Data'
   },
   name: {
@@ -105,7 +106,7 @@ module.exports = {
         priceChange: '24h Change',
         high: '24h High',
         low: '24h Low',
-        volume: '24h Volume',
+        amount: '24h Volume',
         action: 'Action'
       }
     }
@@ -409,7 +410,7 @@ module.exports = {
       fee: 'Fee',
       txType: 'Trading types',
       coinTxType: 'Exchange',
-      selectMonth: 'Select',
+      selectMonth: 'Select Month',
       detail: 'Detail',
       status: {
         status: 'Status',

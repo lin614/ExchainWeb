@@ -8,10 +8,10 @@
         <li>{{$t('userCenter.entrust.transactionAmount')}}</li>
         <li>{{$t('userCenter.entrust.fee')}}</li>
       </ul>
-      <ul v-for="(item, index) in resData" :key="index">
-        <li>{{item.transactionTime}}</li>
+      <ul class="resdata" v-for="(item, index) in resData" :key="index">
+        <li>{{item.mtime}}</li>
         <li>{{item.price}}</li>
-        <li>{{item.transactionNum}}</li>
+        <li>{{item.amount}}</li>
         <li>{{item.transactionAmount}}</li>
         <li>{{item.fee}}</li>
       </ul>
@@ -30,16 +30,20 @@ export default {
   name: 'encharge',
   props: {
     showCharge: Boolean,
-    token: String,
+    order_id: String,
     params: Object
   },
   data () {
     return {
-      addr: '',
       qrCode: '',
       spinShow: true,
       no_encharge: false,
       resData: []
+    }
+  },
+  watch: {
+    order_id () {
+      this.getDatas()
     }
   },
   methods: {
@@ -49,12 +53,25 @@ export default {
     getDatas () {
       this.spinShow = true
       var vu = this
-      ax.get(config.url.user+'/api/order/orderDetail?id=' + this.params.order_id, getHeader)
+      ax.get(config.url.user+'/api/order/orderDetail?order_id=' + this.params.order_id, getHeader)
         .then((res) => {
-          if (res.status == '200' && res.data.errorCode == 0) {
-            this.resData = res.data.result.data
-            vu.spinShow = false
-            vu.no_encharge = true
+          if (res.status == '200' && res.data.errorCode == 0 && res.data.errorMsg == "success") {
+            let data = res.data.result
+            if (data.length) {
+              for (var i=0; i < data.length; i++) {
+                data[i].transactionAmount = formatMarketPrecision(data[i].price * data[i].amount, data[i].market, 'special', vu)
+                data[i].price = formatMarketPrecision(data[i].price, data[i].market, 'price', vu)
+                data[i].amount = formatMarketPrecision(data[i].amount, data[i].market, 'amount', vu)
+                data[i].fee = formatMarketPrecision(data[i].fee, data[i].market, 'price', vu)
+              }
+              this.resData = data
+              vu.spinShow = false
+              vu.no_encharge = true
+            } else {
+              this.resData = data
+              vu.spinShow = false
+              vu.no_encharge = false
+            }
           } else {
             vu.spinShow = false
             vu.no_encharge = false
@@ -86,6 +103,9 @@ export default {
     position: relative;
     width: 100%;
     background-color: rgb(247, 247, 247);
+    .resdata {
+      margin-top: 10px;
+    }
     ul li {
       display: inline-block;
       width: 19%;

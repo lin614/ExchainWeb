@@ -5,6 +5,7 @@ module.exports = {
     legalMoney: '￥',
     confirm: '确认',
     cancel: '取消',
+    search: '搜索',
     noData: '暂无数据'
   },
   name: {
@@ -105,7 +106,7 @@ module.exports = {
         priceChange: '24h波动',
         high: '24h高点',
         low: '24h低点',
-        volume: '24h交易量',
+        amount: '24h交易量',
         action: '去交易'
       }
     }

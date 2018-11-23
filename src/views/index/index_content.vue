@@ -226,6 +226,7 @@ export default {
       ].filter(p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel)[0]
 
       if (info) {
+        console.log(data);
         this.wsData.push(data)
         this.calculate(this.wsData)
       }
@@ -454,7 +455,6 @@ export default {
               .toNumber()
             info.priceChange = (wave * 100).toFixed(2) + '%'
           }
-          debugger
 
           // 法币计算
           // 非 [*/USDT] 的交易对，转换成按USDT计价

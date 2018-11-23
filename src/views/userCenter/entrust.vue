@@ -11,17 +11,17 @@
 
             <div class="fl search" v-if="currentTab !== 'current'">
               <span>{{ $t('userCenter.entrust.selectMonth') }}：</span>
-              <DatePicker :value="month" @on-change="handleChange" type="month" placeholder="Select month" :options="options4" style="width: 200px"></DatePicker>
-              <Button type="primary" @click="searchData">搜索</Button>
+              <DatePicker :value="month" @on-change="handleChange" type="month" :placeholder="$t('userCenter.entrust.selectMonth')" :options="options4" style="width: 200px"></DatePicker>
+              <Button type="primary" @click="searchData">{{ $t('common.search') }}</Button>
             </div>
           </div>
 
           <Table v-if="currentTab === 'current'" :columns="columns1" :data="curData"></Table>
           <Table v-if="currentTab === 'history'" :columns="columns2" :data="hisData"></Table>
-          <Table v-if="currentTab === 'historyRecord'" :columns="columns3" :data="hisData"></Table>
+          <Table v-if="currentTab === 'historyRecord'" :columns="columns3" :data="hisRecData"></Table>
 
           <div v-if="page.show" class="page-wrap">
-            <Page @on-change="changePage" :total="page.total"></Page>
+            <Page @on-change="changePage" :page-size="page.size" :total="page.total"></Page>
           </div>
           
         </crd>
@@ -63,7 +63,7 @@ export default {
         {
           title: this.$t('userCenter.entrust.createTime'),
           key: 'ctime',
-          width: 130
+          width: 135
         },
         {
           title: this.$t('userCenter.entrust.txType'),
@@ -133,7 +133,7 @@ export default {
         },
         {
           title: this.$t('userCenter.entrust.entrustSumAmount'),
-          width: 140,
+          width: 130,
           key: 'entrustSumAmount',
           render: function(h, params) {
             return h(
@@ -149,7 +149,7 @@ export default {
         },
         {
           title: this.$t('userCenter.entrust.transactionNumed'),
-          width: 140,
+          width: 130,
           key: 'transactionNumed',
           render: function(h, params) {
             return h(
@@ -165,7 +165,7 @@ export default {
         },
         {
           title: this.$t('userCenter.entrust.unTransactionNum'),
-          width: 140,
+          width: 130,
           key: 'unTransactionNum',
           render: function(h, params) {
             return h(
@@ -181,11 +181,13 @@ export default {
         },
         {
           title: this.$t('userCenter.entrust.closeRate'),
-          key: 'closeRate'
+          key: 'closeRate',
+          width: 80
         },
         {
           title: this.$t('userCenter.entrust.opera'),
           key: 'opera',
+          width: 60,
           render: (h, params) => {
             return h(
               'span',
@@ -371,6 +373,7 @@ export default {
                 h(tradeDetail, {
                   props: {
                     showCharge: this.showCharge,
+                    order_id: params.row.order_id,
                     params: params.row
                   }
                 })
@@ -486,7 +489,8 @@ export default {
         }
       ],
       curData: [],
-      hisData: []
+      hisData: [],
+      hisRecData: []
     }
   },
   components: {
@@ -509,6 +513,12 @@ export default {
       this.$set(this.hisData, index, this.hisData[index])
     },
     searchData() {
+      this.page = {
+        cur: 1,
+        size: 10,
+        total: 0,
+        show: false
+      }
       if (this.currentTab === 'history') {
         this.getHisData()
       } else {
@@ -641,7 +651,7 @@ export default {
               data[i].closeRate = rate.toFixed(2)
               data[i]._expanded = false
             }
-            vu.hisData = data
+            vu.hisRecData = data
             vu.page.total = res.data.result.total * 1
             if (Math.ceil(vu.page.total / vu.page.size) > 1) {
               this.page.show = true

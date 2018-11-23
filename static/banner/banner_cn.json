@@ -6,9 +6,15 @@
         "imgUrl": "https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-txt1-cn.png"
     },
     {
-        "title": "【上币公告】Exchain交易所上线QNT和MITH",
-        "url": "https://support.exchain.com/hc/zh-cn/articles/360018616732",
-        "bgUrl": "https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-bg2-cn-2018113.jpg",
-        "imgUrl": "https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-txt2-cn-2018113.png"
+        "title": "Exchain交易所获马耳他VFA资质",
+        "url": "https://support.exchain.com/hc/zh-cn/articles/360020055031",
+        "bgUrl": "https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-bg2-20181122.jpg",
+        "imgUrl": "https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-txt2-cn-20181122.png"
+    },
+    {
+        "title": "Exchain－英雄招募贴",
+        "url": "https://support.exchain.com/hc/zh-cn/articles/360019910072",
+        "bgUrl": "https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-bg3-cn-20181123.jpg",
+        "imgUrl": "https://d3bcj1iwrh8aaw.cloudfront.net/imgs/ban-txt3-cn-20181123.png"
     }
 ]
