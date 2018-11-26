@@ -249,6 +249,7 @@ export default {
           this.$store.commit('setMarketPrecision', data)
           let markets = ''
           let str = ''
+          debugger
           for (var o in data) {
             markets = markets + o + ','
             this.marketsDomain[o] = data[o].domain
@@ -279,6 +280,7 @@ export default {
 
             str += pair.name + ','
           }
+          console.log(this.mainMarket)
           this.markets = markets.substr(0, markets.length - 1)
           this.getMainMarket()
           localStorage.setItem('pairs', str)

@@ -64,6 +64,9 @@
             <DropdownItem name="/bonus">
               <span class="lan-item">{{ $t("header.partner") }}</span>
             </DropdownItem>
+            <DropdownItem name="/api">
+              <span class="lan-item">{{ $t("header.api") }}</span>
+            </DropdownItem>
             <DropdownItem>
               <span class="lan-item">{{ $t("header.logout") }}</span>
             </DropdownItem>

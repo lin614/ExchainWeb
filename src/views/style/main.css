@@ -2,6 +2,8 @@
 .fr {float: right;}
 .clearfix::before {content: ''; display:block; clear: both;}
 .pr {position: relative;}
+.highlight {color: #419aec;}
+.pointer {cursor: pointer;}
 
 .banner-shortcut {
     position: absolute;

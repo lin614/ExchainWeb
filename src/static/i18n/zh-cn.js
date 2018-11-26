@@ -24,6 +24,7 @@ module.exports = {
     myAsset: '我的资产',
     userCenter: '个人中心',
     promiseManage: '委托管理',
+    api: 'API 管理',
     partner: '合作伙伴',
     login: '登录',
     register: '注册',
@@ -256,6 +257,43 @@ module.exports = {
         event: '状态',
         success: '成功',
         fail: '失败',
+      }
+    },
+    api: {
+      about: {
+        title: '关于API',
+        doc: '查看 API 文档',
+        content: 'EXCHAIN为您提供了强大的API，您可以根据自身需求建立不同权限的API，API分为账户、交易和行情三类。开发者在EXCHAIN网站创建账号后，可以根据自身需求建立不同权限的API， 并利用API进行自动交易或者提币。API的交易权限让您可以快速的获取当前市场最新行情及时的下单交易、查询自己可用和冻结金额、查询自己当前尚未成交的挂单、买进或卖出、撤单；提现权限可以让您快速提现到您的认证地址。（注：API变更一分钟后生效）您最多可以创建5组API。API变更一分钟后生效。'
+      },
+      applyStep: {
+        title: '申请步骤',
+        apply: '申请API',
+        step1: '点击申请API',
+        step2: '创建属于自己的apikey 等信息',
+        step3: '查看API文档详情',
+        step4: '根据文档详情进行开发交易'
+      },
+      myApi: {
+        title: '我的 API Key',
+        remark: '备注名',
+        apiKey: 'API Key',
+        access: '权限',
+        createTime: '创建时间',
+        opera: '操作',
+        view: '查看',
+        reset: '重置',
+        delete: '删除'
+      },
+      applyForm: {
+        title: '申请 API',
+        remark: '备注名',
+        passphrase: 'Passphrase',
+        bindIp: '绑定IP地址',
+        access: '权限',
+        smsCode: '短信验证码',
+        readonly: '只读',
+        withdraw: '提币',
+        trade: '交易',
       }
     },
     // 我的资产

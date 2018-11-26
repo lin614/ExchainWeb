@@ -5,7 +5,8 @@
 
         <div class="title" v-if="!hideTitle">
           <div class="linepot" :style="{ backgroundColor:potColor}" />
-          <slot name="title"></slot>
+          <span class="slot-title"><slot name="title"></slot></span>
+          
           <slot class="more" name="more"></slot>
         </div>
       </div>
@@ -57,14 +58,20 @@ export default {
 
     font-size: @font-title;
   }
+  .slot-title {
+    display: flex;
+    flex: 1 1 auto;
+  }
   .more {
     float: right;
-    width: 213px;
     color: #666;
     font-size: 16px;
     margin-right: 15px;
     line-height: 20px;
     text-align: right;
+  }
+  .highlight {
+    color: #419aec;
   }
   .mainContent {
     // padding: 16px;
