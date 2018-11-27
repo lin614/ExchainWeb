@@ -25,7 +25,7 @@
           <Table :columns="myKeyColumns" :data="myKeyData"></Table>
         </crd>
 
-          <!-- 修改密码框 -->
+          <!-- 申请API -->
           <Modal v-model="applyFormShow" class-name="change-pwd-model" :closable="false" :on-cancel="applyFormClose">
             <crd potColor="#4399e9">
               <span slot="title">{{ $t('userCenter.api.applyForm.title') }}</span>
@@ -35,7 +35,7 @@
                     <Input v-model="applyForm.remark"></Input>
                   </FormItem>
                   <FormItem :label="$t('userCenter.api.applyForm.passphrase')" prop="passphrase" class="ivu-form-item-required">
-                    <Input v-model="applyForm.passphrase"></Input>
+                    <Input v-model="applyForm.passphrase" type="password"></Input>
                   </FormItem>
                   <FormItem :label="$t('userCenter.api.applyForm.bindIp')" prop="bindIp" class="ivu-form-item-required">
                     <Input v-model="applyForm.bindIp"></Input>
@@ -46,6 +46,39 @@
                       <Checkbox label="withdraw">{{$t('userCenter.api.applyForm.withdraw')}}</Checkbox>
                       <Checkbox label="order">{{$t('userCenter.api.applyForm.trade')}}</Checkbox>
                     </CheckboxGroup>
+                  </FormItem>
+                  <FormItem :label="$t('userCenter.api.applyForm.smsCode')" prop="smsCode" class="ivu-form-item-required">
+                    <Input v-model="applyForm.smsCode" style="width: 250px"></Input>
+                    <div v-show="codeDown" class="send-code-down fr">{{codeDownText}}</div>
+                    <div v-show="!codeDown" class="send-code-btn fr" @click="getSmsCode">
+                      <Spin v-show="sendCodeLoading" size="small" fix></Spin>
+                      <span>{{$t('register.sendCode')}}</span>
+                    </div>
+                  </FormItem>
+                </Form>
+              </div>
+            </crd>
+
+            <div slot="footer">
+              <div class="model-btn-wrap clearfix">
+                <Button class="model-btn primary fl pr" @click="applyFormSubmit">
+                  {{ $t('common.confirm') }}
+                  <Spin v-show="applyFormLoading" :fix="true"></Spin>
+                </Button>
+
+                <span class="model-btn fr" @click="applyFormClose">{{ $t('common.cancel') }}</span>
+              </div>
+            </div>
+          </Modal>
+
+          <!-- 查看API -->
+          <Modal v-model="viewFormShow" class-name="change-pwd-model" :closable="false" :on-cancel="applyFormClose">
+            <crd potColor="#4399e9">
+              <span slot="title">{{ $t('userCenter.api.applyForm.title') }}</span>
+              <div class="form-box">
+                <Form ref="applyForm" :rules="rules" :model="applyForm" label-position="top">
+                  <FormItem :label="$t('userCenter.api.applyForm.passphrase')" prop="passphrase" class="ivu-form-item-required">
+                    <Input v-model="applyForm.passphrase" type="password"></Input>
                   </FormItem>
                   <FormItem :label="$t('userCenter.api.applyForm.smsCode')" prop="smsCode" class="ivu-form-item-required">
                     <Input v-model="applyForm.smsCode" style="width: 250px"></Input>
@@ -97,19 +130,32 @@ export default {
       return [
         {
           title: this.$t('userCenter.api.myApi.remark'),
-          key: 'remark'
+          key: 'remark',
+          render: (h, params) => {
+            return h('span', params.row.note)
+          }
         },
         {
           title: this.$t('userCenter.api.myApi.apiKey'),
-          key: 'apiKey'
+          key: 'apiKey',
+          width: 250,
+          render: (h, params) => {
+            return h('span', params.row.access_id)
+          }
         },
         {
           title: this.$t('userCenter.api.myApi.access'),
-          key: 'access'
+          key: 'access',
+          render: (h, params) => {
+            return h('span', params.row.auth)
+          }
         },
         {
           title: this.$t('userCenter.api.myApi.createTime'),
-          key: 'createTime'
+          key: 'createTime',
+          render: (h, params) => {
+            return h('span', params.row.create)
+          }
         },
         {
           title: this.$t('userCenter.api.myApi.opera'),
@@ -206,6 +252,7 @@ export default {
       applyFormShow: false,
       applyFormLoading: false,
       sendCodeLoading: false,
+      viewFormShow: false,
       mtime: '',
       bind: false,
       userNum: '',
@@ -287,8 +334,12 @@ export default {
       ax
         .post(config.url.user + '/api/userApi/getApiList')
         .then(res => {
-          if (res.status === 200 && res.data.meta.code === 0) {
-            this.myKeyData = res.data.result
+          if (res.status === 200 && res.data.errorCode === 0) {
+            let data = res.data.result.data
+            for (var i = 0; i < data.length; i++) {
+              data[i]
+            }
+            this.myKeyData = res.data.result.data
           } else {
             apiError(this, res);
           }
@@ -323,11 +374,11 @@ export default {
       ax.post(
         config.url.user + '/api/userApi/generateApi',
         {
-          password: this.applyForm.passphrase,
-          auth: this.applyForm.access,
+          password: md5(this.applyForm.passphrase),
+          auth: this.applyForm.access.join(','),
           ip: this.applyForm.bindIp,
           note: this.applyForm.remark,
-          token: this.applyForm.phone,
+          token: this.applyForm.token,
           code: this.applyForm.smsCode
         },
         getHeader
@@ -350,6 +401,30 @@ export default {
       // this.$refs.applyForm.access = ['read']
       this.applyFormShow = false
     },
+    viewFormSubmit () {
+      ax.post(
+        config.url.user + '/api/userApi/getApiInfo',
+        {
+          access_id: this.viewForm.accessId,
+          password: md5(this.viewForm.passphrase),
+          token: this.viewForm.token,
+          code: this.viewForm.smsCode
+        },
+        getHeader
+      )
+      .then(res => {
+        if (res.status === 200 && res.data.errorCode === 0) {
+          this.$refs.applyForm.resetFields()
+          this.viewFormShow = false
+          this.getApiList();
+        } else {
+          apiError(this, res)
+        }
+      })
+      .catch((err) => {
+        apiReqError(this, err);
+      })
+    },
     /**
      * 倒计时
      */
@@ -361,12 +436,13 @@ export default {
       this.timer = setInterval(() => {
         time -= 1
         if (time <= 0) {
-           this.codeDown = false
+          this.codeDown = false
           this.codeDownText = this.$t('register.sendCode')
           clearInterval(this.timer)
+        } else {
+          this.codeDown = true
+          this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
         }
-         this.codeDown = true
-        this.codeDownText = time + 's ' + this.$t('userCenter.bindPhone.codeDownText')
       }, 1000)
     },
   },

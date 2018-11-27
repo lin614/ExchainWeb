@@ -249,7 +249,6 @@ export default {
           this.$store.commit('setMarketPrecision', data)
           let markets = ''
           let str = ''
-          debugger
           for (var o in data) {
             markets = markets + o + ','
             this.marketsDomain[o] = data[o].domain
