@@ -40,7 +40,7 @@ export const formatMarketPrecision = (number, market, type, vu) => {
                 }
             } else {
                 if (length == 0) {
-                    str = number.substr(0, dotIndex - 1)
+                    str = number.substr(0, dotIndex)
                 } else {
                     str = number.substr(0, dotIndex) + number.substr(dotIndex, parseInt(length) + 1);
                     if ((number.length - dotIndex - 1) < length) {
