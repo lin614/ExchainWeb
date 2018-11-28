@@ -646,6 +646,7 @@ module.exports = {
     '3': 'Signature error', // 签名错误
     '4': 'Repeat request', // 重复请求
     '5': 'Invalid request', // 非法请求
+    "6": 'null',
     "7": "频率限制", // 频率限制
 
     // 用户相关
@@ -668,7 +669,12 @@ module.exports = {
     '216': 'Code verification failed', // 邮箱验证码验证失败 
     '218': 'Identify verification failed', // 用户还未实名认证
     '219': 'Identify verification required', // 用户还未申请实名认证
-
+    "220": "用户实名认证国家码错误",
+    "221": "用户实名认证上传图片文件类型错误，仅支持jpg及png格式",
+    "222": "用户实名认证上传图片过大，图片必须小于2mb",
+    "223": "百度云身份验证服务错误",
+    "224": "用户实名认证照片相似度低于80",
+ 
     // 账户相关
     '300': 'Insufficient balance', // 余额不足 
     '301': 'Transfer amount to exchange failed', // 转移金额到交易所失败 
@@ -686,7 +692,12 @@ module.exports = {
     '313': 'Over 24hour maximum withdrawal limit',
     '320': 'Deposit failed', // 充值失败 
     '321': 'Fail to add address', // 添加提币地址失败 
-    '322': 'Fail to delete address', // 删除提币地址失败 
+    '322': 'Fail to delete address', // 删除提币地址失败
+    "323": "充值流水号已经存在",
+    "324": "account资产插入失败",
+    "325": "account资产更新失败",
+    "326": "account更新后查询失败",
+    "327": "account更新后余额为负数",
 
     // 钱包相关
     '401': 'Wallet Created Failed', // 钱包创建失败			
@@ -698,8 +709,9 @@ module.exports = {
     '407': 'Transfer Failed', // 转账失败				
     '408': 'Wallet Created Error', // 钱包创建出错			
     '409': 'Wallet Protocol Incorrect', // 钱包协议不正确		
-    // '410 ：
-    '411': 'Failed to parse wallet address', // 获取钱包地址失败		
+    "410": 'null',
+    '411': 'Failed to parse wallet address', // 获取钱包地址失败
+    "412": "地址验证失败",
 
     // 行情相关
     '600': 'Add Favorites Failed', // 添加收藏失败			
@@ -734,11 +746,17 @@ module.exports = {
     '810': 'Price is too small', // 价格太小
     '811': 'Pending order amount is 0', // 挂单金额为0
     '812': 'Order price must not over market price', // 价格不能超过市价10%
+    "813": "未找到币种",
+    "814": "未找到下单方式",
 
     // 管理员后台管理页面相关(财务系统后台)
     '901': 'Admin Not Exist', // 管理员不存在
     '902': 'Admin Login Failed', // 管理员登录失败
-    '903': '管理员未登录' // 管理员未登录
+    '903': '管理员未登录', // 管理员未登录
+
+    "1001": "API Key权限不足",
+    "1002": "API Key已经达到创建上限",
+    "1003": "API 调用频率超出限制"
   },
 
   // 百度API错误
