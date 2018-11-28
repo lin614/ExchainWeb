@@ -25,26 +25,32 @@ export const formatMarketPrecision = (number, market, type, vu) => {
                 let tmp2 = marketPrecision[o].price_precision;
                 length = tmp1 > tmp2 ? tmp1 : tmp2
             }
-
-            if (length == 0) return scientificNotation2Number(number + '');
             
             var str = '';
             var dotIndex = number.indexOf('.');
             if (dotIndex === -1) {
-                str = '.';
-                for (var i = 0; i < length; i++) {
-                str += '0';
+                if (length == 0) {
+                    str = number + '';
+                } else {
+                    str = '.';
+                    for (var i = 0; i < length; i++) {
+                        str += '0';
+                    }
+                    str = number + str;
                 }
-                str = number + str;
             } else {
-                str = number.substr(0, dotIndex) + number.substr(dotIndex, parseInt(length) + 1);
-                if ((number.length - dotIndex - 1) < length) {
-                let l = length - (number.length - dotIndex - 1);
-                let s = '';
-                for (var j = 0; j < l; j++) {
-                    s += '0';
-                }
-                str = str + s;
+                if (length == 0) {
+                    str = number.substr(0, dotIndex - 1)
+                } else {
+                    str = number.substr(0, dotIndex) + number.substr(dotIndex, parseInt(length) + 1);
+                    if ((number.length - dotIndex - 1) < length) {
+                        let l = length - (number.length - dotIndex - 1);
+                        let s = '';
+                        for (var j = 0; j < l; j++) {
+                            s += '0';
+                        }
+                        str = str + s;
+                    }
                 }
             }
             return scientificNotation2Number(str);
