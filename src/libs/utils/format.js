@@ -1,6 +1,7 @@
 import {scientificNotation2Number} from '../../views/js/utils/money'
 
 export const formatMarketPrecision = (number, market, type, vu) => {
+    number = scientificNotation2Number(number);
     if (typeof number === 'undefined' || typeof market === 'undefined' || isNaN(parseFloat(number))) {
         return '';
     }
@@ -24,6 +25,8 @@ export const formatMarketPrecision = (number, market, type, vu) => {
                 let tmp2 = marketPrecision[o].price_precision;
                 length = tmp1 > tmp2 ? tmp1 : tmp2
             }
+
+            if (length == 0) return scientificNotation2Number(number + '');
             
             var str = '';
             var dotIndex = number.indexOf('.');
