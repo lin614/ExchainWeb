@@ -261,36 +261,43 @@ module.exports = {
     },
     api: {
       about: {
-        title: '关于API',
-        doc: '查看 API 文档',
-        content: 'EXCHAIN为您提供了强大的API，您可以根据自身需求建立不同权限的API，API分为账户、交易和行情三类。开发者在EXCHAIN网站创建账号后，可以根据自身需求建立不同权限的API， 并利用API进行自动交易或者提币。API的交易权限让您可以快速的获取当前市场最新行情及时的下单交易、查询自己可用和冻结金额、查询自己当前尚未成交的挂单、买进或卖出、撤单；提现权限可以让您快速提现到您的认证地址。（注：API变更一分钟后生效）您最多可以创建5组API。API变更一分钟后生效。'
+        title: 'About API',
+        doc: 'Read API documents',
+        content: 'EXCHAIN ​​provides you with a powerful API. You can create API with different permissions according to your needs. The API is divided into three categories: account, trading and market. After the developer creates an account on the EXCHAIN ​​website, he can create API with different permissions according to his own needs, and use the API for automated trades or withdrawals. API trading permission allows you to quickly access the latest market conditions, timely make orders, query your available and frozen amounts, check your pending orders, buy or sell, and withdraw orders; withdrawal permission allows you to quickly withdraw to your certified address. (Note: API changes take effect after one minute) You can create up to 5 groups of API. The API changes take effect in one minute.'
       },
       applyStep: {
-        title: '申请步骤',
-        apply: '申请API',
-        step1: '点击申请API',
-        step2: '创建属于自己的apikey 等信息',
-        step3: '查看API文档详情',
-        step4: '根据文档详情进行开发交易'
+        title: 'Application Process',
+        apply: 'Apply for API',
+        step1: 'Clicking for applying API',
+        step2: 'Create your own apikey information',
+        step3: 'Read API document details',
+        step4: 'Develop trading system based on document details'
       },
       myApi: {
-        title: '我的 API Key',
-        remark: '备注名',
+        title: 'My API Key',
+        remark: 'Name',
         apiKey: 'API Key',
-        access: '权限',
-        createTime: '创建时间',
-        opera: '操作',
-        view: '查看',
-        reset: '重置',
-        delete: '删除'
+        access: 'Permissions',
+        createTime: 'Created time',
+        opera: 'Action',
+        view: 'Check',
+        reset: 'Reset',
+        delete: 'Delete'
       },
       applyForm: {
-        title: '申请 API',
-        remark: '备注名',
+        title: 'Apply for API',
+        remark: 'Name',
         passphrase: 'Passphrase',
-        bindIp: '绑定IP地址',
-        access: '权限',
-        smsCode: '短信验证码'
+        bindIp: 'Bind to IP address',
+        access: 'Permissions',
+        smsCode: 'SMS verification code',
+        read: 'Read only',
+        withdraw: 'Withdrawal ',
+        trade: 'Trading',
+      },
+      viewForm: {
+        title: 'Confirm checking',
+        title2: 'Checking ',
       }
     },
     // 我的资产

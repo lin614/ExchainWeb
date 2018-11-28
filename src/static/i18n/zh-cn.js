@@ -291,9 +291,13 @@ module.exports = {
         bindIp: '绑定IP地址',
         access: '权限',
         smsCode: '短信验证码',
-        readonly: '只读',
+        read: '只读',
         withdraw: '提币',
         trade: '交易',
+      },
+      viewForm: {
+        title: '确认查看',
+        title2: '查看',
       }
     },
     // 我的资产
