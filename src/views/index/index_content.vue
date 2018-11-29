@@ -217,20 +217,20 @@ export default {
     this.getMarketPrecision()
 
     // 接收推送
-    bus.$on('wsUpdate', data => {
-      let info = [
-        ...this.mainMarket,
-        ...this.invMarket,
-        ...this.vcMarket
-        // ...this.gemMarket
-      ].filter(p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel)[0]
+    // bus.$on('wsUpdate', data => {
+    //   let info = [
+    //     ...this.mainMarket,
+    //     ...this.invMarket,
+    //     ...this.vcMarket
+    //     // ...this.gemMarket
+    //   ].filter(p => 'huobi.market.' + p.parm + '.kline.1day' == data.channel)[0]
 
-      if (info) {
-        console.log(data);
-        this.wsData.push(data)
-        this.calculate(this.wsData)
-      }
-    })
+    //   if (info) {
+    //     console.log(data);
+    //     this.wsData.push(data)
+    //     this.calculate(this.wsData)
+    //   }
+    // })
 
     // 中英文
     bus.$on('langChange', () => {
@@ -282,6 +282,8 @@ export default {
           console.log(this.mainMarket)
           this.markets = markets.substr(0, markets.length - 1)
           this.getMainMarket()
+          setInterval(this.getMainMarket, 5000);
+
           localStorage.setItem('pairs', str)
           
         }
@@ -338,6 +340,7 @@ export default {
 
             // 法币计算
             // 非 [*/USDT] 的交易对，转换成按USDT计价
+            
             let legalMoney = resData[i].close
             if (resData[i].name.split('/')[1] !== 'USDT') {
               legalMoney =
@@ -352,9 +355,9 @@ export default {
             }
 
             // 对应法币价格
-            resData[i].closeshow = legalMoney
+            resData[i].closeshow = !isNaN(legalMoney) 
               ? ' ≈ ' + this.$t('common.legalMoney') + legalMoney
-              : ''
+              : ' ≈ '
           }
 
           for (var i = 0; i < this.mainMarket.length; i++) {
