@@ -139,4 +139,20 @@ util.deepClone = (source) => {
     return targetObj
 }
 
+util.checkMulIp = (ip) => {
+    var reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+    var valdata = ip.split(',');
+
+    if (valdata.length > 5) {
+        return false;
+    }
+
+    for(var i = 0; i < valdata.length; i++){
+        if(!reg.test(valdata[i])){
+            return false;
+        }
+    }
+    return true;
+}
+
 export default util;

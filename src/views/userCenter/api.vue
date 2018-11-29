@@ -30,7 +30,7 @@
           <crd potColor="#4399e9">
             <span slot="title">{{ $t('userCenter.api.applyForm.title') }}</span>
             <div class="form-box">
-              <Form ref="applyForm" :rules="applyForm.rules" :model="applyForm" label-position="top">
+              <Form ref="applyForm" :rules="applyFormRules" :model="applyForm" label-position="top">
                 <FormItem :label="$t('userCenter.api.applyForm.remark')" prop="remark" class="ivu-form-item-required">
                   <Input v-model="applyForm.remark"></Input>
                 </FormItem>
@@ -76,7 +76,7 @@
           <crd potColor="#4399e9">
             <span slot="title">{{ $t('userCenter.api.viewForm.title') }}</span>
             <div class="form-box">
-              <Form ref="viewForm" :rules="viewForm.rules" :model="viewForm" label-position="top">
+              <Form ref="viewForm" :rules="viewFormRules" :model="viewForm" label-position="top">
                 <FormItem v-if="modalType === 'view'" :label="$t('userCenter.api.applyForm.passphrase')" prop="password" class="ivu-form-item-required">
                   <Input v-model="viewForm.password" type="password"></Input>
                 </FormItem>
@@ -257,6 +257,18 @@ export default {
       ]
     }
   },
+  watch: {
+    applyFormShow() {
+      if (!this.applyFormShow) {
+        this.$refs.applyForm.resetFields()
+      }
+    },
+    viewFormShow() {
+      if (!this.viewFormShow) {
+        this.$refs.viewForm.resetFields()
+      }
+    }
+  },
   data() {
     return {
       modalType: 'apply',
@@ -297,6 +309,86 @@ export default {
         ip: "",
         note: "",
         secret_key: ""
+      },
+      applyFormRules: {
+        remark: [
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('common.formItemRequire'))
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
+        ],
+        password: [
+          {
+            validator: (rule, value, callback) => {
+              if (!value && this.modalType === 'apply') {
+                callback(this.$t('common.formItemRequire'))
+              } else if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
+            trigger: 'blur'
+          }
+        ],
+        bindIp: [
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('common.formItemRequire'))
+              } else if (util.checkMulIp(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.IP_FORMAT'))
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
+        ],
+        smsCode: [
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('common.formItemRequire'))
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
+        ]
+      },
+      viewFormRules: {
+        password: [
+          {
+            validator: (rule, value, callback) => {
+              if (!value && this.modalType === 'view') {
+                callback(this.$t('common.formItemRequire'))
+              } else if (util.checkPwd(value)) {
+                callback()
+              } else {
+                callback(this.$t('errorMsg.PWD_LIMIT'))
+              }
+            },
+            trigger: 'blur'
+          }
+        ],
+        smsCode: [
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(this.$t('common.formItemRequire'))
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -372,75 +464,76 @@ export default {
     },
     
     applyFormSubmit () {
-      this.applyFormLoading = true;
-      if (this.modalType === 'apply') {
-        ax.post(
-          config.url.user + '/api/userApi/generateApi',
-          {
-            password: md5(this.applyForm.password),
-            auth: this.applyForm.access.join(','),
-            ip: this.applyForm.bindIp,
-            note: this.applyForm.remark,
-            token: this.applyForm.token,
-            code: this.applyForm.smsCode
-          },
-          getHeader
-        )
-        .then(res => {
-          if (res.status === 200 && res.data.errorCode === 0) {
-            this.$refs.applyForm.resetFields()
-            this.applyFormShow = false
-            this.getApiList();
-            this.$Message.success(this.$t('errorMsg.SUCCESS'))
+      this.$refs.applyForm.validate(valid => {
+        if (valid) {
+          this.applyFormLoading = true;
+          if (this.modalType === 'apply') {
+            ax.post(
+              config.url.user + '/api/userApi/generateApi',
+              {
+                password: md5(this.applyForm.password),
+                auth: this.applyForm.access.join(','),
+                ip: this.applyForm.bindIp,
+                note: this.applyForm.remark,
+                token: this.applyForm.token,
+                code: this.applyForm.smsCode
+              },
+              getHeader
+            )
+            .then(res => {
+              if (res.status === 200 && res.data.errorCode === 0) {
+                this.$refs.applyForm.resetFields()
+                this.applyFormShow = false
+                this.getApiList();
+                this.$Message.success(this.$t('errorMsg.SUCCESS'))
+              } else {
+                apiError(this, res)
+              }
+              this.applyFormLoading = false;
+            })
+            .catch((err) => {
+              this.applyFormLoading = false;
+              apiReqError(this, err);
+            })
           } else {
-            apiError(this, res)
+            ax.post(
+              config.url.user + '/api/userApi/resetApi',
+              {
+                access_id: this.applyForm.access_id,
+                auth: this.applyForm.access.join(','),
+                ip: this.applyForm.bindIp,
+                note: this.applyForm.remark,
+                token: this.applyForm.token,
+                code: this.applyForm.smsCode
+              },
+              getHeader
+            )
+            .then(res => {
+              if (res.status === 200 && res.data.errorCode === 0) {
+                this.$refs.applyForm.resetFields()
+                this.applyFormShow = false
+                this.getApiList();
+                this.$Message.success(this.$t('errorMsg.SUCCESS'))
+              } else {
+                apiError(this, res)
+              }
+              this.applyFormLoading = false;
+            })
+            .catch((err) => {
+              this.applyFormLoading = false;
+              apiReqError(this, err);
+            })
           }
-          this.applyFormLoading = false;
-        })
-        .catch((err) => {
-          this.applyFormLoading = false;
-          apiReqError(this, err);
-        })
-      } else {
-        ax.post(
-          config.url.user + '/api/userApi/resetApi',
-          {
-            access_id: this.applyForm.access_id,
-            auth: this.applyForm.access.join(','),
-            ip: this.applyForm.bindIp,
-            note: this.applyForm.remark,
-            token: this.applyForm.token,
-            code: this.applyForm.smsCode
-          },
-          getHeader
-        )
-        .then(res => {
-          if (res.status === 200 && res.data.errorCode === 0) {
-            this.$refs.applyForm.resetFields()
-            this.applyFormShow = false
-            this.getApiList();
-            this.$Message.success(this.$t('errorMsg.SUCCESS'))
-          } else {
-            apiError(this, res)
-          }
-          this.applyFormLoading = false;
-        })
-        .catch((err) => {
-          this.applyFormLoading = false;
-          apiReqError(this, err);
-        })
-      }
+        }
+      });
     },
     closeFormModal () {
-      debugger
       if (this.modalType === 'apply' || this.modalType === 'reset') {
-        debugger
         this.$refs.applyForm.resetFields()
-        // this.applyFormShow = false
+        this.applyFormShow = false
       } else if (this.modalType === 'view' || this.modalType === 'delete') {
-        debugger
         this.$refs.viewForm.resetFields()
-        // this.viewFormShow = false;
+        this.viewFormShow = false;
       }
     },
     viewMykey (access_id) {
@@ -466,63 +559,67 @@ export default {
       this.clearCodeDown();
     },
     viewFormSubmit () {
-      this.viewFormLoading = true;
-      if (this.modalType === 'apply') {
-        ax.post(
-          config.url.user + '/api/userApi/getApiInfo',
-          {
-            access_id: this.viewForm.accessId,
-            password: md5(this.viewForm.password),
-            token: this.viewForm.token,
-            code: this.viewForm.smsCode
-          },
-          getHeader
-        )
-        .then(res => {
-          if (res.status === 200 && res.data.errorCode === 0) {
-            this.$refs.viewForm.resetFields()
-            this.viewFormShow = false
-            this.viewForm2Show = true
-            this.viewData.access_id = res.data.result.access_id
-            this.viewData.auth = res.data.result.auth
-            this.viewData.ip = res.data.result.ip
-            this.viewData.note = res.data.result.note
-            this.viewData.secret_key = res.data.result.secret_key
+      this.$refs.viewForm.validate(valid => {
+        if (valid) {
+          this.viewFormLoading = true;
+          if (this.modalType === 'apply') {
+            ax.post(
+              config.url.user + '/api/userApi/getApiInfo',
+              {
+                access_id: this.viewForm.accessId,
+                password: md5(this.viewForm.password),
+                token: this.viewForm.token,
+                code: this.viewForm.smsCode
+              },
+              getHeader
+            )
+            .then(res => {
+              if (res.status === 200 && res.data.errorCode === 0) {
+                this.$refs.viewForm.resetFields()
+                this.viewFormShow = false
+                this.viewForm2Show = true
+                this.viewData.access_id = res.data.result.access_id
+                this.viewData.auth = res.data.result.auth
+                this.viewData.ip = res.data.result.ip
+                this.viewData.note = res.data.result.note
+                this.viewData.secret_key = res.data.result.secret_key
+              } else {
+                apiError(this, res)
+              }
+              this.viewFormLoading = false;
+            })
+            .catch((err) => {
+              this.viewFormLoading = false;
+              apiReqError(this, err);
+            })
           } else {
-            apiError(this, res)
+            ax.post(
+              config.url.user + '/api/userApi/delApi ',
+              {
+                access_id: this.viewForm.accessId,
+                token: this.viewForm.token,
+                code: this.viewForm.smsCode
+              },
+              getHeader
+            )
+            .then(res => {
+              if (res.status === 200 && res.data.errorCode === 0) {
+                this.$refs.viewForm.resetFields()
+                this.viewFormShow = false
+                this.getApiList();
+                this.$Message.success(this.$t('errorMsg.SUCCESS'))
+              } else {
+                apiError(this, res)
+              }
+              this.viewFormLoading = false;
+            })
+            .catch((err) => {
+              this.viewFormLoading = false;
+              apiReqError(this, err);
+            })
           }
-          this.viewFormLoading = false;
-        })
-        .catch((err) => {
-          this.viewFormLoading = false;
-          apiReqError(this, err);
-        })
-      } else {
-        ax.post(
-          config.url.user + '/api/userApi/delApi ',
-          {
-            access_id: this.viewForm.accessId,
-            token: this.viewForm.token,
-            code: this.viewForm.smsCode
-          },
-          getHeader
-        )
-        .then(res => {
-          if (res.status === 200 && res.data.errorCode === 0) {
-            this.$refs.viewForm.resetFields()
-            this.viewFormShow = false
-            this.getApiList();
-            this.$Message.success(this.$t('errorMsg.SUCCESS'))
-          } else {
-            apiError(this, res)
-          }
-          this.viewFormLoading = false;
-        })
-        .catch((err) => {
-          this.viewFormLoading = false;
-          apiReqError(this, err);
-        })
-      }
+        }
+      })
     },
     /**
      * 倒计时

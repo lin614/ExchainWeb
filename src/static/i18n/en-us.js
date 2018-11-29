@@ -6,7 +6,8 @@ module.exports = {
     confirm: 'Confirm',
     cancel: 'Cancel',
     search: 'Search',
-    noData: 'No Data'
+    noData: 'No Data',
+    formItemRequire: 'Require'
   },
   name: {
     loadingData: 'Loading',
@@ -628,7 +629,8 @@ module.exports = {
     GEET_LOAD_ERR_TIP: 'Auth code load fail,please try again',
     GEET_INIT_ERR: 'Auth code load error,please refresh',
     CHECK_FAIL: 'authentication failed',
-    IPT_LENGTH_LIMIT_255: '255 characters or shorter'
+    IPT_LENGTH_LIMIT_255: '255 characters or shorter',
+    IP_FORMAT: '多个IP用英文逗号分隔，每组最多支持5个'
   },
   javaApiError: {
     '1': 'System error',
